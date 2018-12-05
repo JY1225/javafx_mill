@@ -4,6 +4,7 @@
 *.lck
 *.dat
 *.DS_Store
-*./log/
+*./logs/
 *.classpath
-/bin/
+*./database/
+*.project
