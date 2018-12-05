@@ -1,0 +1,458 @@
+/* ---------- DEVICE BUTTON ---------- */
+
+.bottompane { }
+
+.bottom-left, .left-menu, .content-bottom {
+	-fx-background-color: #52555c;
+	-fx-background-insets: 0;
+}
+
+.left-menu, .admin-menu {
+	-fx-background-color: #3d4046, #52555c;
+	-fx-background-insets: 0, 1 1 0 0;
+}
+left-menu-button:pressed, .left-menu-button.selected {
+	-fx-background-color: #292d32, #3c4147, #2d2f36, #292d32, linear-gradient(#303238 0%, #2e3136 50%, #2a2d31 50%, #32363b 100%);
+}
+.left-menu-button.selected:disabled {
+	-fx-opacity: 0.5;
+}
+
+.header-button:disabled {
+	-fx-opacity: 1;
+}
+
+.header-button.alarms-present:disabled {
+	-fx-background-color: #8b2525, #8b2525, #8b2525, #8b2525, #8b2525;
+	-fx-background-color:  #292d32, #2d2f36, #5a606b, #42454e, linear-gradient(#656c7b 0%, #424750 50%, #3d4148 50% , #4c505a 100%);
+}
+
+.header-button.selected:disabled {
+	-fx-opacity: 0.5;
+}
+.nav-area {
+	-fx-background-color: #46494f, #5a5c62;
+	-fx-background-insets: 0, 0 0 1 0;
+}
+.admin-menu {
+	-fx-background-insets: 0, 0 1 0 0;
+}
+.content-bottom {
+	/* #6c707e, #585b64); */
+	-fx-background-color: #3d4046, #777a81, #585b64;
+	-fx-background-insets: 0 0 0 0, 1 0 0 0, 2 0 0 0;	
+}
+.bottom-right {
+	-fx-background-color: #3d4046, #777a81, linear-gradient(#67696f 0%, #616369 100%);
+	-fx-background-insets: 0 0 0 0, 1 0 0 0, 2 0 0 0;
+}
+
+.admin-bottom-right {
+	-fx-background-color: linear-gradient(#67696f 0%, #616369 100%);
+	-fx-background-insets: 0;
+}
+
+.left-menu-button {
+	-fx-padding: 0;
+	-fx-background-radius: 0;
+	-fx-background-color: #5b6068, #3b3f46, #5b6068, linear-gradient(#52555c 0%, #4f5158 100%);
+	-fx-background-insets: 0, 0, 1 0 0 0, 2 0 0 0;
+}
+
+.left-menu-top {
+	-fx-background-insets: 0, 0, 0 0 0 0, 0 0 0 0;
+}
+
+.left-menu-top:pressed {
+}
+
+.left-menu-button:pressed, .menu-item-selected {
+	-fx-background-color: #3c4147, #2a2d31;
+}
+
+.left-menu-button .left-menu-item-label {
+	-fx-padding: 0 0 0 5;
+	-fx-text-fill: white;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-font-size: 13px;
+	-fx-alignment: center-left;
+}
+
+.left-menu-button:disabled .left-menu-item-label{
+	-fx-opacity: 0.5;
+}
+
+.left-menu-button .left-menu-item-label:disabled, .menu-icon:disabled {
+}
+
+.menu-icon {
+	-fx-fill: white;
+}
+
+.left-menu-top {
+}
+
+.left-menu-bottom {
+	-fx-background-insets: 0 0 0 0, 0 0 1 0, 1 0 2 0, 2 0 2 0;
+}
+
+.left-menu-both {
+		-fx-background-insets: 0, 0, 1 0 0 1, 2 0 0 1;
+}
+
+
+
+
+.process-flow-view {
+	-fx-background-color: #ededed;
+}
+
+.device-button {
+	-fx-background-insets: 0, 1;
+	-fx-shape: "M 34.03125 0.03125 C 15.253569 0.03125 0.03125 15.253568 0.03125 34.03125 C 0.03125 52.808932 15.253569 68.03125 34.03125 68.03125 C 52.808931 68.03125 68.03125 52.808932 68.03125 34.03125 C 68.03125 15.253568 52.808931 0.03125 34.03125 0.03125 z";
+	-fx-effect: dropshadow(one-pass-box, #b4b4b4, 7, 0.0, 0, 2);
+}
+
+.button-shape {
+	-fx-fill: white;
+	-fx-scale-x: 0.85;
+	-fx-scale-y: 0.85;
+}
+
+.device-info-label {
+	-fx-font-size: 11px;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-font-smoothing-type: lcd;
+	-fx-text-alignment: right;
+	-fx-text-fill: #9d9d9d;
+	-fx-label-padding: 0;
+	-fx-wrap-text: true;
+	-fx-padding: 2px 5px 2px 5px;
+	-fx-background-color: #9d9d9d, #efefef;
+	-fx-background-insets: 0, 1, 2 1 1 1;
+	-fx-background-radius: 4, 3;
+}
+
+.device-info-label-active {
+	-fx-font-size: 11px;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-font-smoothing-type: lcd;
+	-fx-text-alignment: right;
+    -fx-text-fill: white;
+	-fx-label-padding: 0;
+	-fx-wrap-text: true;
+	-fx-padding: 2px 5px 2px 5px;
+	-fx-background-color: #efefef, #4093fb;
+	-fx-background-insets: 0, 1, 2 1 1 1;
+	-fx-background-radius: 4, 3;
+}
+
+.device-button-wrapper .label-info-unclickable, .device-button.unclickable .device-info-label {
+	-fx-text-fill: #9d9d9d;
+	-fx-background-color: #9d9d9d, #efefef;
+}
+
+.device-label {
+	-fx-font-size: 12px;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-padding: 0 0 0 0;
+	-fx-translate-y: 2;
+	-fx-text-alignment: right;
+	-fx-text-fill: black;
+	-fx-label-padding: 0;
+	-fx-wrap-text: true;
+}
+
+.unknown-device {
+	-fx-text-fill: red;	
+}
+
+.btn-pre {
+	-fx-background-color: linear-gradient(#f9b65f, #b55603), linear-gradient(#f9b65f, #f57403);
+}
+
+.device-unfocussed .device-button, .device-button.unclickable {
+	-fx-effect: dropshadow(one-pass-box, #d4d4d4, 7, 0.0, 0, 2);
+}
+
+.device-unfocussed .device-label, .device-button-wrapper .label-unclickable, .device-button.unclickable .device-label {
+	-fx-text-fill: #9d9d9d;
+}
+
+.device-unfocussed .device-button.unclickable , .device-unfocussed .device-button.unclickable :pressed {
+	-fx-effect: dropshadow(one-pass-box, #e0e0e0, 7, 0.0, 0, 2);
+}
+
+.device-unfocussed .label-unclickable {
+	-fx-text-fill: #c5c5c5;
+}
+
+.device-button:pressed, .device-unfocussed .device-button:pressed {
+	-fx-effect: dropshadow(one-pass-box, #b4b4b4, 7, 0.0, 0, 2);
+	-fx-scale-x: 0.97;
+	-fx-scale-y: 0.97;
+}
+
+.device-button.unclickable:pressed {
+	-fx-scale-x: 1;
+	-fx-scale-y: 1;
+}
+
+.device-button:pressed .button-shape {
+	-fx-fill: #d9d9d9;
+}
+
+.device-button.unclickable:pressed .button-shape {
+	-fx-fill: white;
+}
+
+/* -- BUTTON PRE -- */
+
+.device-button:pressed .btn-pre {
+	-fx-background-color: linear-gradient(#d49a4f, #974803), linear-gradient(#d49a4f, #bf5b04);
+}
+
+.device-unfocussed .btn-pre {
+	-fx-background-color: linear-gradient(#f1d6b4, #d7b18f), linear-gradient(#f1d6b4, #e7b990);
+}
+
+.device-button.unclickable .btn-pre, .device-button.unclickable:pressed .btn-pre {
+	-fx-background-color: linear-gradient(#d5d3d1, #b5b3b1), linear-gradient(#d5d3d1, #bdbbb9);
+} 
+
+.device-unfocussed .device-button.unclickable .btn-pre, .device-unfocussed .device-button.unclickable:pressed .btn-pre {
+	-fx-background-color: linear-gradient(#e1e0df, #d1d0cf), linear-gradient(#e1e0df, #d5d4d3);
+}
+
+/* -- BUTTON CNC -- */
+
+.btn-cnc {
+	-fx-background-color: linear-gradient(#4fa1fd, #073a99), linear-gradient(#4fa1fd, #0358f5);
+}
+
+.device-button:pressed .btn-cnc {
+	-fx-background-color: linear-gradient(#4288d7, #033da8), linear-gradient(#4288d7, #0347c4);
+}
+
+.device-unfocussed .btn-cnc {
+	-fx-background-color: linear-gradient(#adcef3, #8fa9d9), linear-gradient(#adcef3, #90b0ea);
+}
+
+.device-button.unclickable .btn-cnc, .device-button.unclickable:pressed .btn-cnc {
+	-fx-background-color: linear-gradient(#c7c8ca, #a7a8aa), linear-gradient(#c7c8ca, #adafb2);
+}
+
+.device-unfocussed .device-button.unclickable .btn-cnc, .device-unfocussed .device-button.unclickable:pressed .btn-cnc {
+	-fx-background-color: linear-gradient(#dadadb, #cacacb), linear-gradient(#dadadb, #cdcecf);
+}
+
+/* -- BUTTON POST -- */
+
+.btn-post {
+	-fx-background-color: linear-gradient(#28d348, #278606), linear-gradient(#28d348, #36ad0d);
+}
+
+.device-button:pressed .btn-post {
+	-fx-background-color: linear-gradient(#22b33c, #257609), linear-gradient(#22b33c, #2b8c0b);
+}
+
+.device-unfocussed .btn-post {
+	-fx-background-color: linear-gradient(#9ee2ab, #9fc692), linear-gradient(#9ee2ab, #a3cf93);
+}
+
+.device-button.unclickable .btn-post, .device-button.unclickable:pressed .btn-post {
+	-fx-background-color: linear-gradient(#babebb, #a8aaa8), linear-gradient(#babebb, #adb0ad);
+} 
+
+.device-unfocussed .device-button.unclickable .btn-post, .device-unfocussed .device-button.unclickable:pressed .btn-post {
+	-fx-background-color: linear-gradient(#d3d5d4, #cacbca), linear-gradient(#d3d5d4, #d3d5d4);
+}
+
+/* ---------- TRANSPORT BUTTON ---------- */
+
+.transport-button {
+	-fx-background-color: linear-gradient(#41caf2 0%, #0fa3ce 100%), #41caf2, #35bfe7;
+	-fx-background-insets: 0, 1, 2 1 1 1;
+	-fx-effect: dropshadow(one-pass-box, #b4b4b4, 5, 0.0, 0, 2);
+}
+
+.transport-button.transport-unfocussed{
+	-fx-background-color: linear-gradient(#c0e1eb 0%, #b5dae5 100%), #c8e8f1, #bfe1eb;
+	-fx-effect: dropshadow(one-pass-box, #d4d4d4, 5, 0.0, 0, 2);
+}
+
+.transport-button.transport-unfocussed.unclickable, .transport-button-wrapper:pressed .transport-button.transport-unfocussed.unclickable {
+	-fx-background-color: linear-gradient(#e1e2e2 0%, #dcdddd 100%), #e4e5e5, #e0e1e1;
+	-fx-effect: dropshadow(one-pass-box, #e0e0e0, 5, 0.0, 0, 2);
+}
+
+.transport-button.unclickable, .transport-button-wrapper:pressed .transport-button.unclickable {
+	-fx-background-color: linear-gradient(#d5d7d7 0%, #cccece 100%), #dcdede, #d4d6d6;
+	-fx-effect: dropshadow(one-pass-box, #d4d4d4, 5, 0.0, 0, 2);
+}
+
+.transport-button-wrapper:pressed .transport-button {
+	-fx-background-color: linear-gradient(#31a2c3 0%, #0d8baf 100%), #4db8d6, #2da3c5;
+}
+
+.pause-shape {
+	-fx-fill: black;
+}
+
+.transport-label {
+	-fx-text-alignment: center;
+	-fx-font-size: 13px;
+	-fx-font-family: "Open Sans Bold";
+	-fx-font-smoothing-type: lcd;
+	-fx-alignment: center;
+	-fx-text-fill: black;
+	-fx-padding: 0 0 0 4;
+}
+
+
+.transport-unfocussed .pause-shape {
+	-fx-fill: #9d9d9d;
+} 
+
+.unclickable .pause-shape {
+	-fx-fill: #9d9d9d;
+}
+
+.transport-unfocussed .transport-label {
+	-fx-text-fill: #9d9d9d;
+}
+
+.unclickable .transport-label {
+	-fx-text-fill: #9d9d9d;
+}
+
+.transport-unfocussed.unclickable .pause-shape {
+	-fx-fill: #c5c5c5;
+}
+
+.transport-unfocussed.unclickable .transport-label {
+	-fx-text-fill: #c5c5c5;
+}
+
+/* ----------PROGRESSBAR---------- */
+
+.progressbar-piece {
+	-fx-background-color: #f9f9f9, #bababa, #d9d9d9;
+	-fx-background-insets: 0, 0 0 1 0, 1 0 1 0;
+	-fx-opacity: 1;
+}
+
+.progressbar-piece-first {
+	-fx-background-radius: 4 0 0 2, 2 0 0 3;
+}
+
+.progressbar-piece-last {
+	-fx-background-radius: 0 4 2 0, 0 2 3 0;
+}
+
+.progressbar-piece-green {
+	-fx-background-color: #f9f9f9, #1e8f20, linear-gradient(#21a524 0%, #21c924 100%);
+}
+
+.progressbar-piece-yellow {
+	-fx-background-color: #f9f9f9, #1ab71d, #1bc81f;
+}
+
+.progressbar-piece-unfocussed {
+	-fx-opacity: 0.2;
+}
+
+.process-name {
+	-fx-text-fill: #9d9d9d;
+	-fx-font-size: 13px;
+	-fx-font-family: "Open Sans";
+	-fx-font-smoothing-type: lcd;
+	-fx-text-alignment: right;
+}
+
+.unsaved {
+	-fx-text-fill: #000000;
+}
+
+.left-menu-button .left-menu-item-label:disabled, .menu-icon:disabled {
+}
+.left-menu-button .left-menu-item-label {
+	-fx-padding: 0 0 0 5;
+	-fx-text-fill: white;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-font-size: 13px;
+	-fx-alignment: center-left;
+}
+
+.left-menu-button:disabled .left-menu-item-label{
+	-fx-opacity: 0.5;
+}
+
+.left-menu-button .left-menu-item-label:disabled, .menu-icon:disabled {
+}
+.menu-icon {
+	-fx-fill: white;
+}
+.dialog {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
+	-fx-background-color: #3d4046, #777a81, linear-gradient(#67696f 0%, #616369 100%);
+	-fx-background-insets: 0, 1, 2 1 1 1;
+	-fx-background-radius: 3, 2, 1;
+}
+
+.dialog-btn {
+	-fx-background-color: #3b3f46, #5b6068, linear-gradient(#52555c 0%, #4f5158 100%);
+	-fx-background-insets: 0, 1 1 1 1, 2 1 1 1;
+	-fx-background-radius: 0;
+}
+
+.dialog-btn.left {
+	-fx-background-radius: 0 0 0 3, 0 0 0 2, 0 0 0 1;
+}
+
+.dialog-btn.right {
+	-fx-background-radius: 0 0 3 0, 0 0 2 0, 0 0 1 0;
+}
+
+.dialog-btn Text {
+	-fx-fill: white;
+	-fx-text-alignment: center;
+	-fx-font-family: "Open Sans Semiold";
+	-fx-font-size: 13px;
+	-fx-font-smoothing-type: lcd;
+	-fx-padding: 0 0 0 5;
+}
+
+.dialog-title-label {
+	-fx-alignment: bottom-center ;
+	-fx-font-family: "Open Sans Bold";
+	-fx-font-size: 16px;
+	-fx-font-smoothing-type: lcd;
+	-fx-text-alignment: center;
+}
+
+.dialog-msg {
+	-fx-padding: 20;
+	-fx-text-alignment: center;
+	-fx-alignment: center;
+	-fx-text-wrap: true;
+	-fx-text-fill: white;
+	-fx-font-size: 14px;
+	-fx-font-family: "Open Sans";
+	-fx-font-smoothing-type: lcd;
+	-fx-fill: white;
+	-fx-text-fill: white;
+}
+
+.dialog-btn:pressed {	
+	-fx-background-color: #292d32, #292d32, #292d32, #2a2d31;
+}
+
+.dialog-btn:disabled {
+	-fx-opacity: 1;
+}
+
+.dialog-btn:disabled Text {
+	-fx-opacity: 0.5;
+}
+

@@ -1,0 +1,9 @@
+/bin/
+*.log
+*.class
+*.lck
+*.dat
+*.DS_Store
+*./log/
+*.classpath
+/bin/
