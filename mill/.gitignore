@@ -7,7 +7,6 @@
 *./logs/
 *.classpath
 *./database/
-*.project
 *.txt
 *.ctrl
 *.properties
