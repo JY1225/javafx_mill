@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.ui.configure.process.alarms.AlarmView;
 import cn.greatoo.easymill.ui.set.SetViewController;
+import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.fxml.FXML;
@@ -55,6 +56,7 @@ public class MainViewController extends Controller{
 	public static ButtonStyleChangingThread changingThread;
 	private List<Button> bts;
 	private Parent setParent;
+	private Parent teachParent;
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
 	public void Init() {
@@ -135,10 +137,29 @@ public class MainViewController extends Controller{
 			}
 	}
 
+	TeachMainViewController teachMainViewController;
 	@FXML // 示教
 	public void teachClick() {
 		isClicked(bts,teach);
-		setParent.setVisible(false);
+		if(!gridPane.getChildren().contains(teachParent)) {
+			try {
+				URL location = getClass().getResource("/cn/greatoo/easymill/ui/teach/TeachMainView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());		
+				teachParent = fxmlLoader.load();
+				teachMainViewController = fxmlLoader.getController(); 
+				// 中写的初始化方法
+				teachMainViewController.init();
+				gridPane.add(teachParent, 0, 1, 2, 1);
+				setDisVisible(1, gridPane, teachParent);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			teachMainViewController.init();
+			setDisVisible(1, gridPane, teachParent);
+		}
 		
 	}
 
