@@ -43,7 +43,7 @@ public class CNCMenuViewController extends Controller {
 	private Parent CNCDeviceParent;
 	private Parent CNCPutParent;
 	private Parent CNCPickParent;
-	private Parent CNCAftParent;
+	private Parent CNCFinishedWPParent;
 	public void init(GridPane gridPane) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
@@ -113,24 +113,24 @@ public class CNCMenuViewController extends Controller {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, aftProcess);
-				if (!gridPane.getChildren().contains(CNCAftParent)) {
+				if (!gridPane.getChildren().contains(CNCFinishedWPParent)) {
 					try {
 						URL location = getClass()
-								.getResource("/cn/greatoo/easymill/ui/set/cnc/CNCAftView.fxml");
+								.getResource("/cn/greatoo/easymill/ui/set/cnc/CNCFinishedWPView.fxml");
 						fxmlLoader = new FXMLLoader();
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						
-						CNCAftParent = fxmlLoader.load();
-						CNCAftViewController cNCAftViewController = fxmlLoader.getController();
+						CNCFinishedWPParent = fxmlLoader.load();
+						CNCFinishedWPViewController cNCFinishedWPViewController = fxmlLoader.getController();
 						// 中写的初始化方法
-						cNCAftViewController.init();
-						gridPane.add(CNCAftParent, 1, 2);
+						cNCFinishedWPViewController.init();
+						gridPane.add(CNCFinishedWPParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				} else
-					setDisVisible(2, 1, gridPane,CNCAftParent);	
+					setDisVisible(2, 1, gridPane,CNCFinishedWPParent);	
 			}
 		});	
 	}

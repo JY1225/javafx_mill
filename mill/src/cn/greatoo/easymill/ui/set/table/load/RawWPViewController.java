@@ -16,7 +16,7 @@ import javafx.scene.shape.SVGPath;
 
 import javafx.scene.layout.GridPane;
 
-public class WorkPieceViewController extends Controller {
+public class RawWPViewController extends Controller {
 	@FXML
 	private GridPane generalGridPane;
 	@FXML
