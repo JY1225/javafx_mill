@@ -63,7 +63,7 @@ public class DeviceMenuViewController extends Controller {
 	private Button layout;
 	private GridPane setProsessPane;
 	private Parent deviceParent;
-	private Parent workPieceParent;
+	private Parent rawWPParent;
 	private Parent pickParent;
 	private Parent layoutParent;
 	List<Button> bts;
@@ -80,7 +80,7 @@ public class DeviceMenuViewController extends Controller {
 
 		// 默认选择工件按钮
 		isClicked(bts, workPiece);
-		openWorkPieceView();
+		openRawWPView();
 
 		addMenuItem(prosessVBox,device, 0, FROM_ICON, "设备", true, new EventHandler<ActionEvent>() {
 			@Override
@@ -109,7 +109,7 @@ public class DeviceMenuViewController extends Controller {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, workPiece);
-				openWorkPieceView();
+				openRawWPView();
 			}
 		});
 		addMenuItem(prosessVBox,pick, 2, PICK_ICON, "夹取", true, new EventHandler<ActionEvent>() {
@@ -161,24 +161,24 @@ public class DeviceMenuViewController extends Controller {
 		});
 	}
 
-	private void openWorkPieceView() {
-		if (!setProsessPane.getChildren().contains(workPieceParent)) {
+	private void openRawWPView() {
+		if (!setProsessPane.getChildren().contains(rawWPParent)) {
 			try {
 				URL location = getClass()
-						.getResource("/cn/greatoo/easymill/ui/set/table/load/WorkPieceView.fxml");
+						.getResource("/cn/greatoo/easymill/ui/set/table/load/RawWPView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-				workPieceParent = fxmlLoader.load();
-				WorkPieceViewController workPieceViewController = fxmlLoader.getController();
+				rawWPParent = fxmlLoader.load();
+				RawWPViewController rawWPViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				workPieceViewController.init();
-				setProsessPane.add(workPieceParent, 1, 2);
+				rawWPViewController.init();
+				setProsessPane.add(rawWPParent, 1, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else
-			setDisVisible(2, 1, setProsessPane,workPieceParent);
+			setDisVisible(2, 1, setProsessPane,rawWPParent);
 	}
 
 	@FXML

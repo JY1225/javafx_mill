@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.table.load.WorkPieceViewController">
+<AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.cnc.CNCFinishedWPViewController">
    <children>
-      <GridPane fx:id="generalGridPane" hgap="15.0" prefHeight="517.0" prefWidth="582.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="generalGridPane" hgap="15.0" layoutX="53.0" layoutY="26.0" prefHeight="462.0" prefWidth="486.0" vgap="5.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="26.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="273.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="335.0" minWidth="0.0" prefWidth="294.0" />
@@ -21,7 +21,6 @@
           <RowConstraints maxHeight="168.0" minHeight="7.0" prefHeight="74.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="359.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="69.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
         </rowConstraints>
@@ -43,7 +42,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <TextField fx:id="fulltxtL" onMouseClicked="#LChanged" prefHeight="30.0" prefWidth="85.0">
+                  <TextField fx:id="fulltxtL" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -55,52 +54,6 @@
                </children>
             </HBox>
             <HBox prefHeight="75.0" prefWidth="268.0" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Button fx:id="HBt" mnemonicParsing="false" onMouseClicked="#HBtAction" prefHeight="40.0" prefWidth="78.0" text="0°" textFill="#f7f7f7">
-                     <graphic>
-                        <SVGPath content="M 3.3125 3.28125 L 3.3125 14.4375 L 20.0625 14.4375 L 20.0625 3.28125 L 3.3125 3.28125 z ">
-                           <styleClass>
-                              <String fx:value="form-button-icon" />
-                              <String fx:value="btn-orientation" />
-                           </styleClass>
-                        </SVGPath>
-                     </graphic>
-                     <styleClass>
-                        <String fx:value="form-button" />
-                        <String fx:value="form-button-bar-center" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="tiltedBt" mnemonicParsing="false" onMouseClicked="#tiltedAction" prefHeight="40.0" prefWidth="78.0" text="45°" textFill="#f7f7f7">
-                     <graphic>
-                        <SVGPath fx:id="TBt" content="M 11.90625 0.03125 L 0.0625 11.875 L 7.96875 19.78125 L 19.8125 7.9375 L 11.90625 0.03125 z " onMouseClicked="#TBtAction">
-                           <styleClass>
-                              <String fx:value="btn-orientation" />
-                              <String fx:value="form-button-icon" />
-                           </styleClass>
-                        </SVGPath>
-                     </graphic>
-                     <styleClass>
-                        <String fx:value="form-button" />
-                        <String fx:value="form-button-bar-center" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="VBt" mnemonicParsing="false" onMouseClicked="#VBtAction" prefHeight="40.0" prefWidth="78.0" text="90°" textFill="#f7f7f7">
-                     <graphic>
-                        <SVGPath content="m 6.109375,17.234375 11.15625,0 0,-16.75 -11.15625,0 0,16.75 z">
-                           <styleClass>
-                              <String fx:value="form-button-icon" />
-                              <String fx:value="btn-orientation" />
-                           </styleClass>
-                        </SVGPath>
-                     </graphic>
-                     <styleClass>
-                        <String fx:value="form-button" />
-                        <String fx:value="form-button-bar-center" />
-                     </styleClass>
-                  </Button>
-               </children>
-            </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="2">
                <children>
                   <Label alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="144.0" text="宽度" textAlignment="RIGHT" textFill="WHITE">
@@ -118,7 +71,7 @@
                         <String fx:value="form-label-name" />
                      </styleClass>
                   </Label>
-                  <TextField fx:id="fulltxtW" onMouseClicked="#WChanged" prefHeight="30.0" prefWidth="85.0">
+                  <TextField fx:id="fulltxtW" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -146,7 +99,7 @@
                         <String fx:value="form-label-name" />
                      </styleClass>
                   </Label>
-                  <TextField fx:id="fulltxtH" onMouseClicked="#HChanged" prefHeight="30.0" prefWidth="85.0">
+                  <TextField fx:id="fulltxtH" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -159,33 +112,12 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Label prefHeight="49.0" prefWidth="43.0" text="数量" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <styleClass>
-                        <String fx:value="form-label" />
-                        <String fx:value="form-label-name" />
-                     </styleClass>
-                  </Label>
-                  <TextField fx:id="fulltxtS" onMouseClicked="#SChanged" prefHeight="30.0" prefWidth="85.0">
-                     <styleClass>
-                        <String fx:value="form-full-textfield" />
-                        <String fx:value="form-full-textfield-name" />
-                     </styleClass>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </TextField>
-                  <Button fx:id="MaxBt" mnemonicParsing="false" onMouseClicked="#MaxBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="最大值" textFill="#f7f7f7" />
+                  <Button fx:id="hResetBt" mnemonicParsing="false" onAction="#hResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="4">
                <children>
-                  <Label prefHeight="49.0" prefWidth="42.0" text="图层" textAlignment="RIGHT" textFill="WHITE">
+                  <Label alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="144.0" text="重量" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -197,7 +129,7 @@
                         <String fx:value="form-label-name" />
                      </styleClass>
                   </Label>
-                  <TextField fx:id="fulltxtC" onMouseClicked="#CChanged" prefHeight="30.0" prefWidth="85.0">
+                  <TextField fx:id="fulltxtWT" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -208,97 +140,14 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="144.0" text="材料" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <styleClass>
-                        <String fx:value="form-label" />
-                        <String fx:value="form-label-name" />
-                     </styleClass>
-                  </Label>
-                  <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="397.0">
-                     <children>
-                        <Button fx:id="AlBt" mnemonicParsing="false" onMouseClicked="#AlBtAction" prefHeight="40.0" prefWidth="78.0" text="Al" textFill="#f7f7f7">
-                           <styleClass>
-                              <String fx:value="form-button" />
-                              <String fx:value="form-button-bar-left" />
-                           </styleClass></Button>
-                        <Button fx:id="CuBt" mnemonicParsing="false" onMouseClicked="#CuBtAction" prefHeight="40.0" prefWidth="78.0" text="Cu" textFill="#f7f7f7">
-                           <styleClass>
-                              <String fx:value="form-button" />
-                              <String fx:value="form-button-bar-left" />
-                           </styleClass></Button>
-                        <Button fx:id="FeBt" mnemonicParsing="false" onMouseClicked="#FeBtAction" prefHeight="40.0" prefWidth="78.0" text="Fe" textFill="#f7f7f7">
-                           <styleClass>
-                              <String fx:value="form-button" />
-                              <String fx:value="form-button-bar-left" />
-                           </styleClass></Button>
-                        <Button fx:id="OBt" mnemonicParsing="false" onMouseClicked="#OBtAction" prefHeight="40.0" prefWidth="78.0" text="其它" textFill="#f7f7f7">
-                           <styleClass>
-                              <String fx:value="form-button" />
-                              <String fx:value="form-button-bar-left" />
-                           </styleClass></Button>
-                     </children>
-                  </HBox>
+                  <Button fx:id="calculateBt" mnemonicParsing="false" onAction="#calculateBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="计算" textFill="#f7f7f7" />
+                  <Button fx:id="resetBt" mnemonicParsing="false" onAction="#resetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="5">
-               <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="144.0" text="螺柱高度" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <styleClass>
-                        <String fx:value="form-label" />
-                        <String fx:value="form-label-name" />
-                     </styleClass>
-                  </Label>
-                  <TextField fx:id="fulltxtBH" onMouseClicked="#BHChanged" prefHeight="30.0" prefWidth="85.0">
-                     <styleClass>
-                        <String fx:value="form-full-textfield" />
-                        <String fx:value="form-full-textfield-name" />
-                     </styleClass>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <children>
-                  <Label prefHeight="49.0" prefWidth="43.0" text="重量" textAlignment="RIGHT" textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <styleClass>
-                        <String fx:value="form-label" />
-                        <String fx:value="form-label-name" />
-                     </styleClass>
-                  </Label>
-                  <TextField fx:id="fulltxtWei" onMouseClicked="#WeiChanged" prefHeight="30.0" prefWidth="85.0">
-                     <styleClass>
-                        <String fx:value="form-full-textfield" />
-                        <String fx:value="form-full-textfield-name" />
-                     </styleClass>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </TextField>
-                  <Button fx:id="calculateBt" mnemonicParsing="false" onMouseClicked="#calculateBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="计算" textFill="#f7f7f7" />
-               </children>
-            </HBox>
+            <Button fx:id="wResetBt" mnemonicParsing="false" onAction="#wResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="LResetBt" mnemonicParsing="false" onAction="#LResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
