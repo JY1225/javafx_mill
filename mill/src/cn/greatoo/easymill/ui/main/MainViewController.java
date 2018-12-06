@@ -9,8 +9,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.auto.AutoViewController;
-import cn.greatoo.easymill.ui.configure.process.alarms.AlarmView;
+import cn.greatoo.easymill.ui.configure.ConfigureMainViewController;
 import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
@@ -59,6 +60,7 @@ public class MainViewController extends Controller{
 	private Parent setParent;
 	private Parent teachParent;
 	private Parent autoParent;
+	private Parent configureParent;
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
 	public void Init() {
@@ -190,11 +192,30 @@ public class MainViewController extends Controller{
 		}
 	}
 
+	ConfigureMainViewController configureMainViewController;
 	@FXML // 配置
 	public void configClick() {
 		isClicked(bts,config);
-		setParent.setVisible(false);
-		//gridPane.getChildren().remove(parent);
+		if(!gridPane.getChildren().contains(configureParent)) {
+			try {
+				URL location = getClass().getResource("/cn/greatoo/easymill/ui/configure/ConfigureMainView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());		
+				configureParent = fxmlLoader.load();
+				configureMainViewController = fxmlLoader.getController(); 
+				// 中写的初始化方法
+				configureMainViewController.init();
+				gridPane.add(configureParent, 0, 1, 2, 1);
+				setDisVisible(1, gridPane, configureParent);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			configureMainViewController.init();
+			setDisVisible(1, gridPane, configureParent);
+		}
+		
 	}
 
 	@FXML
