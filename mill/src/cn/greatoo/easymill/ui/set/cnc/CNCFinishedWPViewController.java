@@ -10,7 +10,7 @@ import javafx.event.ActionEvent;
 
 import javafx.scene.layout.GridPane;
 
-public class CNCAftViewController {
+public class CNCFinishedWPViewController {
 	@FXML
 	private GridPane generalGridPane;
 	@FXML
