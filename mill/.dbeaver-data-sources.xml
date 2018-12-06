@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="derby-167827f1734-4652d98e4cac3154" provider="generic" driver="derby" name="Derby - database" save-password="true" show-system-objects="true" read-only="false">
+		<connection server="" database="E:\Test\v1.0\mill\database" url="jdbc:derby:E:\Test\v1.0\mill\database" user="admin" password="EgALKU8jpQ==" type="dev"/>
+	</data-source>
+	<filters/>
+</data-sources>
