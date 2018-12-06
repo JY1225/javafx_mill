@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+import cn.greatoo.easymill.ui.auto.AutoViewController;
 import cn.greatoo.easymill.ui.configure.process.alarms.AlarmView;
 import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.ui.teach.TeachMainViewController;
@@ -57,6 +58,7 @@ public class MainViewController extends Controller{
 	private List<Button> bts;
 	private Parent setParent;
 	private Parent teachParent;
+	private Parent autoParent;
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
 	public void Init() {
@@ -163,11 +165,29 @@ public class MainViewController extends Controller{
 		
 	}
 
+	AutoViewController autoViewController;
 	@FXML // 自动化
 	public void autoClick() {
 		isClicked(bts,auto);
-		setParent.setVisible(false);
-		//gridPane.getChildren().remove(parent);
+		if(!gridPane.getChildren().contains(autoParent)) {
+			try {
+				URL location = getClass().getResource("/cn/greatoo/easymill/ui/auto/AutoView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());		
+				autoParent = fxmlLoader.load();
+				autoViewController = fxmlLoader.getController(); 
+				// 中写的初始化方法
+				autoViewController.init();
+				gridPane.add(autoParent, 0, 1, 2, 1);
+				setDisVisible(1, gridPane, autoParent);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			autoViewController.init();
+			setDisVisible(1, gridPane, autoParent);
+		}
 	}
 
 	@FXML // 配置
