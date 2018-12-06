@@ -31,7 +31,7 @@ public class RobotMenuViewController extends Controller{
 	@FXML
 	private Button griperBt;
 
-	private Parent griperParent;
+	private Parent generalParent;
 	List<Button> bts;
 	FXMLLoader fxmlLoader;
 	private GridPane gridPane;
@@ -70,25 +70,24 @@ public class RobotMenuViewController extends Controller{
 	}
 	
 	private void openGeneralView(){
-		
+		if (!gridPane.getChildren().contains(generalParent)) {
+			try {
+				URL location = getClass()
+						.getResource("/cn/greatoo/easymill/ui/configure/robot/RobotGeneralView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+				generalParent = fxmlLoader.load();
+				RobotGeneralViewController robotGeneralViewController = fxmlLoader.getController(); 
+				robotGeneralViewController.init();
+				gridPane.add(generalParent, 2, 0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			setDisVisible(0, 2, gridPane, generalParent);
 	}
 	private void openGriperView(){
-//		if (!gridPane.getChildren().contains(griperParent)) {
-//			try {
-//				URL location = getClass()
-//						.getResource("/cn/greatoo/easymill/ui/set/SaveView.fxml");
-//				fxmlLoader = new FXMLLoader();
-//				fxmlLoader.setLocation(location);
-//				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-//				griperParent = fxmlLoader.load();
-//				SaveViewController saveViewController = fxmlLoader.getController(); 
-//				// 中写的初始化方法
-//				saveViewController.init();
-//				gridPane.add(griperParent, 1, 2);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		} else
-//			setDisVisible(2, 1, gridPane, griperParent);
+		
 	}
 }
