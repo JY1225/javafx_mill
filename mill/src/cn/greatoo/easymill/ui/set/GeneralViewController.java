@@ -30,17 +30,21 @@ public class GeneralViewController {
 		singleCycle.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean oldValue, final Boolean newValue) {
-				System.out.println("222222222222222222");
+			//	System.out.println("222222222222222222");
 				
 			}
 		});
-		
-		fulltxtName.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            	System.out.println("fulltxtName = "+fulltxtName.getText());
-            }
-        });
+		fulltxtName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	                 // TODO Auto-generated method stub
+	        	if(!arg2){
+	        		System.out.println("光标点击离开文本框，获取文本框的当前值，并把值写入数据库 ");
+	        		System.out.println("fulltxtName = "+fulltxtName.getText());	
+	        		// TODO 待把数据写入数据库
+	        	}
+	        }
+		});
 	}
 	@FXML
 	public void nameChanged(MouseEvent event) {
