@@ -62,7 +62,7 @@
             </HBox>
             <ScrollPane fx:id="scrollPane" prefHeight="158.0" prefWidth="484.0" style="-fx-background-color: #4e5055;" styleClass="iconflow-selector" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <content>
-                  <HBox fx:id="hbox" prefHeight="172.0" prefWidth="545.0" spacing="5.0" style="-fx-background-color: #4e5055;">
+                  <HBox fx:id="hbox" prefHeight="172.0" prefWidth="544.0" spacing="5.0" style="-fx-background-color: #4e5055;">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
