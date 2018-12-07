@@ -6,7 +6,6 @@
 *.DS_Store
 *./logs/
 *.classpath
-*./database/
 *.txt
 *.ctrl
 *.properties
