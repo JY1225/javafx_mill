@@ -25,8 +25,8 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="400.0" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="outBt" mnemonicParsing="false" onAction="#outBtAction" prefHeight="49.0" prefWidth="112.0" styleClass="form-button" text="编辑" textFill="#f7f7f7" />
-                  <Button fx:id="inBt" mnemonicParsing="false" onAction="#inBtAction" prefHeight="52.0" prefWidth="112.0" styleClass="form-button" text="新的" textFill="#f7f7f7" />
+                  <Button fx:id="editBt" mnemonicParsing="false" onAction="#editBtAction" prefHeight="49.0" prefWidth="112.0" styleClass="form-button" text="编辑" textFill="#f7f7f7" />
+                  <Button fx:id="newBt" mnemonicParsing="false" onAction="#newBtAction" prefHeight="52.0" prefWidth="112.0" styleClass="form-button" text="新的" textFill="#f7f7f7" />
                </children>
                <padding>
                   <Insets top="5.0" />
