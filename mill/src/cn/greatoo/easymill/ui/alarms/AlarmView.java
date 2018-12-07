@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.process.alarms;
+package cn.greatoo.easymill.ui.alarms;
 	 
 	import javafx.scene.control.ContextMenu;
 	import javafx.scene.control.MenuItem;

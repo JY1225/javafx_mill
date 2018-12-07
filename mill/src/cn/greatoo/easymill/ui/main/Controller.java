@@ -212,4 +212,39 @@ public abstract class Controller {
 			button.setOnAction(clickedEventHandler);
 			button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BUTTON);
 		}
+		
+		protected void addMenuItem(VBox prosessVBox,Button button, final int index, final String text,
+				final boolean isRightNav, final EventHandler<ActionEvent> clickedEventHandler) {
+			prosessVBox.setPadding(new Insets(1, 1, 0, 0));
+			HBox hbox = new HBox();
+			StackPane iconPane = new StackPane();
+			SVGPath icon = new SVGPath();
+			icon.setContent("");
+			icon.getStyleClass().add(CSS_CLASS_MENU_ICON);
+			hbox.setAlignment(Pos.CENTER);
+			iconPane.getChildren().add(icon);
+			iconPane.setPrefSize(ICON_WIDTH + 2 * ICON_MARGIN, BUTTON_HEIGHT);
+			hbox.getChildren().add(iconPane);
+			Label label = new Label(text);
+			label.getStyleClass().add(CSS_CLASS_LEFT_MENU_ITEM_LABEL);
+			label.setPrefSize(BUTTON_WIDTH - 2 * ICON_WIDTH - 4 * ICON_MARGIN, BUTTON_HEIGHT);
+			// Added for test purposes
+			label.setLabelFor(button);
+			hbox.getChildren().add(label);
+			HBox.setHgrow(label, Priority.ALWAYS);
+			StackPane arrowPane = new StackPane();
+			arrowPane.setPrefSize(ICON_ARROW_WIDTH + 2 * ICON_MARGIN, BUTTON_HEIGHT);
+			if (isRightNav) {
+				SVGPath rightArrow = new SVGPath();
+				rightArrow.setContent(arrowRightPath);
+				arrowPane.getChildren().add(rightArrow);
+				rightArrow.getStyleClass().add(CSS_CLASS_MENU_ICON);
+			}
+			hbox.getChildren().add(arrowPane);
+			hbox.setPrefSize(155, 50);
+			hbox.getStyleClass().add(CSS_CLASS_LEFT_MENU_ITEM_PANEL);
+			button.setGraphic(hbox);
+			button.setOnAction(clickedEventHandler);
+			button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BUTTON);
+		}
 }
