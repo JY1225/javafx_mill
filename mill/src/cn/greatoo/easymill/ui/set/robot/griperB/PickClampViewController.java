@@ -2,19 +2,14 @@ package cn.greatoo.easymill.ui.set.robot.griperB;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.util.IconFlowSelectorItem;
+import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 public class PickClampViewController extends Controller {
 	@FXML
@@ -25,15 +20,10 @@ public class PickClampViewController extends Controller {
 	private Button outBt;
 	@FXML
 	private Button inBt;
-	@FXML
-	private ScrollPane scrollPane;
-	@FXML
-	private HBox hbox;
 	List<Button> bts;
-	private Map<Integer, IconFlowSelectorItem> items;
-	private static final int PREF_HEIGHT = 145;
-    private static final int PREF_HEIGHT_SCROLL = 175;
    // private TransportInformation transportInfo;
+    private IconFlowSelector ifsClamping;
+	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	@SuppressWarnings("unchecked")
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -43,6 +33,10 @@ public class PickClampViewController extends Controller {
 		
 		comboBox.getItems().add("A");
 		comboBox.getItems().add("B");
+		
+		ifsClamping = new IconFlowSelector(false);
+        ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
+        gridPane.add(ifsClamping, 0, 2, 2, 1);	
 	}
 	@FXML
 	public void comboBoxAction(ActionEvent event) {
@@ -59,22 +53,6 @@ public class PickClampViewController extends Controller {
 		isClicked(bts, inBt);
 	}
 	
-	public void addItem(final int index, final String name, final String iconUrl, final String extraInfo, final EventHandler<MouseEvent> handler) {
-        IconFlowSelectorItem item = new IconFlowSelectorItem(index, name, iconUrl, extraInfo);
-        item.setDefault(false);
-        item.addEventHandler(MouseEvent.MOUSE_CLICKED, handler);
-        items.put(index, item);
-        if (items.size() > 4) {
-        	scrollPane.setPrefHeight(PREF_HEIGHT_SCROLL);
-        } else {
-        	scrollPane.setPrefHeight(PREF_HEIGHT);
-        }
-        hbox.getChildren().add(item);
-    }
-
-    public void addItem(final int index, final String name, final String iconUrl, final EventHandler<MouseEvent> handler) {
-        addItem(index, name, iconUrl, null, handler);
-    }
     
     public void refresh() {
 //		refreshGripperHeads();

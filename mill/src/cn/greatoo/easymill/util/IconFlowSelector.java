@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 public class IconFlowSelector extends ScrollPane {
 
@@ -30,6 +31,7 @@ public class IconFlowSelector extends ScrollPane {
         this.setFitToWidth(true);
         this.getStyleClass().add(CSS_CLASS_ICONFLOW_SELECTOR);
         box = new HBox();
+        box.setStyle("-fx-background-color: #4e5055");
         box.setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
         items = new HashMap<Integer, IconFlowSelectorItem>();
         setPrefHeight(PREF_HEIGHT);

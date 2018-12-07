@@ -1,15 +1,9 @@
 package cn.greatoo.easymill.ui.configure.robot;
 
-import javafx.fxml.FXML;
-
-import javafx.scene.control.Button;
-
-import javafx.scene.layout.HBox;
-
+import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.event.ActionEvent;
-
-import javafx.scene.control.ScrollPane;
-
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class RobotGriperViewController {
@@ -19,14 +13,14 @@ public class RobotGriperViewController {
 	private Button editBt;
 	@FXML
 	private Button newBt;
-	@FXML
-	private ScrollPane scrollPane;
-	@FXML
-	private HBox hbox;
 
+    private IconFlowSelector ifsClamping;
+	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	public void init() {
 		
-		
+		ifsClamping = new IconFlowSelector(false);
+        ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
+        gridPane.add(ifsClamping, 0, 0, 2, 1);	
 	}
 	@FXML
 	public void editBtAction(ActionEvent event) {
