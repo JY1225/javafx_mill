@@ -32,6 +32,7 @@ public class RobotMenuViewController extends Controller{
 	private Button griperBt;
 
 	private Parent generalParent;
+	private Parent griperParent;
 	List<Button> bts;
 	FXMLLoader fxmlLoader;
 	private GridPane gridPane;
@@ -88,6 +89,21 @@ public class RobotMenuViewController extends Controller{
 			setDisVisible(0, 2, gridPane, generalParent);
 	}
 	private void openGriperView(){
-		
+		if (!gridPane.getChildren().contains(griperParent)) {
+			try {
+				URL location = getClass()
+						.getResource("/cn/greatoo/easymill/ui/configure/robot/RobotGriperView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+				griperParent = fxmlLoader.load();
+				RobotGriperViewController robotGriperViewController = fxmlLoader.getController(); 
+				robotGriperViewController.init();
+				gridPane.add(griperParent, 2, 0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			setDisVisible(0, 2, gridPane, griperParent);
 	}
 }

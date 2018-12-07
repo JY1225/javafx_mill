@@ -18,29 +18,25 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="178.0" minHeight="10.0" prefHeight="158.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="131.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="243.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="131.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="281.0" minHeight="10.0" prefHeight="281.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="400.0" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="outBt" mnemonicParsing="false" onAction="#outBtAction" prefHeight="49.0" prefWidth="112.0" styleClass="form-button" text="编辑" textFill="#f7f7f7" />
-                  <Button fx:id="inBt" mnemonicParsing="false" onAction="#inBtAction" prefHeight="52.0" prefWidth="112.0" styleClass="form-button" text="新的" textFill="#f7f7f7" />
+                  <Button fx:id="editBt" mnemonicParsing="false" onAction="#editBtAction" prefHeight="40.0" prefWidth="112.0" styleClass="form-button" text="编辑" textFill="#f7f7f7">
+                     <graphic>
+                        <SVGPath content="M 15.71875,0 3.28125,12.53125 0,20 7.46875,16.71875 20,4.28125 C 20,4.28105 19.7362,2.486 18.625,1.375 17.5134,0.2634 15.71875,0 15.71875,0 z M 3.53125,12.78125 c 0,0 0.3421,-0.0195 1.0625,0.3125 C 4.85495,13.21295 5.1112,13.41 5.375,13.625 l 0.96875,0.96875 c 0.2258,0.2728 0.4471,0.5395 0.5625,0.8125 C 7.01625,15.66565 7.25,16.5 7.25,16.5 L 3,18.34375 C 2.5602,17.44355 2.55565,17.44 1.65625,17 l 1.875,-4.21875 z" styleClass="form-button-icon" />
+                     </graphic></Button>
+                  <Button fx:id="newBt" mnemonicParsing="false" onAction="#newBtAction" prefHeight="40.0" prefWidth="112.0" styleClass="form-button" text="新的" textFill="#f7f7f7">
+                     <graphic>
+                        <SVGPath content="M 10 0 C 4.4775 0 0 4.4775 0 10 C 0 15.5225 4.4775 20 10 20 C 15.5225 20 20 15.5225 20 10 C 20 4.4775 15.5225 0 10 0 z M 8.75 5 L 11.25 5 L 11.25 8.75 L 15 8.75 L 15 11.25 L 11.25 11.25 L 11.25 15 L 8.75 15 L 8.75 11.25 L 5 11.25 L 5 8.75 L 8.75 8.75 L 8.75 5 z" styleClass="form-button-icon" />
+                     </graphic></Button>
                </children>
                <padding>
                   <Insets top="5.0" />
                </padding>
             </HBox>
-            <ScrollPane fx:id="scrollPane" prefHeight="156.0" prefWidth="603.0" style="-fx-background-color: #4e5055;" styleClass="iconflow-selector" GridPane.columnSpan="2">
-               <content>
-                  <HBox fx:id="hbox" prefHeight="159.0" prefWidth="602.0" spacing="5.0" style="-fx-background-color: #4e5055;">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </HBox>
-               </content>
-            </ScrollPane>
          </children>
       </GridPane>
    </children>
