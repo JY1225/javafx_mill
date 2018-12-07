@@ -7,4 +7,5 @@
 *.txt
 *.ctrl
 *.properties
-/.project
+.gitignore
+
