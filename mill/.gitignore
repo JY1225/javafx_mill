@@ -2,11 +2,11 @@
 *.log
 *.class
 *.lck
-*.dat
 *.DS_Store
 *./logs/
 *.classpath
 *.txt
 *.ctrl
 *.properties
+.gitignore
 /.project
