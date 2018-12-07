@@ -66,7 +66,14 @@ public abstract class Controller {
 				}
 			}
 		}
-		
+		// 按钮连续被选中，背景变颜色
+		public void isDisSelect(List<Button> bts,Button button) {
+			for (int i = 0; i < bts.size(); i++) {
+				if (bts.get(i) == button ) {
+					bts.get(i).getStyleClass().remove(CSS_CLASS_BTN_SELECTED);
+				}
+			}
+		}
 
 		//private ProcessFlow activeProcessFlow;
 		

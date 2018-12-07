@@ -70,12 +70,17 @@ public class CoordinateViewController extends Controller {
 	}
 	@FXML
 	public void editBtAction(ActionEvent event) {
-		isClicked(bts, editBt);
 		if (editMode) {
+			isDisSelect(bts, editBt);
 			contentGridPane.setVisible(false);
+			addBt.setDisable(false);
+			comboBox.setDisable(false);
 			editMode = false;
-		} else {			
+		} else {	
+			isClicked(bts, editBt);
 			contentGridPane.setVisible(true);
+			addBt.setDisable(true);
+			comboBox.setDisable(true);
 			saveBt.setDisable(false);
 			editMode = true;
 		}
@@ -83,13 +88,18 @@ public class CoordinateViewController extends Controller {
 	
 	@FXML
 	public void addBtAction(ActionEvent event) {	
-		isClicked(bts, addBt);
-		if (!editMode) {				
+		if (!editMode) {	
+			isClicked(bts, addBt);
 			contentGridPane.setVisible(true);
+			editBt.setDisable(true);
+			comboBox.setDisable(true);
 			saveBt.setDisable(true);
 			editMode = true;
 		} else {
+			isDisSelect(bts, addBt);
 			contentGridPane.setVisible(false);
+			editBt.setDisable(false);
+			comboBox.setDisable(false);
 			editMode = false;
 		}
 	}
