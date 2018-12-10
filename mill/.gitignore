@@ -1,3 +1,4 @@
+
 /bin/
 *.log
 *.class
@@ -7,6 +8,7 @@
 *.classpath
 *.txt
 *.ctrl
+*.rar
 *.properties
-.gitignore
+*.gitignore
 /.project
