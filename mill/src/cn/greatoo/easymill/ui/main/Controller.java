@@ -1,9 +1,9 @@
 package cn.greatoo.easymill.ui.main;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogView;
@@ -15,7 +15,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -41,9 +40,18 @@ public abstract class Controller {
 	private static final String CSS_CLASS_LEFT_MENU_ITEM_LABEL = "left-menu-item-label";
 	private static final String CSS_CLASS_LEFT_MENU_ITEM_PANEL = "left-menu-item-panel";
 	private static final String CSS_CLASS_LEFT_MENU_BUTTON = "left-menu-button";
+	
+	private static final String CSS_CLASS_FORM_BUTTON_ICON = "form-button-icon";
+	protected static final String CSS_CLASS_FORM_BUTTON_LABEL = "form-button-label";
+	private static final String CSS_CLASS_FORM_BUTTON_PANEL = "form-button-panel";
+	
+	protected static final String CSS_CLASS_FORM_BUTTON = "form-button";
+	protected static final String CSS_CLASS_SAVE_BUTTON = "save-btn";
+	protected static final String CSS_CLASS_DELETE_BUTTON = "delete-btn";
 	static final String NEW_ICON = "M 2.5 0 L 2.5 20 L 17.5 20 L 17.5 6.25 L 11.25 0 L 2.5 0 z M 5 2.5 L 10 2.5 L 10 7.5 L 15 7.5 L 15 17.5 L 5 17.5 L 5 2.5 z";
 	
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
+
 	// 按钮被选中，背景变颜色
 		public void isClicked(List<Button> bts,Button button) {
 			for (int i = 0; i < bts.size(); i++) {
@@ -58,7 +66,14 @@ public abstract class Controller {
 				}
 			}
 		}
-		
+		// 按钮连续被选中，背景变颜色
+		public void isDisSelect(List<Button> bts,Button button) {
+			for (int i = 0; i < bts.size(); i++) {
+				if (bts.get(i) == button ) {
+					bts.get(i).getStyleClass().remove(CSS_CLASS_BTN_SELECTED);
+				}
+			}
+		}
 
 		//private ProcessFlow activeProcessFlow;
 		
@@ -247,4 +262,64 @@ public abstract class Controller {
 			button.setOnAction(clickedEventHandler);
 			button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BUTTON);
 		}
+		
+		
+		public static Button createButton(final String iconPath, final String iconClass, final String text, final double width, final double height, final EventHandler<ActionEvent> handler, final double iconWidth) {
+			Button button = new Button();
+			HBox hbox = new HBox();
+			StackPane iconPane = new StackPane();
+			SVGPath icon = new SVGPath();
+			icon.setContent(iconPath);
+			icon.getStyleClass().addAll(CSS_CLASS_FORM_BUTTON_ICON, iconClass);
+			hbox.setAlignment(Pos.CENTER_LEFT);
+			iconPane.getChildren().add(icon);
+			iconPane.setPrefSize(iconWidth, height);
+			HBox.setMargin(iconPane, new Insets(0, 0, 0, ICON_MARGIN));
+			hbox.getChildren().add(iconPane);
+			Label label = new Label(text);
+			label.getStyleClass().add(CSS_CLASS_FORM_BUTTON_LABEL);
+			label.setPrefSize(width - iconWidth - 3 * ICON_MARGIN, height);
+			label.setAlignment(Pos.CENTER);
+			hbox.getChildren().add(label);
+			HBox.setHgrow(label, Priority.ALWAYS);
+			hbox.setPrefSize(width, height);
+			hbox.setMinSize(width, height);
+			hbox.setMaxSize(width, height);
+			hbox.getStyleClass().add(CSS_CLASS_FORM_BUTTON_PANEL);
+			button.setOnAction(handler);
+			button.setGraphic(hbox);
+			button.setPrefSize(width, height);
+			button.setMinSize(width, height);
+			button.setMaxSize(width, height);
+			button.getStyleClass().add(CSS_CLASS_FORM_BUTTON);
+			return button;
+		}
+		
+		public static Button createButton(final String iconPath, final String iconClass, final String text, final double width, final double height, final EventHandler<ActionEvent> handler) {
+			return createButton(iconPath, iconClass, text, width, height, handler, ICON_WIDTH);
+		}
+		
+		public static Button createButton(final String text, final double width, final double height, final EventHandler<ActionEvent> handler) {
+			Button button = new Button();
+			HBox hbox = new HBox();
+			hbox.setAlignment(Pos.CENTER_LEFT);
+			Label label = new Label(text);
+			label.getStyleClass().add(CSS_CLASS_FORM_BUTTON_LABEL);
+			label.setPrefSize(width, height);
+			label.setAlignment(Pos.CENTER);
+			hbox.getChildren().add(label);
+			HBox.setHgrow(label, Priority.ALWAYS);
+			hbox.setPrefSize(width, height);
+			hbox.setMinSize(width, height);
+			hbox.setMaxSize(width, height);
+			hbox.getStyleClass().add(CSS_CLASS_FORM_BUTTON_PANEL);
+			button.setPrefSize(width, height);
+			button.setMinSize(width, height);
+			button.setMaxSize(width, height);
+			button.setOnAction(handler);
+			button.setGraphic(hbox);
+			button.getStyleClass().add(CSS_CLASS_FORM_BUTTON);
+			return button;
+		}
+
 }

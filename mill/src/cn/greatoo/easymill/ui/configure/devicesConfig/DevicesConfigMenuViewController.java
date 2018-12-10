@@ -1,13 +1,18 @@
 package cn.greatoo.easymill.ui.configure.devicesConfig;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.ui.configure.robot.RobotGeneralViewController;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 
 import javafx.scene.input.MouseEvent;
@@ -31,7 +36,7 @@ public class DevicesConfigMenuViewController extends Controller {
 	List<Button> bts;
 	FXMLLoader fxmlLoader;
 	private GridPane gridPane;
-
+	private Parent coordinateParent;
 	public void init(GridPane gridPane) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
@@ -64,7 +69,22 @@ public class DevicesConfigMenuViewController extends Controller {
 	}
 
 	protected void openCoordinateView() {
-
+		if (!gridPane.getChildren().contains(coordinateParent)) {
+			try {
+				URL location = getClass()
+						.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/CoordinateView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+				coordinateParent = fxmlLoader.load();
+				CoordinateViewController coordinateViewController = fxmlLoader.getController(); 
+				coordinateViewController.init();
+				gridPane.add(coordinateParent, 2, 0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			setDisVisible(0, 2, gridPane, coordinateParent);
 	}
 
 	@FXML
