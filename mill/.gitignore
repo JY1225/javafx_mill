@@ -1,11 +1,14 @@
+
 /bin/
 *.log
 *.class
-*.dat
+*.lck
 *.DS_Store
+*./logs/
 *.classpath
 *.txt
 *.ctrl
+*.rar
 *.properties
-.gitignore
-
+*.gitignore
+/.project
