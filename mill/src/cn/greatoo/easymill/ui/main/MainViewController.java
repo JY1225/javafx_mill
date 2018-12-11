@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.auto.AutoViewController;
@@ -17,25 +16,21 @@ import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
 import cn.greatoo.easymill.util.ThreadManager;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
-import javafx.scene.text.Text;
 
 public class MainViewController extends Controller {
 
 	private SVGPath alarmsShape;
 	private SVGPath adminShape;
 	private SVGPath robotShape;
-	private static final String CSS_CLASS_HEADER_BUTTON = "header-button";
 	private static final String CSS_CLASS_ALARMS_PRESENT = "alarms-present";
 	private static final String CSS_CLASS_HEADER_BUTTON_SHAPE = "header-button-shape";
 	private String alarmsPath = "m 21.845957,-0.0414886 c -0.32119,0.0484 -0.624,0.26975 -0.75,0.59375 l -5.09375,13.2812496 0,-8.0624996 c 0,-0.071 -0.0143,-0.1185 -0.0312,-0.1875 -0.061,-0.301 -0.2535,-0.5695 -0.5625,-0.6875 -0.48,-0.184 -1.03575,0.0522 -1.21875,0.53125 l -2.125,5.0937496 -7.3437507,0.375 0,0.84375 c -0.24,0 -0.4375,-0.1945 -0.4375,-0.4375 0,-0.239 0.1965,-0.40625 0.4375,-0.40625 l -0.28125,0 c -0.241,0 -0.4375,0.1985 -0.4375,0.4375 0,0.243 0.1975,0.4375 0.4375,0.4375 l 8.1250007,0.5625 c 0.425,0.06 0.844,-0.1465 1,-0.5625 l 0.59375,-1.375 0,8.4375 c 0,0.515 0.39225,0.9375 0.90625,0.9375 0.0529,0 0.10571,-0.0225 0.15625,-0.0312 -0.0419,-0.0129 -0.0856,-0.0204 -0.125,-0.0312 l 0.3125,0 c 0.1025,-0.0395 0.20025,-0.0873 0.28125,-0.15625 0.016,-0.012 0.0192,-0.0495 0.0312,-0.0625 0.092,-0.095 0.198,-0.21375 0.25,-0.34375 l 5.09375,-13.3124996 0,8.0937496 c 0,0.492 0.395,0.9015 0.875,0.9375 0.418,0.058 0.842,-0.17875 1,-0.59375 l 2.125,-5.0937496 7.3125,0.21875 c 0.38742,0 0.729515,-0.21494 0.906255,-0.53125 l 0,-1 c -0.17774,-0.31248 -0.521515,-0.53057 -0.906255,-0.53125 l -7.875,0.0312 c -0.399,-0.03 -0.7855,0.20175 -0.9375,0.59375 l -0.625,1.46875 0,-8.53125 c 0,-0.459 -0.34525,-0.83125 -0.78125,-0.90625 -0.1105,-0.023 -0.20544,-0.0474 -0.3125,-0.0312 z";
@@ -258,32 +253,6 @@ public class MainViewController extends Controller {
 		} else {
 			RobotPopUpView.getInstance().setVisible(false);
 			isSpeekViewOpen = true;
-		}
-	}
-
-	
-
-	protected boolean connCNC() {
-		String ip = "127.0.0.1";
-		int port = 2000;
-		try {
-			new SocketConnection(SocketConnection.Type.CLIENT, "CNC_CONN_THREAD", ip, port).connect();
-			return true;
-		} catch (IOException e) {
-			// LOGGER.log(Level.ERROR, "{}",e);
-			return false;
-		}
-	}
-
-	protected boolean connRobo() {
-		String ip = "127.0.0.1";
-		int port = 2001;
-		try {
-			new SocketConnection(SocketConnection.Type.CLIENT, "ROBO_CONN_THREAD", ip, port).connect();
-			return true;
-		} catch (IOException e) {
-			// LOGGER.log(Level.ERROR, "{}",e);
-			return false;
 		}
 	}
 }
