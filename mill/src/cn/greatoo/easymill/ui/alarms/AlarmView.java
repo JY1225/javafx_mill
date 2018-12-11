@@ -10,10 +10,9 @@ import javafx.scene.text.Text;
 public class AlarmView extends StackPane {
 	public static AlarmView INSTANCE = null;
 	private VBox vBoxMenuItems1;
-	private VBox vBoxMenuItems2;
 
-	private Button cncConnBt;
-	private Button roboConnBt;
+	public  Button cncConnBt;
+	public  Button roboConnBt;
 
 	private static final int BUTTON_HEIGHT = UIConstants.BUTTON_HEIGHT + 5;
 	private static final int WIDTH = BUTTON_HEIGHT * 4;
@@ -21,19 +20,17 @@ public class AlarmView extends StackPane {
 	private static final String CSS_CLASS_POPUP_BUTTON = "pop-up-btn";
 	private static final String CSS_CLASS_POPUP = "popup";
 
-	private static String cncConn = "连接异常  CNC1";
+	public static String cncConn = "连接异常  CNC1";
 	public static String roboConn = "连接异常  ROBO1";
-
 	
-	private AlarmView() {
+	public AlarmView() {
 		this.setVisible(false);
-		this.getStyleClass().add(CSS_CLASS_POPUP);
 		build();
 		this.setTranslateX(0);
 		this.setTranslateY(43);
 	}
 
-	protected void build() {
+	public void build() {
 		HBox hbox = new HBox();
 
 		vBoxMenuItems1 = new VBox();
@@ -53,11 +50,29 @@ public class AlarmView extends StackPane {
 		roboConnBt.setGraphic(new Text(roboConn));
 		roboConnBt.setPrefSize(WIDTH * 1.38, BUTTON_HEIGHT);
 		roboConnBt.getStyleClass().add(CSS_CLASS_POPUP_BUTTON);		
-		
+		cncConnBt.setDisable(true);
+		roboConnBt.setDisable(true);
 		vBoxMenuItems1.getChildren().add(cncConnBt);
-		vBoxMenuItems1.getChildren().add(roboConnBt);		
+		vBoxMenuItems1.getChildren().add(roboConnBt);
+		
 	}
 
+	public void isCNCConn(boolean conn) {
+		if(conn) {
+			cncConn = "连接正常  CNC1";
+		}else {
+			cncConn = "连接异常  CNC1";
+		}
+		cncConnBt.setGraphic(new Text(cncConn));
+	}
+	public void isRoboConn(boolean conn) {
+		if(conn) {
+			roboConn = "连接正常  ROBO1";
+		}else {
+			roboConn = "连接异常  ROBO1";
+		}	
+		roboConnBt.setGraphic(new Text(roboConn));
+	}
 	/**
 	 * 获取实例
 	 * 
@@ -67,7 +82,6 @@ public class AlarmView extends StackPane {
 		if (INSTANCE == null) {
 			INSTANCE = new AlarmView();
 		}
-
 		return INSTANCE;
 	}
 

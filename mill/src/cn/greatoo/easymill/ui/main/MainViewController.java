@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.auto.AutoViewController;
 import cn.greatoo.easymill.ui.configure.ConfigureMainViewController;
@@ -16,6 +17,7 @@ import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
 import cn.greatoo.easymill.util.ThreadManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -26,8 +28,9 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.Text;
 
-public class MainViewController extends Controller{
+public class MainViewController extends Controller {
 
 	private SVGPath alarmsShape;
 	private SVGPath adminShape;
@@ -60,6 +63,7 @@ public class MainViewController extends Controller{
 	private Button config;
 	public static StackPane parentStackPane;
 	public static ButtonStyleChangingThread changingThread;
+	public static AlarmListenThread alarmListenThread;
 	private List<Button> bts;
 	private Parent setParent;
 	private Parent teachParent;
@@ -67,10 +71,14 @@ public class MainViewController extends Controller{
 	private Parent configureParent;
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
+
+	public static boolean isCNCConn = false;
+	public static boolean isRobotConn = false;
+
 	public void Init() {
 		stackPane.getChildren().add(RobotPopUpView.getInstance());
 		stackPane.getChildren().add(AlarmView.getInstance());
-		
+
 		parentStackPane = stackPane;
 		bts = new ArrayList<Button>();
 		bts.add(set);
@@ -93,82 +101,61 @@ public class MainViewController extends Controller{
 		adminShape.getStyleClass().add(CSS_CLASS_HEADER_BUTTON_SHAPE);
 		config.setGraphic(adminShape);
 
-		//默认打开设置界面		
+		// 默认打开设置界面
 		openSet();
-		
-		
-		
-		//报警监听
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				changingThread = new ButtonStyleChangingThread(alarm, "", CSS_CLASS_ALARMS_PRESENT, 500);
-				changingThread.setRunning(false);
-				ThreadManager.submit(changingThread);
-				while (true) {
-					boolean isConn = isConnCNC();
-					if (!isConn) {
-						changingThread.setRunning(!isConn);
-					} else {
-						changingThread.setRunning(isConn);
-						alarm.getStyleClass().clear();
-						alarm.getStyleClass().add(CSS_CLASS_HEADER_BUTTON);
-					}
 
-					try {
-						Thread.sleep(1000);// 休息�?�?
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
-		
+		// 报警监听
+		changingThread = new ButtonStyleChangingThread(alarm, "", CSS_CLASS_ALARMS_PRESENT, 500);
+		ThreadManager.submit(changingThread);
+		alarmListenThread = new AlarmListenThread(alarm,1000,changingThread);
+		ThreadManager.submit(alarmListenThread);
+
 	}
 
 	@FXML
 	public void openSet() {
-			isClicked(bts,set);	
-			RobotPopUpView.getInstance().setVisible(false);
-			isSpeekViewOpen = true;
-			AlarmView.getInstance().setVisible(false);
-			isAlarmViewOpen = true;
-			if(!gridPane.getChildren().contains(setParent)) {
-				try {
-					URL location = getClass().getResource("/cn/greatoo/easymill/ui/set/SetView.fxml");
-					fxmlLoader = new FXMLLoader();
-					fxmlLoader.setLocation(location);
-					fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());		
-					setParent = fxmlLoader.load();
-					setViewController = fxmlLoader.getController(); 
-					// 中写的初始化方法
-					setViewController.init();
-					gridPane.add(setParent, 0, 1, 2, 1);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}else {
-				setViewController.init();
-				setDisVisible(1, gridPane, setParent);
-			}
-	}
-
-	TeachMainViewController teachMainViewController;
-	@FXML // 示教
-	public void teachClick() {
-		isClicked(bts,teach);
+		isClicked(bts, set);
 		RobotPopUpView.getInstance().setVisible(false);
 		isSpeekViewOpen = true;
 		AlarmView.getInstance().setVisible(false);
 		isAlarmViewOpen = true;
-		if(!gridPane.getChildren().contains(teachParent)) {
+		if (!gridPane.getChildren().contains(setParent)) {
+			try {
+				URL location = getClass().getResource("/cn/greatoo/easymill/ui/set/SetView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+				setParent = fxmlLoader.load();
+				setViewController = fxmlLoader.getController();
+				// 中写的初始化方法
+				setViewController.init();
+				gridPane.add(setParent, 0, 1, 2, 1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			setViewController.init();
+			setDisVisible(1, gridPane, setParent);
+		}
+	}
+
+	TeachMainViewController teachMainViewController;
+
+	@FXML // 示教
+	public void teachClick() {
+		isClicked(bts, teach);
+		RobotPopUpView.getInstance().setVisible(false);
+		isSpeekViewOpen = true;
+		AlarmView.getInstance().setVisible(false);
+		isAlarmViewOpen = true;
+		if (!gridPane.getChildren().contains(teachParent)) {
 			try {
 				URL location = getClass().getResource("/cn/greatoo/easymill/ui/teach/TeachMainView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
-				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());		
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				teachParent = fxmlLoader.load();
-				teachMainViewController = fxmlLoader.getController(); 
+				teachMainViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				teachMainViewController.init();
 				gridPane.add(teachParent, 0, 1, 2, 1);
@@ -176,29 +163,30 @@ public class MainViewController extends Controller{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}else {
+		} else {
 			teachMainViewController.init();
 			setDisVisible(1, gridPane, teachParent);
 		}
-		
+
 	}
 
 	AutoViewController autoViewController;
+
 	@FXML // 自动化
 	public void autoClick() {
-		isClicked(bts,auto);
+		isClicked(bts, auto);
 		RobotPopUpView.getInstance().setVisible(false);
 		isSpeekViewOpen = true;
 		AlarmView.getInstance().setVisible(false);
 		isAlarmViewOpen = true;
-		if(!gridPane.getChildren().contains(autoParent)) {
+		if (!gridPane.getChildren().contains(autoParent)) {
 			try {
 				URL location = getClass().getResource("/cn/greatoo/easymill/ui/auto/AutoView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
-				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());		
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				autoParent = fxmlLoader.load();
-				autoViewController = fxmlLoader.getController(); 
+				autoViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				autoViewController.init();
 				gridPane.add(autoParent, 0, 1, 2, 1);
@@ -206,28 +194,29 @@ public class MainViewController extends Controller{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}else {
+		} else {
 			autoViewController.init();
 			setDisVisible(1, gridPane, autoParent);
 		}
 	}
 
 	ConfigureMainViewController configureMainViewController;
+
 	@FXML // 配置
 	public void configClick() {
-		isClicked(bts,config);
+		isClicked(bts, config);
 		RobotPopUpView.getInstance().setVisible(false);
 		isSpeekViewOpen = true;
 		AlarmView.getInstance().setVisible(false);
 		isAlarmViewOpen = true;
-		if(!gridPane.getChildren().contains(configureParent)) {
+		if (!gridPane.getChildren().contains(configureParent)) {
 			try {
 				URL location = getClass().getResource("/cn/greatoo/easymill/ui/configure/ConfigureMainView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
-				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());		
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				configureParent = fxmlLoader.load();
-				configureMainViewController = fxmlLoader.getController(); 
+				configureMainViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				configureMainViewController.init();
 				gridPane.add(configureParent, 0, 1, 2, 1);
@@ -235,55 +224,62 @@ public class MainViewController extends Controller{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}else {
+		} else {
 			configureMainViewController.init();
 			setDisVisible(1, gridPane, configureParent);
 		}
-		
+
 	}
 
 	boolean isAlarmViewOpen = true;
-	@FXML//机床，机器人连接提示
+
+	@FXML // 机床，机器人连接提示
 	public void alarmClick() {
 		RobotPopUpView.getInstance().setVisible(false);
 		isSpeekViewOpen = true;
-		if(isAlarmViewOpen) {
+		if (isAlarmViewOpen) {
 			AlarmView.getInstance().setVisible(true);
-			isAlarmViewOpen = false;			
-		}else {
+			isAlarmViewOpen = false;
+		} else {
 			AlarmView.getInstance().setVisible(false);
 			isAlarmViewOpen = true;
 		}
 	}
 
 	boolean isSpeekViewOpen = true;
-	@FXML//机器人速度
+
+	@FXML // 机器人速度
 	public void speedOnClick() {
 		AlarmView.getInstance().setVisible(false);
 		isAlarmViewOpen = true;
-		if(isSpeekViewOpen) {
+		if (isSpeekViewOpen) {
 			RobotPopUpView.getInstance().setVisible(true);
-			isSpeekViewOpen = false;			
-		}else {
+			isSpeekViewOpen = false;
+		} else {
 			RobotPopUpView.getInstance().setVisible(false);
 			isSpeekViewOpen = true;
 		}
 	}
 
-	public void indicateAlarmsPresent(final boolean alarmsPresent) {
-		if (alarmsPresent) {
-			changingThread.setRunning(true);
-		} else {
-			changingThread.setRunning(false);
-			alarm.getStyleClass().remove(CSS_CLASS_ALARMS_PRESENT);
-		}
-	}
+	
 
-	protected boolean isConnCNC() {
+	protected boolean connCNC() {
 		String ip = "127.0.0.1";
 		int port = 2000;
 		try {
 			new SocketConnection(SocketConnection.Type.CLIENT, "CNC_CONN_THREAD", ip, port).connect();
+			return true;
+		} catch (IOException e) {
+			// LOGGER.log(Level.ERROR, "{}",e);
+			return false;
+		}
+	}
+
+	protected boolean connRobo() {
+		String ip = "127.0.0.1";
+		int port = 2001;
+		try {
+			new SocketConnection(SocketConnection.Type.CLIENT, "ROBO_CONN_THREAD", ip, port).connect();
 			return true;
 		} catch (IOException e) {
 			// LOGGER.log(Level.ERROR, "{}",e);
