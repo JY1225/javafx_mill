@@ -33,6 +33,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
 public class RobotGripperView extends Controller implements TextInputControlListener{
@@ -93,7 +94,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 	
 	private String imagePath;
 	private GridPane gridPane;
-	protected void init(GridPane gridPane, Button editBt, Button newBt,IconFlowSelector ifsClamping) {
+	public void init(GridPane gridPane, Button editBt, Button newBt,IconFlowSelector ifsClamping) {
 		this.gridPane = gridPane;
 		btnEdit = editBt;
 		btnCreateNew = newBt;
@@ -157,8 +158,10 @@ public class RobotGripperView extends Controller implements TextInputControlList
 			}
 		});		
 		lblGripperType = new Label("类型");
-		rbGripperTypeTwoPoint = new RadioButton("加紧");
+		rbGripperTypeTwoPoint = new RadioButton("夹紧");
+		rbGripperTypeTwoPoint.setTextFill(Color.WHITE);
 		rbGripperTypeVacuum = new RadioButton("真空");
+		rbGripperTypeVacuum.setTextFill(Color.WHITE);
 		ToggleGroup tgGripperType = new ToggleGroup();
 		rbGripperTypeTwoPoint.setToggleGroup(tgGripperType);
 		rbGripperTypeVacuum.setToggleGroup(tgGripperType);

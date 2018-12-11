@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
 
 public class MainViewController extends Controller{
@@ -40,6 +41,8 @@ public class MainViewController extends Controller{
 
 	private final static Logger LOGGER = LogManager.getLogger(MainViewController.class.getName());
 	@FXML
+	private StackPane stackPane;
+	@FXML
 	private GridPane gridPane;
 	@FXML
 	private ToolBar toolBarMenu;
@@ -55,6 +58,7 @@ public class MainViewController extends Controller{
 	private Button auto;
 	@FXML
 	private Button config;
+	public static StackPane parentStackPane;
 	public static ButtonStyleChangingThread changingThread;
 	private List<Button> bts;
 	private Parent setParent;
@@ -64,6 +68,7 @@ public class MainViewController extends Controller{
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
 	public void Init() {
+		parentStackPane = stackPane;
 		bts = new ArrayList<Button>();
 		bts.add(set);
 		bts.add(teach);

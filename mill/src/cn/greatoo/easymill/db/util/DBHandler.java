@@ -89,7 +89,7 @@ public class DBHandler {
             conn = DriverManager.getConnection(DB_URL);
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Cant load database", "Database Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "不能连接数据库。请检查程序是否已经启动", "Database Error", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }

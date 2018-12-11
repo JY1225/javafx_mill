@@ -3,7 +3,6 @@ package cn.greatoo.easymill.ui.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogView;
@@ -75,6 +74,16 @@ public abstract class Controller {
 			}
 		}
 
+		public void showNotificationOverlay(StackPane stackPane,final String title, final String message) {
+			ThreadManager.submit(new Thread() {
+				@Override
+				public void run() {
+					if (askConfirmation(stackPane,title, message)) {
+						createNewProcess();
+					}
+				}
+			});
+		}
 		//private ProcessFlow activeProcessFlow;
 		
 		public void newProcess(StackPane stackPane) {		
