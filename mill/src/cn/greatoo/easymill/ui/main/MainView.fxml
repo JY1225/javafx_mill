@@ -24,9 +24,9 @@
                      <items>
                         <Button fx:id="alarm" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#alarmClick" prefHeight="45.0" prefWidth="60.0" styleClass="header-button" text="" textFill="#cbf2a8" />
                         <Button fx:id="robot_speed" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#speedOnClick" prefHeight="45.0" prefWidth="60.0" styleClass="header-button" text="" textFill="#cbf2a8" />
-                        <Button fx:id="set" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#openSet" prefHeight="45.0" prefWidth="150.0" styleClass="header-button,first" text="设置" textFill="#cbf2a8" translateX="120.0" />
-                        <Button fx:id="teach" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#teachClick" prefHeight="45.0" prefWidth="150.0" styleClass="header-button,bar" text="示教" textFill="#cbf2a8" translateX="102.0" />
-                        <Button fx:id="auto" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#autoClick" prefHeight="45.0" prefWidth="150.0" styleClass="header-button,last" text="自动化" textFill="#cbf2a8" translateX="82.0" />
+                        <Button fx:id="set" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#openSet" prefHeight="45.0" prefWidth="150.0" styleClass="header-button,first" text="设置" textFill="WHITE" translateX="120.0" />
+                        <Button fx:id="teach" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#teachClick" prefHeight="45.0" prefWidth="150.0" styleClass="header-button,bar" text="示教" textFill="WHITE" translateX="102.0" />
+                        <Button fx:id="auto" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#autoClick" prefHeight="45.0" prefWidth="150.0" styleClass="header-button,last" text="自动化" textFill="WHITE" translateX="82.0" />
                         <Button fx:id="config" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#configClick" prefHeight="45.0" prefWidth="60.0" styleClass="header-button" text="" textFill="#cbf2a8" translateX="150.0" />
                      </items>
                   </ToolBar>

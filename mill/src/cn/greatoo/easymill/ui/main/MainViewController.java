@@ -68,6 +68,9 @@ public class MainViewController extends Controller{
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
 	public void Init() {
+		stackPane.getChildren().add(RobotPopUpView.getInstance());
+		stackPane.getChildren().add(AlarmView.getInstance());
+		
 		parentStackPane = stackPane;
 		bts = new ArrayList<Button>();
 		bts.add(set);
@@ -126,6 +129,10 @@ public class MainViewController extends Controller{
 	@FXML
 	public void openSet() {
 			isClicked(bts,set);	
+			RobotPopUpView.getInstance().setVisible(false);
+			isSpeekViewOpen = true;
+			AlarmView.getInstance().setVisible(false);
+			isAlarmViewOpen = true;
 			if(!gridPane.getChildren().contains(setParent)) {
 				try {
 					URL location = getClass().getResource("/cn/greatoo/easymill/ui/set/SetView.fxml");
@@ -150,6 +157,10 @@ public class MainViewController extends Controller{
 	@FXML // 示教
 	public void teachClick() {
 		isClicked(bts,teach);
+		RobotPopUpView.getInstance().setVisible(false);
+		isSpeekViewOpen = true;
+		AlarmView.getInstance().setVisible(false);
+		isAlarmViewOpen = true;
 		if(!gridPane.getChildren().contains(teachParent)) {
 			try {
 				URL location = getClass().getResource("/cn/greatoo/easymill/ui/teach/TeachMainView.fxml");
@@ -176,6 +187,10 @@ public class MainViewController extends Controller{
 	@FXML // 自动化
 	public void autoClick() {
 		isClicked(bts,auto);
+		RobotPopUpView.getInstance().setVisible(false);
+		isSpeekViewOpen = true;
+		AlarmView.getInstance().setVisible(false);
+		isAlarmViewOpen = true;
 		if(!gridPane.getChildren().contains(autoParent)) {
 			try {
 				URL location = getClass().getResource("/cn/greatoo/easymill/ui/auto/AutoView.fxml");
@@ -201,6 +216,10 @@ public class MainViewController extends Controller{
 	@FXML // 配置
 	public void configClick() {
 		isClicked(bts,config);
+		RobotPopUpView.getInstance().setVisible(false);
+		isSpeekViewOpen = true;
+		AlarmView.getInstance().setVisible(false);
+		isAlarmViewOpen = true;
 		if(!gridPane.getChildren().contains(configureParent)) {
 			try {
 				URL location = getClass().getResource("/cn/greatoo/easymill/ui/configure/ConfigureMainView.fxml");
@@ -223,16 +242,32 @@ public class MainViewController extends Controller{
 		
 	}
 
-	@FXML
+	boolean isAlarmViewOpen = true;
+	@FXML//机床，机器人连接提示
 	public void alarmClick() {
-		AlarmView.getInstance().show(alarm, Side.BOTTOM, 0, 0);
-
+		RobotPopUpView.getInstance().setVisible(false);
+		isSpeekViewOpen = true;
+		if(isAlarmViewOpen) {
+			AlarmView.getInstance().setVisible(true);
+			isAlarmViewOpen = false;			
+		}else {
+			AlarmView.getInstance().setVisible(false);
+			isAlarmViewOpen = true;
+		}
 	}
 
-	@FXML
+	boolean isSpeekViewOpen = true;
+	@FXML//机器人速度
 	public void speedOnClick() {
-
-		AlarmView.getInstance().show(robot_speed, Side.BOTTOM, 0, 0);
+		AlarmView.getInstance().setVisible(false);
+		isAlarmViewOpen = true;
+		if(isSpeekViewOpen) {
+			RobotPopUpView.getInstance().setVisible(true);
+			isSpeekViewOpen = false;			
+		}else {
+			RobotPopUpView.getInstance().setVisible(false);
+			isSpeekViewOpen = true;
+		}
 	}
 
 	public void indicateAlarmsPresent(final boolean alarmsPresent) {

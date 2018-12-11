@@ -32,7 +32,6 @@ public class Main extends Application {
 
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);//
-			
 			primaryStage.show();
 			primaryStage.setTitle("Login");
 			primaryStage.setResizable(false);

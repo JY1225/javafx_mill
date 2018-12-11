@@ -73,7 +73,15 @@ public abstract class Controller {
 				}
 			}
 		}
-
+		public void setDisable(List<Button> bts,boolean isDisable) {			
+			for (int i = 0; i < bts.size(); i++) {
+				if(isDisable) {
+					bts.get(i).setDisable(true);				
+				}else {
+					bts.get(i).setDisable(false);
+				}
+			}
+		}
 		public void showNotificationOverlay(StackPane stackPane,final String title, final String message) {
 			ThreadManager.submit(new Thread() {
 				@Override

@@ -166,3 +166,44 @@
 .dialog-btn:disabled Text {
 	-fx-opacity: 0.5;
 }
+.alarms-popup {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.9), 8, 0, 0, 1);
+	-fx-background-color: rgba(49, 51, 56, 1), rgba(66, 68, 74, 1);
+	-fx-background-insets: 0,  0 1 1 0;
+	-fx-background-radius: 0 0 3 0, 0 0 2 0;
+}
+.pop-up-btn {
+	-fx-background-color: #5b6068, #3b3f46, #5b6068, linear-gradient(#52555c 0%, #4f5158 100%);
+	-fx-background-insets: 0, 0 0 0 0, 1 1 0 1, 2 1 0 1;
+	-fx-background-radius: 0;
+}
+
+.pop-up-first {
+	-fx-background-insets: 0, 0 0 0 0, 0 1 0 1, 0 1 0 1;
+}
+
+.pop-up-btn Text {
+	-fx-fill: white;
+	-fx-text-alignment: center;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-font-size: 13px;
+	-fx-font-smoothing-type: lcd;
+	-fx-padding: 0 0 0 5;
+}
+
+.pop-up-btn-bottom {
+	-fx-background-radius: 0 0 3 3, 0 0 2 2, 0 0 1 1;
+	-fx-background-insets: 0, 0 0 0 0, 1 1 1 1, 2 1 1 1;
+}
+
+.pop-up-btn-pressed, .pop-up-btn:pressed {	
+	-fx-background-color: #292d32, #292d32, #292d32, #2a2d31;
+}
+
+.pop-up-btn:disabled {
+	-fx-opacity: 1;
+}
+
+.pop-up-btn:disabled Text {
+	-fx-opacity: 0.5;
+}
