@@ -10,13 +10,13 @@ import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.Coordinates;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Material;
+import javafx.scene.control.Alert;
 
 /**
  * 示教线程
@@ -41,6 +41,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 	public void run() {
 		while (isAlive) {
 			try {
+				
 				roboSocketConnection.restartProgram();// 重启流程
 
 				int[] values = new int[1];
@@ -109,35 +110,32 @@ public class TeachSocketThread extends Controller implements Runnable {
 				roboSocketConnection.writeCommand(1);// IPC write to Robot: 50;1;
 				roboSocketConnection.sendSpeed(60);//  IPC write to Robot: 67;100;
 
-				List<String> value = roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态1 = " + roboSocketConnection.getStatus());
+				/**
+				 * 0-把机器人状态信息、位置等信息反馈给IPC
+				 */
+				while(roboSocketConnection.getStatus() != 0) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 				
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
 				//应该等待把机器人调到正确位置后再执行
 				Coordinates Coordinates = roboSocketConnection.getPosition(); 
 
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态2 = " + roboSocketConnection.getStatus());
+				/**
+				 * 2049-b00: Pick request release和 b11: Teaching finished
+				 */
+				while(roboSocketConnection.getStatus() != 2049) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 
 				roboSocketConnection.writeCommand(4);// IPC write to Robot: 50;4; // COMMAND_SET_PERMISSIONS（4）
-
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；
-				System.out.println("机器人返回的状态3 = " + roboSocketConnection.getStatus());
+				
+				/**
+				 * 2048-b11: Teaching finished
+				 */
+				while(roboSocketConnection.getStatus() != 2048) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 
 				//  IPC write to Robot: 75;13;2;192;192;0; //
 				serviceType = 13;
@@ -204,28 +202,23 @@ public class TeachSocketThread extends Controller implements Runnable {
 				// IPC write to Robot: 50;2;
 				roboSocketConnection.writeCommand(2);
 
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态4 = " + roboSocketConnection.getStatus());
+				/**
+				 * 0-返回机器人信息
+				 */
+				while(roboSocketConnection.getStatus() != 0) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
 				//  IPC write to Robot: 70； // COMMAND_ASK_POSITION（get destination Position）
 				Coordinates = roboSocketConnection.getPosition();
 
 				/**
-				 * Robot Respond to IPC: 122; [0, 0, 2050, -100000, -100000, -100000, 4, 9, 1]
-				 * //机器人完成机器人示教，返回RBT_2_IPC_1(参数3 Numeric registers), b01: Put request grab和
-				 * b11: Teaching finished，置高位给， 请求夹爪夹紧工件，把值返回IPC
+				 * b01: Put request grab和
+				 * b11: Teaching finished
 				 */
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 5= " + roboSocketConnection.getStatus());// 机器人完成机器人示教
+				while(roboSocketConnection.getStatus() != 2050) {					
+					roboSocketConnection.askStatusRest();//IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 
 				startingRegisterNr = 22;
 				amount = 1;
@@ -242,15 +235,12 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//  IPC write to Robot: 50;8; // COMMAND_SET_PERMISSIONS（8）
 				roboSocketConnection.writeCommand(8);
 
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态6 = " + roboSocketConnection.getStatus());
+				/**
+				 * 2048-b11: Teaching finished
+				 */
+				while(roboSocketConnection.getStatus() != 2048) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS
+				}
 
 				startingRegisterNr = 19;
 				values = new int[1];
@@ -306,22 +296,22 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//  IPC write to Robot: 50;1; // COMMAND_SET_PERMISSIONS（1）
 				roboSocketConnection.writeCommand(1);
 
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态7 = " + roboSocketConnection.getStatus());
+				/**
+				 * 0-返回机器人信息
+				 */
+				while(roboSocketConnection.getStatus() != 0) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
 				//  IPC write to Robot: 70； // COMMAND_ASK_POSITION（get destination Position）
 				Coordinates = roboSocketConnection.getPosition();
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态8 = " + roboSocketConnection.getStatus());
+				
+				/**
+				 * 2049-b00: Pick request release和 b11: Teaching finished
+				 */
+				while(roboSocketConnection.getStatus() != 2049) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 
 				// readR: WR220186
 				startingRegisterNr = 22;
@@ -365,17 +355,12 @@ public class TeachSocketThread extends Controller implements Runnable {
 				values[0] = 0;
 				cncSocketConnection.writeRegisters(startingRegisterNr, values);
 
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-
-				//  IPC write to Robot: 22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态9 = " + roboSocketConnection.getStatus());
+				/**
+				 * 2048-b11: Teaching finished
+				 */
+				while(roboSocketConnection.getStatus() != 2048) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 
 				//  IPC write to Robot: 75;13;3;192;192;0; //
 				gripInner = false;
@@ -412,41 +397,23 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//IPC write to Robot: 50;8;
 				roboSocketConnection.writeCommand(8);
 				
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 10= " + roboSocketConnection.getStatus());
+				while(roboSocketConnection.getStatus() != 0) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
 				//	IPC write to Robot:  70； // COMMAND_ASK_POSITION（get destination Position）
 				Coordinates = roboSocketConnection.getPosition();
 				
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS	
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 11= " + roboSocketConnection.getStatus());
+				while(roboSocketConnection.getStatus() != 0) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS
+				}
 				
 				//	IPC write to Robot:  50;8;  //  COMMAND_SET_PERMISSIONS（8）
 				roboSocketConnection.writeCommand(8);
 				
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态 = " + roboSocketConnection.getStatus());
-				//	IPC write to Robot:  22； // COMMAND_ASK_STATUS
-				roboSocketConnection.askStatusRest();
-				System.out.println("机器人返回的状态12 = " + roboSocketConnection.getStatus());
+				while(roboSocketConnection.getStatus() != 0) {					
+					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+				}
 				isAlive = false;
 			} catch (SocketDisconnectedException e) {
 				e.printStackTrace();
