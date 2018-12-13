@@ -2,10 +2,10 @@ package cn.greatoo.easymill.ui.configure.robot;
 
 import java.io.File;
 
-import cn.greatoo.easymill.entity.AbstractRobot;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperBody;
+import cn.greatoo.easymill.robot.AbstractRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.FullTextField;
 import cn.greatoo.easymill.util.IconFlowSelector;

@@ -86,12 +86,11 @@ public abstract class Controller {
 			ThreadManager.submit(new Thread() {
 				@Override
 				public void run() {
-					if (askConfirmation(stackPane,title, message)) {
-						createNewProcess();
-					}
+					askConfirmation(stackPane,title, message);				
 				}
 			});
 		}
+		
 		//private ProcessFlow activeProcessFlow;
 		
 		public void newProcess(StackPane stackPane) {		
