@@ -6,9 +6,24 @@ import java.util.Set;
 import cn.greatoo.easymill.entity.GripperBody;
 import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
+import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
 import cn.greatoo.easymill.util.Coordinates;
 
 public abstract class AbstractRobot {
+	private RobotSocketCommunication fanucRobotCommunication;
+	private Set<RobotAlarm> alarms;
+	private int currentStatus;
+	private double xrest, yrest, zrest;
+	private RobotAlarm robotTimeout;
+	
+	public AbstractRobot(final RobotSocketCommunication socketConnection) {
+		this.fanucRobotCommunication = socketConnection;
+		this.alarms = new HashSet<RobotAlarm>();
+		this.currentStatus = 0;
+		this.xrest = -1;
+		this.yrest = -1;
+		this.zrest = -1;		
+	}
 	public GripperBody getGripperBody() {
 		final Set<GripperHead> gripperHeads = new HashSet<GripperHead>();
 		GripperBody activeGripperBody = new GripperBody("name", "description", gripperHeads);
@@ -65,4 +80,44 @@ public abstract class AbstractRobot {
 //    public abstract void readToolFrame(final RobotToolFrame toolFrame) throws AbstractCommunicationException,  InterruptedException;
 //    public abstract void readRegister(final RobotRegister register) throws AbstractCommunicationException,  InterruptedException;
 
+	public int getStatus() {
+		return currentStatus;
+	}
+	
+	public void setStatus(final int status) {
+		this.currentStatus = status;
+	}
+	
+	public double getXRest() {
+		return xrest;
+	}
+	
+	public double getYRest() {
+		return yrest;
+	}
+	
+	public double getZRest() {
+		return zrest;
+	}
+	
+	public void setRestValues(final double xrest, final double yrest, final double zrest) {
+		this.xrest = xrest;
+		this.yrest = yrest;
+		this.zrest = zrest;
+	}
+	
+	public Set<RobotAlarm> getAlarms() {
+		return alarms;
+	}
+	
+	public void setAlarms(final Set<RobotAlarm> alarms) {
+		this.alarms = alarms;
+	}
+	public void setRobotTimeout(final RobotAlarm robotTimeout) {
+		this.robotTimeout = robotTimeout;
+	}
+	
+	public RobotAlarm getRobotTimeout() {
+		return robotTimeout;
+	}
 }

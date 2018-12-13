@@ -1,10 +1,10 @@
 package cn.greatoo.easymill.util;
 
-import javafx.application.Platform;
-import javafx.scene.control.Button;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javafx.application.Platform;
+import javafx.scene.control.Button;
 
 public class ButtonStyleChangingThread implements Runnable {
 
@@ -21,7 +21,7 @@ public class ButtonStyleChangingThread implements Runnable {
 	
 	private Object syncObject;
 	
-	private static Logger logger = LogManager.getLogger(ButtonStyleChangingThread.class.getName());
+	private final static Logger logger = LogManager.getLogger(ButtonStyleChangingThread.class.getName());
 	
 	public ButtonStyleChangingThread(final Button button, final String style1, final String style2, final int duration) {
 		super();

@@ -49,6 +49,7 @@ public class FanucRobot extends AbstractRobot{
     private static Logger logger = LogManager.getLogger(FanucRobot.class.getName());
 
     public FanucRobot(final RobotSocketCommunication socketConnection) {
+    	super(socketConnection);
         this.fanucRobotCommunication = socketConnection;
         df = new DecimalFormat("#.###");
         df2 = new DecimalFormat("#");
@@ -64,7 +65,17 @@ public class FanucRobot extends AbstractRobot{
     }
     
     public List<String> askStatusRest() throws SocketDisconnectedException, SocketResponseTimedOutException, SocketWrongResponseException, InterruptedException {
-        return fanucRobotCommunication.readValues(RobotConstants.COMMAND_ASK_STATUS, RobotConstants.RESPONSE_ASK_STATUS, ASK_STATUS_TIMEOUT);
+        List<String> values = fanucRobotCommunication.readValues(RobotConstants.COMMAND_ASK_STATUS, RobotConstants.RESPONSE_ASK_STATUS, ASK_STATUS_TIMEOUT);
+        int errorId = Integer.parseInt(values.get(0));
+        int controllerValue = Integer.parseInt(values.get(1));
+        int controllerString = Integer.parseInt(values.get(2));//机器人当前状态
+        double xRest = Float.parseFloat(values.get(3));
+        double yRest = Float.parseFloat(values.get(4));
+        double zRest = Float.parseFloat(values.get(5));
+        setAlarms(RobotAlarm.parseFanucRobotAlarms(errorId, controllerValue, getRobotTimeout()));//报警机器人各种错误
+        setStatus(controllerString);//机器人当前状态
+        setRestValues(xRest, yRest, zRest);
+        return values;
     }
     @Override
     public Coordinates getPosition() throws SocketDisconnectedException, SocketResponseTimedOutException,  InterruptedException, SocketWrongResponseException {
@@ -235,7 +246,7 @@ public class FanucRobot extends AbstractRobot{
         fanucRobotCommunication.writeValues(RobotConstants.COMMAND_WRITE_SERVICE_HANDLING, RobotConstants.RESPONSE_WRITE_SERVICE_HANDLING, WRITE_VALUES_TIMEOUT, values);
     }
     
-    public void writeServicePointSet(final int workArea, final Coordinates location, final Coordinates smoothPoint, final IWorkPieceDimensions dimensions,
+    public void writeServicePointSet(final int workArea, final Coordinates location, final Coordinates smoothPoint,final int smoothPointZ, final IWorkPieceDimensions dimensions,
             final Clamping clamping, final int approachType,final float zSafePlane) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
         // user frame id ; x destination ; y destination ; z destination ; w destination, p destination, r destination ; z-safe plane ; safety add z ; smooth x ; smooth y ; smooth z ;
@@ -248,13 +259,13 @@ public class FanucRobot extends AbstractRobot{
         values.add(df.format(location.getZ()));		// destination z
         values.add(df.format(location.getW()));		// destination w
         values.add(df.format(location.getP()));		// destination p
-        values.add(df.format(location.getR()));		// destination r        
+        values.add(df.format(location.getR()));		// destination r    90    
 
-        values.add(df.format(zSafePlane));	// z-safe plane
+        values.add(df.format(zSafePlane));	// z-safe plane 60
 
         // Safety add Z: use UF value, compare to smooth and use the largest
    
-        values.add(df.format(smoothPoint.getZ()));
+        values.add(df.format(smoothPointZ)); //25
         
         values.add(df.format(smoothPoint.getX()));	// smooth x
         values.add(df.format(smoothPoint.getY()));	// smooth y
@@ -317,7 +328,8 @@ public class FanucRobot extends AbstractRobot{
     @Override
     public void recalculateTCPs() throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         logger.debug("About to recalculate TCPs.");
-        writeServiceGripperSet(this.getGripperBody().getGripperHeadByName(HEAD_A_ID).getName(), this.getGripperBody().getGripperHeadByName(HEAD_A_ID), this.getGripperBody().getGripperHeadByName(HEAD_B_ID), RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_JAW_CHANGE, false);
+//        String name = this.getGripperBody().getGripperHeadByName(HEAD_A_ID).getName();
+//        writeServiceGripperSet(this.getGripperBody().getGripperHeadByName(HEAD_A_ID).getName(), this.getGripperBody().getGripperHeadByName(HEAD_A_ID), this.getGripperBody().getGripperHeadByName(HEAD_B_ID), RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_JAW_CHANGE, false);
         fanucRobotCommunication.writeCommand(RobotConstants.COMMAND_RECALC_TCPS, RobotConstants.RESPONSE_RECALC_TCPS, WRITE_VALUES_TIMEOUT);
     }
 

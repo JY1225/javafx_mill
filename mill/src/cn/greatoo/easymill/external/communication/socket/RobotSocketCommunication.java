@@ -33,6 +33,7 @@ public class RobotSocketCommunication extends ExternalSocketCommunication {
 		getExternalCommunicationThread().clearIncommingBuffer();
 		getExternalCommunicationThread().writeString(command.toString());
 		awaitResponse(ackId + ";", timeout);
+		System.out.println("write to robot : "+command.toString());
 	}
 	
 	public synchronized void writeCommand(final int commandId, final int ackId, final int timeout) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {

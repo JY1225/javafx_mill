@@ -56,18 +56,26 @@ public class AlarmListenThread implements Runnable {
 				@Override
 				public void run() {
 					if (cnccnn != isCNCConn) {
-						changingThread.setRunning(!isCNCConn);
+						AlarmView.getInstance().isCNCConn(isCNCConn);
 						cnccnn = isCNCConn;
 					}
 				}
 
 			});
-			if (isCNCConn && isRobotConn) {
-				changingThread.setRunning(false);
-				changingThread.setRunning(isCNCConn);
-				alarm.getStyleClass().clear();
-				alarm.getStyleClass().add(CSS_CLASS_HEADER_BUTTON);
-			}
+			Platform.runLater(new Thread() {
+				@Override
+				public void run() {
+					if (isCNCConn && isRobotConn) {
+						AlarmView.getInstance().isRoboConn(isRobotConn);
+						AlarmView.getInstance().isCNCConn(isCNCConn);
+						changingThread.setRunning(false);
+						alarm.getStyleClass().clear();
+						alarm.getStyleClass().add(CSS_CLASS_HEADER_BUTTON);
+						isAlive = false;
+					}			
+				}
+			});
+			
 			try {
 				Thread.sleep(duration);
 			} catch (InterruptedException e) {
@@ -80,7 +88,7 @@ public class AlarmListenThread implements Runnable {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				connCNC("127.0.0.1",2000);
+				connCNC("127.0.0.1",2010);
 				connRobo("127.0.0.1",2001);
 				while (true) {
 					isRobotConn = robotSocket.isConnected();
