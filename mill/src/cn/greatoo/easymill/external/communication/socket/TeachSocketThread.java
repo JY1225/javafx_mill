@@ -375,6 +375,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//  IPC write to Robot: 77;1;97.5;87.5;16;0;0;90;60;25.0;5;0;5;1;16;
 				location = new Coordinates(97.5f, 87.5f, 16, 0, 0, 90);
 				name = "A";
+				workArea =1;
 				defaultHeight = 11;
 				relativePosition = new Coordinates(1, 1, 5, 1, 1, 1);
 				smoothToPoint = null;
