@@ -108,9 +108,11 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//获取pick权限
 				roboSocketConnection.writeCommand(1);
 				//设置速度
-				roboSocketConnection.sendSpeed(60);
+				roboSocketConnection.sendSpeed(speed);
+
 
 				//JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
+
 				/**
 				 * 0-把机器人状态信息、位置等信息反馈给IPC
 				 */
@@ -376,6 +378,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//  IPC write to Robot: 77;1;97.5;87.5;16;0;0;90;60;25.0;5;0;5;1;16;
 				location = new Coordinates(97.5f, 87.5f, 16, 0, 0, 90);
 				name = "A";
+				workArea =1;
 				defaultHeight = 11;
 				relativePosition = new Coordinates(1, 1, 5, 1, 1, 1);
 				smoothToPoint = null;
@@ -394,10 +397,11 @@ public class TeachSocketThread extends Controller implements Runnable {
 				
 				//	IPC write to Robot:  50;2;  //  COMMAND_SET_PERMISSIONS（2）
 				roboSocketConnection.writeCommand(2);
-				
+
 //				while(roboSocketConnection.getStatus() != 0) {					
 //					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 //				}
+
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
 				//	IPC write to Robot:  70； // COMMAND_ASK_POSITION（get destination Position）
 				Coordinates = roboSocketConnection.getPosition();
