@@ -36,7 +36,8 @@ public class DevicesConfigMenuViewController extends Controller {
 	List<Button> bts;
 	FXMLLoader fxmlLoader;
 	private GridPane gridPane;
-	private Parent coordinateParent;
+	private Parent coordinateParent,CNCConfigParent,GriperParent;
+	
 	public void init(GridPane gridPane) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
@@ -56,14 +57,14 @@ public class DevicesConfigMenuViewController extends Controller {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, cncBt);
-
+				openCNCConfigView();
 			}
 		});
 		addMenuItem(prosessVBox, cncGriperBt, 2, "夹具", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, cncGriperBt);
-
+				openGriperView();
 			}
 		});
 	}
@@ -86,7 +87,43 @@ public class DevicesConfigMenuViewController extends Controller {
 		} else
 			setDisVisible(0, 2, gridPane, coordinateParent);
 	}
-
+	
+	protected void openCNCConfigView() {
+		if (!gridPane.getChildren().contains(CNCConfigParent)) {
+			try {
+				URL location = getClass()
+						.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/CNCConfigView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+				CNCConfigParent = fxmlLoader.load();
+				CNCConfigViewController cNCConfigViewController = fxmlLoader.getController(); 
+				cNCConfigViewController.init();
+				gridPane.add(CNCConfigParent, 2, 0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			setDisVisible(0, 2, gridPane, CNCConfigParent);
+	}
+	protected void openGriperView() {
+		if (!gridPane.getChildren().contains(GriperParent)) {
+			try {
+				URL location = getClass()
+						.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/ConfigGriperView.fxml");
+				fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(location);
+				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+				GriperParent = fxmlLoader.load();
+				ConfigGriperViewController configGriperViewController = fxmlLoader.getController(); 
+				configGriperViewController.init();
+				gridPane.add(GriperParent, 2, 0);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			setDisVisible(0, 2, gridPane, GriperParent);
+	}
 	@FXML
 	public void openConfig(MouseEvent event) {
 

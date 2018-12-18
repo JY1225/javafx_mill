@@ -165,7 +165,18 @@ public class SocketConnection {
 			return false;
 		}
 	}
-
+	
+	public Boolean isServerClose(){ 
+		   try{ 
+			   socket.sendUrgentData(0xFF);//发送1个字节的紧急数据，默认情况下，服务器端没有开启紧急数据处理，不影响正常通信 
+			   connected = true;
+			   return false; 
+		   }catch(Exception se){ 
+			   connected = false;
+			   return true; 
+		   } 
+		} 
+	
 	public void send(final String message) throws SocketDisconnectedException {
 		if (isConnected()) {
 			out.print(message);

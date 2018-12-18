@@ -156,13 +156,13 @@ public class SetViewController extends Controller {
 				setParent = fxmlLoader.load();
 				setMenuViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				setMenuViewController.init(gridPane,stackPane);
+				setMenuViewController.init(gridPane);
 				gridPane.add(setParent, 0, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			setMenuViewController.init(gridPane,stackPane);
+			setMenuViewController.init(gridPane);
 			setDisVisible(2, 0, gridPane, setParent);
 		}
 	}

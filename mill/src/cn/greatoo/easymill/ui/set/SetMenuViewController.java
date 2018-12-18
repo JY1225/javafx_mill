@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.ui.main.Controller;
+import cn.greatoo.easymill.ui.main.MainViewController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -54,7 +55,7 @@ public class SetMenuViewController extends Controller {
 	private Parent saveParent;
 	private Parent openParent;
 	private GridPane gridPane;
-	public void init(GridPane gridPane, StackPane stackPane2) {
+	public void init(GridPane gridPane) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
 		bts.add(configuer);
@@ -125,7 +126,7 @@ public class SetMenuViewController extends Controller {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, new_pro);
-				newProcess(stackPane2);
+				newProcess(MainViewController.parentStackPane);
 			}
 		});
 	}
