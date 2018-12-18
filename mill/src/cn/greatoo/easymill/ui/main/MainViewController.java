@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.auto.AutoViewController;
@@ -104,7 +105,8 @@ public class MainViewController extends Controller {
 		ThreadManager.submit(changingThread);
 		alarmListenThread = new AlarmListenThread(alarm,1000,changingThread);
 		ThreadManager.submit(alarmListenThread);
-
+		//监听机器人状态
+		ThreadManager.submit(new RobotStatusChangeThread(AlarmListenThread.roboSocketConnection));
 	}
 
 	@FXML
@@ -152,14 +154,14 @@ public class MainViewController extends Controller {
 				teachParent = fxmlLoader.load();
 				teachMainViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				teachMainViewController.init();
+				teachMainViewController.init(toolBarMenu);
 				gridPane.add(teachParent, 0, 1, 2, 1);
 				setDisVisible(1, gridPane, teachParent);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			teachMainViewController.init();
+			teachMainViewController.init(toolBarMenu);
 			setDisVisible(1, gridPane, teachParent);
 		}
 

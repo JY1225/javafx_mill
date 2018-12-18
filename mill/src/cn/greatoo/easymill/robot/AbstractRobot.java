@@ -15,14 +15,15 @@ public abstract class AbstractRobot {
 	private int currentStatus;
 	private double xrest, yrest, zrest;
 	private RobotAlarm robotTimeout;
-	
+	private int speed;
 	public AbstractRobot(final RobotSocketCommunication socketConnection) {
 		this.fanucRobotCommunication = socketConnection;
 		this.alarms = new HashSet<RobotAlarm>();
 		this.currentStatus = 0;
 		this.xrest = -1;
 		this.yrest = -1;
-		this.zrest = -1;		
+		this.zrest = -1;
+		this.speed = 10;
 	}
 	public GripperBody getGripperBody() {
 		final Set<GripperHead> gripperHeads = new HashSet<GripperHead>();
@@ -104,6 +105,18 @@ public abstract class AbstractRobot {
 		this.xrest = xrest;
 		this.yrest = yrest;
 		this.zrest = zrest;
+	}
+	
+	public void setSpeed(final int speedPercentage) throws AbstractCommunicationException, InterruptedException {
+		if ((speedPercentage < 0) || (speedPercentage > 100) || !((speedPercentage == 5) || (speedPercentage == 10) || (speedPercentage == 25) || (speedPercentage == 50) || (speedPercentage == 75) || (speedPercentage == 100))) {
+			throw new IllegalArgumentException("Illegal speed value: " + speedPercentage + ", should be between 0 and 100");
+		}
+		this.speed = speedPercentage;
+		sendSpeed(speedPercentage);
+	}
+	
+	public int getSpeed() {
+		return speed;
 	}
 	
 	public Set<RobotAlarm> getAlarms() {

@@ -3,6 +3,8 @@ package cn.greatoo.easymill.ui.set.table.load;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.fxml.FXML;
 
@@ -55,6 +57,7 @@ public class RawWPViewController extends Controller {
 	private Button calculateBt;
 	List<Button> bts;
 	List<Button> mBts;
+
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
@@ -74,7 +77,7 @@ public class RawWPViewController extends Controller {
 	
 	@FXML
 	public void LChanged(MouseEvent event) {
-		
+
 	}
 	
 	@FXML
@@ -156,7 +159,7 @@ public class RawWPViewController extends Controller {
 	
 	@FXML
 	public void calculateBtAction(MouseEvent event) {
-		
+
 	}
 	
 }

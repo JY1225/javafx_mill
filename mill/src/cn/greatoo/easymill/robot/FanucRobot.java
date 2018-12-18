@@ -93,7 +93,7 @@ public class FanucRobot extends AbstractRobot{
         
         fanucRobotCommunication.writeCommand(RobotConstants.COMMAND_ABORT, RobotConstants.RESPONSE_ABORT, WRITE_VALUES_TIMEOUT);
         restartProgram();
-        //setSpeed(this.getSpeed());
+        sendSpeed(this.getSpeed());
     }
 
     @Override

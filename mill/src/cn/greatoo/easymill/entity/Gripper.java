@@ -17,6 +17,9 @@ public class Gripper {
 	private String imageUrl;
 	private WorkPiece workPiece;
 	
+	public Gripper() {
+		
+	}
 	public Gripper(final String name, final Type type, final float height, final String description, final String imageUrl) {
 		this.name = name;
 		this.type = type;
