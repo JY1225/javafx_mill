@@ -108,7 +108,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 
 				roboSocketConnection.startService();// IPC write to Robot: 51;1;
 				roboSocketConnection.writeCommand(1);// IPC write to Robot: 50;1;
-				roboSocketConnection.sendSpeed(60);//  IPC write to Robot: 67;100;
+				roboSocketConnection.sendSpeed(100);//  IPC write to Robot: 67;100;
 
 				/**
 				 * 0-把机器人状态信息、位置等信息反馈给IPC
@@ -395,8 +395,8 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//	IPC write to Robot:  50;2;  //  COMMAND_SET_PERMISSIONS（2）
 				roboSocketConnection.writeCommand(2);
 				
-				//IPC write to Robot: 50;8;
-				roboSocketConnection.writeCommand(8);
+				// IPC write to Robot: 50;8;
+				// roboSocketConnection.writeCommand(8);
 				
 				while(roboSocketConnection.getStatus() != 0) {					
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
