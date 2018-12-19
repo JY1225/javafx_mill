@@ -73,7 +73,7 @@ public class TeachMainContentViewController extends Controller{
 		stopBt.setVisible(false);
 		messegeText.setVisible(false);
 		gridPane.setVisible(true);
-		//ThreadManager.shutDown();
+		//ThreadManager.shutDown() ;
 	}
 	
 	public void setMessege(String messege) {
