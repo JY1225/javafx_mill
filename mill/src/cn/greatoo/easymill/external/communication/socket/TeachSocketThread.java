@@ -8,7 +8,10 @@ import javax.swing.JOptionPane;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.process.StatusChangedEvent;
+import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
+import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.Coordinates;
@@ -16,7 +19,10 @@ import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Material;
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 import javafx.scene.control.Alert;
+=======
+>>>>>>> e5cfef5 commit
 
 /**
  * 示教线程
@@ -28,7 +34,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 	// private RobotSocketCommunication roboSocketConnection;
 	private CNCSocketCommunication cncSocketConnection;
 	private boolean isAlive;
-	FanucRobot roboSocketConnection;
+	private FanucRobot roboSocketConnection;
 
 	public TeachSocketThread(RobotSocketCommunication roboSocketConnection,
 			CNCSocketCommunication cncSocketConnection) {
@@ -61,7 +67,12 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//  IPC write to Robot: 75;5;2;192;192;0; //
 				roboSocketConnection.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 				roboSocketConnection.recalculateTCPs();
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				int speed = 60;
+=======
+				int speed = 100;
+				//回home点
+>>>>>>> e5cfef5 commit
 				roboSocketConnection.moveToHome(speed);
 
 				// IPC to DI (CNC): write: WW58;01;0;
@@ -84,8 +95,13 @@ public class TeachSocketThread extends Controller implements Runnable {
 				int approachType = 1;
 				WorkPiece wp1 = new WorkPiece(WorkPiece.Type.FINISHED, dimensions, Material.AL, 2.4f);
 				WorkPiece wp2 = null;
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				//  IPC write to Robot: 76;0;1;180;160;30;0;10;24;0;48;1;
 				roboSocketConnection.writeServiceHandlingSet(10, freeAfterService, serviceHandlingPPMode,
+=======
+				//发送料架Pick的搬运信息: 76;0;1;180;160;30;0;10;24;0;48;1;
+				roboSocketConnection.writeServiceHandlingSet(speed, freeAfterService, serviceHandlingPPMode,
+>>>>>>> e5cfef5 commit
 						dimensions, weight2, approachType, wp1, wp2);
 
 				int workArea = 1;
@@ -105,6 +121,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//  IPC write to Robot: 77; 1;97.5;87.5;0;0;0;90;60;25.0;5;0;5;1;16;
 				roboSocketConnection.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
 						clamping, approachType, zSafePlane);
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 
 				roboSocketConnection.startService();// IPC write to Robot: 51;1;
 				roboSocketConnection.writeCommand(1);// IPC write to Robot: 50;1;
@@ -116,7 +133,22 @@ public class TeachSocketThread extends Controller implements Runnable {
 				while(roboSocketConnection.getStatus() != 0) {					
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
+=======
+				//发送开始命令
+				roboSocketConnection.startService();
+				//获取pick权限-PERMISSIONS1
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 0,Mode.TEACH));			
+				roboSocketConnection.continuePickTillAtLocation(true);
+				roboSocketConnection.sendSpeed(speed);
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 0,Mode.TEACH));
+				roboSocketConnection.continuePickTillUnclampAck(true);
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 0,Mode.TEACH));
+			
+				//获取偏移位置信息70
+				Coordinates robotPosition = roboSocketConnection.getPosition(); //97.5, 87.5, 0.0, 0.0, 0.0, 90.0				
+>>>>>>> e5cfef5 commit
 				
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
 				//应该等待把机器人调到正确位置后再执行
 				Coordinates Coordinates = roboSocketConnection.getPosition(); 
@@ -138,6 +170,13 @@ public class TeachSocketThread extends Controller implements Runnable {
 				}
 
 				//  IPC write to Robot: 75;13;2;192;192;0; //
+=======
+				//pick-PERMISSIONS_COMMAND_PICK_RELEASE_ACK-4
+				roboSocketConnection.continuePickTillIPPoint();
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED, 0,Mode.TEACH));
+				
+				//设置抓爪信息
+>>>>>>> e5cfef5 commit
 				serviceType = 13;
 				roboSocketConnection.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 				//  IPC write to Robot: 76;1;1;180;160;30;0;100;24;0;48;1;
@@ -199,6 +238,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				// write: WW18;02;37;1;
 				cncSocketConnection.writeRegisters(startingRegisterNr, values);
 
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				// IPC write to Robot: 50;2;
 				roboSocketConnection.writeCommand(2);
 
@@ -211,7 +251,18 @@ public class TeachSocketThread extends Controller implements Runnable {
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
 				//  IPC write to Robot: 70； // COMMAND_ASK_POSITION（get destination Position）
 				Coordinates = roboSocketConnection.getPosition();
+=======
+				//获取Put 权限PERMISSIONS_COMMAND_PUT2
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 1,Mode.TEACH));
+				roboSocketConnection.continuePutTillAtLocation(true);
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 1,Mode.TEACH));
+				roboSocketConnection.continuePutTillClampAck(true);
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 1,Mode.TEACH));
+				//获取机器人位置信息
+				robotPosition = roboSocketConnection.getPosition();
+>>>>>>> e5cfef5 commit
 
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				/**
 				 * b01: Put request grab和
 				 * b11: Teaching finished
@@ -219,6 +270,8 @@ public class TeachSocketThread extends Controller implements Runnable {
 				while(roboSocketConnection.getStatus() != 2050) {					
 					roboSocketConnection.askStatusRest();//IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
+=======
+>>>>>>> e5cfef5 commit
 
 				startingRegisterNr = 22;
 				amount = 1;
@@ -232,6 +285,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				// write: WW18;02;37;4;
 				cncSocketConnection.writeRegisters(startingRegisterNr, values);
 
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				//  IPC write to Robot: 50;8; // COMMAND_SET_PERMISSIONS（8）
 				roboSocketConnection.writeCommand(8);
 
@@ -241,6 +295,11 @@ public class TeachSocketThread extends Controller implements Runnable {
 				while(roboSocketConnection.getStatus() != 2048) {					
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS
 				}
+=======
+				//put释放PERMISSIONS_COMMAND_PUT8
+				roboSocketConnection.continuePutTillIPPoint();
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED, 1,Mode.TEACH));
+>>>>>>> e5cfef5 commit
 
 				startingRegisterNr = 19;
 				values = new int[1];
@@ -293,9 +352,19 @@ public class TeachSocketThread extends Controller implements Runnable {
 				values[1] = 2;
 				cncSocketConnection.writeRegisters(startingRegisterNr, values);
 
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				//  IPC write to Robot: 50;1; // COMMAND_SET_PERMISSIONS（1）
 				roboSocketConnection.writeCommand(1);
+=======
+				//  IPC write to Robot: 50;1; 
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 0,Mode.TEACH));			
+				roboSocketConnection.continuePickTillAtLocation(true);				
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 0,Mode.TEACH));
+				roboSocketConnection.continuePickTillUnclampAck(true);
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 0,Mode.TEACH));
+>>>>>>> e5cfef5 commit
 
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				/**
 				 * 0-返回机器人信息
 				 */
@@ -303,15 +372,21 @@ public class TeachSocketThread extends Controller implements Runnable {
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
+=======
+
+>>>>>>> e5cfef5 commit
 				//  IPC write to Robot: 70； // COMMAND_ASK_POSITION（get destination Position）
-				Coordinates = roboSocketConnection.getPosition();
+				robotPosition = roboSocketConnection.getPosition();
 				
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				/**
 				 * 2049-b00: Pick request release和 b11: Teaching finished
 				 */
 				while(roboSocketConnection.getStatus() != 2049) {					
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
+=======
+>>>>>>> e5cfef5 commit
 
 				// readR: WR220186
 				startingRegisterNr = 22;
@@ -324,8 +399,9 @@ public class TeachSocketThread extends Controller implements Runnable {
 				values[1] = 8;
 				cncSocketConnection.writeRegisters(startingRegisterNr, values);
 
-				//  IPC write to Robot: 50;4; // COMMAND_SET_PERMISSIONS（4）
-				roboSocketConnection.writeCommand(4);
+				//pick-PERMISSIONS_COMMAND_PICK_RELEASE_ACK-4
+				roboSocketConnection.continuePickTillIPPoint();
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED, 0,Mode.TEACH));
 
 				// write: WW58;01;5;
 				startingRegisterNr = 58;
@@ -355,12 +431,15 @@ public class TeachSocketThread extends Controller implements Runnable {
 				values[0] = 0;
 				cncSocketConnection.writeRegisters(startingRegisterNr, values);
 
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				/**
 				 * 2048-b11: Teaching finished
 				 */
 				while(roboSocketConnection.getStatus() != 2048) {					
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
+=======
+>>>>>>> e5cfef5 commit
 
 				//  IPC write to Robot: 75;13;3;192;192;0; //
 				gripInner = false;
@@ -392,6 +471,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//	IPC write to Robot:  51;1;  // COMMAND_START_SERVICE （1）
 				roboSocketConnection.startService();
 				
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				//	IPC write to Robot:  50;2;  //  COMMAND_SET_PERMISSIONS（2）
 				roboSocketConnection.writeCommand(2);
 				
@@ -402,7 +482,17 @@ public class TeachSocketThread extends Controller implements Runnable {
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
 				JOptionPane.showMessageDialog(null, "请把机器人移到正确位置，再继续进行示教！", "", JOptionPane.WARNING_MESSAGE);
+=======
+				//获取Put 权限PERMISSIONS_COMMAND_PUT2
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 1,Mode.TEACH));
+				roboSocketConnection.continuePutTillAtLocation(true);
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 1,Mode.TEACH));
+				roboSocketConnection.continuePutTillClampAck(true);
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 1,Mode.TEACH));
+
+>>>>>>> e5cfef5 commit
 				//	IPC write to Robot:  70； // COMMAND_ASK_POSITION（get destination Position）
+<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
 				Coordinates = roboSocketConnection.getPosition();
 				
 				while(roboSocketConnection.getStatus() != 0) {					
@@ -415,6 +505,15 @@ public class TeachSocketThread extends Controller implements Runnable {
 				while(roboSocketConnection.getStatus() != 0) {					
 					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
+=======
+				robotPosition = roboSocketConnection.getPosition();
+								
+				//put释放PERMISSIONS_COMMAND_PUT8
+				roboSocketConnection.continuePutTillIPPoint();
+				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED, 1,Mode.TEACH));
+
+
+>>>>>>> e5cfef5 commit
 				isAlive = false;
 			} catch (SocketDisconnectedException e) {
 				e.printStackTrace();
@@ -424,8 +523,12 @@ public class TeachSocketThread extends Controller implements Runnable {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			}catch (AbstractCommunicationException | RobotActionException e) {
+				e.printStackTrace();
 			}
 		}
 	}
-
+	public boolean needsTeaching() {
+		return true;
+	}
 }
