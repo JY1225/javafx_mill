@@ -9,6 +9,7 @@
 *.txt
 *.ctrl
 *.rar
+*.dat
 *.properties
 *.gitignore
 /.project
