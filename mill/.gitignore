@@ -12,3 +12,4 @@
 *.properties
 *.gitignore
 /.project
+*.xml
