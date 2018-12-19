@@ -24,7 +24,8 @@ import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Dimensions;
 
 public class FanucRobot extends AbstractRobot{
-	private RobotSocketCommunication fanucRobotCommunication;
+	public static FanucRobot INSTANCE = null;
+	private static RobotSocketCommunication fanucRobotCommunication;
 
     private static final int WRITE_VALUES_TIMEOUT = 2 * 5000;
     private static final int MOVE_TO_LOCATION_TIMEOUT = 3 * 60 * 1000;
@@ -50,7 +51,7 @@ public class FanucRobot extends AbstractRobot{
 
     public FanucRobot(final RobotSocketCommunication socketConnection) {
     	super(socketConnection);
-        this.fanucRobotCommunication = socketConnection;
+        fanucRobotCommunication = socketConnection;
         df = new DecimalFormat("#.###");
         df2 = new DecimalFormat("#");
         df.setDecimalSeparatorAlwaysShown(false);
@@ -64,18 +65,18 @@ public class FanucRobot extends AbstractRobot{
         fanucRobotCommunication.writeValue(RobotConstants.COMMAND_SET_SPEED, RobotConstants.RESPONSE_SET_SPEED, WRITE_VALUES_TIMEOUT, speedPercentage + "");
     }
     
-    public List<String> askStatusRest() throws SocketDisconnectedException, SocketResponseTimedOutException, SocketWrongResponseException, InterruptedException {
+    @Override
+    public void updateStatusRestAndAlarms() throws SocketDisconnectedException, SocketResponseTimedOutException, SocketWrongResponseException, InterruptedException  {
         List<String> values = fanucRobotCommunication.readValues(RobotConstants.COMMAND_ASK_STATUS, RobotConstants.RESPONSE_ASK_STATUS, ASK_STATUS_TIMEOUT);
         int errorId = Integer.parseInt(values.get(0));
         int controllerValue = Integer.parseInt(values.get(1));
-        int controllerString = Integer.parseInt(values.get(2));//机器人当前状态
+        int controllerString = Integer.parseInt(values.get(2));
         double xRest = Float.parseFloat(values.get(3));
         double yRest = Float.parseFloat(values.get(4));
         double zRest = Float.parseFloat(values.get(5));
         setAlarms(RobotAlarm.parseFanucRobotAlarms(errorId, controllerValue, getRobotTimeout()));//报警机器人各种错误
         setStatus(controllerString);//机器人当前状态
         setRestValues(xRest, yRest, zRest);
-        return values;
     }
     @Override
     public Coordinates getPosition() throws SocketDisconnectedException, SocketResponseTimedOutException,  InterruptedException, SocketWrongResponseException {
@@ -374,12 +375,6 @@ public class FanucRobot extends AbstractRobot{
     }
 
 	@Override
-	public void updateStatusRestAndAlarms() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void moveToHome() throws AbstractCommunicationException, InterruptedException {
 		// TODO Auto-generated method stub
 		
@@ -533,4 +528,10 @@ public class FanucRobot extends AbstractRobot{
 	}
 	
 	
+	public static FanucRobot getInstance(final RobotSocketCommunication socketConnection) {
+		if (INSTANCE == null) {
+			INSTANCE = new FanucRobot(socketConnection);
+		}
+		return INSTANCE;
+	}
 }

@@ -316,7 +316,7 @@ public class AutoSocketThread extends Controller implements Runnable {
 				roboSocketConnection.writeCommand(2);
 				
 				while(roboSocketConnection.getStatus() != 0) {					
-					roboSocketConnection.askStatusRest();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
+					roboSocketConnection.updateStatusRestAndAlarms();//  IPC write to Robot: 22；COMMAND_ASK_STATUS					
 				}
 				
 				//获取MOVEWAIT_CONTINUE权限

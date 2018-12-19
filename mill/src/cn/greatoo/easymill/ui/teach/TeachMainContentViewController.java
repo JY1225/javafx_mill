@@ -4,8 +4,7 @@ import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
 import cn.greatoo.easymill.external.communication.socket.TeachSocketThread;
-import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
-import cn.greatoo.easymill.ui.alarms.AlarmView;
+import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.ThreadManager;
@@ -46,8 +45,8 @@ public class TeachMainContentViewController extends Controller{
 	
 	@FXML
 	public void btnStartAllAction(ActionEvent event) {		
-		RobotSocketCommunication roboSocketConnection = AlarmListenThread.roboSocketConnection;
-		CNCSocketCommunication cncSocketConnection = AlarmListenThread.cncSocketConnection;	
+		RobotSocketCommunication roboSocketConnection = RobotStatusChangeThread.roboSocketConnection;
+		CNCSocketCommunication cncSocketConnection = RobotStatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
 			toolBarMenu.setDisable(true);
 			gridPane.setVisible(false);
@@ -76,6 +75,7 @@ public class TeachMainContentViewController extends Controller{
 		messegeText.setVisible(false);
 		gridPane.setVisible(true);
 		//ThreadManager.shutDown();
+		FanucRobot.getInstance(null).interruptCurrentAction();
 	}
 	
 	public void setMessege(String messege) {

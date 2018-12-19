@@ -60,6 +60,7 @@ public class MainViewController extends Controller {
 	public static StackPane parentStackPane;
 	public static ButtonStyleChangingThread changingThread;
 	public static AlarmListenThread alarmListenThread;
+	private static RobotStatusChangeThread robotStatusChangeThread;
 	private List<Button> bts;
 	private Parent setParent;
 	private Parent teachParent;
@@ -100,12 +101,34 @@ public class MainViewController extends Controller {
 		// 默认打开设置界面
 		openSet();
 
+		startThrad();
+
+	}
+
+	boolean running = true;
+	private void startThrad() {
 		// 报警监听
 		changingThread = new ButtonStyleChangingThread(alarm, "", CSS_CLASS_ALARMS_PRESENT, 500);
 		ThreadManager.submit(changingThread);
-		alarmListenThread = new AlarmListenThread(alarm,1000,changingThread);
-		ThreadManager.submit(alarmListenThread);
 		
+		// 监听机器人状态
+		new Thread(new Runnable() {			
+			@Override
+			public void run() {
+				while(running) {
+					if(changingThread != null) {
+						robotStatusChangeThread = new RobotStatusChangeThread(alarm, 250, changingThread);
+						ThreadManager.submit(robotStatusChangeThread);
+						running = false;
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}).start();		
 	}
 
 	@FXML

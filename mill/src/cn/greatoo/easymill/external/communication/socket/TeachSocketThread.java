@@ -9,6 +9,7 @@ import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
+import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.Coordinates;
@@ -379,4 +380,5 @@ public class TeachSocketThread extends Controller implements Runnable {
 	public boolean needsTeaching() {
 		return true;
 	}
+
 }
