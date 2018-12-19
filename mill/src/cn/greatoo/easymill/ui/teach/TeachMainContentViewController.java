@@ -78,6 +78,7 @@ public class TeachMainContentViewController extends Controller{
 	
 	public void setMessege(String messege) {
 		if(messegeText != null) {
+			
 			messegeText.setText(messege);
 		}
 	}
