@@ -20,7 +20,7 @@ public class RobotStatusChangeThread implements Runnable {
 	@Override
 	public void run() {
 		while (alive) {
-			System.out.println("----------------statu = statu");			
+			//System.out.println("----------------statu = statu");			
 			try {
 				if (roboSocketConnection != null) {
 					roboSocketConnection.askStatusRest();
