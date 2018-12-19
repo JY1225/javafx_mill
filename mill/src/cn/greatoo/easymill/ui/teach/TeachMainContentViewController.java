@@ -1,24 +1,25 @@
 package cn.greatoo.easymill.ui.teach;
 
-import javafx.fxml.FXML;
-
-import javafx.scene.control.Button;
-
-import javax.swing.JOptionPane;
-
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
-import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
 import cn.greatoo.easymill.external.communication.socket.TeachSocketThread;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
+import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
-import cn.greatoo.easymill.util.AlertMaker;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.GridPane;
 
 public class TeachMainContentViewController extends Controller{
+	public static TeachMainContentViewController INSTANCE; 
+	@FXML
+	private GridPane gridPane;
 	@FXML
 	private Button btnStart;
 	@FXML
@@ -27,9 +28,16 @@ public class TeachMainContentViewController extends Controller{
 	private Button reset;
 	@FXML
 	private Button save;
-
-	public void init() {
-		
+	@FXML
+	private Label messegeText;
+	@FXML
+	private Button stopBt;
+	private ToolBar toolBarMenu;
+	public void init(ToolBar toolBarMenu) {	
+		this.toolBarMenu = toolBarMenu;
+		stopBt.setVisible(false);
+		messegeText.setVisible(false);
+		gridPane.setVisible(true);
 	}
 	@FXML
 	public void btnStartAction(ActionEvent event) {
@@ -37,10 +45,14 @@ public class TeachMainContentViewController extends Controller{
 	}
 	
 	@FXML
-	public void btnStartAllAction(ActionEvent event) {
+	public void btnStartAllAction(ActionEvent event) {		
 		RobotSocketCommunication roboSocketConnection = AlarmListenThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = AlarmListenThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
+			toolBarMenu.setDisable(true);
+			gridPane.setVisible(false);
+			stopBt.setVisible(true);
+			messegeText.setVisible(true);
 			TeachSocketThread teachSocketThread = new TeachSocketThread(roboSocketConnection,cncSocketConnection);
 			ThreadManager.submit(teachSocketThread);
 		}else {
@@ -56,6 +68,20 @@ public class TeachMainContentViewController extends Controller{
 	@FXML
 	public void saveAction(ActionEvent event) {
 		
+	}
+	@FXML
+	public void stopBtAction(ActionEvent event) {
+		toolBarMenu.setDisable(false);
+		stopBt.setVisible(false);
+		messegeText.setVisible(false);
+		gridPane.setVisible(true);
+		//ThreadManager.shutDown();
+	}
+	
+	public void setMessege(String messege) {
+		if(messegeText != null) {
+			messegeText.setText(messege);
+		}
 	}
 	
 }

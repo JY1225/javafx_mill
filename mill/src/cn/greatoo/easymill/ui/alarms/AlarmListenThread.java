@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
+import cn.greatoo.easymill.util.ThreadManager;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
@@ -28,7 +31,7 @@ public class AlarmListenThread implements Runnable {
 	SocketConnection cncSocket;
 	private boolean robocnn;
 	private boolean cnccnn;
-
+	private RobotStatusChangeThread robotStatusChangeThread;
 	public AlarmListenThread(final Button AlarmButton, final int duration, ButtonStyleChangingThread changingThread) {
 		this.alarm = AlarmButton;
 		this.duration = duration;
@@ -37,6 +40,10 @@ public class AlarmListenThread implements Runnable {
 		conn();
 		robocnn = !isRobotConn;
 		cnccnn = !isCNCConn;
+		
+		//监听机器人状态
+		robotStatusChangeThread = new RobotStatusChangeThread(roboSocketConnection);
+		ThreadManager.submit(robotStatusChangeThread);
 	}
 
 	@Override

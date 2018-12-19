@@ -90,10 +90,10 @@ public class FanucRobot extends AbstractRobot{
 
     @Override
     public void abort() throws InterruptedException, AbstractCommunicationException {
-        
+   
         fanucRobotCommunication.writeCommand(RobotConstants.COMMAND_ABORT, RobotConstants.RESPONSE_ABORT, WRITE_VALUES_TIMEOUT);
         restartProgram();
-        //setSpeed(this.getSpeed());
+        sendSpeed(this.getSpeed());
     }
 
     @Override
@@ -385,24 +385,55 @@ public class FanucRobot extends AbstractRobot{
 		
 	}
 
-	@Override
-	public void continuePutTillAtLocation() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+	 @Override
+	    public void continuePutTillAtLocation(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {
+	        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PUT);	       
+	        if (isTeachingNeeded) {
+	            boolean waitingForTeachingNeeded = waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING, MOVE_TO_LOCATION_TIMEOUT);
+	            if (!waitingForTeachingNeeded) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PUT_POSITION_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING);
+	                setRobotTimeout(null);
+	            }
+	        } else {
+	            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST, MOVE_TO_LOCATION_TIMEOUT);
+	            if (!waitingForRelease) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PUT_POSITION_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST);
+	                setRobotTimeout(null);
+	            }
+	        }
+	    }
 
-	@Override
-	public void continuePutTillClampAck() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+	 @Override
+	    public void continuePutTillClampAck(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {	        
+	        if (isTeachingNeeded) {
+	            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST, TEACH_TIMEOUT);
+	            if (!waitingForRelease) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.TEACH_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST);
+	                setRobotTimeout(null);
+	            }
+	        } else {
+	            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST, CLAMP_ACK_REQUEST_TIMEOUT);
+	            if (!waitingForRelease) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.CLAMP_ACK_REQUEST_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST);
+	                setRobotTimeout(null);
+	            }
+	        }
+	    }
 
-	@Override
-	public void continuePutTillIPPoint() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
+	 @Override
+	    public void continuePutTillIPPoint() throws AbstractCommunicationException, RobotActionException, InterruptedException {	     
+	        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PUT_CLAMP_ACK);
+	        boolean waitingForPickFinished = waitForStatus(RobotConstants.STATUS_PUT_OUT_OF_MACHINE, MOVE_FINISH_TIMEOUT);
+	        if (!waitingForPickFinished) {
+	            setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_IPPOINT_PUT_TIMEOUT));
+	            waitForStatus(RobotConstants.STATUS_PUT_OUT_OF_MACHINE);
+	            setRobotTimeout(null);
+	        }
+	    }
 	@Override
 	public void finalizePut() throws AbstractCommunicationException, InterruptedException {
 		// TODO Auto-generated method stub
@@ -410,22 +441,54 @@ public class FanucRobot extends AbstractRobot{
 	}
 
 	@Override
-	public void continuePickTillAtLocation() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void continuePickTillAtLocation(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {
+        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PICK);
+        if (isTeachingNeeded) {
+            boolean waitingForTeachingNeeded = waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING, MOVE_TO_LOCATION_TIMEOUT);
+            if (!waitingForTeachingNeeded) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PICK_POSITION_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING);
+                setRobotTimeout(null);
+            }
+        } else {
+            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST, MOVE_TO_LOCATION_TIMEOUT);
+            if (!waitingForRelease) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PICK_POSITION_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST);
+                setRobotTimeout(null);
+            }
+        }
+    }
 
 	@Override
-	public void continuePickTillUnclampAck() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void continuePickTillUnclampAck(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {       
+        if (isTeachingNeeded) {
+            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST, TEACH_TIMEOUT);
+            if (!waitingForRelease) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.TEACH_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST);
+                setRobotTimeout(null);
+            }
+        } else {
+            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST, CLAMP_ACK_REQUEST_TIMEOUT);
+            if (!waitingForRelease) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.UNCLAMP_ACK_REQUEST_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST);
+                setRobotTimeout(null);
+            }
+        }
+    }
 
 	@Override
-	public void continuePickTillIPPoint() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void continuePickTillIPPoint() throws AbstractCommunicationException, RobotActionException, InterruptedException {
+        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PICK_RELEASE_ACK);
+        boolean waitingForPickFinished = waitForStatus(RobotConstants.STATUS_PICK_OUT_OF_MACHINE, MOVE_TO_IPPOINT_TIMEOUT);
+        if (!waitingForPickFinished) {
+            setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_IPPOINT_PICK_TIMEOUT));
+            waitForStatus(RobotConstants.STATUS_PICK_OUT_OF_MACHINE);
+            setRobotTimeout(null);
+        }
+    }
 
 	@Override
 	public void finalizePick() throws AbstractCommunicationException, InterruptedException {
@@ -468,4 +531,6 @@ public class FanucRobot extends AbstractRobot{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 }
