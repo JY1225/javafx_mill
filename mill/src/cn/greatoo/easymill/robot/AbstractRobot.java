@@ -10,14 +10,6 @@ import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunicatio
 import cn.greatoo.easymill.util.Coordinates;
 
 public abstract class AbstractRobot {
-<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
-	private RobotSocketCommunication fanucRobotCommunication;
-	private Set<RobotAlarm> alarms;
-	private int currentStatus;
-	private double xrest, yrest, zrest;
-	private RobotAlarm robotTimeout;
-	
-=======
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractRobot.disconnectedWhileWaiting";
 	private static RobotSocketCommunication fanucRobotCommunication;
 	private static Set<RobotAlarm> alarms;
@@ -29,16 +21,7 @@ public abstract class AbstractRobot {
 	private static int currentStatus;
 	private static boolean statusChanged;
 	private static boolean teachingNeeded;
->>>>>>> e5cfef5 commit
 	public AbstractRobot(final RobotSocketCommunication socketConnection) {
-<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
-		this.fanucRobotCommunication = socketConnection;
-		this.alarms = new HashSet<RobotAlarm>();
-		this.currentStatus = 0;
-		this.xrest = -1;
-		this.yrest = -1;
-		this.zrest = -1;		
-=======
 		fanucRobotCommunication = socketConnection;
 		alarms = new HashSet<RobotAlarm>();
 		currentStatus = 0;
@@ -50,7 +33,6 @@ public abstract class AbstractRobot {
 		statusChanged = false;
 		teachingNeeded = false;
 		syncObject = new Object();
->>>>>>> e5cfef5 commit
 	}
 	public GripperBody getGripperBody() {
 		final Set<GripperHead> gripperHeads = new HashSet<GripperHead>();
@@ -148,8 +130,6 @@ public abstract class AbstractRobot {
 		zrest = zres;
 	}
 	
-<<<<<<< Upstream, based on branch 'master' of http://jy@192.168.1.73:1000/r/mill/v1.0.git
-=======
 	public void setSpeed(final int speedPercentage) throws AbstractCommunicationException, InterruptedException {
 		if ((speedPercentage < 0) || (speedPercentage > 100) || !((speedPercentage == 5) || (speedPercentage == 10) || (speedPercentage == 25) || (speedPercentage == 50) || (speedPercentage == 75) || (speedPercentage == 100))) {
 			throw new IllegalArgumentException("Illegal speed value: " + speedPercentage + ", should be between 0 and 100");
@@ -162,7 +142,6 @@ public abstract class AbstractRobot {
 		return speed;
 	}
 	
->>>>>>> e5cfef5 commit
 	public Set<RobotAlarm> getAlarms() {
 		return alarms;
 	}
