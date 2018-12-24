@@ -195,6 +195,36 @@ public class DBHandler {
 		return cncMillingMachine;
 	}
     
+    public int getZoneNr(int id) {
+    	int zonenr = 0;
+    	try {
+    		PreparedStatement stmt = conn.prepareStatement("SELECT ZONE_NR FROM ZONE WHERE ID = ?");
+    		stmt.setInt(1, id);
+    		ResultSet results = stmt.executeQuery();
+    		if (results.next()) {
+    			zonenr = results.getInt("ZONE_NR");
+    		}
+    	}catch (SQLException ex) {
+	          LOGGER.log(Level.ERROR, "{}", ex);
+	      }
+		return zonenr;
+    }
+    
+    public int getWorkArea(int id) {
+    	int zonenr = 0;
+    	try {
+    		PreparedStatement stmt = conn.prepareStatement("SELECT NUMBER FROM USERFRAME WHERE ID = ?");
+    		stmt.setInt(1, id);
+    		ResultSet results = stmt.executeQuery();
+    		if (results.next()) {
+    			zonenr = results.getInt("NUMBER");
+    		}
+    	}catch (SQLException ex) {
+	          LOGGER.log(Level.ERROR, "{}", ex);
+	      }
+		return zonenr;
+    }
+    
     private Map<ECNCOption, Boolean> getCNCOptions(final int id){    	
 		Map<ECNCOption, Boolean> resultMap = new HashMap<ECNCOption, Boolean>();
 		try {

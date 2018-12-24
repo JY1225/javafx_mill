@@ -27,18 +27,18 @@ import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 public class TeachSocketThread extends Controller implements Runnable {
 
 	// private RobotSocketCommunication roboSocketConnection;
-	private CNCSocketCommunication cncSocketConnection;
+	//private CNCSocketCommunication cncSocketConnection;
 	private boolean isAlive;
 	private FanucRobot robot;
-	private CNCMachine CNCMachine; 
+	private CNCMachine cncMachine; 
 	private EWayOfOperating wayOfOperating;
-	@SuppressWarnings("static-access")
+
 	public TeachSocketThread(RobotSocketCommunication roboSocketConnection,
 			CNCSocketCommunication cncSocketConnection) {
 		this.robot = FanucRobot.getInstance(roboSocketConnection);		 		
 		//MCodeAdapter mCodeAdapter = DBHandler.getInstance().getMCodeAdapter(1);
-		this.CNCMachine = CNCMachine.getInstance(cncSocketConnection, DBHandler.getInstance().getMCodeAdapter(1), wayOfOperating);// DBHandler.getInstance().getCNCMillingMachine(1,cncSocketConnection);//new CNCMachine(cncSocketConnection, mCodeAdapter, wayOfOperating.M_CODES);				
-		this.cncSocketConnection = cncSocketConnection;
+		this.cncMachine = CNCMachine.getInstance(cncSocketConnection, DBHandler.getInstance().getMCodeAdapter(1), wayOfOperating);// DBHandler.getInstance().getCNCMillingMachine(1,cncSocketConnection);//new CNCMachine(cncSocketConnection, mCodeAdapter, wayOfOperating.M_CODES);				
+		//this.cncSocketConnection = cncSocketConnection;
 		this.isAlive = true;
 	}
 
@@ -51,11 +51,8 @@ public class TeachSocketThread extends Controller implements Runnable {
 				int[] values = new int[1];
 				values[0] = 0;
 				int startingRegisterNr = 58;
-				//  IPC to DI (CNC): write: WW58;01;0;
-				CNCMachine.indicateOperatorRequested(false);//writeRegisters(startingRegisterNr, values);
-				//  IPC to DI (CNC): write: WW58;01;0;
-				CNCMachine.indicateOperatorRequested(false);//.writeRegisters(startingRegisterNr, values);
-				
+				cncMachine.indicateOperatorRequested(false);
+				cncMachine.indicateOperatorRequested(false);				
 				robot.restartProgram();// 重启流程
 				Gripper gripper = new Gripper("name", Type.TWOPOINT, 192, "description", "");
 				final String headId = "A";
@@ -63,7 +60,6 @@ public class TeachSocketThread extends Controller implements Runnable {
 				final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
 				int serviceType = 5;
 				boolean gripInner = false;
-				// 75设置抓爪信息 75;5;2;192;192;0; 
 				robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 				robot.recalculateTCPs();
 				int speed = 100;
@@ -71,13 +67,13 @@ public class TeachSocketThread extends Controller implements Runnable {
 				robot.moveToHome(speed);
 
 				// IPC to DI (CNC): write: WW58;01;0;
-				CNCMachine.indicateOperatorRequested(false);//.writeRegisters(startingRegisterNr, values);
+				cncMachine.indicateOperatorRequested(false);
 				startingRegisterNr = 18;
 				values = new int[2];
 				values[0] = 1;
 				values[1] = 16;
 				// IPC to DI (CNC): write: WW18;02;1;16;
-				CNCMachine.prepareForProcess(1);//writeRegisters(startingRegisterNr, values);
+				cncMachine.prepareForProcess(1);
 				serviceType = 12;
 				//设置抓爪信息
 				robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
@@ -115,7 +111,6 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//获取pick权限-PERMISSIONS1
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 0,Mode.TEACH));			
 				robot.continuePickTillAtLocation(true);
-				robot.sendSpeed(speed);
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 0,Mode.TEACH));
 				robot.continuePickTillUnclampAck(true);
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 0,Mode.TEACH));
@@ -152,46 +147,13 @@ public class TeachSocketThread extends Controller implements Runnable {
 				//设置位置信息
 				robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
 						clamping, approachType, zSafePlane);
-
 				
 				//开始命令
 				robot.startService();
 				values = new int[2];
 				values[0] = 37;
 				values[1] = 1;
-				CNCMachine.prepareForPick(false, values);
-//				startingRegisterNr = 39;
-//				int amount = 1;
-//				// readR: WR39013
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				startingRegisterNr = 40;
-//				amount = 1;
-//				// readR: WR40010
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				startingRegisterNr = 41;
-//				amount = 1;
-//				// readR: WR41010
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				startingRegisterNr = 42;
-//				amount = 1;
-//				// readR: WR42010
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				startingRegisterNr = 22;
-//				amount = 1;
-//				// readR: WR220116
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//
-//				startingRegisterNr = 24;
-//				values = new int[1];
-//				values[0] = 0;
-//				// write: WW24;01;0;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
-//				startingRegisterNr = 18;
-//				values = new int[2];
-//				values[0] = 37;
-//				values[1] = 1;
-//				// write: WW18;02;37;1;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
+				cncMachine.prepareForPut(false, 0,0);
 
 				//获取Put 权限PERMISSIONS_COMMAND_PUT2
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 1,Mode.TEACH));
@@ -205,18 +167,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				values = new int[2];
 				values[0] = 37;
 				values[1] = 4;
-				CNCMachine.releasePiece(values);
-//				startingRegisterNr = 22;
-//				amount = 1;
-//				// readR: WR220117
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//
-//				startingRegisterNr = 18;
-//				values = new int[2];
-//				values[0] = 37;
-//				values[1] = 4;
-//				//选择 工作区域 ，选择机床夹具 write: WW18;02;37;4;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
+				cncMachine.grabPiece();
 
 				//put释放PERMISSIONS_COMMAND_PUT8
 				robot.continuePutTillIPPoint();
@@ -226,7 +177,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				values = new int[1];
 				values[0] = 64;
 				//  IPC_MC_FINISH_CMD: WW19;01;64;
-				CNCMachine.pickFinished(0,false);//finishMCode(0, 0);//writeRegisters(startingRegisterNr, values);
+				cncMachine.pickFinished(0,false);//finishMCode(0, 0);//writeRegisters(startingRegisterNr, values);
 
 				// 设置抓爪信息
 				gripInner = false;
@@ -248,34 +199,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				values = new int[2];//18
 				values[0] = 37;
 				values[1] = 2;
-				CNCMachine.prepareForPick(false, values);
-//				// readR: WR39013
-//				startingRegisterNr = 39;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				// readR: WR40010
-//				startingRegisterNr = 40;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				// readR: WR41010
-//				startingRegisterNr = 41;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				// readR: WR42010
-//				startingRegisterNr = 42;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				// readR: WR220184
-//				startingRegisterNr = 22;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//
-//				// write: WW18;02;37;2;
-//				startingRegisterNr = 18;
-//				values = new int[2];
-//				values[0] = 37;
-//				values[1] = 2;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
+				cncMachine.prepareForPick(false, 0,1);
 
 				//  IPC write to Robot: 50;1; 
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 0,Mode.TEACH));			
@@ -285,59 +209,23 @@ public class TeachSocketThread extends Controller implements Runnable {
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 0,Mode.TEACH));
 
 
-				//  IPC write to Robot: 70； // COMMAND_ASK_POSITION（get destination Position）
+				//  IPC write to Robot: 70；
 				robotPosition = robot.getPosition();
 				
 				values = new int[2];
 				values[0] = 37;
 				values[1] = 8;
-				CNCMachine.releasePiece(values);
-//				// readR: WR220186
-//				startingRegisterNr = 22;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//				// write: WW18;02;37;8;
-//				startingRegisterNr = 18;
-//				values = new int[2];
-//				values[0] = 37;
-//				values[1] = 8;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
+				cncMachine.releasePiece();
 
 				//pick-PERMISSIONS_COMMAND_PICK_RELEASE_ACK-4
 				robot.continuePickTillIPPoint();
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED, 0,Mode.TEACH));
 
-				CNCMachine.prepareForIntervention();
-//				// write: WW58;01;5;
-//				startingRegisterNr = 58;
-//				values = new int[1];
-//				values[0] = 5;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
+				cncMachine.prepareForIntervention();
 
-				CNCMachine.pickFinished(0,true);
-//				// readR: WR220192
-//				startingRegisterNr = 22;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//
-//				
-//				// readR: WR53011000
-//				startingRegisterNr = 53;
-//				amount = 1;
-//				CNCMachine.readRegisters(startingRegisterNr, amount);
-//
-//				// write: WW19;01;32;
-//				startingRegisterNr = 19;
-//				values = new int[1];
-//				values[0] = 32;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
+				cncMachine.pickFinished(0,true);
 
-				CNCMachine.clearIndications();
-//				// write: WW58;01;0;
-//				startingRegisterNr = 58;
-//				values = new int[1];
-//				values[0] = 0;
-//				CNCMachine.writeRegisters(startingRegisterNr, values);
+				cncMachine.clearIndications();
 
 
 				//  IPC write to Robot: 75;13;3;192;192;0; //
@@ -367,7 +255,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
 						clamping, approachType, zSafePlane);
 				
-				//	IPC write to Robot:  51;1;  // COMMAND_START_SERVICE （1）
+				//	IPC write to Robot:  51;1; 
 				robot.startService();
 				
 				//获取Put 权限PERMISSIONS_COMMAND_PUT2
@@ -377,7 +265,7 @@ public class TeachSocketThread extends Controller implements Runnable {
 				robot.continuePutTillClampAck(true);
 				RobotStatusChangeThread.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 1,Mode.TEACH));
 
-				//	IPC write to Robot:  70； // COMMAND_ASK_POSITION（get destination Position）
+				//	IPC write to Robot:  70； 
 				robotPosition = robot.getPosition();
 								
 				//put释放PERMISSIONS_COMMAND_PUT8

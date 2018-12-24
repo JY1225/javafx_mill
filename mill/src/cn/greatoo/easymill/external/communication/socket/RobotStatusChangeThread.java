@@ -67,7 +67,7 @@ public class RobotStatusChangeThread implements Runnable {
 				if (cncMachine != null) {					
 					cncMachine.updateStatusAndAlarms();	
 					boolean statusChanged = false;
-					cncMachine.statusChanged();	
+					//cncMachine.statusChanged();	
 					for(int statusRegister: previousStatus.keySet()) {
 						if (cncMachine.getStatus(statusRegister) != previousStatus.get(statusRegister)) {
 							statusChanged = true;
@@ -82,11 +82,6 @@ public class RobotStatusChangeThread implements Runnable {
 					}
 					this.previousStatus = new HashMap<Integer, Integer>(cncMachine.getStatusMap());
 					this.previousActiveMCodes = new HashSet<Integer>(activeMCodes);
-//				int statu = cncMachine.getStatus();
-//				if (statu != cpreviousStatus) {						
-//					cpreviousStatus = statu;						
-//					cncMachine.statusChanged();						
-//				}
 			}		
 				try {
 					Thread.sleep(250);
@@ -135,7 +130,7 @@ public class RobotStatusChangeThread implements Runnable {
 	}
 	protected boolean connCNC(String ip,int port) {
 		try {
-			cncSocket = new SocketConnection(SocketConnection.Type.CLIENT, "ROBO_CONN_THREAD", ip, port);
+			cncSocket = new SocketConnection(SocketConnection.Type.CLIENT, "CNC_CONN_THREAD", ip, port);
 			cncSocket.connect();
 			cncSocketConnection = new CNCSocketCommunication(cncSocket);
 			cncMachine = (CNCMachine) DBHandler.getInstance().getCNCMillingMachine(1,cncSocketConnection);

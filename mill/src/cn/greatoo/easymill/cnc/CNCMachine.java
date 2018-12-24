@@ -6,6 +6,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
@@ -188,9 +189,13 @@ public class CNCMachine extends AbstractCNCMachine {
 	 * processId 0-teach, 1-auto
 	 *
 	 */
-	public void prepareForPick(boolean isAirblow, int[] registers)
+	public void prepareForPick(boolean isAirblow,final int processId,final int mCodeUnLoad)
 			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-
+		if ((getWayOfOperating() == EWayOfOperating.M_CODES) || (getWayOfOperating() == EWayOfOperating.M_CODES_DUAL_LOAD)) {
+			//int mCodeUnLoad = getMCodeIndex(pickSettings.getWorkArea(), false);
+			waitForMCodes(processId, mCodeUnLoad);
+		}
+		
 		if (isAirblow) {
 			logger.debug("Set machine airblow for pick");
 			setValue(CNCMachineConstantsDevIntv.CONFIG_5, CNCMachineConstantsDevIntv.CFG_FIX_1_AIRBLOW_PICK);
@@ -207,12 +212,19 @@ public class CNCMachine extends AbstractCNCMachine {
 
 		resetStatusValue(CNCMachineConstantsDevIntv.IPC_OK, CNCMachineConstantsDevIntv.IPC_PREPARE_FOR_PICK_OK);
 
-		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.ZONE_WA_FIX_SELECT, registers);
+		int fixSelectCommand = 0;
+		fixSelectCommand = fixSelectCommand | selectZone(1);
+		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
+		int command2 = 0 | CNCMachineConstantsDevIntv.IPC_PREPARE_FOR_PICK_CMD;
+		
+		int[] register = {fixSelectCommand, command2};
+		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.ZONE_WA_FIX_SELECT, register);
 
 		int[] values = new int[2];
 		values[0] = 37;
 		values[1] = 1;
-//		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.IPC_OK, values);
+
 		boolean pickReady = waitForStatusDevIntv2(CNCMachineConstantsDevIntv.IPC_OK,
 				CNCMachineConstantsDevIntv.IPC_PREPARE_FOR_PICK_OK, PREPARE_PICK_TIMEOUT);
 		if (!pickReady) {
@@ -223,15 +235,15 @@ public class CNCMachine extends AbstractCNCMachine {
 		}
 	}
 
-	public void prepareForPut(boolean isAirblow, final int processId)
+	public void prepareForPut(boolean isAirblow, final int processId,final int mCodeLoad)
 			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
 		// check a valid workarea is selected
 
 		// if way of operation is m codes, await loading m code!
 		if ((getWayOfOperating() == EWayOfOperating.M_CODES)
 				|| (getWayOfOperating() == EWayOfOperating.M_CODES_DUAL_LOAD)) {
-			int mCodeLoad = 1;// getMCodeIndex(putSettings.getWorkArea(), true);
-			// waitForMCodes(processId, mCodeLoad);
+			//int mCodeLoad = getMCodeIndex(putSettings.getWorkArea(), true);
+			 waitForMCodes(processId, mCodeLoad);
 		}
 
 		if (isAirblow) {
@@ -264,12 +276,12 @@ public class CNCMachine extends AbstractCNCMachine {
 
 		// Create prepare for put command
 		int fixSelectCommand = 0;
-		fixSelectCommand = fixSelectCommand | 1;// selectZone(putSettings);
-		fixSelectCommand = fixSelectCommand | 1;// selectWorkArea(putSettings);
-		fixSelectCommand = fixSelectCommand | 1;// selectFixture(putSettings.getWorkArea().getWorkAreaManager().getActiveClamping(false,
-												// putSettings.getWorkArea().getSequenceNb()).getFixtureType());
+		fixSelectCommand = fixSelectCommand | selectZone(1);
+		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
 		int command2 = 0 | CNCMachineConstantsDevIntv.IPC_PREPARE_FOR_PUT_CMD;
 		int[] registers = { fixSelectCommand, command2 };
+		System.out.println("1-registers: "+registers);
 		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.ZONE_WA_FIX_SELECT, registers);
 
 		boolean putReady = waitForStatusDevIntv2(CNCMachineConstantsDevIntv.IPC_OK,
@@ -280,18 +292,65 @@ public class CNCMachine extends AbstractCNCMachine {
 			setCncMachineTimeout(null);
 		}
 	}
-
+	
+	private int selectZone(int i) {
+		int command = 0;
+		int zn = DBHandler.getInstance().getZoneNr(i);
+		if(zn == 1) {
+			command = command | CNCMachineConstantsDevIntv.ZONE1_SELECT;
+		} else if (zn == 2) {
+			command = command | CNCMachineConstantsDevIntv.ZONE2_SELECT;
+		} else {
+			throw new IllegalArgumentException("Unknown zone number: " + DBHandler.getInstance().getZoneNr(i));
+		}
+		return command;
+	}
+	
+	int workAreaNr;
+	private int selectWorkArea(int i) {	
+		int command = 0;
+		int wa = DBHandler.getInstance().getWorkArea(i);
+		switch (wa) {
+		case 3:
+			this.workAreaNr = 1;
+			break;
+		case 4:
+			this.workAreaNr = 2;
+			break;
+		default:
+			this.workAreaNr = 0;
+			break;
+		}
+		if(workAreaNr == 1) {
+			command = command | CNCMachineConstantsDevIntv.WA1_SELECT;
+		} else if (workAreaNr == 2) {
+			command = command | CNCMachineConstantsDevIntv.WA2_SELECT;
+		} else {
+			throw new IllegalArgumentException("Unknown workarea number: " + DBHandler.getInstance().getWorkArea(i));
+		}
+		
+		return command;
+	}
+	
 	public void putFinished() throws AbstractCommunicationException, InterruptedException {
 	}
 
-	public void releasePiece(int[] registers)
+	public void releasePiece()
 			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
 		// check a valid workarea is selected
 
 		resetStatusValue(CNCMachineConstantsDevIntv.IPC_OK, CNCMachineConstantsDevIntv.IPC_UNCLAMP_OK);
 
-		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.ZONE_WA_FIX_SELECT, registers);
-
+		//cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.ZONE_WA_FIX_SELECT, registers);
+		int fixSelectCommand = 0;
+		fixSelectCommand = fixSelectCommand | selectZone(1);
+		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
+		int actionCommand = 0 | CNCMachineConstantsDevIntv.IPC_UNCLAMP_CMD;
+		
+		int[] register = {fixSelectCommand, actionCommand};
+		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.ZONE_WA_FIX_SELECT, register);
+		
 		boolean unclampReady = waitForStatusDevIntv2(CNCMachineConstantsDevIntv.IPC_OK,
 				CNCMachineConstantsDevIntv.IPC_UNCLAMP_OK, UNCLAMP_TIMEOUT);
 		if (!unclampReady) {
@@ -305,10 +364,9 @@ public class CNCMachine extends AbstractCNCMachine {
 
 		resetStatusValue(CNCMachineConstantsDevIntv.IPC_OK, CNCMachineConstantsDevIntv.IPC_CLAMP_OK);
 		int fixSelectCommand = 0;
-		fixSelectCommand = fixSelectCommand | 1;// selectZone(putSettings);
-		fixSelectCommand = fixSelectCommand | 1;// selectWorkArea(putSettings);
-		fixSelectCommand = fixSelectCommand | 1;// selectFixture(putSettings.getWorkArea().getWorkAreaManager().getActiveClamping(false,
-												// putSettings.getWorkArea().getSequenceNb()).getFixtureType());
+		fixSelectCommand = fixSelectCommand | selectZone(1);
+		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
 		int actionCommand = 0 | CNCMachineConstantsDevIntv.IPC_CLAMP_CMD;
 
 		int[] registers = { fixSelectCommand, actionCommand };
@@ -375,6 +433,62 @@ public class CNCMachine extends AbstractCNCMachine {
 		}
 	}
 
+	private int selectFixture(final EFixtureType fixtureType) throws IllegalArgumentException {
+		int command = 0;
+		switch(fixtureType) {
+		case FIXTURE_1:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_1;
+			break;
+		case FIXTURE_2:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_2;
+			break;
+		case FIXTURE_3:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_3;
+			break;
+		case FIXTURE_4:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_4;
+			break;	
+		case FIXTURE_1_2:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_1;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_2;
+			break;	
+		case FIXTURE_1_3:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_1;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_3;
+			break;	
+		case FIXTURE_1_4:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_1;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_4;
+			break;	
+		case FIXTURE_2_3:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_2;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_3;
+			break;	
+		case FIXTURE_2_4:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_2;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_4;
+			break;
+		case FIXTURE_3_4:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_3;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_4;
+			break;
+		case FIXTURE_1_2_3:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_1;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_2;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_3;
+			break;
+		case FIXTURE_1_2_3_4:
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_1;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_2;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_3;
+			command = command | CNCMachineConstantsDevIntv.FIX_SELECT_4;
+			break;
+		default:
+			break;
+		}
+		return command;
+	}
+	
 	@Override
 	public void disconnect() {
 		cncMachineCommunication.disconnect();

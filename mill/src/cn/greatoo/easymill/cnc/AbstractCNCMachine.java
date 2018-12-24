@@ -161,7 +161,6 @@ public abstract class AbstractCNCMachine  {
 		return waitForStatusCondition(new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {
-				System.out.println(statusMap);
 				return ((statusMap.get(registerIndex) & status) == status);
 			}
 		}, timeout);
@@ -216,7 +215,8 @@ public abstract class AbstractCNCMachine  {
 		stopAction = false;
 		// check status before we start
 		try {
-			if (condition.call()) {
+			boolean call = condition.call();
+			if (call) {
 				return true;
 			}
 		} catch (Exception e) {
