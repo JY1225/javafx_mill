@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data-sources>
-	<data-source id="derby-16782a27471-16d0e4dbb3b2c600" provider="generic" driver="derby" name="Derby - database" save-password="true" show-system-objects="true" show-util-objects="true" read-only="false">
-		<connection server="" database="F:\git\repository\mill\database" url="jdbc:derby:F:\git\repository\mill\database" type="dev"/>
+	<data-source id="derby-167de3db97f-49e24b17db190fad" provider="generic" driver="derby" name="Derby - database" save-password="true" show-system-objects="true" show-util-objects="true" read-only="false">
+		<connection server="" database="F:\repository\mill\database" url="jdbc:derby:F:\repository\mill\database" type="dev"/>
 	</data-source>
 	<filters/>
 </data-sources>
