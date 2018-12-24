@@ -68,6 +68,7 @@ public class CNCSocketCommunication extends ExternalSocketCommunication {
 		// send the command and wait for reply 
 		getExternalCommunicationThread().clearIncommingBuffer();
 		getExternalCommunicationThread().writeString(command.toString());
+		//System.out.println("read from cnc : "+command.toString());
 		return parseResult(awaitResponse(command.toString(), timeout), command.toString());
 	}
 	

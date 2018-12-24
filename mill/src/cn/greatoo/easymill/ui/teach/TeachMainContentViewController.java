@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.ui.teach;
 
+import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
@@ -76,6 +77,7 @@ public class TeachMainContentViewController extends Controller{
 		gridPane.setVisible(true);
 		//ThreadManager.shutDown();
 		FanucRobot.getInstance(null).interruptCurrentAction();
+		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
 	
 	public void setMessege(String messege) {

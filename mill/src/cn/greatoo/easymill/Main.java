@@ -55,7 +55,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		Long startTime = System.currentTimeMillis();
-		LOGGER.log(Level.INFO, "Library Assistant launched on {}", CommonUtil.formatDateTimeString(startTime));
+		LOGGER.log(Level.INFO, "mill launched on {}", CommonUtil.formatDateTimeString(startTime));
 		launch(args);
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override

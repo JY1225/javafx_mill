@@ -31,7 +31,11 @@ public class StatusChangedEvent {
 	private int statusId;
 	
 	private int processId;//0-pick;1-put;2-intervention
-	
+	/**
+	 * processId
+	 * 0-pick;1-put;2-intervention
+	 * @param processId
+	 */
 	public StatusChangedEvent(final int statusId, final int processId,Mode mode) {
 		this.statusId = statusId;
 		this.processId = processId;

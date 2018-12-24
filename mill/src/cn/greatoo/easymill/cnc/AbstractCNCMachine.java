@@ -17,29 +17,30 @@ import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.util.Clamping;
 
 public abstract class AbstractCNCMachine  {	
-	private int currentStatus;
-	private boolean statusChanged;
+	private static int currentStatus;
+	private static boolean statusChanged;
 	private static Object syncObject;
-	private boolean stopAction;
-	private int clampingWidthR;
-	private int nbFixtures;
-	private Map<Integer, Integer> statusMap;
-	private boolean timAllowed;
-	private boolean machineAirblow;
-	private float rRoundPieces;
-	private boolean workNumberSearch;
-	private boolean clampingPressureSelectable;
-	private CNCMachineAlarm cncMachineTimeout;
-	private Set<CNCMachineAlarm> alarms;
-	private MCodeAdapter mCodeAdapter;
-	private String name;
-	private EWayOfOperating wayOfOperating;
+	private static boolean stopAction;
+	private static int clampingWidthR;
+	private static int nbFixtures;
+	private static Map<Integer, Integer> statusMap;
+	private static boolean timAllowed;
+	private static boolean machineAirblow;
+	private static float rRoundPieces;
+	private static boolean workNumberSearch;
+	private static boolean clampingPressureSelectable;
+	private static CNCMachineAlarm cncMachineTimeout;
+	private static Set<CNCMachineAlarm> alarms;
+	private static String name;
+	private static EWayOfOperating wayOfOperating;
+	private static MCodeAdapter mCodeAdapter;
+	private static int id;
 	private static Logger logger = LogManager.getLogger(AbstractCNCMachine.class.getName());
 	
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractCNCMachine.disconnectedWhileWaiting";
 	private static final String EXCEPTION_WHILE_WAITING = "AbstractCNCMachine.exceptionWhileWaiting";
 	
-	public AbstractCNCMachine(final CNCSocketCommunication socketConnection, final MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
+	public AbstractCNCMachine(final CNCSocketCommunication socketConnection, MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
 		this.statusChanged = false;
 		syncObject = new Object();
 		this.mCodeAdapter = mCodeAdapter;
@@ -56,6 +57,14 @@ public abstract class AbstractCNCMachine  {
 		this.statusMap = new HashMap<Integer, Integer>();
 		this.zones = new HashSet<Zone>();
 		this.wayOfOperating = wayOfOperating;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
 	}
 	
 	public EWayOfOperating getWayOfOperating() {
@@ -124,7 +133,7 @@ public abstract class AbstractCNCMachine  {
 	 * This method will be called after processing a STATUS_CHANGED event, so if the waitForStatus method
 	 * is waiting, it will be notified
 	 */
-	private void statusChanged() {
+	public void statusChanged() {
 		synchronized (syncObject) {
 			statusChanged = true;
 			syncObject.notifyAll();
@@ -138,7 +147,7 @@ public abstract class AbstractCNCMachine  {
 	public abstract void indicateOperatorRequested(boolean requested) throws AbstractCommunicationException, InterruptedException;
 	public abstract void clearIndications() throws AbstractCommunicationException, InterruptedException;
 	public abstract boolean isConnected();
-	public abstract void prepareForProcess() throws AbstractCommunicationException, InterruptedException;
+	//public abstract void prepareForProcess() throws AbstractCommunicationException, InterruptedException;
 	protected boolean waitForStatus(final int status, final long timeout) throws InterruptedException, DeviceActionException {
 		return waitForStatusCondition(new Callable<Boolean>() {
 			@Override
@@ -152,6 +161,7 @@ public abstract class AbstractCNCMachine  {
 		return waitForStatusCondition(new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {
+				System.out.println(statusMap);
 				return ((statusMap.get(registerIndex) & status) == status);
 			}
 		}, timeout);
@@ -165,7 +175,42 @@ public abstract class AbstractCNCMachine  {
 			}
 		}, timeout);
 	}
+	protected boolean waitForMCodes(final int processId, final int... indexList) throws InterruptedException, DeviceActionException {
+		String loggerString = "PRC[" + processId + "] is waiting for M CODE: " + indexList[0];
+		for (int i = 1; i < indexList.length; i++) {
+			loggerString += " OR " + indexList[i];
+		}
+		logger.info(loggerString);
+		return waitForStatusCondition(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				for (int index: indexList) {
+					if (mCodeAdapter.isMCodeActive(index))
+						return true;
+				}
+				return false;
+			}
+		}, 0);
+	}
 	
+	protected boolean waitForNoMCode(final int processId, final int... indexList) throws InterruptedException, DeviceActionException {
+		String loggerString = "PRC[" + processId + "] is waiting for M CODE gone: " + indexList[0];
+		for (int i = 1; i < indexList.length; i++) {
+			loggerString += " OR " + indexList[i];
+		}
+		logger.info(loggerString);
+		return waitForStatusCondition(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				for (int index: indexList) {
+					if (mCodeAdapter.isMCodeActive(index)) {
+						return false;
+					}
+				}
+				return true;
+			}
+		}, 0);
+	}
 	protected boolean waitForStatusCondition(final Callable<Boolean> condition, final long timeout) throws InterruptedException, DeviceActionException {
 		long waitedTime = 0;
 		stopAction = false;
@@ -245,43 +290,6 @@ public abstract class AbstractCNCMachine  {
 	
 	protected void waitForStatusGoneDevIntv2(final int registerIndex, final int status) throws DeviceActionException, InterruptedException {
 		waitForStatusGoneDevIntv2(registerIndex, status, 0);
-	}
-	
-	protected boolean waitForMCodes(final int processId, final int... indexList) throws InterruptedException, DeviceActionException {
-		String loggerString = "PRC[" + processId + "] is waiting for M CODE: " + indexList[0];
-		for (int i = 1; i < indexList.length; i++) {
-			loggerString += " OR " + indexList[i];
-		}
-		logger.info(loggerString);
-		return waitForStatusCondition(new Callable<Boolean>() {
-			@Override
-			public Boolean call() throws Exception {
-				for (int index: indexList) {
-					if (mCodeAdapter.isMCodeActive(index))
-						return true;
-				}
-				return false;
-			}
-		}, 0);
-	}
-	
-	protected boolean waitForNoMCode(final int processId, final int... indexList) throws InterruptedException, DeviceActionException {
-		String loggerString = "PRC[" + processId + "] is waiting for M CODE gone: " + indexList[0];
-		for (int i = 1; i < indexList.length; i++) {
-			loggerString += " OR " + indexList[i];
-		}
-		logger.info(loggerString);
-		return waitForStatusCondition(new Callable<Boolean>() {
-			@Override
-			public Boolean call() throws Exception {
-				for (int index: indexList) {
-					if (mCodeAdapter.isMCodeActive(index)) {
-						return false;
-					}
-				}
-				return true;
-			}
-		}, 0);
 	}
 	
 	public EDeviceGroup getType() {

@@ -9,6 +9,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
@@ -22,6 +24,7 @@ import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Dimensions;
+import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 
 public class FanucRobot extends AbstractRobot{
 	public static FanucRobot INSTANCE = null;
@@ -152,6 +155,46 @@ public class FanucRobot extends AbstractRobot{
     public void moveToHome(int speed) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
        
         fanucRobotCommunication.writeValue(RobotConstants.COMMAND_TO_HOME, RobotConstants.RESPONSE_TO_HOME, WRITE_VALUES_TIMEOUT, "" + speed);
+    }
+    
+    public void initiatePick(int speed) throws AbstractCommunicationException, RobotActionException, InterruptedException {
+    	Gripper gripper = new Gripper("name", Type.TWOPOINT, 192, "description", "");
+		final String headId = "A";
+		final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
+		final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
+		boolean gripInner = false;
+        writeServiceGripperSet(headId, gHeadA, gHeadB, RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK, gripInner);
+        
+        boolean freeAfterService = false;
+		final int serviceHandlingPPMode = 48;
+		final IWorkPieceDimensions dimensions = new RectangularDimensions(180, 160, 30);
+		final float weight2 = 16;
+		int approachType = 1;
+		WorkPiece wp1 = new WorkPiece(WorkPiece.Type.FINISHED, dimensions, Material.AL, 2.4f);
+		WorkPiece wp2 = null;
+		//发送料架Pick的搬运信息: 76;0;1;180;160;30;0;10;24;0;48;1;
+		writeServiceHandlingSet(speed, freeAfterService, serviceHandlingPPMode,
+				dimensions, weight2, approachType, wp1, wp2);    
+        
+		int workArea = 1;
+		Coordinates location = new Coordinates(97.5f, 87.5f, 0, 0, 0, 90);
+		Coordinates smoothPoint = new Coordinates(97.5f, 87.5f, 5, 0, 5, 90);
+		String name = "A";
+		float defaultHeight = 11;
+		Coordinates relativePosition = new Coordinates(1, 1, 5, 1, 1, 1);
+		Coordinates smoothToPoint = null;
+		Coordinates smoothFromPoint = null;
+		String imageURL = "";
+		Clamping clamping = new Clamping(Clamping.Type.CENTRUM, name, defaultHeight, relativePosition,
+				smoothToPoint, smoothFromPoint, imageURL);
+		approachType = 1;// APPRCH_STRAT
+		float zSafePlane = 60;
+		int smoothPointZ = 25;
+		//Pick的位置信息: 77; 1;97.5;87.5;0;0;0;90;60;25.0;5;0;5;1;16;
+		writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
+				clamping, approachType, zSafePlane);
+        logger.info("About to write start service!");
+        fanucRobotCommunication.writeValue(RobotConstants.COMMAND_START_SERVICE, RobotConstants.RESPONSE_START_SERVICE, WRITE_VALUES_TIMEOUT, "1");
     }
     public void writeServiceGripperSet(final String headId, final GripperHead gHeadA, final GripperHead gHeadB, final int serviceType,
             final boolean gripInner) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
