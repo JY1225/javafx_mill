@@ -153,70 +153,7 @@ public class RobotStatusChangeThread implements Runnable {
 			return false;
 		}
 	}
-	public static void statusChanged(final StatusChangedEvent e) {
-		Platform.runLater(new Runnable() {
-			@Override public void run() {
-					switch (e.getStatusId()) {
-						case StatusChangedEvent.INACTIVE:
-							if (e.getMode().equals(Mode.FINISHED)) {//所有工件均已加工完成。
-								TeachMainViewController.teachMainContentViewController.setMessege("所有工件均已加工完成。");								
-							} else {//当前程序未激活
-								TeachMainViewController.teachMainContentViewController.setMessege("当前程序未激活");
-							}
-							break;
-						case StatusChangedEvent.STARTED:
-							if (e.getProcessId()==0) {//下料
-								TeachMainViewController.teachMainContentViewController.setMessege("下料");
-							} else if (e.getProcessId()==1) {//上料
-								TeachMainViewController.teachMainContentViewController.setMessege("上料");
-							}
-							break;
-						case StatusChangedEvent.PREPARE_DEVICE:
-							if (e.getProcessId()==0) {//准备下料
-								TeachMainViewController.teachMainContentViewController.setMessege("准备下料");
-							} else if (e.getProcessId()==1) {//准备上料
-								TeachMainViewController.teachMainContentViewController.setMessege("准备上料");
-							}
-							break;
-						case StatusChangedEvent.EXECUTE_TEACHED:
-						case StatusChangedEvent.EXECUTE_NORMAL:
-							if (e.getProcessId()==0) {//下料
-								TeachMainViewController.teachMainContentViewController.setMessege("下料");
-							} else if (e.getProcessId()==1) {//上料
-								TeachMainViewController.teachMainContentViewController.setMessege("上料");
-							}
-							break;
-						case StatusChangedEvent.INTERVENTION_READY:
-						    if(e.getProcessId()==2) {
-						       //程序被干预中断
-						    TeachMainViewController.teachMainContentViewController.setMessege("程序被干预中断");
-						    }
-							break;
-						case StatusChangedEvent.PROCESSING_STARTED://加工中
-							TeachMainViewController.teachMainContentViewController.setMessege("加工中");
-							break;
-						case StatusChangedEvent.ENDED:
-							if (e.getProcessId()==0) {//成功下料
-								TeachMainViewController.teachMainContentViewController.setMessege("成功下料");
-							} else if (e.getProcessId()==1) {//成功上料
-								TeachMainViewController.teachMainContentViewController.setMessege("成功上料");
-							}
-							break;
-						case StatusChangedEvent.TEACHING_NEEDED://请把机器人示教至正确位置。
-							TeachMainViewController.teachMainContentViewController.setMessege("请把机器人示教至正确位置。");
-							break;
-						case StatusChangedEvent.TEACHING_FINISHED://位置示教正确，可继续执行
-							TeachMainViewController.teachMainContentViewController.setMessege("位置示教正确，可继续执行");
-							break;
-						case StatusChangedEvent.PREPARE:
-							TeachMainViewController.teachMainContentViewController.setMessege("启动层序");//启动层序
-							break;
-						default:
-							throw new IllegalArgumentException("Unknown status id: " + e.getStatusId());
-					}				
-			}
-		});
-	}
+	
 	
 	public void interrupted() {
 		alive = false;

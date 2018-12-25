@@ -11,7 +11,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -172,6 +171,12 @@ public class CNCMenuViewController extends Controller {
 	
 	@FXML
 	public void openAftV(MouseEvent event) {
+		
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
 		
 	}
 	

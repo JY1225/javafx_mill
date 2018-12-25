@@ -101,8 +101,8 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 	private static final double BTN_HEIGHT = UIConstants.BUTTON_HEIGHT;
 	private static final double BTN_WIDTH = BTN_HEIGHT * 3;
 	
-
 	private GridPane gridPane;
+	
 	public void init(GridPane gridPane, Button editBt, Button newBt,IconFlowSelector ifsClamping) {
 		this.gridPane = gridPane;
 		this.btnEdit = editBt;
@@ -616,6 +616,12 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 
 	@Override
 	public void textFieldLostFocus(TextInputControl textInputControl) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
 		
 	}

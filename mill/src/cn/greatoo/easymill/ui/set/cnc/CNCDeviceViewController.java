@@ -38,5 +38,10 @@ public class CNCDeviceViewController  extends Controller {
 	public void wBtAction(ActionEvent event) {
 		isClicked(bts, wBt);
 	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

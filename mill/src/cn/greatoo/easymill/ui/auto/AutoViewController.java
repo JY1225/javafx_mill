@@ -6,9 +6,12 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.external.communication.socket.AutoSocketThread;
+import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
+import cn.greatoo.easymill.external.communication.socket.TeachSocketThread;
+import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
@@ -27,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
@@ -106,6 +110,8 @@ public class AutoViewController extends Controller{
 	private Button deviceProcess1;
 	@FXML
 	private Button deviceProcess3;
+	@FXML
+	private Label messegeText;
 	private RotateTransition rtContinuous;
 
 	public void init() {
@@ -172,12 +178,12 @@ public class AutoViewController extends Controller{
 	//开始
 	@FXML
 	public void startAction(ActionEvent event) {
-		RobotSocketCommunication roboSocketConnection = AlarmListenThread.roboSocketConnection;
-		CNCSocketCommunication cncSocketConnection = AlarmListenThread.cncSocketConnection;	
+		RobotSocketCommunication roboSocketConnection = RobotStatusChangeThread.roboSocketConnection;
+		CNCSocketCommunication cncSocketConnection = RobotStatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
-			startBt.setDisable(true);
-			AutoSocketThread autoSocketThread = new AutoSocketThread(roboSocketConnection,cncSocketConnection, startBt);
-			ThreadManager.submit(autoSocketThread);
+//			startBt.setDisable(true);
+			TeachSocketThread teachSocketThread = new TeachSocketThread(roboSocketConnection,cncSocketConnection,false,this);
+			ThreadManager.submit(teachSocketThread);
 		}else {
 			showNotificationOverlay(MainViewController.parentStackPane, "开始信息", "请注意，设备连接错误！");
 		}
@@ -185,7 +191,8 @@ public class AutoViewController extends Controller{
 	
 	@FXML
 	public void stopAction(ActionEvent event) {
-
+		FanucRobot.getInstance(null).interruptCurrentAction();
+		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
 	
 	@FXML
@@ -274,6 +281,12 @@ public class AutoViewController extends Controller{
 			piePiecePath.setVisible(true);
 			circleBackContinuous.setVisible(false);
 			rtContinuous.pause();
+		}
+	}
+	public void setMessege(String messege) {
+		if(messegeText != null) {
+			messegeText.setText(messege);
+			messegeText.setTextFill(Color.WHITE);
 		}
 	}
 }

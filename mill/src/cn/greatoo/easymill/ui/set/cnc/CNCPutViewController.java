@@ -67,5 +67,11 @@ public class CNCPutViewController extends Controller{
 	public void aftBtAction(ActionEvent event) {
 		isClicked(bts, aftBt);
 	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

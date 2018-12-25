@@ -17,7 +17,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 
 public class TeachMainContentViewController extends Controller{
-	public static TeachMainContentViewController INSTANCE; 
+
 	@FXML
 	private GridPane gridPane;
 	@FXML
@@ -33,6 +33,7 @@ public class TeachMainContentViewController extends Controller{
 	@FXML
 	private Button stopBt;
 	private ToolBar toolBarMenu;
+	
 	public void init(ToolBar toolBarMenu) {	
 		this.toolBarMenu = toolBarMenu;
 		stopBt.setVisible(false);
@@ -53,7 +54,7 @@ public class TeachMainContentViewController extends Controller{
 			gridPane.setVisible(false);
 			stopBt.setVisible(true);
 			messegeText.setVisible(true);
-			TeachSocketThread teachSocketThread = new TeachSocketThread(roboSocketConnection,cncSocketConnection);
+			TeachSocketThread teachSocketThread = new TeachSocketThread(roboSocketConnection,cncSocketConnection,true,this);
 			ThreadManager.submit(teachSocketThread);
 		}else {
 			showNotificationOverlay(MainViewController.parentStackPane, "示教错误", "请注意，设备连接错误！");

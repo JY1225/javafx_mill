@@ -33,7 +33,7 @@ public class StatusChangedEvent {
 	private int processId;//0-pick;1-put;2-intervention
 	/**
 	 * processId
-	 * 0-pick;1-put;2-intervention
+	 * 0-下料;1-上料;2-中断
 	 * @param processId
 	 */
 	public StatusChangedEvent(final int statusId, final int processId,Mode mode) {

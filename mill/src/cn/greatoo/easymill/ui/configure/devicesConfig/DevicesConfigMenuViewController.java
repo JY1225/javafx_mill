@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.ui.configure.robot.RobotGeneralViewController;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,11 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-
 import javafx.scene.layout.VBox;
 
 public class DevicesConfigMenuViewController extends Controller {
@@ -132,5 +129,11 @@ public class DevicesConfigMenuViewController extends Controller {
 	@FXML
 	public void openSave(MouseEvent event) {
 
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

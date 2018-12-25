@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
  *
  */
 public class CNCConfigViewController extends Controller {
+
 	@FXML
 	private GridPane gridPane;
 	@FXML
@@ -35,7 +36,7 @@ public class CNCConfigViewController extends Controller {
 	FXMLLoader fxmlLoader;
 	private Parent generalParent;
 	private Parent mCodeParent;
-
+	
 	@SuppressWarnings("unchecked")
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -116,5 +117,11 @@ public class CNCConfigViewController extends Controller {
 			} else
 				setDisVisible(1, gridPane, mCodeParent);
 		}
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

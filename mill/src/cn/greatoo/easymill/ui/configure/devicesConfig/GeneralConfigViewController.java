@@ -40,4 +40,9 @@ public class GeneralConfigViewController extends Controller {
 	private void postiveBtAction(ActionEvent event) {
 		isClicked(bts, postiveBt);
 	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 }

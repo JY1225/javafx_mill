@@ -15,15 +15,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
@@ -166,6 +161,11 @@ public class SetMenuViewController extends Controller {
 	
 	@FXML
 	public void openNew(MouseEvent event) {
+		
+	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
 		
 	}
 }

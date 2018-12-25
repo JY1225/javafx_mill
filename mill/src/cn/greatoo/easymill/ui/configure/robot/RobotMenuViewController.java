@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.ui.set.SaveViewController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,11 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-
 import javafx.scene.layout.VBox;
 
 public class RobotMenuViewController extends Controller{
@@ -105,5 +102,10 @@ public class RobotMenuViewController extends Controller{
 			}
 		} else
 			setDisVisible(0, 2, gridPane, griperParent);
+	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

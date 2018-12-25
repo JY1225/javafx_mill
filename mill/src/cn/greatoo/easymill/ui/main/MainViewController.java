@@ -189,7 +189,7 @@ public class MainViewController extends Controller {
 
 	}
 
-	AutoViewController autoViewController;
+	public static AutoViewController autoViewController;
 
 	@FXML // 自动化
 	public void autoClick() {
@@ -278,5 +278,11 @@ public class MainViewController extends Controller {
 			RobotPopUpView.getInstance().setVisible(false);
 			isSpeekViewOpen = true;
 		}
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

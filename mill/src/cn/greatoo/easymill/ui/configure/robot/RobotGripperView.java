@@ -372,4 +372,9 @@ public class RobotGripperView extends Controller implements TextInputControlList
 	public void textFieldLostFocus(TextInputControl textInputControl) {
 			
 	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -107,4 +107,10 @@ public class TeachGriperBMenuViewController extends Controller{
 			setDisVisible(2, 1, gridPane, teachPutParent);
 		}
 	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
@@ -78,7 +79,14 @@
                                     <Insets left="25.0" />
                                  </padding>
                               </VBox>
-                              <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowSpan="2" />
+                              <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowSpan="2">
+                                 <children>
+                                    <Label fx:id="messegeText" prefHeight="29.0" prefWidth="317.0" textFill="WHITE" underline="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children></StackPane>
                            </children>
                         </GridPane>
                      </children>

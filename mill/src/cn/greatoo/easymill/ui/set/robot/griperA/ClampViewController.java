@@ -2,20 +2,14 @@ package cn.greatoo.easymill.ui.set.robot.griperA;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
-import cn.greatoo.easymill.util.IconFlowSelectorItem;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 public class ClampViewController  extends Controller {
 	@FXML
@@ -64,6 +58,11 @@ public class ClampViewController  extends Controller {
     public void refresh() {
 //		refreshGripperHeads();
 //		refreshGrippers();
+	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 //	public void refreshGripperHeads() {

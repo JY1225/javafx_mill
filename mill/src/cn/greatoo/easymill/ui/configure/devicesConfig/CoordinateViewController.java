@@ -118,6 +118,11 @@ public class CoordinateViewController extends Controller {
 	public void saveBtAction(ActionEvent event) {
 		
 	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

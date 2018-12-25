@@ -58,6 +58,11 @@ public class PickClampViewController extends Controller {
 //		refreshGripperHeads();
 //		refreshGrippers();
 	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 //	public void refreshGripperHeads() {
 //		GripperBody body = transportInfo.getRobotSettings().getGripperBody();

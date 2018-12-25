@@ -7,7 +7,6 @@ import java.util.List;
 
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.teach.griperA.TeachGriperAMenuViewController;
-import cn.greatoo.easymill.ui.teach.griperA.TeachPickViewController;
 import cn.greatoo.easymill.ui.teach.griperB.TeachGriperBMenuViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -194,5 +193,11 @@ public class TeachMainViewController extends Controller {
 			teachMainContentViewController.init(toolBarMenu);
 			setDisVisible(2,gridPane, teachMainContentParent);
 		}
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }
