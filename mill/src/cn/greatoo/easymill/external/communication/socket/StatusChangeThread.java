@@ -134,8 +134,10 @@ public class RobotStatusChangeThread implements Runnable {
 			cncSocket.connect();
 			cncSocketConnection = new CNCSocketCommunication(cncSocket);
 			cncMachine = (CNCMachine) DBHandler.getInstance().getCNCMillingMachine(1,cncSocketConnection);
+			cncMachine.indicateOperatorRequested(false);
+			cncMachine.indicateOperatorRequested(false);
 			return true;
-		} catch (IOException e) {
+		} catch (IOException | SocketResponseTimedOutException | SocketDisconnectedException | SocketWrongResponseException | InterruptedException e) {
 			cncSocket.disconnect();
 			return false;
 		}
@@ -147,8 +149,9 @@ public class RobotStatusChangeThread implements Runnable {
 			robotSocket.connect();
 			roboSocketConnection = new RobotSocketCommunication(robotSocket);	
 			robot = FanucRobot.getInstance(roboSocketConnection);
+			robot.restartProgram();
 			return true;
-		} catch (IOException e) {
+		} catch (IOException | SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException | InterruptedException e) {
 			robotSocket.disconnect();
 			return false;
 		}

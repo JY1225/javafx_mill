@@ -290,7 +290,7 @@ public class FanucRobot extends AbstractRobot{
         fanucRobotCommunication.writeValues(RobotConstants.COMMAND_WRITE_SERVICE_HANDLING, RobotConstants.RESPONSE_WRITE_SERVICE_HANDLING, WRITE_VALUES_TIMEOUT, values);
     }
     
-    public void writeServicePointSet(final int workArea, final Coordinates location, final Coordinates smoothPoint,final int smoothPointZ, final IWorkPieceDimensions dimensions,
+    public void writeServicePointSet(final int workArea, final Coordinates location, final Coordinates smoothPoint,final float smoothPointZ, final IWorkPieceDimensions dimensions,
             final Clamping clamping, final int approachType,final float zSafePlane) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
         // user frame id ; x destination ; y destination ; z destination ; w destination, p destination, r destination ; z-safe plane ; safety add z ; smooth x ; smooth y ; smooth z ;

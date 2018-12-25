@@ -2,6 +2,10 @@ package cn.greatoo.easymill.ui.main;
 
 import com.sun.java.accessibility.util.Translator;
 
+import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
+import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
+import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
+import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.util.UIConstants;
 import javafx.event.ActionEvent;
@@ -92,7 +96,12 @@ public class RobotPopUpView extends StackPane{
 		btnToHome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().toHomeClicked();
+				try {
+					FanucRobot.getInstance(null).moveToHome(100);
+				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
+						| InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -103,7 +112,7 @@ public class RobotPopUpView extends StackPane{
 		btnToChange.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().toChangePointClicked();
+				
 			}
 		});
 		
