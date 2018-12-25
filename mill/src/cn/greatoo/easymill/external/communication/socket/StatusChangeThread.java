@@ -17,7 +17,7 @@ import cn.greatoo.easymill.util.ButtonStyleChangingThread;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
-public class RobotStatusChangeThread implements Runnable {
+public class StatusChangeThread implements Runnable {
 
 	private FanucRobot robot;
 	private CNCMachine cncMachine;
@@ -33,7 +33,7 @@ public class RobotStatusChangeThread implements Runnable {
 	private Map<Integer, Integer> previousStatus;
 	private Set<Integer> previousActiveMCodes;
 	
-	public RobotStatusChangeThread(final Button AlarmButton,
+	public StatusChangeThread(final Button AlarmButton,
 			final int duration, ButtonStyleChangingThread changingThread) {						
 		this.alarmListenThread = new AlarmListenThread(AlarmButton,duration,changingThread);
 		this.previousStatus = new HashMap<Integer, Integer>();

@@ -23,7 +23,7 @@ import cn.greatoo.easymill.workpiece.WorkPiece.Material;
  * 示教线程
  *
  */
-public class TeachSocketThread implements Runnable {
+public class TeachAndAutoThread implements Runnable {
 
 	private boolean teached;
 	private boolean isAlive;
@@ -31,7 +31,7 @@ public class TeachSocketThread implements Runnable {
 	private CNCMachine cncMachine; 
 	private EWayOfOperating wayOfOperating;
 	private Controller view;
-	public TeachSocketThread(RobotSocketCommunication roboSocketConnection,
+	public TeachAndAutoThread(RobotSocketCommunication roboSocketConnection,
 			CNCSocketCommunication cncSocketConnection, boolean teached, Controller view) {
 		this.robot = FanucRobot.getInstance(roboSocketConnection);		 		
 		this.cncMachine = CNCMachine.getInstance(cncSocketConnection, DBHandler.getInstance().getMCodeAdapter(1), wayOfOperating);// DBHandler.getInstance().getCNCMillingMachine(1,cncSocketConnection);//new CNCMachine(cncSocketConnection, mCodeAdapter, wayOfOperating.M_CODES);				

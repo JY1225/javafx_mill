@@ -9,8 +9,8 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
-import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
-import cn.greatoo.easymill.external.communication.socket.TeachSocketThread;
+import cn.greatoo.easymill.external.communication.socket.StatusChangeThread;
+import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -178,11 +178,11 @@ public class AutoViewController extends Controller{
 	//开始
 	@FXML
 	public void startAction(ActionEvent event) {
-		RobotSocketCommunication roboSocketConnection = RobotStatusChangeThread.roboSocketConnection;
-		CNCSocketCommunication cncSocketConnection = RobotStatusChangeThread.cncSocketConnection;	
+		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
+		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
 //			startBt.setDisable(true);
-			TeachSocketThread teachSocketThread = new TeachSocketThread(roboSocketConnection,cncSocketConnection,false,this);
+			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,false,this);
 			ThreadManager.submit(teachSocketThread);
 		}else {
 			showNotificationOverlay(MainViewController.parentStackPane, "开始信息", "请注意，设备连接错误！");

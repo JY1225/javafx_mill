@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread;
+import cn.greatoo.easymill.external.communication.socket.StatusChangeThread;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.auto.AutoViewController;
@@ -60,7 +60,7 @@ public class MainViewController extends Controller {
 	public static StackPane parentStackPane;
 	public static ButtonStyleChangingThread changingThread;
 	public static AlarmListenThread alarmListenThread;
-	private static RobotStatusChangeThread robotStatusChangeThread;
+	private static StatusChangeThread robotStatusChangeThread;
 	private List<Button> bts;
 	private Parent setParent;
 	private Parent teachParent;
@@ -117,7 +117,7 @@ public class MainViewController extends Controller {
 			public void run() {
 				while(running) {
 					if(changingThread != null) {
-						robotStatusChangeThread = new RobotStatusChangeThread(alarm, 250, changingThread);
+						robotStatusChangeThread = new StatusChangeThread(alarm, 250, changingThread);
 						ThreadManager.submit(robotStatusChangeThread);
 						running = false;
 						try {
