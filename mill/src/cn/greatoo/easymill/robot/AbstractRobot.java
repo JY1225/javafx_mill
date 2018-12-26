@@ -28,7 +28,7 @@ public abstract class AbstractRobot {
 		xrest = -1;
 		yrest = -1;
 		zrest = -1;
-		speed = 100;
+		speed = 10;
 		stopAction = false;
 		statusChanged = false;
 		teachingNeeded = false;

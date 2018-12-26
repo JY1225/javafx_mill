@@ -2,6 +2,7 @@ package cn.greatoo.easymill.ui.main;
 
 import com.sun.java.accessibility.util.Translator;
 
+import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
@@ -46,7 +47,7 @@ public class RobotPopUpView extends StackPane{
 	private static final String CSS_CLASS_POPUP_BUTTON = "pop-up-btn";
 	private static final String CSS_CLASS_POPUP_BUTTON_BOTTOM = "pop-up-btn-bottom";
 	private static final String CSS_CLASS_POPUP = "popup";
-	private int speed;
+	private int speed = 10;
 	public RobotPopUpView() {
 		this.setVisible(false);
 		this.getStyleClass().add(CSS_CLASS_POPUP);
@@ -73,7 +74,13 @@ public class RobotPopUpView extends StackPane{
 		btnReset.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//resetClicked();
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).reset();
+					}
+				} catch (AbstractCommunicationException | InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -84,7 +91,13 @@ public class RobotPopUpView extends StackPane{
 		btnRestart.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//restartClicked();
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).restartProgram();
+					}
+				} catch (AbstractCommunicationException | InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -97,7 +110,9 @@ public class RobotPopUpView extends StackPane{
 			@Override
 			public void handle(final ActionEvent arg0) {
 				try {
-					FanucRobot.getInstance(null).moveToHome(100);
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).moveToHome(speed);
+					}
 				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
 						| InterruptedException e) {
 					e.printStackTrace();
@@ -112,7 +127,13 @@ public class RobotPopUpView extends StackPane{
 		btnToChange.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).moveToChangePoint();
+					}
+				} catch (AbstractCommunicationException | InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -123,7 +144,7 @@ public class RobotPopUpView extends StackPane{
 		btn5.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().setSpeedClicked(5);
+				setSpeedClicked(5);
 			}
 		});
 		
@@ -134,7 +155,7 @@ public class RobotPopUpView extends StackPane{
 		btn10.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().setSpeedClicked(10);
+				setSpeedClicked(10);
 			}
 		});
 		
@@ -145,7 +166,7 @@ public class RobotPopUpView extends StackPane{
 		btn25.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().setSpeedClicked(25);
+				setSpeedClicked(25);
 			}
 		});
 		
@@ -156,7 +177,7 @@ public class RobotPopUpView extends StackPane{
 		btn50.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().setSpeedClicked(50);
+				setSpeedClicked(50);
 			}
 		});
 		
@@ -167,7 +188,7 @@ public class RobotPopUpView extends StackPane{
 		btn75.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().setSpeedClicked(75);
+				setSpeedClicked(75);
 			}
 		});
 		
@@ -179,7 +200,7 @@ public class RobotPopUpView extends StackPane{
 		btn100.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().setSpeedClicked(100);
+				setSpeedClicked(100);
 			}
 		});
 
@@ -190,7 +211,14 @@ public class RobotPopUpView extends StackPane{
 		btnOpenA.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().openGripperA();
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).openGripperA();
+					}
+				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
+						| InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -201,7 +229,14 @@ public class RobotPopUpView extends StackPane{
 		btnCloseA.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().closeGripperA();
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).closeGripperA();
+					}
+				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
+						| InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -212,7 +247,14 @@ public class RobotPopUpView extends StackPane{
 		btnOpenB.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().openGripperB();
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).openGripperB();
+					}
+				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
+						| InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -224,7 +266,14 @@ public class RobotPopUpView extends StackPane{
 		btnCloseB.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().closeGripperB();
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).closeGripperB();
+					}
+				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
+						| InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -237,7 +286,13 @@ public class RobotPopUpView extends StackPane{
 		btnToCustomPos.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().toCustomPosition();
+				try {
+					if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+						FanucRobot.getInstance(null).moveToCustomPosition();
+					}
+				} catch (AbstractCommunicationException | InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -257,6 +312,16 @@ public class RobotPopUpView extends StackPane{
 		vBoxMenuItems2.getChildren().add(btnOpenB);
 		vBoxMenuItems2.getChildren().add(btnCloseB);
 		
+	}
+	private void setSpeedClicked(int speed){
+		try {
+			if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
+				this.speed = speed;
+				FanucRobot.getInstance(null).setSpeed(speed);
+			}
+		} catch (InterruptedException | AbstractCommunicationException e) {
+			e.printStackTrace();
+		}
 	}
 	/**
      * 获取实例

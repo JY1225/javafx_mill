@@ -25,7 +25,7 @@ public class SaveViewController {
 		fulltxtName.setOnChange(new ChangeListener<String>() {
 			@Override
 			public void changed(final ObservableValue<? extends String> arg0, final String oldValue, final String newValue) {
-				//getPresenter().nameChanged(newValue);
+				
 			}
 		});
 	}
