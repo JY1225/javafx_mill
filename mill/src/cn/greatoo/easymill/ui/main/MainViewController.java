@@ -102,7 +102,7 @@ public class MainViewController extends Controller {
 		openSet();
 
 		startThrad();
-
+		
 	}
 
 	boolean running = true;

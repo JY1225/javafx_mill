@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,9 +36,11 @@ import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.cnc.GenericMCode;
 import cn.greatoo.easymill.cnc.MCodeAdapter;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
+import cn.greatoo.easymill.util.FullTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
+import cn.greatoo.easymill.process.ProcessFlow;
 
 public class DBHandler {
 
@@ -45,7 +48,7 @@ public class DBHandler {
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
 
     private static DBHandler handler = null;
-    private static final String DB_URL = "jdbc:derby:database;create=true;user=irscw;password=password";//jdbc:derby:roboDB;create=true";/
+    private static final String DB_URL = "jdbc:derby:database;create=true;user=admin;password=admin";//jdbc:derby:roboDB;create=true";/
     private static Connection conn = null;
     private static Statement stmt = null;
 
@@ -483,4 +486,39 @@ public class DBHandler {
         return conn;
     }
 
+    public void SaveProcessFlow(ProcessFlow processFlow) throws SQLException {   	
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO PROCESSFLOW (NAME, CREATION, LASTOPENED, CLAMPING_MANNER, SINGLE_CYCLE) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		stmt.setString(1, processFlow.getName());
+		stmt.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+		stmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+		stmt.setInt(4, 1);
+		stmt.setBoolean(5, true);
+		try {
+			stmt.executeUpdate();
+			conn.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			LOGGER.log(Level.ERROR, "{}", e);
+			conn.rollback();
+		}
+	}
+   
+    
+//  try {
+//  String update = "UPDATE BOOK SET TITLE=?, AUTHOR=?, PUBLISHER=? WHERE ID=?";
+//  PreparedStatement stmt = conn.prepareStatement(update);
+//  stmt.setString(1, book.getTitle());
+//  stmt.setString(2, book.getAuthor());
+//  stmt.setString(3, book.getPublisher());
+//  stmt.setString(4, book.getId());
+//  int res = stmt.executeUpdate();
+//  return (res > 0);
+//}
+//catch (SQLException ex) {
+//  LOGGER.log(Level.ERROR, "{}", ex);
+//}
+//return false;
+//}
+    
 }

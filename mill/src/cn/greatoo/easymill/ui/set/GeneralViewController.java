@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.ui.set;
 
+import cn.greatoo.easymill.workpiece.WorkPiece;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ public class GeneralViewController {
 	private Button removeProcessBt;
 	@FXML
 	private CheckBox singleCycle;
+	private String name;
 
 	public void init() {
 		singleCycle.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -34,6 +36,7 @@ public class GeneralViewController {
 				
 			}
 		});
+		
 		fulltxtName.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
@@ -41,13 +44,14 @@ public class GeneralViewController {
 	        	if(!arg2){
 	        		System.out.println("光标点击离开文本框，获取文本框的当前值，并把值写入数据库 ");
 	        		System.out.println("fulltxtName = "+fulltxtName.getText());	
-	        		// TODO 待把数据写入数据库
+	        		
 	        	}
 	        }
 		});
 	}
 	@FXML
 	public void nameChanged(MouseEvent event) {
+		fulltxtName.getText();
 	
 	}
 	// Event Listener on Button[#addProcessBt].onMouseClicked
@@ -75,5 +79,13 @@ public class GeneralViewController {
 	@FXML
 	public void isCelect(MouseEvent event) {
 		
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
 	}
 }
