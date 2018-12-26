@@ -181,7 +181,7 @@ public class AutoViewController extends Controller{
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
-			startBt.setDisable(true);
+			//startBt.setDisable(true);
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,false,this);
 			ThreadManager.submit(teachSocketThread);
 			enableContinuousAnimation(true);

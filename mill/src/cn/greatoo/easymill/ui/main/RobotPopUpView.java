@@ -317,10 +317,9 @@ public class RobotPopUpView extends StackPane{
 		try {
 			if(FanucRobot.getInstance(null) != null && FanucRobot.getInstance(null).isConnected()) {
 				this.speed = speed;
-				FanucRobot.getInstance(null).sendSpeed(speed);
+				FanucRobot.getInstance(null).setSpeed(speed);
 			}
-		} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
-				| InterruptedException e) {
+		} catch (InterruptedException | AbstractCommunicationException e) {
 			e.printStackTrace();
 		}
 	}
