@@ -181,9 +181,10 @@ public class AutoViewController extends Controller{
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
-//			startBt.setDisable(true);
+			startBt.setDisable(true);
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,false,this);
 			ThreadManager.submit(teachSocketThread);
+			enableContinuousAnimation(true);
 		}else {
 			showNotificationOverlay(MainViewController.parentStackPane, "开始信息", "请注意，设备连接错误！");
 		}
@@ -191,6 +192,7 @@ public class AutoViewController extends Controller{
 	
 	@FXML
 	public void stopAction(ActionEvent event) {
+		startBt.setDisable(false);
 		FanucRobot.getInstance(null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}

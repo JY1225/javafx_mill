@@ -45,6 +45,7 @@ public class TeachMainContentViewController extends Controller{
 		
 	}
 	
+	int i = 0;
 	@FXML
 	public void btnStartAllAction(ActionEvent event) {		
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
@@ -76,7 +77,7 @@ public class TeachMainContentViewController extends Controller{
 		stopBt.setVisible(false);
 		messegeText.setVisible(false);
 		gridPane.setVisible(true);
-		//ThreadManager.shutDown();
+
 		FanucRobot.getInstance(null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}

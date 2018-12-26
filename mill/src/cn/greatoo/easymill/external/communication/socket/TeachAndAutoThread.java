@@ -18,6 +18,7 @@ import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Material;
+import javafx.scene.control.Button;
 
 /**
  * 示教线程
