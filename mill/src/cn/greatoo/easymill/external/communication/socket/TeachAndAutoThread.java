@@ -18,13 +18,14 @@ import cn.greatoo.easymill.ui.main.Controller;
  *
  */
 public class TeachAndAutoThread implements Runnable {
-
+	private static TeachAndAutoThread INSTANCE = null;
 	private boolean teached;
 	private boolean isAlive;
 	private FanucRobot robot;
 	private CNCMachine cncMachine; 
 	private EWayOfOperating wayOfOperating;
-	private Controller view;
+	private static Controller view;
+
 	public TeachAndAutoThread(RobotSocketCommunication roboSocketConnection,
 			CNCSocketCommunication cncSocketConnection, boolean teached, Controller view) {
 		this.robot = FanucRobot.getInstance(roboSocketConnection);		 		
@@ -59,8 +60,8 @@ public class TeachAndAutoThread implements Runnable {
 			isAlive = false;
 		}
 	}
-	public boolean needsTeaching() {
-		return true;
+	public static Controller getView() {
+		return view;
 	}
 
 }

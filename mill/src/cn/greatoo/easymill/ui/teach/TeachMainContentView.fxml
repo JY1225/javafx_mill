@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="417.0" prefWidth="808.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.teach.TeachMainContentViewController">
+<AnchorPane prefHeight="417.0" prefWidth="808.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.teach.TeachMainContentViewController">
    <children>
       <GridPane layoutX="14.0" prefHeight="417.0" prefWidth="808.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -64,7 +64,7 @@
                   </Button>
                </children>
             </HBox>
-            <Label fx:id="messegeText" prefHeight="48.0" prefWidth="385.0" text="等待示教。" textFill="WHITE" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label fx:id="messegeText" prefHeight="48.0" prefWidth="385.0" styleClass="test" text="等待示教。" textFill="WHITE" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <font>
                    <Font size="20.0" />
                </font>

@@ -51,7 +51,6 @@ public abstract class Controller {
 	static final String NEW_ICON = "M 2.5 0 L 2.5 20 L 17.5 20 L 17.5 6.25 L 11.25 0 L 2.5 0 z M 5 2.5 L 10 2.5 L 10 7.5 L 15 7.5 L 15 17.5 L 5 17.5 L 5 2.5 z";
 	
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
-	private Label messegeText;
 
 	// 按钮被选中，背景变颜色
 		public void isClicked(List<Button> bts,Button button) {
@@ -340,39 +339,50 @@ public abstract class Controller {
 			return button;
 		}
 		
+		static String mes = null;
 		public void statusChanged(final StatusChangedEvent e) {
 			Platform.runLater(new Runnable() {
 				@Override public void run() {
 						switch (e.getStatusId()) {							
 							case StatusChangedEvent.STARTED:
+								mes = "启动程序。";
 								setMessege("启动程序。");								
 								break;
 							case StatusChangedEvent.PICK_FROM_TABLE:
+								mes = "从卡盘下料。";
 								setMessege("从卡盘下料。");								
 								break;
 							case StatusChangedEvent.PUT_TO_CNC:
+								mes = "给机床上料。";
 								setMessege("给机床上料。");
 								break;
 							case StatusChangedEvent.EXECUTE_TEACHED:
 							case StatusChangedEvent.CNC_PROCESSING:
+								mes = "机床加工中。";
 								setMessege("机床加工中。");
 								break;
 							case StatusChangedEvent.PICK_FROM_CNC:
+								mes = "从机床下料。";
 								setMessege("从机床下料。");
 								break;
 							case StatusChangedEvent.PUT_TO_TABLE:
+								mes = "给卡盘上料。";
 								setMessege("给卡盘上料。");
 								break;
-							case StatusChangedEvent.ENDED:								
+							case StatusChangedEvent.ENDED:
+								mes = "成功上料。";
 								setMessege("成功上料。");								
 								break;
 							case StatusChangedEvent.TEACHING_NEEDED://请把机器人示教至正确位置。
+								mes = "请把机器人示教至正确位置。";
 								setMessege("请把机器人示教至正确位置。");
 								break;
 							case StatusChangedEvent.TEACHING_FINISHED://位置示教正确，可继续执行
+								mes = "位置示教正确，可继续执行。";
 								setMessege("位置示教正确，可继续执行。");
 								break;
 							case StatusChangedEvent.FINISHED:
+								mes = "加工完成。";
 								setMessege("加工完成。");
 								break;								
 							default:
@@ -383,4 +393,9 @@ public abstract class Controller {
 		}
 		
 		public abstract void setMessege(String mess);
+		
+		public static String getMessege() {
+			return mes;
+			
+		}
 }

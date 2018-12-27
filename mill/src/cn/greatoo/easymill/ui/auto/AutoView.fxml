@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.auto.AutoViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.auto.AutoViewController">
    <children>
       <StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -81,7 +81,7 @@
                               </VBox>
                               <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowSpan="2">
                                  <children>
-                                    <Label fx:id="messegeText" prefHeight="29.0" prefWidth="317.0" text="当前程序未激活！" textFill="WHITE" underline="true">
+                                    <Label fx:id="messegeText" alignment="TOP_LEFT" prefHeight="59.0" prefWidth="449.0" text="当前程序未激活！" textFill="WHITE" underline="true" wrapText="true" StackPane.alignment="CENTER_RIGHT">
                                        <font>
                                           <Font size="20.0" />
                                        </font>

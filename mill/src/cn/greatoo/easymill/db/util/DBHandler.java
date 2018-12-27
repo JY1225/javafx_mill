@@ -48,7 +48,7 @@ public class DBHandler {
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
 
     private static DBHandler handler = null;
-    private static final String DB_URL = "jdbc:derby:database;create=true;user=admin;password=admin";//jdbc:derby:roboDB;create=true";/
+    private static final String DB_URL = "jdbc:derby:database;create=true;user=IRSCW;password=password";//jdbc:derby:roboDB;create=true";/
     private static Connection conn = null;
     private static Statement stmt = null;
 
