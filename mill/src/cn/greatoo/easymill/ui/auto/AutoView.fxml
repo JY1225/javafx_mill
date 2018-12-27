@@ -81,9 +81,9 @@
                               </VBox>
                               <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowSpan="2">
                                  <children>
-                                    <Label fx:id="messegeText" prefHeight="29.0" prefWidth="317.0" textFill="WHITE" underline="true">
+                                    <Label fx:id="messegeText" prefHeight="29.0" prefWidth="317.0" text="当前程序未激活！" textFill="WHITE" underline="true">
                                        <font>
-                                          <Font size="14.0" />
+                                          <Font size="20.0" />
                                        </font>
                                     </Label>
                                  </children></StackPane>

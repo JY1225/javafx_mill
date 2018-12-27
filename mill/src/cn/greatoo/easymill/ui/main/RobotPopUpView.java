@@ -79,7 +79,7 @@ public class RobotPopUpView extends StackPane{
 						FanucRobot.getInstance(null).reset();
 					}
 				} catch (AbstractCommunicationException | InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -96,7 +96,7 @@ public class RobotPopUpView extends StackPane{
 						FanucRobot.getInstance(null).restartProgram();
 					}
 				} catch (AbstractCommunicationException | InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -115,7 +115,7 @@ public class RobotPopUpView extends StackPane{
 					}
 				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
 						| InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -132,7 +132,7 @@ public class RobotPopUpView extends StackPane{
 						FanucRobot.getInstance(null).moveToChangePoint();
 					}
 				} catch (AbstractCommunicationException | InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -217,7 +217,7 @@ public class RobotPopUpView extends StackPane{
 					}
 				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
 						| InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -235,7 +235,7 @@ public class RobotPopUpView extends StackPane{
 					}
 				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
 						| InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -253,7 +253,7 @@ public class RobotPopUpView extends StackPane{
 					}
 				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
 						| InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -272,7 +272,7 @@ public class RobotPopUpView extends StackPane{
 					}
 				} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
 						| InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -291,7 +291,7 @@ public class RobotPopUpView extends StackPane{
 						FanucRobot.getInstance(null).moveToCustomPosition();
 					}
 				} catch (AbstractCommunicationException | InterruptedException e) {
-					e.printStackTrace();
+					
 				}
 			}
 		});
@@ -320,7 +320,7 @@ public class RobotPopUpView extends StackPane{
 				FanucRobot.getInstance(null).setSpeed(speed);
 			}
 		} catch (InterruptedException | AbstractCommunicationException e) {
-			e.printStackTrace();
+			
 		}
 	}
 	/**

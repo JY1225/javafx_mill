@@ -8,13 +8,9 @@ import java.util.Set;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.process.StatusChangedEvent;
-import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
-import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 
 public class StatusChangeThread implements Runnable {

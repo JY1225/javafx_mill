@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.process.StatusChangedEvent;
-import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogView;
@@ -345,59 +344,36 @@ public abstract class Controller {
 			Platform.runLater(new Runnable() {
 				@Override public void run() {
 						switch (e.getStatusId()) {							
-							case StatusChangedEvent.INACTIVE:
-								if (e.getMode().equals(Mode.FINISHED)) {//所有工件均已加工完成。
-									setMessege("所有工件均已加工完成。");								
-								} else {//当前程序未激活
-									setMessege("当前程序未激活");
-								}
-								break;
 							case StatusChangedEvent.STARTED:
-								if (e.getProcessId()==0) {//下料
-									setMessege("下料");
-								} else if (e.getProcessId()==1) {//上料
-									setMessege("上料");
-								}
+								setMessege("启动程序。");								
 								break;
-							case StatusChangedEvent.PREPARE_DEVICE:
-								if (e.getProcessId()==0) {//准备下料
-									setMessege("准备下料");
-								} else if (e.getProcessId()==1) {//准备上料
-									setMessege("准备上料");
-								}
+							case StatusChangedEvent.PICK_FROM_TABLE:
+								setMessege("从卡盘下料。");								
+								break;
+							case StatusChangedEvent.PUT_TO_CNC:
+								setMessege("给机床上料。");
 								break;
 							case StatusChangedEvent.EXECUTE_TEACHED:
-							case StatusChangedEvent.EXECUTE_NORMAL:
-								if (e.getProcessId()==0) {//下料
-									setMessege("下料");
-								} else if (e.getProcessId()==1) {//上料
-									setMessege("上料");
-								}
+							case StatusChangedEvent.CNC_PROCESSING:
+								setMessege("机床加工中。");
 								break;
-							case StatusChangedEvent.INTERVENTION_READY:
-							    if(e.getProcessId()==2) {
-							       //程序被干预中断
-							    	setMessege("程序被干预中断");
-							    }
+							case StatusChangedEvent.PICK_FROM_CNC:
+								setMessege("从机床下料。");
 								break;
-							case StatusChangedEvent.PROCESSING_STARTED://加工中
-								setMessege("加工中");
+							case StatusChangedEvent.PUT_TO_TABLE:
+								setMessege("给卡盘上料。");
 								break;
-							case StatusChangedEvent.ENDED:
-								if (e.getProcessId()==0) {//成功下料
-									setMessege("成功下料");
-								} else if (e.getProcessId()==1) {//成功上料
-									setMessege("成功上料");
-								}
+							case StatusChangedEvent.ENDED:								
+								setMessege("成功上料。");								
 								break;
 							case StatusChangedEvent.TEACHING_NEEDED://请把机器人示教至正确位置。
 								setMessege("请把机器人示教至正确位置。");
 								break;
 							case StatusChangedEvent.TEACHING_FINISHED://位置示教正确，可继续执行
-								setMessege("位置示教正确，可继续执行");
+								setMessege("位置示教正确，可继续执行。");
 								break;
-							case StatusChangedEvent.PREPARE:
-								setMessege("启动层序");//启动层序
+							case StatusChangedEvent.FINISHED:
+								setMessege("加工完成。");
 								break;								
 							default:
 								throw new IllegalArgumentException("Unknown status id: " + e.getStatusId());

@@ -3,10 +3,9 @@ package cn.greatoo.easymill.process;
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.entity.Gripper.Type;
+import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
-import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -21,7 +20,7 @@ public class PutToCNCStep {
 
 	public static void putToCNC(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
-			//===put工件到机床=========================================================================================================
+			//===put工件到机床=========================================================================================================			
 			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");
 			final String headId = "A";
 			final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
@@ -55,27 +54,25 @@ public class PutToCNCStep {
 			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
 					clamping, approachType, zSafePlane);
 			robot.startService();
-			
+			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PUT_TO_CNC));
 			cncMachine.prepareForPut(false, 0,0);
 			
 			if(teached) {
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 1,Mode.TEACH));
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));
 				robot.continuePutTillAtLocation(true);
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 1,Mode.TEACH));
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED));
 				robot.continuePutTillClampAck(true);
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 1,Mode.TEACH));
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
-			}else {
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_NORMAL, 1,Mode.AUTO));
-				robot.continuePutTillAtLocation(false);
+			}else {				
+				robot.continuePutTillAtLocation(false);				
 				robot.continuePutTillClampAck(false);
 			}
 			
 			cncMachine.grabPiece();
 			robot.continuePutTillIPPoint();
-			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED, 1,Mode.TEACH));
-
-			cncMachine.pickFinished(0,false);
+			cncMachine.pickFinished(0,false);			
+						
 		}catch (InterruptedException | AbstractCommunicationException | RobotActionException | DeviceActionException e) {
 			e.printStackTrace();
 		}

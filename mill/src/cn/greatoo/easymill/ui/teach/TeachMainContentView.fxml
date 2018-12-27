@@ -8,36 +8,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="417.0" prefWidth="811.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.teach.TeachMainContentViewController">
+<AnchorPane prefHeight="417.0" prefWidth="808.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.teach.TeachMainContentViewController">
    <children>
-      <GridPane prefHeight="343.0" prefWidth="518.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane layoutX="14.0" prefHeight="417.0" prefWidth="808.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="511.0" minWidth="10.0" prefWidth="122.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="511.0" minWidth="0.0" prefWidth="429.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="511.0" minWidth="10.0" prefWidth="165.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="511.0" minWidth="0.0" prefWidth="387.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="7.0" prefWidth="81.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="178.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="152.0" minHeight="0.0" prefHeight="85.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="155.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="212.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="181.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="152.0" minHeight="0.0" prefHeight="99.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="155.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="212.0" minHeight="0.0" prefHeight="42.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="115.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="messegeText" alignment="TOP_LEFT" prefHeight="30.0" prefWidth="431.0" text="" underline="true" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="10.0" />
-               </GridPane.margin>
-               <styleClass>
-                  <String fx:value="info-msg" />
-                  <String fx:value="status-msg" />
-               </styleClass>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Button fx:id="stopBt" mnemonicParsing="false" onAction="#stopBtAction" prefHeight="40.0" prefWidth="82.0" style="-fx-background-color: red;" text="停止" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="TOP">
+            <Button fx:id="stopBt" mnemonicParsing="false" onAction="#stopBtAction" prefHeight="40.0" prefWidth="82.0" text="停止" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <graphic>
                   <SVGPath content="M 11.46875 0 C 5.1620208 0 0 5.1349468 0 11.5 C 0 17.865052 5.1620208 23 11.46875 23 C 17.775477 23 22.9375 17.865052 22.9375 11.5 C 22.9375 5.1349468 17.775478 0 11.46875 0 z M 11.46875 1.59375 C 17.003076 1.59375 21.40625 6.0239967 21.40625 11.5 C 21.40625 16.976002 17.003076 21.40625 11.46875 21.40625 C 5.9344209 21.40625 1.5 16.976002 1.5 11.5 C 1.5 6.0239967 5.9344209 1.59375 11.46875 1.59375 z M 6.40625 6.4375 L 6.40625 16.5625 L 16.53125 16.5625 L 16.53125 6.4375 L 6.40625 6.4375 z " styleClass="form-button-icon" />
                </graphic>
@@ -46,60 +35,40 @@
                   <String fx:value="delete-btn" />
                </styleClass>
             </Button>
-            <GridPane fx:id="gridPane" prefHeight="170.0" prefWidth="518.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="437.0" minWidth="10.0" prefWidth="437.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.0" minWidth="10.0" prefWidth="87.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="86.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#btnStartAction" prefHeight="40.0" prefWidth="82.0" styleClass="form-button" text="最优" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <graphic>
+                  <SVGPath content="M 11.46875 0 C 5.1620208 0 0 5.1349468 0 11.5 C 0 17.865052 5.1620208 23 11.46875 23 C 17.775477 23 22.9375 17.865052 22.9375 11.5 C 22.9375 5.1349468 17.775478 0 11.46875 0 z M 11.46875 1.59375 C 17.003076 1.59375 21.40625 6.0239967 21.40625 11.5 C 21.40625 16.976002 17.003076 21.40625 11.46875 21.40625 C 5.9344209 21.40625 1.5 16.976002 1.5 11.5 C 1.5 6.0239967 5.9344209 1.59375 11.46875 1.59375 z M 6.875 5.34375 L 6.875 17.65625 L 19.125 11.5 L 6.875 5.34375 z" styleClass="form-button-icon" />
+               </graphic>
+            </Button>
+            <Button fx:id="btnStartAll" mnemonicParsing="false" onAction="#btnStartAllAction" prefHeight="40.0" prefWidth="82.0" styleClass="form-button" text="全部" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <graphic>
+                  <SVGPath content="M 11.46875 0 C 5.1620208 0 0 5.1349468 0 11.5 C 0 17.865052 5.1620208 23 11.46875 23 C 17.775477 23 22.9375 17.865052 22.9375 11.5 C 22.9375 5.1349468 17.775478 0 11.46875 0 z M 11.46875 1.59375 C 17.003076 1.59375 21.40625 6.0239967 21.40625 11.5 C 21.40625 16.976002 17.003076 21.40625 11.46875 21.40625 C 5.9344209 21.40625 1.5 16.976002 1.5 11.5 C 1.5 6.0239967 5.9344209 1.59375 11.46875 1.59375 z M 6.875 5.34375 L 6.875 17.65625 L 19.125 11.5 L 6.875 5.34375 z" styleClass="form-button-icon" />
+               </graphic>
+            </Button>
+            <HBox alignment="CENTER" prefHeight="48.0" prefWidth="322.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Label prefHeight="20.0" prefWidth="143.0" text="最优示教" />
-                        <Label alignment="TOP_LEFT" prefHeight="53.0" prefWidth="367.0" text="尽可能减少示教步骤，只有长度和宽度不变化的情况下适用，在铣床辅助型系统第一个位置上放置已加工工件。" wrapText="true" />
-                     </children>
-                  </VBox>
-                  <Button fx:id="btnStart" mnemonicParsing="false" onAction="#btnStartAction" prefHeight="40.0" prefWidth="82.0" styleClass="form-button" text="最优" textFill="WHITE" GridPane.columnIndex="1">
+                  <Button fx:id="reset" mnemonicParsing="false" onAction="#resetAction" prefHeight="40.0" prefWidth="77.0" styleClass="form-button" text="重置" textFill="WHITE">
                      <graphic>
-                        <SVGPath content="M 11.46875 0 C 5.1620208 0 0 5.1349468 0 11.5 C 0 17.865052 5.1620208 23 11.46875 23 C 17.775477 23 22.9375 17.865052 22.9375 11.5 C 22.9375 5.1349468 17.775478 0 11.46875 0 z M 11.46875 1.59375 C 17.003076 1.59375 21.40625 6.0239967 21.40625 11.5 C 21.40625 16.976002 17.003076 21.40625 11.46875 21.40625 C 5.9344209 21.40625 1.5 16.976002 1.5 11.5 C 1.5 6.0239967 5.9344209 1.59375 11.46875 1.59375 z M 6.875 5.34375 L 6.875 17.65625 L 19.125 11.5 L 6.875 5.34375 z" styleClass="form-button-icon" />
+                        <SVGPath content="M 3.6875 1.5 C 3.6321551 1.5180584 3.5743859 1.5512948 3.53125 1.59375 L 1.59375 3.53125 C 1.423759 3.7005604 1.4751389 4.0379792 1.6875 4.25 L 7.46875 10 L 1.6875 15.75 C 1.4751389 15.962191 1.423759 16.297908 1.59375 16.46875 L 3.53125 18.40625 C 3.7020918 18.577772 4.0386598 18.55526 4.25 18.34375 L 10 12.5625 L 15.75 18.34375 C 15.962021 18.55526 16.297908 18.577772 16.46875 18.40625 L 18.40625 16.46875 C 18.57556 16.297908 18.524691 15.962191 18.3125 15.75 L 12.53125 10 L 18.3125 4.25 C 18.524691 4.0379792 18.57556 3.7005604 18.40625 3.53125 L 16.46875 1.59375 C 16.297908 1.4244396 15.962021 1.4759897 15.75 1.6875 L 10 7.46875 L 4.25 1.6875 C 4.1439896 1.5809791 4.0004088 1.5136129 3.875 1.5 C 3.8124658 1.4931936 3.7428449 1.4819416 3.6875 1.5 z" styleClass="form-button-icon" />
                      </graphic>
                   </Button>
-                  <VBox alignment="BOTTOM_LEFT" prefHeight="104.0" prefWidth="363.0" GridPane.rowIndex="1">
-                     <children>
-                        <Label prefHeight="15.0" prefWidth="173.0" text="示教所有步骤" />
-                        <Label alignment="TOP_LEFT" prefHeight="36.0" prefWidth="363.0" text="示教所有需要步骤，如果长度和宽度发生变化，则必须进行示教。" wrapText="true" />
-                     </children>
-                  </VBox>
-                  <Button fx:id="btnStartAll" mnemonicParsing="false" onAction="#btnStartAllAction" prefHeight="40.0" prefWidth="82.0" styleClass="form-button" text="全部" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="save" mnemonicParsing="false" onAction="#saveAction" prefHeight="40.0" prefWidth="77.0" styleClass="form-button" text="保存" textFill="WHITE">
                      <graphic>
-                        <SVGPath content="M 11.46875 0 C 5.1620208 0 0 5.1349468 0 11.5 C 0 17.865052 5.1620208 23 11.46875 23 C 17.775477 23 22.9375 17.865052 22.9375 11.5 C 22.9375 5.1349468 17.775478 0 11.46875 0 z M 11.46875 1.59375 C 17.003076 1.59375 21.40625 6.0239967 21.40625 11.5 C 21.40625 16.976002 17.003076 21.40625 11.46875 21.40625 C 5.9344209 21.40625 1.5 16.976002 1.5 11.5 C 1.5 6.0239967 5.9344209 1.59375 11.46875 1.59375 z M 6.875 5.34375 L 6.875 17.65625 L 19.125 11.5 L 6.875 5.34375 z" styleClass="form-button-icon" />
+                        <SVGPath content="M 5.40625 0 L 5.40625 7.25 L 0 7.25 L 7.1875 14.40625 L 14.3125 7.25 L 9 7.25 L 9 0 L 5.40625 0 z M 7.1875 14.40625 L 0 14.40625 L 0 18 L 14.3125 18 L 14.3125 14.40625 L 7.1875 14.40625 z">
+                           <styleClass>
+                              <String fx:value="form-button-icon" />
+                              <String fx:value="save-btn" />
+                           </styleClass>
+                        </SVGPath>
                      </graphic>
                   </Button>
-                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="322.0" spacing="10.0" GridPane.rowIndex="2">
-                     <children>
-                        <Button fx:id="reset" mnemonicParsing="false" onAction="#resetAction" prefHeight="40.0" prefWidth="77.0" styleClass="form-button" text="重置" textFill="WHITE">
-                           <graphic>
-                              <SVGPath content="M 3.6875 1.5 C 3.6321551 1.5180584 3.5743859 1.5512948 3.53125 1.59375 L 1.59375 3.53125 C 1.423759 3.7005604 1.4751389 4.0379792 1.6875 4.25 L 7.46875 10 L 1.6875 15.75 C 1.4751389 15.962191 1.423759 16.297908 1.59375 16.46875 L 3.53125 18.40625 C 3.7020918 18.577772 4.0386598 18.55526 4.25 18.34375 L 10 12.5625 L 15.75 18.34375 C 15.962021 18.55526 16.297908 18.577772 16.46875 18.40625 L 18.40625 16.46875 C 18.57556 16.297908 18.524691 15.962191 18.3125 15.75 L 12.53125 10 L 18.3125 4.25 C 18.524691 4.0379792 18.57556 3.7005604 18.40625 3.53125 L 16.46875 1.59375 C 16.297908 1.4244396 15.962021 1.4759897 15.75 1.6875 L 10 7.46875 L 4.25 1.6875 C 4.1439896 1.5809791 4.0004088 1.5136129 3.875 1.5 C 3.8124658 1.4931936 3.7428449 1.4819416 3.6875 1.5 z" styleClass="form-button-icon" />
-                           </graphic>
-                        </Button>
-                        <Button fx:id="save" mnemonicParsing="false" onAction="#saveAction" prefHeight="40.0" prefWidth="77.0" styleClass="form-button" text="保存" textFill="WHITE">
-                           <graphic>
-                              <SVGPath content="M 5.40625 0 L 5.40625 7.25 L 0 7.25 L 7.1875 14.40625 L 14.3125 7.25 L 9 7.25 L 9 0 L 5.40625 0 z M 7.1875 14.40625 L 0 14.40625 L 0 18 L 14.3125 18 L 14.3125 14.40625 L 7.1875 14.40625 z">
-                                 <styleClass>
-                                    <String fx:value="form-button-icon" />
-                                    <String fx:value="save-btn" />
-                                 </styleClass>
-                              </SVGPath>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
                </children>
-            </GridPane>
+            </HBox>
+            <Label fx:id="messegeText" prefHeight="48.0" prefWidth="385.0" text="等待示教。" textFill="WHITE" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <font>
+                   <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </children>

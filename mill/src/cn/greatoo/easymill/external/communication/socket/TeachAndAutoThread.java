@@ -1,12 +1,8 @@
 package cn.greatoo.easymill.external.communication.socket;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.Gripper.Type;
-import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.process.FinishStep;
 import cn.greatoo.easymill.process.PickFromCNCStep;
 import cn.greatoo.easymill.process.PickFromTableStep;
@@ -14,17 +10,8 @@ import cn.greatoo.easymill.process.PrepareStep;
 import cn.greatoo.easymill.process.PutToCNCStep;
 import cn.greatoo.easymill.process.PutToTableStep;
 import cn.greatoo.easymill.process.StatusChangedEvent;
-import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
-import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.util.Clamping;
-import cn.greatoo.easymill.util.Coordinates;
-import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
-import cn.greatoo.easymill.workpiece.RectangularDimensions;
-import cn.greatoo.easymill.workpiece.WorkPiece;
-import cn.greatoo.easymill.workpiece.WorkPiece.Material;
-import javafx.scene.control.Button;
 
 /**
  * 示教线程
@@ -47,11 +34,10 @@ public class TeachAndAutoThread implements Runnable {
 		this.view = view;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void run() {
 		while (isAlive) {
-			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PREPARE, 1, Mode.TEACH));
+			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.STARTED));
 			
 			PrepareStep.prepareStep(robot, cncMachine);
 			

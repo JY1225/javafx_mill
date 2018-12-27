@@ -14,12 +14,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
-import javafx.scene.layout.GridPane;
 
 public class TeachMainContentViewController extends Controller{
 
-	@FXML
-	private GridPane gridPane;
 	@FXML
 	private Button btnStart;
 	@FXML
@@ -35,10 +32,7 @@ public class TeachMainContentViewController extends Controller{
 	private ToolBar toolBarMenu;
 	
 	public void init(ToolBar toolBarMenu) {	
-		this.toolBarMenu = toolBarMenu;
-		stopBt.setVisible(false);
-		messegeText.setVisible(false);
-		gridPane.setVisible(true);
+
 	}
 	@FXML
 	public void btnStartAction(ActionEvent event) {
@@ -50,11 +44,7 @@ public class TeachMainContentViewController extends Controller{
 	public void btnStartAllAction(ActionEvent event) {		
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
-		if(roboSocketConnection != null && cncSocketConnection != null) {
-			toolBarMenu.setDisable(true);
-			gridPane.setVisible(false);
-			stopBt.setVisible(true);
-			messegeText.setVisible(true);
+		if(roboSocketConnection != null && cncSocketConnection != null) {	
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,true,this);
 			ThreadManager.submit(teachSocketThread);
 		}else {
@@ -73,11 +63,6 @@ public class TeachMainContentViewController extends Controller{
 	}
 	@FXML
 	public void stopBtAction(ActionEvent event) {
-		toolBarMenu.setDisable(false);
-		stopBt.setVisible(false);
-		messegeText.setVisible(false);
-		gridPane.setVisible(true);
-
 		FanucRobot.getInstance(null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
