@@ -52,8 +52,7 @@ public class PickFromCNCStep {
 			float smoothPointZ = 20.5f;
 			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions, clamping,
 					approachType, zSafePlane);
-			robot.startService();			
-			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.CNC_PROCESSING));
+			robot.startService();						
 			cncMachine.prepareForPick(false, 0, 1);
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
 			if (teached) {

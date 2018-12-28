@@ -10,26 +10,28 @@ import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.Coordinates;
+import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 
 /**
- * 从table抓取工件
+ * ===从table抓取工件===机器人抓取工件，回到原点
  *
  */
 public class PickFromTableStep {
 
 	public static void pickFromTable(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
-		// ===从table抓取工件==================================================================================
+		
 		try {			
 			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");
 			final String headId = "A";
 			final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
 			final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
-			int serviceType = 12;
+			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
 			boolean gripInner = true;
+			
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 			boolean freeAfterService = false;
 			final int serviceHandlingPPMode = 16;
@@ -38,10 +40,11 @@ public class PickFromTableStep {
 			int approachType = 1;
 			WorkPiece wp1 = new WorkPiece(WorkPiece.Type.FINISHED, dimensions, Material.AL, 2.4f);
 			WorkPiece wp2 = null;
+			
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, dimensions,
 					weight2, approachType, wp1, wp2);
 			int workArea = 1;
-			Coordinates location = new Coordinates(90.94f, 109.42f, 2.45f, 0, 0, 90);
+			Coordinates location = new Coordinates(90.94f, 109.42f, 2.45f, 0, 0, 90);//卡盘上工件位置信息
 			Coordinates smoothPoint = new Coordinates(5f, 0f, 5, 0, 5, 90);
 			String name = "A";
 			float defaultHeight = 0;
@@ -54,6 +57,7 @@ public class PickFromTableStep {
 			approachType = 1;
 			float zSafePlane = 42;
 			float smoothPointZ = 25;
+			
 			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions, clamping,
 					approachType, zSafePlane);
 			robot.startService();

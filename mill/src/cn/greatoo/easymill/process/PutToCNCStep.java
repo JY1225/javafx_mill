@@ -11,11 +11,16 @@ import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.Coordinates;
+import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Material;
-
+/**
+ * 
+ * ===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
+ *
+ */
 public class PutToCNCStep {
 
 	public static void putToCNC(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
@@ -25,7 +30,7 @@ public class PutToCNCStep {
 			final String headId = "A";
 			final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
 			final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
-			int serviceType = 13;
+			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PUT;//13;
 			boolean gripInner = true;
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 			boolean freeAfterService = true;
@@ -72,7 +77,7 @@ public class PutToCNCStep {
 			cncMachine.grabPiece();
 			robot.continuePutTillIPPoint();
 			cncMachine.pickFinished(0,false);			
-						
+			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.CNC_PROCESSING));			
 		}catch (InterruptedException | AbstractCommunicationException | RobotActionException | DeviceActionException e) {
 			e.printStackTrace();
 		}

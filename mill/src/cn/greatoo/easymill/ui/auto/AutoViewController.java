@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -113,8 +114,11 @@ public class AutoViewController extends Controller{
 	@FXML
 	private Label messegeText;
 	private RotateTransition rtContinuous;
-
-	public void init() {
+	private HBox hBoxProcessMenuItems;
+	
+	public void init(HBox hBoxProcessMenuItems) {
+		this.hBoxProcessMenuItems = hBoxProcessMenuItems;
+		stopBt.setDisable(true);
 		rtContinuous = new RotateTransition(Duration.millis(2000), circleBackContinuous);
 		rtContinuous.setByAngle(360);
 		rtContinuous.setInterpolator(Interpolator.LINEAR);
@@ -181,7 +185,9 @@ public class AutoViewController extends Controller{
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
-			//startBt.setDisable(true);
+			hBoxProcessMenuItems.setDisable(true);
+			startBt.setDisable(true);
+			stopBt.setDisable(false);
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,false,this);
 			ThreadManager.submit(teachSocketThread);
 			enableContinuousAnimation(true);
@@ -192,7 +198,10 @@ public class AutoViewController extends Controller{
 	
 	@FXML
 	public void stopAction(ActionEvent event) {
+		hBoxProcessMenuItems.setDisable(false);
 		startBt.setDisable(false);
+		stopBt.setDisable(true);
+		messegeText.setText("当前程序未激活！");
 		FanucRobot.getInstance(null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}

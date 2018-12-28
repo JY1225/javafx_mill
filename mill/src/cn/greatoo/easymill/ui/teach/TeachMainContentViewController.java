@@ -13,7 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
+import javafx.scene.layout.HBox;
 
 public class TeachMainContentViewController extends Controller{
 
@@ -29,22 +29,23 @@ public class TeachMainContentViewController extends Controller{
 	private Label messegeText;
 	@FXML
 	private Button stopBt;
-	private ToolBar toolBarMenu;
+	private HBox hBoxProcessMenuItems;
 	
-	public void init(ToolBar toolBarMenu) {	
-
+	public void init(HBox hBoxProcessMenuItems) {	
+		this.hBoxProcessMenuItems = hBoxProcessMenuItems;
 	}
 	@FXML
 	public void btnStartAction(ActionEvent event) {
 		
 	}
 	
-	int i = 0;
+
 	@FXML
 	public void btnStartAllAction(ActionEvent event) {		
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
-		if(roboSocketConnection != null && cncSocketConnection != null) {	
+		if(roboSocketConnection != null && cncSocketConnection != null) {
+			hBoxProcessMenuItems.setDisable(true);
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,true,this);
 			ThreadManager.submit(teachSocketThread);
 		}else {
@@ -63,6 +64,7 @@ public class TeachMainContentViewController extends Controller{
 	}
 	@FXML
 	public void stopBtAction(ActionEvent event) {
+		hBoxProcessMenuItems.setDisable(false);
 		FanucRobot.getInstance(null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
