@@ -14,10 +14,8 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
@@ -64,8 +62,8 @@ public class TeachMainViewController extends Controller {
 	private Parent teachGriperAMenuParent;
 	private Parent teachGriperBMenuParent;
 	private FXMLLoader fxmlLoader;
-	public void init(HBox hBoxProcessMenuItems) {
-		openContent(hBoxProcessMenuItems);
+	public void init(List<Button> bts) {
+		openContent(bts);
 		// 给流程按钮set css
 		List<Button> buttons = new ArrayList<>();
 		buttons.add(deviceProcess1);
@@ -174,7 +172,7 @@ public class TeachMainViewController extends Controller {
 	}
 
 	public static TeachMainContentViewController teachMainContentViewController;
-	private void openContent(HBox hBoxProcessMenuItems){
+	private void openContent(List<Button> bts){
 		if (!gridPane.getChildren().contains(teachMainContentParent)) {
 			try {
 				URL location = getClass()
@@ -185,13 +183,13 @@ public class TeachMainViewController extends Controller {
 				teachMainContentParent = fxmlLoader.load();
 				teachMainContentViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				teachMainContentViewController.init(hBoxProcessMenuItems);
+				teachMainContentViewController.init(bts);
 				gridPane.add(teachMainContentParent, 0, 2,2,1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			teachMainContentViewController.init(hBoxProcessMenuItems);
+			teachMainContentViewController.init(bts);
 			setDisVisible(2,gridPane, teachMainContentParent);
 		}
 	}

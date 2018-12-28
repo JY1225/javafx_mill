@@ -1,5 +1,7 @@
 package cn.greatoo.easymill.ui.teach;
 
+import java.util.List;
+
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
@@ -13,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 
 public class TeachMainContentViewController extends Controller{
 
@@ -29,10 +30,11 @@ public class TeachMainContentViewController extends Controller{
 	private Label messegeText;
 	@FXML
 	private Button stopBt;
-	private HBox hBoxProcessMenuItems;
+	private List<Button> bts;
 	
-	public void init(HBox hBoxProcessMenuItems) {	
-		this.hBoxProcessMenuItems = hBoxProcessMenuItems;
+	public void init(List<Button> bts) {	
+		this.bts = bts;
+		stopBt.setDisable(true);
 	}
 	@FXML
 	public void btnStartAction(ActionEvent event) {
@@ -45,7 +47,13 @@ public class TeachMainContentViewController extends Controller{
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
-			hBoxProcessMenuItems.setDisable(true);
+			btnStartAll.setDisable(true);
+			stopBt.setDisable(false);
+			reset.setDisable(false);
+			save.setDisable(false);
+			for(int i = 0;i < bts.size(); i++) {
+				bts.get(i).setDisable(true);
+			}
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,true,this);
 			ThreadManager.submit(teachSocketThread);
 		}else {
@@ -64,7 +72,13 @@ public class TeachMainContentViewController extends Controller{
 	}
 	@FXML
 	public void stopBtAction(ActionEvent event) {
-		hBoxProcessMenuItems.setDisable(false);
+		stopBt.setDisable(true);
+		reset.setDisable(true);
+		save.setDisable(true);
+		btnStartAll.setDisable(false);
+		for(int i = 0;i < bts.size(); i++) {
+			bts.get(i).setDisable(false);
+		}
 		FanucRobot.getInstance(null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}

@@ -12,7 +12,6 @@ import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunicatio
 import cn.greatoo.easymill.external.communication.socket.StatusChangeThread;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
-import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.ThreadManager;
@@ -27,7 +26,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -114,10 +112,9 @@ public class AutoViewController extends Controller{
 	@FXML
 	private Label messegeText;
 	private RotateTransition rtContinuous;
-	private HBox hBoxProcessMenuItems;
-	
-	public void init(HBox hBoxProcessMenuItems) {
-		this.hBoxProcessMenuItems = hBoxProcessMenuItems;
+	List<Button> bts;
+	public void init(List<Button> bts) {
+		this.bts = bts;
 		stopBt.setDisable(true);
 		rtContinuous = new RotateTransition(Duration.millis(2000), circleBackContinuous);
 		rtContinuous.setByAngle(360);
@@ -185,7 +182,9 @@ public class AutoViewController extends Controller{
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
-			hBoxProcessMenuItems.setDisable(true);
+			for(int i = 0;i < bts.size(); i++) {
+				bts.get(i).setDisable(true);
+			}
 			startBt.setDisable(true);
 			stopBt.setDisable(false);
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,false,this);
@@ -198,7 +197,9 @@ public class AutoViewController extends Controller{
 	
 	@FXML
 	public void stopAction(ActionEvent event) {
-		hBoxProcessMenuItems.setDisable(false);
+		for(int i = 0;i < bts.size(); i++) {
+			bts.get(i).setDisable(false);
+		}
 		startBt.setDisable(false);
 		stopBt.setDisable(true);
 		messegeText.setText("当前程序未激活！");
