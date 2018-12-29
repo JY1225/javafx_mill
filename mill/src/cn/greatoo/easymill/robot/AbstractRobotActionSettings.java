@@ -8,7 +8,8 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.util.Coordinates;
 
-public class AbstractRobotActionSettings {	
+public class AbstractRobotActionSettings {
+	
 	private int id;
 	private AbstractRobot robot;
 	private SimpleWorkArea workArea;

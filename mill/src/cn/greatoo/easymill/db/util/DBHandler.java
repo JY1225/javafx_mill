@@ -44,6 +44,7 @@ import cn.greatoo.easymill.device.ClampingManner;
 import cn.greatoo.easymill.process.ProcessFlowManager;
 public class DBHandler {
 
+
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
 
     private static DBHandler handler = null;

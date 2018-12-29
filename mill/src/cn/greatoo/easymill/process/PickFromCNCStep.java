@@ -3,15 +3,15 @@ package cn.greatoo.easymill.process;
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.entity.Gripper.Type;
+import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
-import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.Coordinates;
+import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
@@ -25,11 +25,14 @@ public class PickFromCNCStep {
 			final String headId = "A";
 			final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
 			final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
-			int serviceType = 12;
-			boolean gripInner = false;				
+			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
+			boolean gripInner = false;
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 			boolean freeAfterService = true;
-			final int serviceHandlingPPMode = 16;
+			int serviceHandlingPPMode = 16;
+			if(teached) {
+				serviceHandlingPPMode = 48;
+			}
 			final IWorkPieceDimensions dimensions = new RectangularDimensions(200, 170, 21);
 			float weight2 = 16;
 			int approachType = 1;
@@ -51,34 +54,34 @@ public class PickFromCNCStep {
 			approachType = 1;
 			float zSafePlane = 21;
 			float smoothPointZ = 20.5f;
-			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
-					clamping, approachType, zSafePlane);
-			robot.startService();	
-			
-			cncMachine.prepareForPick(false, 0,1);
-
-			if(teached) {
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 0,Mode.TEACH));			
-				robot.continuePickTillAtLocation(true);				
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 0,Mode.TEACH));
+			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions, clamping,
+					approachType, zSafePlane);
+			robot.startService();						
+			cncMachine.prepareForPick(false, 0, 1);
+			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
+			if (teached) {
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));
+				robot.continuePickTillAtLocation(true);
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED));
 				robot.continuePickTillUnclampAck(true);
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 0,Mode.TEACH));
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
-			}else {
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_NORMAL, 0,Mode.AUTO));
-				robot.continuePickTillAtLocation(false);//50,1
+			} else {
+				robot.continuePickTillAtLocation(false);// 50,1
 				robot.continuePickTillUnclampAck(false);
 			}
-							
-			cncMachine.releasePiece();//22;18
-			robot.continuePickTillIPPoint();//50,4
-			//view.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED, 0,Mode.TEACH));
 
-			//cncMachine.prepareForIntervention();
-			cncMachine.pickFinished(0,true);//22;53;19
-			//cncMachine.clearIndications();
+			cncMachine.releasePiece();// 22;18
+			robot.continuePickTillIPPoint();// 50,4
+			// view.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED,
+			// 0,Mode.TEACH));
 
-		}catch (InterruptedException | AbstractCommunicationException | RobotActionException | DeviceActionException e) {
+			// cncMachine.prepareForIntervention();
+			cncMachine.pickFinished(0, true);// 22;53;19
+			// cncMachine.clearIndications();
+
+		} catch (InterruptedException | AbstractCommunicationException | RobotActionException
+				| DeviceActionException e) {
 			e.printStackTrace();
 		}
 	}

@@ -1,12 +1,10 @@
 package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.entity.Gripper.Type;
+import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
-import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -29,7 +27,10 @@ public class PutToTableStep {
 			boolean gripInner = false;				
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 			boolean freeAfterService = true;
-			final int serviceHandlingPPMode = 16;
+			int serviceHandlingPPMode = 16;
+			if(teached) {
+				serviceHandlingPPMode = 48;
+			}
 			final IWorkPieceDimensions dimensions = new RectangularDimensions(200, 170, 21);
 			float weight2 = 16;
 			int approachType = 1;
@@ -59,16 +60,15 @@ public class PutToTableStep {
 			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
 					clamping, approachType, zSafePlane);
 			robot.startService();
-			
+			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PUT_TO_TABLE));
 			if(teached) {
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED, 0,Mode.TEACH));
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));
 				robot.continuePutTillAtLocation(true);
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED, 0,Mode.TEACH));
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED));
 				robot.continuePutTillClampAck(true);
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED, 0,Mode.TEACH));
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
 			}else {
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_NORMAL, 0,Mode.AUTO));
 				robot.continuePutTillAtLocation(false);//50,2
 				robot.continuePutTillClampAck(false);
 			}

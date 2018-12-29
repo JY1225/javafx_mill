@@ -246,24 +246,22 @@ public class FanucRobot extends AbstractRobot{
     		final float weight2, int approachType,WorkPiece wp1,WorkPiece wp2)
             throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
-        // free after this service ; shape WP ;  WP length ; WP width ; WP height ;
-        //;  ; dx correction P1 ; dy correction P1 ; dx correction P2 ; dy correction P2 ; dW correction ;
-        //    dP correction ; robot speed ; payload 1 ; payload 2 ; PP mode ; positioning type (approach)
-        if (freeAfterService) {				// free after this service
-            values.add("1");
+
+        if (freeAfterService) {				
+            values.add("1");//Go to home after service
         } else {
-            values.add("0");
+            values.add("0");//Wait in IP point after service
         }
-        if (dimensions instanceof RectangularDimensions) {
-            values.add("1");	// select shape (Box - 1)
+        if (dimensions instanceof RectangularDimensions) {//工件是否是矩形
+            values.add("1");	
             values.add(df.format(Math.max(dimensions.getDimension(Dimensions.LENGTH), dimensions.getDimension(Dimensions.WIDTH))));	// WP length (WP diameter)
             values.add(df.format(Math.min(dimensions.getDimension(Dimensions.LENGTH), dimensions.getDimension(Dimensions.WIDTH))));	// WP width
-            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	// WP height
+            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	
         } else {
-            values.add("2");	// select shape (Round - 2)
-            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	// WP length (WP diameter)
-            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	// WP width
-            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	// WP height
+            values.add("2");	
+            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	
+            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	
+            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	
         }
         values.add("0");					// gripped height
 
@@ -572,7 +570,7 @@ public class FanucRobot extends AbstractRobot{
 	
 	
 	public static FanucRobot getInstance(final RobotSocketCommunication socketConnection) {
-		if (INSTANCE == null) {
+		if (INSTANCE == null && socketConnection != null) {
 			INSTANCE = new FanucRobot(socketConnection);
 		}
 		return INSTANCE;

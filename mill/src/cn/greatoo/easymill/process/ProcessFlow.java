@@ -1,11 +1,6 @@
 package cn.greatoo.easymill.process;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.device.ClampingManner;
 import cn.greatoo.easymill.util.PropertyManager;
 import cn.greatoo.easymill.util.PropertyManager.Setting;
+
 
 public class ProcessFlow {
 			
@@ -25,7 +21,8 @@ public class ProcessFlow {
 	private Timestamp lastOpened;
 	
 	private boolean hasChangesSinceLastSave;
-		
+	
+	
 	private static Logger logger = LogManager.getLogger(ProcessFlow.class.getName());
 	
 	public static final int WORKPIECE_0_ID = 0;
@@ -152,5 +149,16 @@ public class ProcessFlow {
 		return this.isSingleCycle;
 	}
 	
+	
+	//In case this function is called by the activeProcessFlow, the activeProcessFlow will be changed to the one in the argument. (Actually this should be managed by the ProcessFlowManager)
+	public void loadFromOtherProcessFlow(final ProcessFlow processFlow) {
+
+		this.id = processFlow.getId();
+		this.name = processFlow.getName();
+		this.creation = processFlow.getCreation();
+		this.lastOpened = new Timestamp(System.currentTimeMillis());
+		this.isSingleCycle = processFlow.isSingleCycle();
+		this.clampingManner.setType(processFlow.getClampingType().getType());
+	}
 
 }

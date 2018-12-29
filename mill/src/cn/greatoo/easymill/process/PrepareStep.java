@@ -15,7 +15,7 @@ import cn.greatoo.easymill.robot.FanucRobot;
  */
 public class PrepareStep {
 
-	public static void prepareStep(FanucRobot robot, CNCMachine cncMachine) {
+	public static void prepareStep(FanucRobot robot, boolean teached, CNCMachine cncMachine) {
 		try {
 			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");
 			final String headId = "A";
@@ -25,7 +25,9 @@ public class PrepareStep {
 			boolean gripInner = false;
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);// 75			
 			robot.recalculateTCPs();// 64
-			robot.moveToHome(robot.getSpeed());// 71
+			if(teached) {
+				robot.moveToHome(robot.getSpeed());// 71
+			}
 			cncMachine.indicateOperatorRequested(false);// 58
 			cncMachine.prepareForProcess(1);// 18
 		} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
