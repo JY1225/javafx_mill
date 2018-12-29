@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import cn.greatoo.easymill.util.*?>
+
 
 <AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.SaveViewController">
    <children>
@@ -41,12 +41,12 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <FullTextField fx:id="fulltxtName" onMouseClicked="#nameChanged" prefHeight="30.0" prefWidth="228.0">
+                  <TextField fx:id="fulltxtName" onMouseClicked="#nameChanged" prefHeight="30.0" prefWidth="228.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
                      </styleClass>
-                  </FullTextField>
+                  </TextField>
                </children>
             </VBox>
          </children>
