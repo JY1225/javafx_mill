@@ -17,7 +17,6 @@ public class StatusChangedEvent {
 	public static final int TEACHING_NEEDED = 8;
 	public static final int TEACHING_FINISHED = 9;
 	public static final int FINISHED = 10;	
-
 	private int statusId;
 	
 	public StatusChangedEvent(final int statusId) {
