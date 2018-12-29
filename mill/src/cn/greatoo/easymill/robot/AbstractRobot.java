@@ -21,7 +21,6 @@ public abstract class AbstractRobot {
 	private static int currentStatus;
 	private static boolean statusChanged;
 	private static boolean teachingNeeded;
-	private int id;
 	public AbstractRobot(final RobotSocketCommunication socketConnection) {
 		fanucRobotCommunication = socketConnection;
 		alarms = new HashSet<RobotAlarm>();
@@ -222,13 +221,5 @@ public abstract class AbstractRobot {
 			statusChanged = true;
 			syncObject.notifyAll();
 		}
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(final int id) {
-		this.id = id;
 	}
 }

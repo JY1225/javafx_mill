@@ -20,12 +20,18 @@ import cn.greatoo.easymill.util.ThreadManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.Text;
 
 public class MainViewController extends Controller {
 
@@ -57,6 +63,10 @@ public class MainViewController extends Controller {
 	private Button auto;
 	@FXML
 	private Button config;
+	@FXML
+	private HBox buttonBar;
+	@FXML
+	private HBox hBoxProcessMenuItems;
 	public static StackPane parentStackPane;
 	public static ButtonStyleChangingThread changingThread;
 	public static AlarmListenThread alarmListenThread;
@@ -72,11 +82,21 @@ public class MainViewController extends Controller {
 	public static boolean isCNCConn = false;
 	public static boolean isRobotConn = false;
 
-	public void Init() {
+	public void Init() {		
 		stackPane.getChildren().add(RobotPopUpView.getInstance());
 		stackPane.getChildren().add(AlarmView.getInstance());
-
+		
+		hBoxProcessMenuItems.setSpacing(-13);
+		hBoxProcessMenuItems.setAlignment(Pos.CENTER);
+		buttonBar.setAlignment(Pos.CENTER);		
+		HBox.setHgrow(buttonBar, Priority.ALWAYS);
+		HBox.setHgrow(hBoxProcessMenuItems, Priority.ALWAYS);
+		buttonBar.setPadding(new Insets(0, 0, 0, 0));
+		
 		parentStackPane = stackPane;
+		set.setGraphic(new Text("设置"));
+		teach.setGraphic(new Text("示教"));
+		auto.setGraphic(new Text("自动化"));
 		bts = new ArrayList<Button>();
 		bts.add(set);
 		bts.add(teach);
@@ -176,14 +196,14 @@ public class MainViewController extends Controller {
 				teachParent = fxmlLoader.load();
 				teachMainViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				teachMainViewController.init(toolBarMenu);
+				teachMainViewController.init(bts);
 				gridPane.add(teachParent, 0, 1, 2, 1);
 				setDisVisible(1, gridPane, teachParent);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			teachMainViewController.init(toolBarMenu);
+			teachMainViewController.init(bts);
 			setDisVisible(1, gridPane, teachParent);
 		}
 
@@ -207,14 +227,14 @@ public class MainViewController extends Controller {
 				autoParent = fxmlLoader.load();
 				autoViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				autoViewController.init();
+				autoViewController.init(bts);
 				gridPane.add(autoParent, 0, 1, 2, 1);
 				setDisVisible(1, gridPane, autoParent);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			autoViewController.init();
+			autoViewController.init(bts);
 			setDisVisible(1, gridPane, autoParent);
 		}
 	}

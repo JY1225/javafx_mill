@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="409.0" prefWidth="605.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.robot.griperB.PickClampViewController">
+   <children>
+      <GridPane fx:id="gridPane" layoutX="38.0" layoutY="62.0" prefHeight="302.0" prefWidth="484.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="62.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="84.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.0" minWidth="0.0" prefWidth="400.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="131.0" minHeight="4.0" prefHeight="38.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="175.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="137.0" prefWidth="582.0" spacing="15.0" GridPane.columnSpan="2">
+               <children>
+                  <Label prefHeight="31.0" prefWidth="65.0" text="夹具头">
+                     <styleClass>
+                        <String fx:value="form-label" />
+                        <String fx:value="form-label-name" />
+                     </styleClass>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="268.0" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+               <children>
+                  <Label prefHeight="54.0" prefWidth="42.0" text="夹具">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <ComboBox fx:id="comboBox" onAction="#comboBoxAction" prefHeight="45.0" prefWidth="67.0" GridPane.columnIndex="1" />
+            <Label prefHeight="45.0" prefWidth="79.0" text="夹紧方式" GridPane.rowIndex="3">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Button fx:id="outBt" mnemonicParsing="false" onAction="#outBtAction" prefHeight="49.0" prefWidth="112.0" styleClass="form-button" text="外部的" textFill="#f7f7f7" />
+                  <Button fx:id="inBt" mnemonicParsing="false" onAction="#inBtAction" prefHeight="52.0" prefWidth="112.0" styleClass="form-button" text="内部的" textFill="#f7f7f7" />
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

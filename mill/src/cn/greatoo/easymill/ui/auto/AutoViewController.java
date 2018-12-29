@@ -12,7 +12,6 @@ import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunicatio
 import cn.greatoo.easymill.external.communication.socket.StatusChangeThread;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
-import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.ThreadManager;
@@ -113,8 +112,10 @@ public class AutoViewController extends Controller{
 	@FXML
 	private Label messegeText;
 	private RotateTransition rtContinuous;
-
-	public void init() {
+	List<Button> bts;
+	public void init(List<Button> bts) {
+		this.bts = bts;
+		stopBt.setDisable(true);
 		rtContinuous = new RotateTransition(Duration.millis(2000), circleBackContinuous);
 		rtContinuous.setByAngle(360);
 		rtContinuous.setInterpolator(Interpolator.LINEAR);
@@ -181,7 +182,11 @@ public class AutoViewController extends Controller{
 		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
 		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
 		if(roboSocketConnection != null && cncSocketConnection != null) {
-			//startBt.setDisable(true);
+			for(int i = 0;i < bts.size(); i++) {
+				bts.get(i).setDisable(true);
+			}
+			startBt.setDisable(true);
+			stopBt.setDisable(false);
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,false,this);
 			ThreadManager.submit(teachSocketThread);
 			enableContinuousAnimation(true);
@@ -192,7 +197,12 @@ public class AutoViewController extends Controller{
 	
 	@FXML
 	public void stopAction(ActionEvent event) {
+		for(int i = 0;i < bts.size(); i++) {
+			bts.get(i).setDisable(false);
+		}
 		startBt.setDisable(false);
+		stopBt.setDisable(true);
+		messegeText.setText("当前程序未激活！");
 		FanucRobot.getInstance(null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}

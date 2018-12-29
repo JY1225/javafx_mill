@@ -8,11 +8,9 @@ import java.util.Set;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.process.StatusChangedEvent;
-import cn.greatoo.easymill.process.StatusChangedEvent.Mode;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
-import cn.greatoo.easymill.ui.teach.TeachMainViewController;
+import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -23,8 +21,8 @@ public class StatusChangeThread implements Runnable {
 	private CNCMachine cncMachine;
 	public static CNCSocketCommunication cncSocketConnection;
 	public static RobotSocketCommunication roboSocketConnection;
+	private double previousXRest,previousYRest,previousZRest;
 	private int rpreviousStatus;
-	private int cpreviousStatus;
 	private boolean alive;
 	private AlarmListenThread alarmListenThread;
 	private static SocketConnection robotSocket;
@@ -59,7 +57,17 @@ public class StatusChangeThread implements Runnable {
 					double xrest = robot.getXRest();
 					double yrest = robot.getYRest();
 					double zrest = robot.getZRest();
-					// System.out.println("xrest: "+xrest+"; yrest: "+yrest+"; zrest: "+zrest);
+					if (zrest != previousZRest || xrest != previousXRest || yrest != previousYRest) {
+						if (xrest > 1 || yrest > 1 || zrest > 1) {
+							Platform.runLater(new Runnable() {
+								@Override public void run() {
+									String str = " (移动 (" + xrest + ", " + yrest + ", "+ zrest + ")"+ ")";
+									TeachAndAutoThread.getView().setMessege(Controller.getMessege()+str);							
+									//System.out.println("xrest: "+xrest+"; yrest: "+yrest+"; zrest: "+zrest);
+								}
+							});
+						}					
+					} 					
 				}
 
 				if (cncMachine != null) {

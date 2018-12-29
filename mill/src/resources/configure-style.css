@@ -436,7 +436,9 @@ form-button:pressed, .form-button.selected {
 	-fx-text-alignment: left;
 	-fx-alignment: center-left;
 }
-
+.test{
+	-fx-font-size: 20px;
+}
 .table .column-header-background .column-drag-header {
 	-fx-background-color: null;
 }

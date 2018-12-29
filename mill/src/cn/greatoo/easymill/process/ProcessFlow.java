@@ -1,11 +1,6 @@
 package cn.greatoo.easymill.process;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.device.ClampingManner;
 import cn.greatoo.easymill.util.PropertyManager;
 import cn.greatoo.easymill.util.PropertyManager.Setting;
+
 
 public class ProcessFlow {
 			
@@ -36,20 +32,7 @@ public class ProcessFlow {
 	private ClampingManner clampingManner;
 	private boolean isSingleCycle;
 
-	public ProcessFlow(final String name, final ClampingManner clampingManner, final Timestamp creation, final Timestamp lastOpened) {
-		this.name = name;
-		this.clampingManner = clampingManner;
-
-		this.creation = creation;
-		this.lastOpened = lastOpened;
-		this.hasChangesSinceLastSave = false;
-	}
-
-	public ProcessFlow(final String name,final Timestamp creation, final Timestamp lastOpened) {
-		this(name, new ClampingManner(), creation, lastOpened);
-	}
 	
-
 	public void setId(final int id) {
 		this.id = id;
 	}

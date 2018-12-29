@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.SetViewController">
+   <children>
+      <StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane fx:id="gridPane" alignment="CENTER" prefHeight="600.0" prefWidth="800.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="403.0" minWidth="10.0" prefWidth="198.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="622.0" minWidth="10.0" prefWidth="602.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="298.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="298.0" minHeight="10.0" prefHeight="137.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="429.0" minHeight="10.0" prefHeight="429.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <StackPane fx:id="stackPaneProcess" prefHeight="44.0" prefWidth="226.0" GridPane.columnSpan="2" GridPane.rowSpan="2">
+                     <children>
+                        <ScrollPane fx:id="scrollPaneProcess" fitToWidth="true" prefHeight="172.0" prefWidth="770.0" vbarPolicy="NEVER">
+                           <content>
+                              <GridPane fx:id="gridPaneProcess" alignment="TOP_CENTER" prefHeight="172.0" prefWidth="787.0" styleClass="process-flow-view" vgap="14.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Button fx:id="M1" mnemonicParsing="false" onMouseClicked="#openM1" text="M1" GridPane.columnIndex="5" GridPane.halignment="LEFT" />
+                                    <Button fx:id="M2" mnemonicParsing="false" onMouseClicked="#openM2" prefHeight="7.0" prefWidth="34.0" text="M2" GridPane.columnIndex="5" GridPane.halignment="RIGHT" />
+                                    <Button fx:id="deviceProcess2" mnemonicParsing="false" onMouseClicked="#openDeviceProcess2" styleClass="device-button" text="" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Button fx:id="deviceProcess1" mnemonicParsing="false" onMouseClicked="#openDeviceProcess1" styleClass="device-button" text="" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Button fx:id="deviceProcess3" mnemonicParsing="false" onMouseClicked="#openDeviceProcess3" styleClass="device-button" text="" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <StackPane fx:id="lableProcess1" onMouseClicked="#setLableProcess1" prefHeight="5.0" prefWidth="80.0" styleClass="transport-label" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <StackPane fx:id="lableProcess2" onMouseClicked="#setLableProcess2" prefHeight="5.0" prefWidth="80.0" styleClass="transport-label" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="14.0" left="50.0" right="50.0" top="14.0" />
+                                 </padding>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                        <Label fx:id="newProsessLable" alignment="TOP_RIGHT" onMouseClicked="#openNewProsessLable" styleClass="process-name" text="MA-E-DIGO" StackPane.alignment="TOP_RIGHT">
+                           <padding>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </children>
+            </GridPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

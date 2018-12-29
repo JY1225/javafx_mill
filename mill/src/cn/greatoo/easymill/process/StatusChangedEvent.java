@@ -1,61 +1,29 @@
 package cn.greatoo.easymill.process;
-
+/**
+ * 0启动程序 1从table下料  2给机床上料   3机床加工   4从机床下料   5给table上料
+ * 6成功上料 8请把机器人示教至正确位置  9位置示教正确，可继续执行
+ * 10加工完成
+ */
 public class StatusChangedEvent {
-
-	public enum Mode {
-		CONFIG, 	// The initial mode, the ProcessFlow-data has not been checked. 
-		READY, 		// The ProcessFlow is ready to be executed.
-		TEACH, 		// The ProcessFlow is being executed in 'teach mode'.
-		AUTO, 		// The ProcessFlow is being executed in 'auto mode'.
-		PAUSED, 	// The Execution of ProcessFlow was paused.
-		STOPPED, 	// The Execution of ProcessFlow was stopped.
-		FINISHED	// The Execution of ProcessFlow has finished.
-	}
-	private Mode mode;
-	public static final int INACTIVE = 0;
 	
-	public static final int STARTED = 1;
-	public static final int PREPARE_DEVICE = 2;
-	public static final int EXECUTE_TEACHED = 3;
-	public static final int EXECUTE_NORMAL = 4;
-	public static final int INTERVENTION_READY = 5;
-	public static final int PROCESSING_STARTED = 6;
-	public static final int ENDED = 10;
-	
-	public static final int TEACHING_NEEDED = 21;
-	public static final int TEACHING_FINISHED = 22;
-	
-	public static final int PREPARE = 30;
-	public static final int FINISHED = 31;
-	
+	public static final int STARTED = 0;
+	public static final int PICK_FROM_TABLE = 1;
+	public static final int PUT_TO_CNC = 2;
+	public static final int CNC_PROCESSING = 3;
+	public static final int PICK_FROM_CNC = 4;
+	public static final int PUT_TO_TABLE = 5;
+	public static final int ENDED = 6;	
+	public static final int EXECUTE_TEACHED = 7;	
+	public static final int TEACHING_NEEDED = 8;
+	public static final int TEACHING_FINISHED = 9;
+	public static final int FINISHED = 10;	
 	private int statusId;
 	
-	private int processId;//0-pick;1-put;2-intervention
-	/**
-	 * processId
-	 * 0-下料;1-上料;2-中断
-	 * @param processId
-	 */
-	public StatusChangedEvent(final int statusId, final int processId,Mode mode) {
+	public StatusChangedEvent(final int statusId) {
 		this.statusId = statusId;
-		this.processId = processId;
-		this.mode = mode;
 	}
 	
 	public int getStatusId() {
 		return statusId;
-	}
-	
-	public int getProcessId() {
-		return processId;
-	}
-	public synchronized Mode getMode() {
-		return mode;
-	}
-
-	public synchronized void setMode(final Mode mode) {
-		if (mode != this.mode) { 
-			this.mode = mode;
-		}
 	}
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="418.0" prefWidth="715.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.table.load.LayoutViewController">
+   <children>
+      <StackPane layoutX="76.0" layoutY="86.0" prefHeight="280.0" prefWidth="518.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="121.0" AnchorPane.topAnchor="86.0">
+         <children>
+            <Pane fx:id="layoutPane" prefHeight="280.0" prefWidth="455.0" />
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
