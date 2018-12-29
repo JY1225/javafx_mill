@@ -21,7 +21,6 @@ import cn.greatoo.easymill.workpiece.WorkPiece.WorkPieceShape;
 
 
 public class GeneralMapper {
-
     private Map<Integer, UserFrame> userFrameBuffer;
     private Map<Integer, Map<Integer, Coordinates>> coordinatesBuffer;
     private Map<Integer, Map<Integer, WorkPiece>> workPieceBuffer;

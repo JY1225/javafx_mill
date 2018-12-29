@@ -27,8 +27,7 @@ public class SaveViewController {
 	// Event Listener on Button[#saveBt].onMouseClicked
 	@FXML
 	public void save(MouseEvent event) throws IllegalArgumentException, DuplicateProcessFlowNameException {		
-		try{	
-			
+		try{				
 			processFlow = new ProcessFlow("",null,null);
 			RobotActionSettings = new AbstractRobotActionSettings(null,null,null,null,null,true);
 			

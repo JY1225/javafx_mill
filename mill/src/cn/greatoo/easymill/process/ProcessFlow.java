@@ -25,8 +25,7 @@ public class ProcessFlow {
 	private Timestamp lastOpened;
 	
 	private boolean hasChangesSinceLastSave;
-	
-	
+		
 	private static Logger logger = LogManager.getLogger(ProcessFlow.class.getName());
 	
 	public static final int WORKPIECE_0_ID = 0;

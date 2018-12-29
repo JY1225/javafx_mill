@@ -5,8 +5,7 @@ import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.util.Coordinates;
 
-public abstract class RobotPickSettings extends AbstractRobotActionSettings{
-	
+public abstract class RobotPickSettings extends AbstractRobotActionSettings{	
 	private WorkPiece workPiece;
 	private boolean doRobotAirblow;
 	private ApproachType approachType;

@@ -41,6 +41,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
+                  
                   <TextField fx:id="fulltxtName" onMouseClicked="#nameChanged" prefHeight="30.0" prefWidth="228.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />

@@ -20,8 +20,6 @@ import cn.greatoo.easymill.workpiece.WorkPiece.Type;
 
 
 public class ProcessFlowManager {
-
-
 	private ProcessFlow activeProcessFlow;
 	private static Logger logger = LogManager.getLogger(ProcessFlowManager.class.getName());
 	
