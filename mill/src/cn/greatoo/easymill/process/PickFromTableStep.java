@@ -30,8 +30,7 @@ public class PickFromTableStep {
 			final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
 			final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;			
-			boolean gripInner = true;
-			
+			boolean gripInner = true;			
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 			boolean freeAfterService = false;
 			int serviceHandlingPPMode = 16;
