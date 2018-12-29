@@ -17,6 +17,7 @@ public final class ConnectionManager {
 	private ConnectionManager() {
 	}
 	
+	
 	private static void connect() {
 		Properties props = new Properties();
 		try {
