@@ -64,7 +64,7 @@ public class StatusChangeThread implements Runnable {
 									String str = " (移动 (" + xrest + ", " + yrest + ", "+ zrest + ")"+ ")";
 									TeachAndAutoThread.getView().setMessege(Controller.getMessege()+str);							
 									//System.out.println("xrest: "+xrest+"; yrest: "+yrest+"; zrest: "+zrest);
-								}
+								} 
 							});
 						}					
 					} 					
