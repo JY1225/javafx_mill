@@ -1,9 +1,0 @@
-
-.preloader {
-	-fx-background-color: #ededed;
-	-fx-padding: 0;
-}
-
-.shine {
-	-fx-fill: linear-gradient(rgba(237, 237, 237, 0) 0%, rgba(237, 237, 237, 0.2) 20%, rgba(237, 237, 237, 0.6) 50%, rgba(237, 237, 237, 0.2) 80%, rgba(237, 237, 237, 0) 100%);
-}
