@@ -9,6 +9,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import cn.greatoo.easymill.process.DuplicateProcessFlowNameException;
@@ -19,16 +20,20 @@ public class SaveViewController {
 	@FXML
 	private Button saveBt;
 	@FXML
-	private FullTextField fulltxtName;
+	private TextField fulltxtName;
 	private ProcessFlow processFlow;
 
 	public void init() {		
-		fulltxtName.setOnChange(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> arg0, final String oldValue, final String newValue) {
-				
-			}
-		});
+	fulltxtName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+        @Override
+        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+                 // TODO Auto-generated method stub
+        	if(!arg2){
+        		System.out.println("fulltxtName = "+fulltxtName.getText());	
+        		
+        	}
+        }
+	});
 	}
 	// Event Listener on Button[#saveBt].onMouseClicked
 	@FXML
@@ -49,7 +54,8 @@ public class SaveViewController {
 	// Event Listener on FullTextField[#fulltxtName].onMouseClicked
 	@FXML
 	public void nameChanged(MouseEvent event) {
-		processFlow.setName(fulltxtName.getText());;
+		 String Processflowname =fulltxtName.getText();
+		processFlow.setName(fulltxtName.getText());
 	}
 	
 	

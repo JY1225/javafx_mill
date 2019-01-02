@@ -52,7 +52,7 @@ public class GeneralViewController {
 	@FXML
 	public void nameChanged(MouseEvent event) {
 		fulltxtName.getText();
-	
+		fulltxtName.setPromptText("请选择一个流程名称");	
 	}
 	// Event Listener on Button[#addProcessBt].onMouseClicked
 	@FXML
