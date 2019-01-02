@@ -33,9 +33,9 @@ public class PickFromTableStep {
 			boolean gripInner = true;			
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 			boolean freeAfterService = false;
-			int serviceHandlingPPMode = 16;
+			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
-				serviceHandlingPPMode = 48;
+				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
 			final IWorkPieceDimensions dimensions = new RectangularDimensions(200, 170, 21);
 			float weight2 = 16;
@@ -46,7 +46,7 @@ public class PickFromTableStep {
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, dimensions,
 					weight2, approachType, wp1, wp2);
 			int workArea = 1;
-			Coordinates location = new Coordinates(90.94f, 109.42f, 2.45f, 0, 0, 90);//卡盘上工件上方某个位置信息
+			Coordinates location = new Coordinates(90.94f, 109.42f, 2.45f, 0, 0, 90);//
 			Coordinates smoothPoint = new Coordinates(5f, 0f, 5, 0, 5, 90);
 			String name = "A";
 			float defaultHeight = 0;

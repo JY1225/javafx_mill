@@ -10,6 +10,7 @@ import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.Coordinates;
+import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
@@ -27,9 +28,9 @@ public class PutToTableStep {
 			boolean gripInner = false;				
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
 			boolean freeAfterService = true;
-			int serviceHandlingPPMode = 16;
+			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
-				serviceHandlingPPMode = 48;
+				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
 			final IWorkPieceDimensions dimensions = new RectangularDimensions(200, 170, 21);
 			float weight2 = 16;
