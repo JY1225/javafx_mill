@@ -13,6 +13,8 @@ import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.alarms.AlarmView;
 import cn.greatoo.easymill.ui.auto.AutoViewController;
 import cn.greatoo.easymill.ui.configure.ConfigureMainViewController;
+import cn.greatoo.easymill.ui.set.GeneralViewController;
+import cn.greatoo.easymill.ui.set.SaveViewController;
 import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
@@ -78,6 +80,8 @@ public class MainViewController extends Controller {
 	private Parent configureParent;
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
+
+
 
 	public static boolean isCNCConn = false;
 	public static boolean isRobotConn = false;
@@ -168,6 +172,8 @@ public class MainViewController extends Controller {
 				setViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				setViewController.init();
+				//saveViewController.init();
+				//generalViewController.init();
 				gridPane.add(setParent, 0, 1, 2, 1);
 			} catch (IOException e) {
 				e.printStackTrace();

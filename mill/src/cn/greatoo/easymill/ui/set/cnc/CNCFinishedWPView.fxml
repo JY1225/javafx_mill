@@ -8,6 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import cn.greatoo.easymill.util.NumericTextField?>
 
 <AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.cnc.CNCFinishedWPViewController">
    <children>
@@ -42,7 +43,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <TextField fx:id="fulltxtL" prefHeight="30.0" prefWidth="85.0">
+                  <NumericTextField fx:id="fullnumL" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -50,7 +51,7 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
-                  </TextField>
+                  </NumericTextField>
                </children>
             </HBox>
             <HBox prefHeight="75.0" prefWidth="268.0" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
@@ -71,7 +72,7 @@
                         <String fx:value="form-label-name" />
                      </styleClass>
                   </Label>
-                  <TextField fx:id="fulltxtW" prefHeight="30.0" prefWidth="85.0">
+                  <NumericTextField fx:id="fullnumW" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -79,7 +80,7 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
-                  </TextField>
+                  </NumericTextField>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="3">
@@ -99,7 +100,7 @@
                         <String fx:value="form-label-name" />
                      </styleClass>
                   </Label>
-                  <TextField fx:id="fulltxtH" prefHeight="30.0" prefWidth="85.0">
+                  <NumericTextField fx:id="fullnumH" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -107,7 +108,7 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
-                  </TextField>
+                  </NumericTextField>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -129,7 +130,7 @@
                         <String fx:value="form-label-name" />
                      </styleClass>
                   </Label>
-                  <TextField fx:id="fulltxtWT" prefHeight="30.0" prefWidth="85.0">
+                  <NumericTextField fx:id="fullnumWT" prefHeight="30.0" prefWidth="85.0">
                      <styleClass>
                         <String fx:value="form-full-textfield" />
                         <String fx:value="form-full-textfield-name" />
@@ -137,7 +138,7 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
-                  </TextField>
+                  </NumericTextField>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">

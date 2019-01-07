@@ -161,4 +161,9 @@ public class ProcessFlow {
 		this.clampingManner.setType(processFlow.getClampingType().getType());
 	}
 
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -26,22 +26,23 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import cn.greatoo.easymill.cnc.AbstractCNCMachine;
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.cnc.ECNCOption;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.cnc.GenericMCode;
 import cn.greatoo.easymill.cnc.MCodeAdapter;
+import cn.greatoo.easymill.device.ClampingManner;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.process.DuplicateProcessFlowNameException;
 import cn.greatoo.easymill.process.ProcessFlow;
+import cn.greatoo.easymill.process.ProcessFlowManager;
 import cn.greatoo.easymill.robot.AbstractRobotActionSettings;
 import cn.greatoo.easymill.util.Coordinates;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
-import cn.greatoo.easymill.device.ClampingManner;
-import cn.greatoo.easymill.process.ProcessFlowManager;
 public class DBHandler {
 
 
@@ -495,23 +496,11 @@ public class DBHandler {
     public Connection getConnection() {
         return conn;
     }
-
-    public ProcessFlow getProcessFlow() {
-        if (processFlow == null) {
-            processFlow = DBHandler.getInstance().getLastProcessFlow();
-            if (processFlow == null) {
-                processFlow = processFlowManager.createNewProcessFlow();
-            }
-
-            processFlowManager.setActiveProcessFlow(activeProcessFlow);
-        }
-        return processFlow;
-    }
     
 	public ProcessFlow getLastProcessFlow() {
 		List<ProcessFlow> processFlows;
 		try {
-			processFlows = DBHandler.getInstance().getLastOpenedProcessFlows(1);
+			processFlows = getLastOpenedProcessFlows(1);
 			if (processFlows.size() > 0) {
 				return processFlows.get(0);
 			}
@@ -571,31 +560,75 @@ public class DBHandler {
 		stmt.executeUpdate();
 	}
 	
-	public void save(ProcessFlow processflow) throws DuplicateProcessFlowNameException {
+	public void updateProcessFlow(final ProcessFlow processFlow) throws SQLException {
+		PreparedStatement stmt = conn.prepareStatement("UPDATE PROCESSFLOW SET NAME = ?, LASTOPENED = ?, CLAMPING_MANNER = ? , SINGLE_CYCLE = ? WHERE ID = ?");
+		stmt.setString(1, processFlow.getName());
+		stmt.setTimestamp(2, processFlow.getLastOpened());
+		int clampingMannerId = CLAMPING_MANNER_LENGTH;
+		if (processFlow.getClampingType().getType() == ClampingManner.Type.WIDTH) {
+			clampingMannerId = CLAMPING_MANNER_WIDTH;
+		}
+		stmt.setInt(3, clampingMannerId);
+		stmt.setBoolean(4, processFlow.isSingleCycle());
+		stmt.setInt(5, processFlow.getId());
 		try {
-			//in this case a new name is given, so we need to check whether we can create a copy or not
-			//when a process already exists with this name, we will create a warning and will not save
-			saveProcessName =processflow.getName();
-			int saveProcessID = (DBHandler.getInstance().getProcessFlowIdForName(saveProcessName));
-			if(saveProcessID != -1) {
-				processFlowManager.updateProcessFlow(processflow);
-			} else {
-				DBHandler.getInstance().saveAsNewProcess(processflow);
-			}
-			
+			stmt.executeUpdate();
+			deleteStepsAndSettings(processFlow);
+			conn.commit();
 		} catch (SQLException e) {
-			LOGGER.error(e);
 			e.printStackTrace();
+			LOGGER.error(e);
+			conn.rollback();
 		}
+
 	}
-    public void saveAsNewProcess(ProcessFlow processFlow) throws SQLException, DuplicateProcessFlowNameException {   	
-    	try {
-				LOGGER.info("Saving processflow with name: [" + processFlow.getName() + "].");
-				DBHandler.getInstance().saveProcessFlow(processFlow);
-		} catch (SQLException e) {
-			LOGGER.error(e);
-			e.printStackTrace();
+		
+	private void deleteStepsAndSettings(final ProcessFlow processFlow) throws SQLException {
+		// delete all coordinates and work pieces (these are not cascaded)
+		// delete all coordinates
+		PreparedStatement stmtgetCoordinatesToDelete = conn.prepareStatement(""  
+                + "		(select step_teachedcoordinates.coordinates from step_teachedcoordinates "
+                + "			JOIN step "
+                + "			ON step.id = step_teachedcoordinates.step "
+                + "			where step.processflow=?"
+                + "		) " 	
+                + " 		union "																						
+                + "		(select robotactionsettings.smoothpoint from robotactionsettings "
+                + "			JOIN step "
+                + "			ON step.id = robotactionsettings.step "
+                + "			where step.processflow=?"
+                + "		) "
+				);	
+		stmtgetCoordinatesToDelete.setInt(1, processFlow.getId());
+		stmtgetCoordinatesToDelete.setInt(2, processFlow.getId());
+		ResultSet resultCoordinates = stmtgetCoordinatesToDelete.executeQuery();
+		while(resultCoordinates.next()) {
+			deleteCoordinate(resultCoordinates.getInt(1));
 		}
+		// delete all work pieces (it suffices to delete the work pieces from the pick setting
+		PreparedStatement stmtGetWorkPiecesToDelete = conn.prepareStatement("" 	
+				+ "select distinct workpiece from robotpicksettings "
+				+ "join robotactionsettings "
+				+ "on robotactionsettings.id = robotpicksettings.id "
+				+ "join step "
+				+ "on robotactionsettings.step = step.id "
+				+ "where step.processflow=?"
+				+ "");
+		stmtGetWorkPiecesToDelete.setInt(1, processFlow.getId());
+		ResultSet resultset =stmtGetWorkPiecesToDelete.executeQuery();
+		while(resultset.next()) {
+			deleteWorkPiece(resultset.getInt("workpiece"));
+		}
+		
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM DEVICESETTINGS WHERE PROCESSFLOW = ?");
+		stmt.setInt(1, processFlow.getId());
+		stmt.executeUpdate();	// note the cascade delete settings take care of deleting all referenced rows
+		PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM ROBOTSETTINGS WHERE PROCESSFLOW = ?");
+		stmt2.setInt(1, processFlow.getId());
+		stmt2.executeUpdate();	// note the cascade delete settings take care of deleting all referenced rows
+		PreparedStatement stmt3 = conn.prepareStatement("DELETE FROM STEP WHERE PROCESSFLOW = ?");
+		stmt3.setInt(1, processFlow.getId());
+		stmt3.executeUpdate();	// note the cascade delete settings take care of deleting all referenced rows
 	}
  
 	public void saveProcessFlow(final ProcessFlow processFlow) throws DuplicateProcessFlowNameException, SQLException {	
@@ -728,7 +761,17 @@ public class DBHandler {
 		}
 	}
 	
-    
+	private void deleteWorkPiece(Integer workPieceId) throws SQLException {
+		PreparedStatement stmtDeleteCoordinates = conn.prepareStatement("delete from workpiece where id=?");
+		stmtDeleteCoordinates.setInt(1, workPieceId);
+		stmtDeleteCoordinates.executeUpdate();
+	}
+	
+	private void deleteCoordinate(Integer coordinateId) throws SQLException {
+		PreparedStatement stmtDeleteCoordinates = conn.prepareStatement("delete from coordinates where id=?");
+		stmtDeleteCoordinates.setInt(1, coordinateId);
+		stmtDeleteCoordinates.executeUpdate();
+	}
     
 //  try {
 //  String update = "UPDATE BOOK SET TITLE=?, AUTHOR=?, PUBLISHER=? WHERE ID=?";

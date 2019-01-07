@@ -17,10 +17,14 @@ import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 import cn.greatoo.easymill.workpiece.WorkPiece.Type;
+import cn.greatoo.easymill.process.ProcessFlow;
+import cn.greatoo.easymill.process.ProcessFlowManager;
 
 
 public class ProcessFlowManager {
+    private static ProcessFlow processFlow;
 	private ProcessFlow activeProcessFlow;
+    private ProcessFlowManager processFlowManager;
 	private static Logger logger = LogManager.getLogger(ProcessFlowManager.class.getName());
 	
 	public void setActiveProcessFlow(final ProcessFlow processFlow) {
@@ -79,7 +83,7 @@ public class ProcessFlowManager {
 		return processFlow;
 	}
 
-	public void updateProcessFlow(final ProcessFlow processFlow) throws DuplicateProcessFlowNameException, IllegalArgumentException {
+	public static void updateProcessFlow(final ProcessFlow processFlow) throws DuplicateProcessFlowNameException, IllegalArgumentException {
 		try {
 			int idForName = DBHandler.getInstance().getProcessFlowIdForName(processFlow.getName());
 			if (idForName == -1) {
@@ -88,7 +92,7 @@ public class ProcessFlowManager {
 				if (processFlow.getId() > 0) {
 					// update
 					logger.info("Updating processflow with id: [" + processFlow.getId() + "] and name: [" + processFlow.getName() + "].");
-					updateProcessFlow(processFlow);
+					DBHandler.getInstance().updateProcessFlow(processFlow);
 				} else {
 					//FIXME - check op naam ipv id
 					throw new IllegalArgumentException("ProcessFlow should have a valid id for save");
@@ -111,7 +115,7 @@ public class ProcessFlowManager {
 		}
 	}
 	
-	public void saveProcessFlow(final ProcessFlow processFlow) throws DuplicateProcessFlowNameException {
+	public static void saveProcessFlow(final ProcessFlow processFlow) throws DuplicateProcessFlowNameException {
 		try {
 			int idForName = DBHandler.getInstance().getProcessFlowIdForName(processFlow.getName());
 			if (idForName == -1) {

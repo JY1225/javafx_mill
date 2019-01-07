@@ -6,6 +6,9 @@ import cn.greatoo.easymill.ui.shape.RoundPieceRepresentation;
 
 public class WorkPiece {
 	
+	public WorkPiece(final WorkPiece wp) {
+		this(wp.getType(), wp.getDimensions().clone(), wp.getMaterial(), wp.getWeight());
+	}
 	public enum Dimensions {
 		LENGTH, WIDTH, HEIGHT, DIAMETER;
 	}
@@ -108,10 +111,6 @@ public class WorkPiece {
 		this.material = material;
 		this.weight = weight;
 		setShape();
-	}
-	
-	public WorkPiece(final WorkPiece wp) {
-		this(wp.getType(), wp.getDimensions().clone(), wp.getMaterial(), wp.getWeight());
 	}
 	
 	public int getId() {

@@ -17,7 +17,7 @@ import cn.greatoo.easymill.util.TextInputControlListener;
 public abstract class AbstractFormView<T extends AbstractFormPresenter<?, ?>> extends VBox {
 
 	private T presenter;
-	private NotificationBox notificationBox;
+	private static NotificationBox notificationBox;
 	private GridPane gpContents;
 	
 	private static final int ICON_WIDTH = 20;
@@ -70,7 +70,7 @@ public abstract class AbstractFormView<T extends AbstractFormPresenter<?, ?>> ex
 	 * @param notification    - String that holds the text to be displayed in the notification
 	 * @param type		      - Type of the notification (warning, ok)
 	 */
-	public void showNotification(final String notification, NotificationBox.Type type) {
+	public static void showNotification(final String notification, NotificationBox.Type type) {
 		notificationBox.showNotification(notification, type);
 		notificationBox.setVisible(true);
 		notificationBox.setManaged(true);

@@ -1,5 +1,7 @@
 package cn.greatoo.easymill.ui.set;
 
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.process.ProcessFlow;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,7 +12,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-
+import cn.greatoo.easymill.process.ProcessFlowManager;
+import cn.greatoo.easymill.ui.set.SaveViewController;
 /**
  * 通用界面Controller
  *
@@ -27,27 +30,35 @@ public class GeneralViewController {
 	@FXML
 	private CheckBox singleCycle;
 	private String name;
+	public static ProcessFlow processFlow;
+	private ProcessFlowManager processFlowManager;
 
 	public void init() {
+		
+		processFlowManager =new ProcessFlowManager();
+		processFlow=getProcessFlow();
+		//setProcessFlow(processFlow);
+		fulltxtName.setText(processFlow.getName());		
 		singleCycle.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean oldValue, final Boolean newValue) {
 			//	System.out.println("222222222222222222");
 				
+				
 			}
 		});
 		
-		fulltxtName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	                 // TODO Auto-generated method stub
-	        	if(!arg2){
-	        		System.out.println("光标点击离开文本框，获取文本框的当前值，并把值写入数据库 ");
-	        		System.out.println("fulltxtName = "+fulltxtName.getText());	
-	        		
-	        	}
-	        }
-		});
+//		fulltxtName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+//	        @Override
+//	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+//	                 // TODO Auto-generated method stub 
+//	        	if(!arg2){
+//	        		System.out.println("光标点击离开文本框，获取文本框的当前值，并把值写入数据库 ");
+//	        		System.out.println("fulltxtName = "+fulltxtName.getText());	
+//	        		
+//	        	}
+//	        }
+//		});
 	}
 	@FXML
 	public void nameChanged(MouseEvent event) {
@@ -81,11 +92,23 @@ public class GeneralViewController {
 		
 	}
 	
-	public String getName() {
-		return name;
+//	public static void setProcessFlow(final ProcessFlow processFlow) {
+//		processFlow=processFlow;
+//	}
+	
+	public static ProcessFlow getprocessFlow() {
+		return processFlow;
 	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
+	
+    public ProcessFlow getProcessFlow() {
+        if (processFlow == null) {
+            processFlow = processFlowManager.getLastProcessFlow();
+            if (processFlow == null) {
+                processFlow = processFlowManager.createNewProcessFlow();
+            }
+            processFlow.initialize();
+            processFlowManager.setActiveProcessFlow(processFlow);
+        }
+        return processFlow;
+    }
 }
