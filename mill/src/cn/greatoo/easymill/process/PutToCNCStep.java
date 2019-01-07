@@ -34,7 +34,7 @@ public class PutToCNCStep {
 			boolean gripInner = true;
 			
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
-			boolean freeAfterService = true;
+			boolean freeAfterService = false;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;

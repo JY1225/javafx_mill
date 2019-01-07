@@ -28,7 +28,7 @@ public class PickFromCNCStep {
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
 			boolean gripInner = false;
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
-			boolean freeAfterService = true;
+			boolean freeAfterService = false;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
