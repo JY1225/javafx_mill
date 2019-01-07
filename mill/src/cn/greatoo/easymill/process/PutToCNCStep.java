@@ -34,10 +34,10 @@ public class PutToCNCStep {
 			boolean gripInner = true;
 			
 			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
-			boolean freeAfterService = true;
-			int serviceHandlingPPMode = 16;
+			boolean freeAfterService = false;
+			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
-				serviceHandlingPPMode = 48;
+				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
 			final IWorkPieceDimensions dimensions = new RectangularDimensions(200, 170, 21);
 			float weight2 = 16;

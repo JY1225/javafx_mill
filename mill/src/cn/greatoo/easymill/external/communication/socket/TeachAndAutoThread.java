@@ -37,13 +37,16 @@ public class TeachAndAutoThread implements Runnable {
 
 	@Override
 	public void run() {
-		while (isAlive) {
+		int wSize = 1;
+		int wIndex = 0;
+		while (wIndex < wSize) {
+			
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.STARTED));
 			//机器人回到原点，打开机床的门
 			PrepareStep.prepareStep(robot, teached, cncMachine);
 			
 			//===从table抓取工件===机器人抓取工件，回到原点
-			PickFromTableStep.pickFromTable(robot, cncMachine, teached, view);
+			PickFromTableStep.pickFromTable(robot, cncMachine, teached, wIndex, view);
 			
 			//===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
 			PutToCNCStep.putToCNC(robot, cncMachine, teached, view);
@@ -56,8 +59,7 @@ public class TeachAndAutoThread implements Runnable {
 			
 			//===示教、自动化结束===重置设备
 			FinishStep.finish(robot, cncMachine, teached, view);
-			
-			isAlive = false;
+			wIndex++;
 		}
 	}
 	public static Controller getView() {
