@@ -49,7 +49,7 @@ public class DBHandler {
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
 
     private static DBHandler handler = null;
-    private static final String DB_URL = "jdbc:derby:database;create=true;user=irscw;password=password";//jdbc:derby:roboDB;create=true";/
+    private static final String DB_URL = "jdbc:derby:database;create=true;user=admin;password=admin";//jdbc:derby:roboDB;create=true";/
     private static Connection conn = null;
     private static Statement stmt = null;
 	private static final int CLAMPING_MANNER_LENGTH = 1;
@@ -615,7 +615,6 @@ public class DBHandler {
 		}
 	}
 	
-<<<<<<< HEAD
 	private void deleteWorkPiece(Integer workPieceId) throws SQLException {
 		PreparedStatement stmtDeleteCoordinates = conn.prepareStatement("delete from workpiece where id=?");
 		stmtDeleteCoordinates.setInt(1, workPieceId);
@@ -628,22 +627,6 @@ public class DBHandler {
 		stmtDeleteCoordinates.executeUpdate();
 	}
     
-//  try {
-//  String update = "UPDATE BOOK SET TITLE=?, AUTHOR=?, PUBLISHER=? WHERE ID=?";
-//  PreparedStatement stmt = conn.prepareStatement(update);
-//  stmt.setString(1, book.getTitle());
-//  stmt.setString(2, book.getAuthor());
-//  stmt.setString(3, book.getPublisher());
-//  stmt.setString(4, book.getId());
-//  int res = stmt.executeUpdate();
-//  return (res > 0);
-//}
-//catch (SQLException ex) {
-//  LOGGER.log(Level.ERROR, "{}", ex);
-//}
-//return false;
-//}
-=======
->>>>>>> branch 'master' of http://192.168.1.73:1000/r/mill/v1.0.git
+
     
 }
