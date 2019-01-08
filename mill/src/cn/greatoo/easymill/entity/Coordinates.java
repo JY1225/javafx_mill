@@ -1,8 +1,10 @@
-package cn.greatoo.easymill.util;
+package cn.greatoo.easymill.entity;
 
 public class Coordinates {
 	
 	private int id;
+	private String processName;
+	private Process.Step step;
 	private float x;
 	private float y;
 	private float z;
@@ -10,7 +12,9 @@ public class Coordinates {
 	private float p;
 	private float r;
 		
-	public Coordinates(final float x, final float y, final float z, final float w, final float p, final float r) {
+	public Coordinates(String processName, Process.Step step, final float x, final float y, final float z, final float w, final float p, final float r) {
+		this.processName = processName;
+		this.step = step;
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -19,7 +23,19 @@ public class Coordinates {
 		this.r = r;
 	}
 	
+	public Coordinates( final float x, final float y, final float z, final float w, final float p, final float r) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.w = w;
+		this.p = p;
+		this.r = r;
+	}
+	
+	
 	public Coordinates(final Coordinates c) {
+		this.processName = c.getProcessName();
+		this.step = c.getStep();
 		this.x = c.getX();
 		this.y = c.getY();
 		this.z = c.getZ();
@@ -36,8 +52,24 @@ public class Coordinates {
 		this.id = id;
 	}
 
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+
+	public Process.Step getStep() {
+		return step;
+	}
+
+	public void setStep(Process.Step step) {
+		this.step = step;
+	}
+
 	public Coordinates() {
-		this(0f, 0f, 0f, 0f, 0f, 0f);
+		this(null,null,0f, 0f, 0f, 0f, 0f, 0f);
 	}
 
 	public float getX() {
@@ -107,7 +139,7 @@ public class Coordinates {
 	}
 	
 	public Coordinates calculateOffset(final Coordinates coordinates) {
-		return new Coordinates(getX() - coordinates.getX(), getY() - coordinates.getY(), getZ() - coordinates.getZ(), getW() - coordinates.getW(), getP() - coordinates.getP(), getR() - coordinates.getR());
+		return new Coordinates(coordinates.getProcessName(),coordinates.getStep(),getX() - coordinates.getX(), getY() - coordinates.getY(), getZ() - coordinates.getZ(), getW() - coordinates.getW(), getP() - coordinates.getP(), getR() - coordinates.getR());
 	}
 	
 	public void offset(final Coordinates coordinates) {

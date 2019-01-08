@@ -3,11 +3,9 @@ package cn.greatoo.easymill.robot;
 import java.util.HashSet;
 import java.util.Set;
 
-import cn.greatoo.easymill.entity.GripperBody;
-import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
-import cn.greatoo.easymill.util.Coordinates;
 
 public abstract class AbstractRobot {
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractRobot.disconnectedWhileWaiting";
@@ -42,11 +40,11 @@ public abstract class AbstractRobot {
 		teachingNeeded = false;
 		syncObject = new Object();
 	}
-	public GripperBody getGripperBody() {
-		final Set<GripperHead> gripperHeads = new HashSet<GripperHead>();
-		GripperBody activeGripperBody = new GripperBody("name", "description", gripperHeads);
-		return activeGripperBody;
-	}
+//	public GripperBody getGripperBody() {
+//		final Set<GripperHead> gripperHeads = new HashSet<GripperHead>();
+//		GripperBody activeGripperBody = new GripperBody("name", "description", gripperHeads);
+//		return activeGripperBody;
+//	}
 	
 	public abstract void updateStatusRestAndAlarms() throws AbstractCommunicationException, InterruptedException;
 	public abstract void restartProgram() throws AbstractCommunicationException, InterruptedException;

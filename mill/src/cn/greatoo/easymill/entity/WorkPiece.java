@@ -1,17 +1,6 @@
-package cn.greatoo.easymill.workpiece;
-
-import cn.greatoo.easymill.ui.shape.IDrawableObject;
-import cn.greatoo.easymill.ui.shape.RectanglePieceRepresentation;
-import cn.greatoo.easymill.ui.shape.RoundPieceRepresentation;
+package cn.greatoo.easymill.entity;
 
 public class WorkPiece {
-	
-	public WorkPiece(final WorkPiece wp) {
-		this(wp.getType(), wp.getDimensions().clone(), wp.getMaterial(), wp.getWeight());
-	}
-	public enum Dimensions {
-		LENGTH, WIDTH, HEIGHT, DIAMETER;
-	}
 
 	public enum Type {
 		RAW(1), HALF_FINISHED(2), FINISHED(3);
@@ -88,30 +77,38 @@ public class WorkPiece {
 		}
 	}
 	
-	private int id;
-	
+	private int id;	
+	private String processName;
+	private Process.Step step;
 	private Type type;
-	private IWorkPieceDimensions dimensions;
 	private WorkPieceShape shape;
+	private float height;
+	private float length;
+	private float width;
+	private float diameter;
 	private Material material;
 	private float weight;
-	private IDrawableObject representation;
+	private float orientation;
+	private int layers;
+	private int amount;
 	
-	public WorkPiece(final Type type, final IWorkPieceDimensions dimensions, final Material material, final float weight) {
+	public WorkPiece(String processName, Process.Step step, final Type type, float length, float width, float height, float diameter,
+			final Material material, final float weight, float orientation, int layers, int amount) {
+		this.processName = processName;
+		this.step = step;
 		this.type = type;
-		this.dimensions = dimensions;
+		this.length = length;
+		this.width = width;
+		this.height = height;
 		this.material = material;
 		this.weight = weight;
+		this.diameter = diameter;
+		this.orientation = orientation;
+		this.layers = layers;
+		this.amount = amount;
 		setShape();
 	}
 	
-	public WorkPiece(final Type type, final WorkPieceShape shape, final Material material, final float weight) {
-		this.type = type;
-		transformPiece(shape);
-		this.material = material;
-		this.weight = weight;
-		setShape();
-	}
 	
 	public int getId() {
 		return id;
@@ -120,6 +117,26 @@ public class WorkPiece {
 	public void setId(final int id) {
 		this.id = id;
 	}
+
+	public String getProcessName() {
+		return processName;
+	}
+
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+
+
+	public Process.Step getStep() {
+		return step;
+	}
+
+
+	public void setStep(Process.Step step) {
+		this.step = step;
+	}
+
 
 	public Type getType() {
 		return type;
@@ -134,12 +151,10 @@ public class WorkPiece {
 	}
 	
 	private void setShape() {
-		if (dimensions instanceof RoundDimensions) {
+		if (diameter == 0 || diameter < 0) {
 			this.shape = WorkPieceShape.CYLINDRICAL;
-			this.representation = new RoundPieceRepresentation(this);
-		} else if (dimensions instanceof RectangularDimensions) {
-			this.shape = WorkPieceShape.CUBIC;
-			this.representation = new RectanglePieceRepresentation(this);
+		} else{
+			this.shape = WorkPieceShape.CUBIC;			
 		}
 	}
 	
@@ -151,28 +166,10 @@ public class WorkPiece {
 	 */
 	public void transformPiece(WorkPieceShape shape) {
 		if (this.shape == null || !this.shape.equals(shape)) {
-			if (shape.equals(WorkPieceShape.CUBIC)) {
-				this.dimensions = new RectangularDimensions();
-				this.representation = new RectanglePieceRepresentation(this);
-			} else {
-				this.dimensions = new RoundDimensions();
-				this.representation = new RoundPieceRepresentation(this);
-			}
 			this.shape = shape;
 		}
 	}
 	
-	public IDrawableObject getRepresentation() {
-		return this.representation;
-	}
-
-	public IWorkPieceDimensions getDimensions() {
-		return dimensions;
-	}
-
-	public void setDimensions(final IWorkPieceDimensions dimensions) {
-		this.dimensions = dimensions;
-	}
 	
 	public Material getMaterial() {
 		return material;
@@ -190,15 +187,92 @@ public class WorkPiece {
 		this.weight = weight;
 	}
 
+	public float getHeight() {
+		return height;
+	}
+
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+
+	public float getLength() {
+		return length;
+	}
+
+
+	public void setLength(float length) {
+		this.length = length;
+	}
+
+
+	public float getWidth() {
+		return width;
+	}
+
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+
+	public float getDiameter() {
+		return diameter;
+	}
+
+
+	public void setDiameter(float diameter) {
+		this.diameter = diameter;
+	}
+
+
+	public void setShape(WorkPieceShape shape) {
+		this.shape = shape;
+	}
+
+
+	public float getOrientation() {
+		return orientation;
+	}
+
+
+	public void setOrientation(float orientation) {
+		this.orientation = orientation;
+	}
+
+
+	public int getLayers() {
+		return layers;
+	}
+
+
+	public void setLayers(int layers) {
+		this.layers = layers;
+	}
+
+
+	public int getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+
 	public void calculateWeight() {
 		if (material.equals(Material.OTHER)) {
 			throw new IllegalStateException("Can't calculate weight: unknown material type.");
 		} else {
-			setWeight(getDimensions().getVolume() * material.getDensity());
+			if(diameter == 0 ) {
+				setWeight((width*height*length) * material.getDensity());
+			}else {
+				setWeight(((diameter/2)*(diameter/2)* (float) Math.PI*height) * material.getDensity());
+			}
+			
 		}
 	}
 	
-	public String toString() {
-		return "WorkPiece: " + type + " - " + dimensions;
-	}
 }

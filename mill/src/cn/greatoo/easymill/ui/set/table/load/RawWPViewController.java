@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.ui.main.Controller;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -51,6 +53,7 @@ public class RawWPViewController extends Controller {
 	List<Button> bts;
 	List<Button> mBts;
 
+	
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
@@ -66,6 +69,55 @@ public class RawWPViewController extends Controller {
 		//isClicked(bts, HBt);
 		//isClicked(mBts, AlBt);
 		
+		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        }
+		});	
+		
+		fulltxtW.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        }
+		});	
+		
+		fulltxtH.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	 
+	        }
+		});	
+		
+		fulltxtWei.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        }
+		});	
+		
+		//螺柱高度
+		fulltxtBH.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        }
+		});	
+		//图层
+		fulltxtC.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        }
+		});	
+		//数量
+		fulltxtS.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	 
+	        }
+		});	
 	}
 	
 	@FXML
@@ -75,25 +127,25 @@ public class RawWPViewController extends Controller {
 	
 	@FXML
 	public void HBtAction(MouseEvent event) {
-		isClicked(bts, HBt);
-				
+		isClicked(bts, HBt);	
 	}
 	
 	@FXML
 	public void tiltedAction(MouseEvent event) {
 		isClicked(bts, tiltedBt);
-				
-	}
-	
-	@FXML
-	public void TBtAction(MouseEvent event) {
 		
 	}
 	
 	@FXML
 	public void VBtAction(MouseEvent event) {
 		isClicked(bts, VBt);
+		
 	}
+	
+	@FXML
+	public void TBtAction(MouseEvent event) {
+		
+	}	
 	
 	@FXML
 	public void WChanged(MouseEvent event) {
@@ -123,21 +175,25 @@ public class RawWPViewController extends Controller {
 	@FXML
 	public void AlBtAction(MouseEvent event) {
 		isClicked(mBts, AlBt);
+		
 	}
 	
 	@FXML
 	public void CuBtAction(MouseEvent event) {
 		isClicked(mBts, CuBt);
+		
 	}
 	
 	@FXML
 	public void FeBtAction(MouseEvent event) {
 		isClicked(mBts, FeBt);
+		
 	}
 	
 	@FXML
 	public void OBtAction(MouseEvent event) {
 		isClicked(mBts, OBt);
+		
 	}
 	
 	@FXML

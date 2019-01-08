@@ -1,7 +1,6 @@
 package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
@@ -22,7 +21,7 @@ import cn.greatoo.easymill.workpiece.WorkPiece.Material;
  * ===从table抓取工件===机器人抓取工件，回到原点
  *
  */
-public class PickFromTableStep extends AbstractProcessStep{
+public class PickFromTableStep {
 
 	public static void pickFromTable(FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {
 		
@@ -101,24 +100,5 @@ public class PickFromTableStep extends AbstractProcessStep{
 		} catch (InterruptedException | AbstractCommunicationException | RobotActionException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void executeStep(int processId, ProcessExecutor executor)
-			throws AbstractCommunicationException, RobotActionException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ProcessStepType getType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

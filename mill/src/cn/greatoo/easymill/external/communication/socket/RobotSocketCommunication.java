@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.util.Coordinates;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.util.RobotConstants;
 
 public class RobotSocketCommunication extends ExternalSocketCommunication {
@@ -86,7 +86,7 @@ public class RobotSocketCommunication extends ExternalSocketCommunication {
 			float w = Float.parseFloat(positionValues.get(3));
 			float p = Float.parseFloat(positionValues.get(4));
 			float r = Float.parseFloat(positionValues.get(5));
-			return new Coordinates(x, y, z, w, p, r);
+			return new Coordinates(null,null,x, y, z, w, p, r);
 		}
 		return null;
 	}

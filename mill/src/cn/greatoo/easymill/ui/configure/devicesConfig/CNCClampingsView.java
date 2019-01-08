@@ -2,8 +2,8 @@ package cn.greatoo.easymill.ui.configure.devicesConfig;
 
 import java.io.File;
 
+import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.util.Clamping;
 import cn.greatoo.easymill.util.FullTextField;
 import cn.greatoo.easymill.util.IconFlowSelector;
 import cn.greatoo.easymill.util.NumericTextField;

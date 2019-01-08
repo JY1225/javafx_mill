@@ -2,22 +2,22 @@ package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.cnc.DeviceActionException;
+import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.util.Clamping;
-import cn.greatoo.easymill.util.Coordinates;
 import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
-import cn.greatoo.easymill.workpiece.WorkPiece;
-import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 
-public class PickFromCNCStep extends AbstractProcessStep {
+public class PickFromCNCStep {
 
 	public static void pickFromCNC(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
@@ -84,24 +84,5 @@ public class PickFromCNCStep extends AbstractProcessStep {
 				| DeviceActionException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void executeStep(int processId, ProcessExecutor executor)
-			throws AbstractCommunicationException, RobotActionException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ProcessStepType getType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

@@ -1,17 +1,15 @@
 package cn.greatoo.easymill.ui.set.cnc;
 
-import javafx.fxml.FXML;
-
-import javafx.scene.control.Button;
-
-import javafx.scene.control.TextField;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.ui.main.Controller;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class CNCPutViewController extends Controller{
@@ -30,26 +28,30 @@ public class CNCPutViewController extends Controller{
 	@FXML
 	private Button aftBt;
 	List<Button> bts;
+	
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(beBt);
 		bts.add(aftBt);
 		isClicked(bts, beBt);
-		
-	}
-	
-	@FXML
-	public void XFieldAction(ActionEvent event) {
-		
-	}
-	
-	@FXML
-	public void YField(ActionEvent event) {
-		
-	}
-	
-	@FXML
-	public void ZField(ActionEvent event) {
+		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	 
+	        }
+		});	
+		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        }
+		});	
+		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        }
+		});	
 		
 	}
 	
@@ -61,11 +63,13 @@ public class CNCPutViewController extends Controller{
 	@FXML
 	public void beBtAction(ActionEvent event) {
 		isClicked(bts, beBt);
+		
 	}
 	
 	@FXML
 	public void aftBtAction(ActionEvent event) {
 		isClicked(bts, aftBt);
+		
 	}
 
 	@Override

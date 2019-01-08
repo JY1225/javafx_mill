@@ -20,6 +20,7 @@ public class CNCDeviceViewController  extends Controller {
 	private IconFlowSelector ifsClamping;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	List<Button> bts;
+
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(LBt);
@@ -27,20 +28,21 @@ public class CNCDeviceViewController  extends Controller {
 		isClicked(bts, LBt);
 		ifsClamping = new IconFlowSelector(false);
         ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
-        gridPane.add(ifsClamping, 0, 2, 2, 1);		
+        gridPane.add(ifsClamping, 0, 2, 2, 1);	
 	}
 	@FXML
 	public void LBtAction(ActionEvent event) {
 		isClicked(bts, LBt);
+		
 	}
 	
 	@FXML
 	public void wBtAction(ActionEvent event) {
 		isClicked(bts, wBt);
+		
 	}
 	@Override
 	public void setMessege(String mess) {
-		// TODO Auto-generated method stub
 		
 	}
 	

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.greatoo.easymill.util.Clamping;
+import cn.greatoo.easymill.entity.Clamping;
 
 /**
  * This class represents the settings of one specific device in a processflow. 

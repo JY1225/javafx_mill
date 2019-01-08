@@ -1,20 +1,38 @@
 package cn.greatoo.easymill.entity;
 
-import cn.greatoo.easymill.util.Coordinates;
-
 public class UserFrame {
 
 	private int id; 
+	private String processName;
+	private Process.Step step;
 	private String name;
 	private int number;
 	private float zSafeDistance;
 	private Coordinates location;
 	
-	public UserFrame(final int number, final String name, final float zSafeDistance, final Coordinates location) {
+	public UserFrame(String processName, Process.Step step, final int number, final String name, final float zSafeDistance, final Coordinates location) {
+		this.processName = processName;
+		this.step = step;
 		this.number = number;
 		this.name = name;
 		this.zSafeDistance = zSafeDistance;
 		this.location = location;
+	}
+
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+
+	public Process.Step getStep() {
+		return step;
+	}
+
+	public void setStep(Process.Step step) {
+		this.step = step;
 	}
 
 	public String getName() {

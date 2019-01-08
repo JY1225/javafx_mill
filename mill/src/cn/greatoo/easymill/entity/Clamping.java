@@ -1,7 +1,9 @@
-package cn.greatoo.easymill.util;
+package cn.greatoo.easymill.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import cn.greatoo.easymill.entity.Coordinates;
 
 public class Clamping implements Cloneable {
 	
@@ -41,6 +43,8 @@ public class Clamping implements Cloneable {
 	
 	private int id;
 	private String name;
+	private String processName;
+	private Process.Step step;
 	private Coordinates relativePosition;
 	private Coordinates smoothToPoint;
 	private Coordinates smoothFromPoint;
@@ -56,9 +60,11 @@ public class Clamping implements Cloneable {
 	// Default
 	private int nbOfPossibleWPToStore = 1;
 	
-	public Clamping(final Type type, final String name, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
+	public Clamping(final Type type, final String name, String processName, Process.Step step, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
 			final Coordinates smoothFromPoint, final String imageURL) {
 		this.name = name;
+		this.processName = processName;
+		this.step = step;
 		this.height = defaultHeight;
 		this.defaultHeight = defaultHeight;
 		this.relativePosition = relativePosition;
@@ -70,8 +76,9 @@ public class Clamping implements Cloneable {
 		this.type = type;
 	}
 
-	public Clamping(final Type type, final String name, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothPoint, final String imageURL) {
-		this(type, name, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
+	public Clamping(final Type type, final String name, String  processName, Process.Step step, final float defaultHeight, 
+			final Coordinates relativePosition, final Coordinates smoothPoint, final String imageURL) {
+		this(type, name, processName, step, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
 	}
 	
 	public String getName() {
@@ -80,6 +87,22 @@ public class Clamping implements Cloneable {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public String getProcessName() {
+		return processName;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
+	}
+
+	public Process.Step getStep() {
+		return step;
+	}
+
+	public void setStep(Process.Step step) {
+		this.step = step;
 	}
 
 	public Type getType() {
@@ -200,7 +223,7 @@ public class Clamping implements Cloneable {
 	
 	@Override
 	public Clamping clone() throws CloneNotSupportedException {
-		Clamping clonedClamping = new Clamping(this.type, this.name, this.defaultHeight, this.relativePosition, this.smoothToPoint, this.smoothFromPoint, this.imageURL);
+		Clamping clonedClamping = new Clamping(this.type, this.name, this.processName, this.step, this.defaultHeight, this.relativePosition, this.smoothToPoint, this.smoothFromPoint, this.imageURL);
 		clonedClamping.setId(this.id);
 		return clonedClamping;
 	}

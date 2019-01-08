@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.ui.configure.devicesConfig.StackerViewController;
-import cn.greatoo.easymill.util.Coordinates;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
 
 public class WorkPiecePositions {

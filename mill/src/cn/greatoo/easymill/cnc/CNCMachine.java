@@ -7,20 +7,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.device.ClampingManner;
-import cn.greatoo.easymill.device.DevicePickSettings;
-import cn.greatoo.easymill.device.DevicePutSettings;
-import cn.greatoo.easymill.device.ProcessingDeviceStartCyclusSettings;
-import cn.greatoo.easymill.device.visitor.AbstractPiecePlacementVisitor;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
-import cn.greatoo.easymill.process.ProcessFlow;
-import cn.greatoo.easymill.robot.AbstractRobotActionSettings.ApproachType;
-import cn.greatoo.easymill.util.Coordinates;
-import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 
 public class CNCMachine extends AbstractCNCMachine {
 
@@ -517,102 +508,6 @@ public class CNCMachine extends AbstractCNCMachine {
 	public void stopMonitoringMotionEnablingThreads() {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void startCyclus(ProcessingDeviceStartCyclusSettings startCylusSettings, int processId)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void prepareForStartCyclus(ProcessingDeviceStartCyclusSettings startCylusSettings)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void prepareForProcess(ProcessFlow process) throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Coordinates getLocationOrientation(SimpleWorkArea workArea, ClampingManner clampType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <T extends IWorkPieceDimensions> Coordinates getPutLocation(AbstractPiecePlacementVisitor<T> visitor,
-			SimpleWorkArea workArea, T dimensions, ClampingManner clampType, ApproachType approachType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <T extends IWorkPieceDimensions> Coordinates getPickLocation(AbstractPiecePlacementVisitor<T> visitor,
-			SimpleWorkArea workArea, T dimensions, ClampingManner clampType, ApproachType approachType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean canPick(DevicePickSettings pickSettings)
-			throws AbstractCommunicationException, DeviceActionException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canPut(DevicePutSettings putSettings)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void prepareForPick(DevicePickSettings pickSettings, int processId)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void prepareForPut(DevicePutSettings putSettings, int processId)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pickFinished(DevicePickSettings pickSettings, int processId)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void putFinished(DevicePutSettings putSettings)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void releasePiece(DevicePickSettings pickSettings)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void grabPiece(DevicePutSettings putSettings)
-			throws AbstractCommunicationException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

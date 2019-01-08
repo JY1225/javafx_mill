@@ -21,7 +21,7 @@ import cn.greatoo.easymill.workpiece.WorkPiece.Material;
  * ===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
  *
  */
-public class PutToCNCStep extends AbstractProcessStep{
+public class PutToCNCStep {
 
 	public static void putToCNC(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
@@ -87,24 +87,5 @@ public class PutToCNCStep extends AbstractProcessStep{
 		}catch (InterruptedException | AbstractCommunicationException | RobotActionException | DeviceActionException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void executeStep(int processId, ProcessExecutor executor)
-			throws AbstractCommunicationException, RobotActionException, DeviceActionException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ProcessStepType getType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
