@@ -9,7 +9,6 @@ import cn.greatoo.easymill.device.ClampingManner;
 import cn.greatoo.easymill.util.PropertyManager;
 import cn.greatoo.easymill.util.PropertyManager.Setting;
 
-
 public class ProcessFlow {
 			
 	private Integer finishedAmount;
@@ -165,5 +164,16 @@ public class ProcessFlow {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public boolean hasBasicStackPlateForFinishedPieces() {
+//        for(AbstractProcessStep processStep: processSteps) {
+//            if(processStep instanceof PutStep) {
+//                if(((PutStep) processStep).getDevice().getType().equals(EDeviceGroup.BASIC_STACK_PLATE)) {
+//                    return true;
+//                }
+//            }
+//        }
+        return false;
+    }
 
 }

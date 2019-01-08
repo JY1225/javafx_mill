@@ -12,11 +12,13 @@ import java.util.concurrent.Callable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.device.AbstractProcessingDevice;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.util.Clamping;
 
-public abstract class AbstractCNCMachine  {	
+
+public abstract class AbstractCNCMachine extends AbstractProcessingDevice{	
 	private static int currentStatus;
 	private static boolean statusChanged;
 	private static Object syncObject;
@@ -41,6 +43,7 @@ public abstract class AbstractCNCMachine  {
 	private static final String EXCEPTION_WHILE_WAITING = "AbstractCNCMachine.exceptionWhileWaiting";
 	
 	public AbstractCNCMachine(final CNCSocketCommunication socketConnection, MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
+		super(name,true);
 		this.statusChanged = false;
 		syncObject = new Object();
 		this.mCodeAdapter = mCodeAdapter;

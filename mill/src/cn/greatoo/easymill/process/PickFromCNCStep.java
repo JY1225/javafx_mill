@@ -17,7 +17,7 @@ import cn.greatoo.easymill.workpiece.RectangularDimensions;
 import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 
-public class PickFromCNCStep {
+public class PickFromCNCStep extends AbstractProcessStep {
 
 	public static void pickFromCNC(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
@@ -84,5 +84,24 @@ public class PickFromCNCStep {
 				| DeviceActionException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void executeStep(int processId, ProcessExecutor executor)
+			throws AbstractCommunicationException, RobotActionException, DeviceActionException, InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProcessStepType getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
