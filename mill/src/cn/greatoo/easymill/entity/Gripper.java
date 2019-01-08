@@ -1,7 +1,5 @@
 package cn.greatoo.easymill.entity;
 
-import cn.greatoo.easymill.workpiece.WorkPiece;
-
 public class Gripper {
 	
 	public enum Type {
@@ -11,23 +9,27 @@ public class Gripper {
 	private int id;
 	private Type type;
 	private String name;
+	private String processName;
+	private Process.Step step;
 	private float height;
 	private boolean fixedHeight;
-	private String description;
+	private String selectGripper;
+	private boolean gripperInner;
 	private String imageUrl;
-	private WorkPiece workPiece;
 	
 	public Gripper() {
 		
 	}
-	public Gripper(final String name, final Type type, final float height, final String description, final String imageUrl) {
+	public Gripper(final String name, String processName, Process.Step step, final Type type, final float height, final String selectGripper, boolean gripperInner, final String imageUrl) {
 		this.name = name;
+		this.processName = processName;
+		this.step = step;
 		this.type = type;
 		this.height = height;
-		this.description = description;
+		this.selectGripper = selectGripper;
 		this.imageUrl = imageUrl;
 		this.fixedHeight = false;
-		this.workPiece = null;
+		this.gripperInner = gripperInner;
 	}
 	
 	public int getId() {
@@ -38,14 +40,30 @@ public class Gripper {
 		this.id = id;
 	}
 
-	public WorkPiece getWorkPiece() {
-		return workPiece;
+	public String getProcessName() {
+		return processName;
 	}
-	
-	public void setWorkPiece(final WorkPiece workPiece) {
-		this.workPiece = workPiece;
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
-
+	public Process.Step getStep() {
+		return step;
+	}
+	public void setStep(Process.Step step) {
+		this.step = step;
+	}
+	public String getSelectGripper() {
+		return selectGripper;
+	}
+	public void setSelectGripper(String selectGripper) {
+		this.selectGripper = selectGripper;
+	}
+	public boolean isGripperInner() {
+		return gripperInner;
+	}
+	public void setGripperInner(boolean gripperInner) {
+		this.gripperInner = gripperInner;
+	}
 	public String getName() {
 		return name;
 	}
@@ -68,14 +86,6 @@ public class Gripper {
 
 	public void setHeight(final float height) {
 		this.height = height;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	public String getImageUrl() {

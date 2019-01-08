@@ -105,7 +105,7 @@ public abstract class AbstractTextField<T> extends javafx.scene.control.TextFiel
         public void changed(final ObservableValue<? extends Boolean> observable, final Boolean oldValue, final Boolean newValue) {
             if (newValue) {
                 originalText = textField.getText();
-                System.out.println("Text = "+originalText);
+                //System.out.println("Text = "+originalText);
                 listener.textFieldFocussed(textField);
             } else {
                 cleanText();

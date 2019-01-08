@@ -3,8 +3,11 @@ package cn.greatoo.easymill.ui.set.robot.griperA;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,6 +28,9 @@ public class ClampViewController  extends Controller {
    // private TransportInformation transportInfo;
     private IconFlowSelector ifsClamping;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
+	
+	public static Gripper gripper = new Gripper();
+
 	@SuppressWarnings("unchecked")
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -38,6 +44,15 @@ public class ClampViewController  extends Controller {
 		ifsClamping = new IconFlowSelector(false);
         ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
         gridPane.add(ifsClamping, 0, 2, 2, 1);	
+        
+        gripper.setGripperInner(false);
+        comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            	gripper.setName((String) newValue);
+            }
+        });
+        
 	}
 	@FXML
 	public void comboBoxAction(ActionEvent event) {
@@ -47,11 +62,13 @@ public class ClampViewController  extends Controller {
 	@FXML
 	public void outBtAction(ActionEvent event) {
 		isClicked(bts, outBt);
+		gripper.setGripperInner(false);
 	}
 	
 	@FXML
 	public void inBtAction(ActionEvent event) {
 		isClicked(bts, inBt);
+		gripper.setGripperInner(true);
 	}
 	
     

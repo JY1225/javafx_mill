@@ -12,9 +12,9 @@ import java.util.concurrent.Callable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
-import cn.greatoo.easymill.util.Clamping;
 
 public abstract class AbstractCNCMachine  {	
 	private static int currentStatus;

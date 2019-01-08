@@ -75,7 +75,8 @@ public class StackerViewController {
 				Float.parseFloat(studField.getText()),
 				Float.parseFloat(paddingField.getText()),
 				Float.parseFloat(buttomField.getText()),
-				Float.parseFloat(r0Field.getText()));
+				Float.parseFloat(r0Field.getText()),
+				Float.parseFloat(studHightField.getText()));
 	}
 	
 	@FXML

@@ -1,4 +1,6 @@
-package cn.greatoo.easymill.util;
+package cn.greatoo.easymill.ui.set.table.load;
+
+import cn.greatoo.easymill.entity.Coordinates;
 
 public class StudPosition {
 	

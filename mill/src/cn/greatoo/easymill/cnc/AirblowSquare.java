@@ -1,6 +1,6 @@
 package cn.greatoo.easymill.cnc;
 
-import cn.greatoo.easymill.util.Coordinates;
+import cn.greatoo.easymill.entity.Coordinates;
 
 public class AirblowSquare {
 	

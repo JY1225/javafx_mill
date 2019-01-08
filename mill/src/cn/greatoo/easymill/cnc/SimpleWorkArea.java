@@ -6,8 +6,8 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.robot.NoFreeClampingInWorkareaException;
-import cn.greatoo.easymill.util.Clamping;
 
 public class SimpleWorkArea {
 	

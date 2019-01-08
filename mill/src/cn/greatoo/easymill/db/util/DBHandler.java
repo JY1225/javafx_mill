@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,29 +32,21 @@ import cn.greatoo.easymill.cnc.ECNCOption;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.cnc.GenericMCode;
 import cn.greatoo.easymill.cnc.MCodeAdapter;
-import cn.greatoo.easymill.device.ClampingManner;
+import cn.greatoo.easymill.entity.Process;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
-import cn.greatoo.easymill.process.DuplicateProcessFlowNameException;
-import cn.greatoo.easymill.process.ProcessFlow;
-import cn.greatoo.easymill.process.ProcessFlowManager;
-import cn.greatoo.easymill.robot.AbstractRobotActionSettings;
-import cn.greatoo.easymill.util.Coordinates;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
 public class DBHandler {
 
 
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
 
     private static DBHandler handler = null;
-    private static final String DB_URL = "jdbc:derby:database;create=true;user=admin;password=admin";//jdbc:derby:roboDB;create=true";/
+    private static final String DB_URL = "jdbc:derby:database;create=true;user=irscw;password=password";//jdbc:derby:roboDB;create=true";/
     private static Connection conn = null;
     private static Statement stmt = null;
 	private static final int CLAMPING_MANNER_LENGTH = 1;
 	private static final int CLAMPING_MANNER_WIDTH = 2;
-	private ProcessFlow processFlow;
-	private ProcessFlow activeProcessFlow;
+	private Process processFlow;
+	private Process activeProcessFlow;
 
 	
 
@@ -66,7 +57,6 @@ public class DBHandler {
 
 	private String saveProcessName;
 
-    private static ProcessFlowManager processFlowManager;
 
     private DBHandler() {
     }
@@ -351,269 +341,6 @@ public class DBHandler {
 		return conn;
     }
     
-	public ProcessFlow getLastProcessFlow() {
-		List<ProcessFlow> processFlows;
-		try {
-			processFlows = getLastOpenedProcessFlows(1);
-			if (processFlows.size() > 0) {
-				return processFlows.get(0);
-			}
-		} catch (SQLException e) {
-			LOGGER.error(e);
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public List<ProcessFlow> getAllProcessFlows() throws SQLException {
-		PreparedStatement stmt = conn.prepareStatement("SELECT ID FROM PROCESSFLOW ORDER BY LASTOPENED DESC");
-		ResultSet results = stmt.executeQuery();
-		List<ProcessFlow> processFlows = new ArrayList<ProcessFlow>();
-		while (results.next()) {
-			int id = results.getInt("ID");
-			ProcessFlow processFlow = getLightWeightedProcessFlowById(id);
-			processFlows.add(processFlow);
-		}
-		return processFlows;
-	}
-	
-	private ProcessFlow getLightWeightedProcessFlowById(final int id) throws SQLException {
-		PreparedStatement stmt = conn.prepareStatement("SELECT ID, NAME, LASTOPENED FROM PROCESSFLOW WHERE ID = ?");
-		stmt.setInt(1, id);
-		ResultSet results = stmt.executeQuery();
-		ProcessFlow processFlow = null;
-		if (results.next()) {
-
-			String name = results.getString("NAME");
-			Timestamp lastOpened = results.getTimestamp("LASTOPENED");
-			processFlow = new ProcessFlow(name,null,null);
-			processFlow.setId(id);
-			processFlow.setLastOpened(lastOpened);
-		}
-		
-		return processFlow;
-	}
-	
-	public List<ProcessFlow> getLastOpenedProcessFlows(final int amount) throws SQLException {
-		PreparedStatement stmt = conn.prepareStatement("SELECT ID FROM PROCESSFLOW ORDER BY LASTOPENED DESC");
-		stmt.setMaxRows(amount);
-		ResultSet results = stmt.executeQuery();
-		List<ProcessFlow> processFlows = new ArrayList<ProcessFlow>();
-		while (results.next()) {
-			int id = results.getInt("ID");
-			ProcessFlow processFlow = getProcessFlowById(id);
-			processFlows.add(processFlow);
-		}
-		return processFlows;
-	}
-	
-	public void updateLastOpened(final ProcessFlow processFlow) throws SQLException {
-		PreparedStatement stmt = conn.prepareStatement("UPDATE PROCESSFLOW SET LASTOPENED = ? WHERE ID = ?");
-		stmt.setTimestamp(1, processFlow.getLastOpened());
-		stmt.setInt(2, processFlow.getId());
-		stmt.executeUpdate();
-	}
-	
-	public void updateProcessFlow(final ProcessFlow processFlow) throws SQLException {
-		PreparedStatement stmt = conn.prepareStatement("UPDATE PROCESSFLOW SET NAME = ?, LASTOPENED = ?, CLAMPING_MANNER = ? , SINGLE_CYCLE = ? WHERE ID = ?");
-		stmt.setString(1, processFlow.getName());
-		stmt.setTimestamp(2, processFlow.getLastOpened());
-		int clampingMannerId = CLAMPING_MANNER_LENGTH;
-		if (processFlow.getClampingType().getType() == ClampingManner.Type.WIDTH) {
-			clampingMannerId = CLAMPING_MANNER_WIDTH;
-		}
-		stmt.setInt(3, clampingMannerId);
-		stmt.setBoolean(4, processFlow.isSingleCycle());
-		stmt.setInt(5, processFlow.getId());
-		try {
-			stmt.executeUpdate();
-			deleteStepsAndSettings(processFlow);
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error(e);
-			conn.rollback();
-		}
-
-	}
-		
-	private void deleteStepsAndSettings(final ProcessFlow processFlow) throws SQLException {
-		// delete all coordinates and work pieces (these are not cascaded)
-		// delete all coordinates
-		PreparedStatement stmtgetCoordinatesToDelete = conn.prepareStatement(""  
-                + "		(select step_teachedcoordinates.coordinates from step_teachedcoordinates "
-                + "			JOIN step "
-                + "			ON step.id = step_teachedcoordinates.step "
-                + "			where step.processflow=?"
-                + "		) " 	
-                + " 		union "																						
-                + "		(select robotactionsettings.smoothpoint from robotactionsettings "
-                + "			JOIN step "
-                + "			ON step.id = robotactionsettings.step "
-                + "			where step.processflow=?"
-                + "		) "
-				);	
-		stmtgetCoordinatesToDelete.setInt(1, processFlow.getId());
-		stmtgetCoordinatesToDelete.setInt(2, processFlow.getId());
-		ResultSet resultCoordinates = stmtgetCoordinatesToDelete.executeQuery();
-		while(resultCoordinates.next()) {
-			deleteCoordinate(resultCoordinates.getInt(1));
-		}
-		// delete all work pieces (it suffices to delete the work pieces from the pick setting
-		PreparedStatement stmtGetWorkPiecesToDelete = conn.prepareStatement("" 	
-				+ "select distinct workpiece from robotpicksettings "
-				+ "join robotactionsettings "
-				+ "on robotactionsettings.id = robotpicksettings.id "
-				+ "join step "
-				+ "on robotactionsettings.step = step.id "
-				+ "where step.processflow=?"
-				+ "");
-		stmtGetWorkPiecesToDelete.setInt(1, processFlow.getId());
-		ResultSet resultset =stmtGetWorkPiecesToDelete.executeQuery();
-		while(resultset.next()) {
-			deleteWorkPiece(resultset.getInt("workpiece"));
-		}
-		
-		PreparedStatement stmt = conn.prepareStatement("DELETE FROM DEVICESETTINGS WHERE PROCESSFLOW = ?");
-		stmt.setInt(1, processFlow.getId());
-		stmt.executeUpdate();	// note the cascade delete settings take care of deleting all referenced rows
-		PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM ROBOTSETTINGS WHERE PROCESSFLOW = ?");
-		stmt2.setInt(1, processFlow.getId());
-		stmt2.executeUpdate();	// note the cascade delete settings take care of deleting all referenced rows
-		PreparedStatement stmt3 = conn.prepareStatement("DELETE FROM STEP WHERE PROCESSFLOW = ?");
-		stmt3.setInt(1, processFlow.getId());
-		stmt3.executeUpdate();	// note the cascade delete settings take care of deleting all referenced rows
-	}
- 
-	public void saveProcessFlow(final ProcessFlow processFlow) throws DuplicateProcessFlowNameException, SQLException {	
-		processFlow.setCreation(new Timestamp(System.currentTimeMillis()));
-		processFlow.setLastOpened(new Timestamp(System.currentTimeMillis()));
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO PROCESSFLOW (NAME, CREATION, LASTOPENED, CLAMPING_MANNER, SINGLE_CYCLE) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-		stmt.setString(1, processFlow.getName());
-		stmt.setTimestamp(2, processFlow.getCreation());
-		stmt.setTimestamp(3, processFlow.getLastOpened());
-		int clampingMannerId = 1;
-		if (processFlow.getClampingType().getType() == ClampingManner.Type.WIDTH) {
-			clampingMannerId = 2;
-		}
-		stmt.setInt(4, clampingMannerId);
-		stmt.setBoolean(5, processFlow.isSingleCycle());
-		try {
-			stmt.executeUpdate();
-			ResultSet resultSet = stmt.getGeneratedKeys();
-			if (resultSet.next()) {
-
-				processFlow.setId(resultSet.getInt(1));
-				conn.commit();
-			}
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.log(Level.ERROR, "{}", e);
-			conn.rollback();
-		}
-}
-	public int getProcessFlowIdForName(final String name) throws SQLException {
-		int id = -1;
-		PreparedStatement stmt =conn.prepareStatement("SELECT ID FROM PROCESSFLOW WHERE NAME = ?");
-		stmt.setString(1, name);
-		ResultSet resultSet = stmt.executeQuery();
-		if (resultSet.next()) {
-			id = resultSet.getInt("ID");
-		}
-		return id;
-	}
-	
-	public ProcessFlow getProcessFlowById(final int id) throws SQLException {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PROCESSFLOW WHERE ID = ?");
-		stmt.setInt(1, id);
-		ResultSet results = stmt.executeQuery();
-		ProcessFlow processFlow = null;
-		if (results.next()) {
-			String name = results.getString("NAME");
-			Timestamp creation = results.getTimestamp("CREATION");
-			Timestamp lastOpened = results.getTimestamp("LASTOPENED");
-			int clampingMannerId = results.getInt("CLAMPING_MANNER");
-			boolean isSingleCycle = results.getBoolean("SINGLE_CYCLE");
-
-			// We have 1 deviceSetting per device - per processFlow
-
-			processFlow = new ProcessFlow(name, creation, lastOpened);
-			processFlow.setId(id);
-			processFlow.setSingleCycle(isSingleCycle);
-			if (clampingMannerId == CLAMPING_MANNER_LENGTH) {
-				processFlow.getClampingType().setType(ClampingManner.Type.LENGTH);
-			} else if (clampingMannerId == CLAMPING_MANNER_WIDTH) {
-				processFlow.getClampingType().setType(ClampingManner.Type.WIDTH);
-			} else {
-				throw new IllegalStateException("Unknown clamping manner type: " + clampingMannerId);
-			}
-		}
-		return processFlow;
-	}
-	
-    public void saveCoordinates(final Coordinates coordinates) throws SQLException {
-        if (coordinates.getId() <=0) {
-            PreparedStatement stmt =  conn.prepareStatement("INSERT INTO COORDINATES (X, Y, Z, W, P, R) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setFloat(1, coordinates.getX());
-            stmt.setFloat(2, coordinates.getY());
-            stmt.setFloat(3, coordinates.getZ());
-            stmt.setFloat(4, coordinates.getW());
-            stmt.setFloat(5, coordinates.getP());
-            stmt.setFloat(6, coordinates.getR());
-    		try {
-    			stmt.executeUpdate();
-    			conn.commit();
-
-    		} catch (SQLException e) {
-    			e.printStackTrace();
-    			LOGGER.log(Level.ERROR, "{}", e);
-    			conn.rollback();
-    		}
-            ResultSet keys = stmt.getGeneratedKeys();
-            if ((keys != null) && (keys.next())) {
-                coordinates.setId(keys.getInt(1));
-            }
-        } else {
-            PreparedStatement stmt =  conn.prepareStatement("UPDATE COORDINATES SET X = ?, Y = ?, Z = ?, W = ?, P = ?, R = ? WHERE ID = ?");
-            stmt.setFloat(1, coordinates.getX());
-            stmt.setFloat(2, coordinates.getY());
-            stmt.setFloat(3, coordinates.getZ());
-            stmt.setFloat(4, coordinates.getW());
-            stmt.setFloat(5, coordinates.getP());
-            stmt.setFloat(6, coordinates.getR());
-            stmt.setInt(7, coordinates.getId());
-    		try {
-    			stmt.executeUpdate();
-    			conn.commit();
-
-    		} catch (SQLException e) {
-    			e.printStackTrace();
-    			LOGGER.log(Level.ERROR, "{}", e);
-    			conn.rollback();
-    		}
-        }
-    }
- 
-	public void saveRobotActionSettings(AbstractRobotActionSettings AbstractRobotActionSettings) throws SQLException {					
-		saveCoordinates(AbstractRobotActionSettings.getSmoothPoint());
-		
-		PreparedStatement stmt =  conn.prepareStatement("INSERT INTO ROBOTACTIONSETTINGS (STEP, GRIPPERHEAD, SMOOTHPOINT, ROBOT, GRIPINNER) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-		stmt.setInt(1, (AbstractRobotActionSettings.getId()));
-		stmt.setInt(2, AbstractRobotActionSettings.getGripperHead().getId());
-		if ((AbstractRobotActionSettings.getSmoothPoint() != null)) {
-			stmt.setInt(3, (AbstractRobotActionSettings.getSmoothPoint().getId()));
-		} else {
-			stmt.setNull(3, java.sql.Types.INTEGER);
-		}
-		stmt.setInt(4, (AbstractRobotActionSettings.getRobot().getId()));
-		stmt.setBoolean(5, AbstractRobotActionSettings.isGripInner());
-		stmt.executeUpdate();
-		ResultSet keys = stmt.getGeneratedKeys();
-		if ((keys != null) && (keys.next())) {
-			AbstractRobotActionSettings.setId(keys.getInt(1));
-		}
-	}
 	
 	private void deleteWorkPiece(Integer workPieceId) throws SQLException {
 		PreparedStatement stmtDeleteCoordinates = conn.prepareStatement("delete from workpiece where id=?");

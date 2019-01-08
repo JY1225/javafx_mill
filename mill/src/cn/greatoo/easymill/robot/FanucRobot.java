@@ -9,22 +9,21 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
-import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
-import cn.greatoo.easymill.util.Clamping;
-import cn.greatoo.easymill.util.Coordinates;
 import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
-import cn.greatoo.easymill.workpiece.WorkPiece;
 import cn.greatoo.easymill.workpiece.WorkPiece.Dimensions;
-import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 
 public class FanucRobot extends AbstractRobot{
 	public static FanucRobot INSTANCE = null;
@@ -158,12 +157,12 @@ public class FanucRobot extends AbstractRobot{
     }
     
     public void initiatePick(int speed) throws AbstractCommunicationException, RobotActionException, InterruptedException {
-    	Gripper gripper = new Gripper("name", Type.TWOPOINT, 192, "description", "");
+    	Gripper gripper = new Gripper("name", Type.TWOPOINT, 192, "description",false, "");
 		final String headId = "A";
-		final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
-		final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
+//		final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
+//		final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
 		boolean gripInner = false;
-        writeServiceGripperSet(headId, gHeadA, gHeadB, RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK, gripInner);
+//        writeServiceGripperSet(headId, gHeadA, gHeadB, RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK, gripInner);
         
         boolean freeAfterService = false;
 		final int serviceHandlingPPMode = 48;
@@ -196,7 +195,7 @@ public class FanucRobot extends AbstractRobot{
         logger.info("About to write start service!");
         fanucRobotCommunication.writeValue(RobotConstants.COMMAND_START_SERVICE, RobotConstants.RESPONSE_START_SERVICE, WRITE_VALUES_TIMEOUT, "1");
     }
-    public void writeServiceGripperSet(final String headId, final GripperHead gHeadA, final GripperHead gHeadB, final int serviceType,
+    public void writeServiceGripperSet(final String headId, final Gripper gA, final Gripper gB, final int serviceType,
             final boolean gripInner) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
         boolean a = false;
@@ -214,9 +213,9 @@ public class FanucRobot extends AbstractRobot{
         } else {
             values.add("3");
         }
-        values.add("" + (int) Math.floor(gHeadA.getGripper().getHeight()));		// a height
-        if (gHeadB != null) {
-            values.add("" + (int) Math.floor(gHeadB.getGripper().getHeight()));		// b height
+        values.add("" + (int) Math.floor(gA.getHeight()));		// a height
+        if (gB != null) {
+            values.add("" + (int) Math.floor(gB.getHeight()));		// b height
         } else {
             values.add("0");		// b height
         }

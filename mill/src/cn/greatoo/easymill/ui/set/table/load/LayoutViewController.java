@@ -3,8 +3,7 @@ package cn.greatoo.easymill.ui.set.table.load;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.util.StudPosition;
-import cn.greatoo.easymill.util.StudPosition.StudType;
+import cn.greatoo.easymill.ui.set.table.load.StudPosition.StudType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
