@@ -3,6 +3,9 @@ package cn.greatoo.easymill.ui.set.table.load;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.entity.Process;
+import cn.greatoo.easymill.entity.Stacker;
+import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -52,8 +55,8 @@ public class RawWPViewController extends Controller {
 	private Button calculateBt;
 	List<Button> bts;
 	List<Button> mBts;
-
-	
+	WorkPiece workPiece = new WorkPiece();
+	Stacker stacker = new Stacker();
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
@@ -65,35 +68,33 @@ public class RawWPViewController extends Controller {
 		mBts.add(CuBt);
 		mBts.add(FeBt);
 		mBts.add(OBt);
-		// 默认选择0度按钮，Al
-		//isClicked(bts, HBt);
-		//isClicked(mBts, AlBt);
-		
+
+		workPiece.setStep(Process.Step.UNLOADSTACKER);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	
+	        	workPiece.setLength(Float.parseFloat(fulltxtL.getText()));
 	        }
 		});	
 		
 		fulltxtW.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	
+	        	workPiece.setWidth(Float.parseFloat(fulltxtW.getText()));
 	        }
 		});	
 		
 		fulltxtH.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	 
+	        	workPiece.setHeight(Float.parseFloat(fulltxtH.getText()));
 	        }
 		});	
 		
 		fulltxtWei.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	
+	        	workPiece.setWeight(Float.parseFloat(fulltxtWei.getText()));
 	        }
 		});	
 		
@@ -101,21 +102,21 @@ public class RawWPViewController extends Controller {
 		fulltxtBH.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	
+	        	stacker.setStudHeight(Float.parseFloat(fulltxtBH.getText()));
 	        }
 		});	
 		//图层
 		fulltxtC.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	
+	        	stacker.setLayers(Integer.parseInt(fulltxtC.getText()));
 	        }
 		});	
 		//数量
 		fulltxtS.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	 
+	        	stacker.setAmount(Integer.parseInt(fulltxtS.getText()));
 	        }
 		});	
 	}
@@ -127,19 +128,20 @@ public class RawWPViewController extends Controller {
 	
 	@FXML
 	public void HBtAction(MouseEvent event) {
-		isClicked(bts, HBt);	
+		isClicked(bts, HBt);
+		stacker.setOrientation(0);
 	}
 	
 	@FXML
 	public void tiltedAction(MouseEvent event) {
 		isClicked(bts, tiltedBt);
-		
+		stacker.setOrientation(45);
 	}
 	
 	@FXML
 	public void VBtAction(MouseEvent event) {
 		isClicked(bts, VBt);
-		
+		stacker.setOrientation(90);
 	}
 	
 	@FXML

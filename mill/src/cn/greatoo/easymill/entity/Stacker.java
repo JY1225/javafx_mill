@@ -9,10 +9,15 @@ public class Stacker {
 	private float studDiameter;
 	private float horizontalPadding;
 	private float verticalPaddingBottom;
+	
 	private float orientation;
+	private int layers;
+	private int amount;
 	private float studHeight;
 	
-	public Stacker(int hPaddingSum, int vPaddingSum, float horizontalHoleDistance,float verticalHoleDistance,float studDiameter,float horizontalPadding,float verticalPaddingBottom,float orientation,float studHeight) {
+	public Stacker(int hPaddingSum, int vPaddingSum, float horizontalHoleDistance,float verticalHoleDistance,
+			float studDiameter,float horizontalPadding,float verticalPaddingBottom,
+			float orientation,int layers,int amount,float studHeight) {
 		this.hPaddingSum = hPaddingSum;
 		this.vPaddingSum = vPaddingSum;
 		this.horizontalHoleDistance = horizontalHoleDistance;
@@ -21,10 +26,17 @@ public class Stacker {
 		this.horizontalPadding = horizontalPadding;
 		this.verticalPaddingBottom = verticalPaddingBottom;
 		this.orientation = orientation;
+		this.layers = layers;
+		this.amount = amount;
 		this.studHeight = studHeight;
 	}
 
 	
+	public Stacker() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public int gethPaddingSum() {
 		return hPaddingSum;
 	}
@@ -91,6 +103,26 @@ public class Stacker {
 
 	public void setOrientation(float orientation) {
 		this.orientation = orientation;
+	}
+
+
+	public int getLayers() {
+		return layers;
+	}
+
+
+	public void setLayers(int layers) {
+		this.layers = layers;
+	}
+
+
+	public int getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 

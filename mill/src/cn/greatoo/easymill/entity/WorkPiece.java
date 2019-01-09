@@ -88,12 +88,10 @@ public class WorkPiece {
 	private float diameter;
 	private Material material;
 	private float weight;
-	private float orientation;
-	private int layers;
-	private int amount;
+
 	
 	public WorkPiece(String processName, Process.Step step, final Type type, float length, float width, float height, float diameter,
-			final Material material, final float weight, float orientation, int layers, int amount) {
+			final Material material, final float weight) {
 		this.processName = processName;
 		this.step = step;
 		this.type = type;
@@ -103,12 +101,12 @@ public class WorkPiece {
 		this.material = material;
 		this.weight = weight;
 		this.diameter = diameter;
-		this.orientation = orientation;
-		this.layers = layers;
-		this.amount = amount;
 		setShape();
 	}
 	
+	public WorkPiece() {
+	
+	}
 	
 	public int getId() {
 		return id;
@@ -229,36 +227,6 @@ public class WorkPiece {
 
 	public void setShape(WorkPieceShape shape) {
 		this.shape = shape;
-	}
-
-
-	public float getOrientation() {
-		return orientation;
-	}
-
-
-	public void setOrientation(float orientation) {
-		this.orientation = orientation;
-	}
-
-
-	public int getLayers() {
-		return layers;
-	}
-
-
-	public void setLayers(int layers) {
-		this.layers = layers;
-	}
-
-
-	public int getAmount() {
-		return amount;
-	}
-
-
-	public void setAmount(int amount) {
-		this.amount = amount;
 	}
 
 
