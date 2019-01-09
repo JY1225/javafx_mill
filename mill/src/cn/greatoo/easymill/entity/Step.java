@@ -4,13 +4,13 @@ public class Step {
 
 	private int id;
 	private String processName;
-	private Process.Step step;
+	private Program.Step step;
 	private Gripper gripper;
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
 	
-	public Step(String processName, Process.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
+	public Step(String processName, Program.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
 			Smooth smooth) {
 		this.processName = processName;
 		this.step = step;
@@ -36,11 +36,11 @@ public class Step {
 		this.processName = processName;
 	}
 
-	public Process.Step getStep() {
+	public Program.Step getStep() {
 		return step;
 	}
 
-	public void setStep(Process.Step step) {
+	public void setStep(Program.Step step) {
 		this.step = step;
 	}
 

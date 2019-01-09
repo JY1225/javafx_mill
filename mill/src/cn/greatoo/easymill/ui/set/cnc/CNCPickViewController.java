@@ -1,6 +1,8 @@
 package cn.greatoo.easymill.ui.set.cnc;
 
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Program;
+import cn.greatoo.easymill.entity.Smooth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -20,25 +22,26 @@ public class CNCPickViewController {
 	private TextField ZField;
 	@FXML
 	private Button resetBt;
-	public static Coordinates cncPicSmooth = new Coordinates();
+	public static Smooth unloadCNCSmooth = new Smooth();
 	
 	public void init() {
+		unloadCNCSmooth.setStep(Program.Step.UNLOADCNC);
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	cncPicSmooth.setX(Float.parseFloat(XField.getText()));  
+	        	unloadCNCSmooth.setX(Float.parseFloat(XField.getText()));  
 	        }
 		});	
 		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	cncPicSmooth.setY(Float.parseFloat(YField.getText()));  
+	        	unloadCNCSmooth.setY(Float.parseFloat(YField.getText()));  
 	        }
 		});	
 		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	cncPicSmooth.setZ(Float.parseFloat(ZField.getText()));  
+	        	unloadCNCSmooth.setZ(Float.parseFloat(ZField.getText()));  
 	        }
 		});	
 		
