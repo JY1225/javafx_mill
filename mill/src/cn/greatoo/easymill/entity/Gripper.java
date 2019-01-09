@@ -9,8 +9,6 @@ public class Gripper {
 	private int id;
 	private Type type;
 	private String name;
-	private String processName;
-	private Program.Step step;
 	private float height;
 	private boolean fixedHeight;
 	private String selectGripper;
@@ -20,10 +18,8 @@ public class Gripper {
 	public Gripper() {
 		
 	}
-	public Gripper(final String name, String processName, Program.Step step, final Type type, final float height, final String selectGripper, boolean gripperInner, final String imageUrl) {
+	public Gripper(final String name, final Type type, final float height, final String selectGripper, boolean gripperInner, final String imageUrl) {
 		this.name = name;
-		this.processName = processName;
-		this.step = step;
 		this.type = type;
 		this.height = height;
 		this.selectGripper = selectGripper;
@@ -40,18 +36,6 @@ public class Gripper {
 		this.id = id;
 	}
 
-	public String getProcessName() {
-		return processName;
-	}
-	public void setProcessName(String processName) {
-		this.processName = processName;
-	}
-	public Program.Step getStep() {
-		return step;
-	}
-	public void setStep(Program.Step step) {
-		this.step = step;
-	}
 	public String getSelectGripper() {
 		return selectGripper;
 	}

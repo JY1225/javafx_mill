@@ -30,7 +30,7 @@ public final class TeachedCoordinatesCalculator {
 	}
 	
 	public static Coordinates calculateRelativeOffsetWithTeachedCorners(final Coordinates position, final Coordinates teachedOffset) {
-		Coordinates result = new Coordinates(teachedOffset.getProcessName(),teachedOffset.getStep(),0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
+		Coordinates result = new Coordinates(0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
 		double w = (position.getW() + teachedOffset.getW()) / 180 * Math.PI;
 		double p = (position.getP() + teachedOffset.getP()) / 180 * Math.PI;
 		double r = (position.getR() + teachedOffset.getR()) / 180 * Math.PI;
@@ -53,7 +53,7 @@ public final class TeachedCoordinatesCalculator {
 	}
 	
 	public static Coordinates calculateAbsoluteOffsetWithTeachedCorners(final Coordinates position, final Coordinates teachedOffset) {
-		Coordinates result = new Coordinates(teachedOffset.getProcessName(),teachedOffset.getStep(),0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
+		Coordinates result = new Coordinates(0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
 		double w = (position.getW() + teachedOffset.getW()) / 180 * Math.PI;
 		double p = (position.getP() + teachedOffset.getP()) / 180 * Math.PI;
 		double r = (position.getR() + teachedOffset.getR()) / 180 * Math.PI;
@@ -76,7 +76,7 @@ public final class TeachedCoordinatesCalculator {
 	}
 	
 	public static Coordinates calculateRelativeOffsetWithoutTeachedCorners(final Coordinates position, final Coordinates teachedOffset) {
-		Coordinates result = new Coordinates(teachedOffset.getProcessName(),teachedOffset.getStep(),0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
+		Coordinates result = new Coordinates(0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
 		double w = position.getW() / 180 * Math.PI;
 		double p = position.getP() / 180 * Math.PI;
 		double r = position.getR() / 180 * Math.PI;
@@ -99,7 +99,7 @@ public final class TeachedCoordinatesCalculator {
 	}
 	
 	public static Coordinates calculateAbsoluteOffsetWithoutTeachedCorners(final Coordinates position, final Coordinates teachedOffset) {
-		Coordinates result = new Coordinates(teachedOffset.getProcessName(),teachedOffset.getStep(),0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
+		Coordinates result = new Coordinates(0, 0, 0, teachedOffset.getW(), teachedOffset.getP(), teachedOffset.getR());
 		double w = position.getW() / 180 * Math.PI;
 		double p = position.getP() / 180 * Math.PI;
 		double r = position.getR() / 180 * Math.PI;

@@ -3,7 +3,6 @@ package cn.greatoo.easymill.ui.set.table.load;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -69,8 +68,7 @@ public class RawWPViewController extends Controller {
 		mBts.add(CuBt);
 		mBts.add(FeBt);
 		mBts.add(OBt);
-
-		workPiece.setStep(Program.Step.UNLOADSTACKER);
+		
 		workPiece.setType(WorkPiece.Type.RAW);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override

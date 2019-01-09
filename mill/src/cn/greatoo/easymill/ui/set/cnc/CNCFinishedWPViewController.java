@@ -37,7 +37,7 @@ public class CNCFinishedWPViewController implements TextInputControlListener {
 	public static WorkPiece workPiece = new WorkPiece();
 
 	public void init() {
-		workPiece.setStep(Program.Step.LOADSTACKER);
+		
 		workPiece.setType(WorkPiece.Type.FINISHED);
 		fullnumL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override

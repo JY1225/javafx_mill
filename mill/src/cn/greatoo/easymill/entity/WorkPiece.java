@@ -78,8 +78,6 @@ public class WorkPiece {
 	}
 	
 	private int id;	
-	private String processName;
-	private Program.Step step;
 	private Type type;
 	private WorkPieceShape shape;
 	private float height;
@@ -90,10 +88,8 @@ public class WorkPiece {
 	private float weight;
 
 	
-	public WorkPiece(String processName, Program.Step step, final Type type, float length, float width, float height, float diameter,
+	public WorkPiece(final Type type, float length, float width, float height, float diameter,
 			final Material material, final float weight) {
-		this.processName = processName;
-		this.step = step;
 		this.type = type;
 		this.length = length;
 		this.width = width;
@@ -115,26 +111,6 @@ public class WorkPiece {
 	public void setId(final int id) {
 		this.id = id;
 	}
-
-	public String getProcessName() {
-		return processName;
-	}
-
-
-	public void setProcessName(String processName) {
-		this.processName = processName;
-	}
-
-
-	public Program.Step getStep() {
-		return step;
-	}
-
-
-	public void setStep(Program.Step step) {
-		this.step = step;
-	}
-
 
 	public Type getType() {
 		return type;

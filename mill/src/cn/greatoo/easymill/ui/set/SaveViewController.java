@@ -9,8 +9,11 @@ import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.RobotPutSetting;
 import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Stacker;
+import cn.greatoo.easymill.entity.Step;
+import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.process.DuplicateProcessFlowNameException;
+import cn.greatoo.easymill.ui.configure.devicesConfig.CoordinateViewController;
 import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.set.cnc.CNCDeviceViewController;
 import cn.greatoo.easymill.ui.set.cnc.CNCFinishedWPViewController;
@@ -43,6 +46,7 @@ public class SaveViewController {
 
 	@FXML
 	public void save(MouseEvent event) throws DuplicateProcessFlowNameException  {
+		String programName = fulltxtName.getText();
 		Stacker stacker = RawWPViewController.stacker;
 		WorkPiece rawWorkPiece = RawWPViewController.workPiece;
 		
@@ -50,10 +54,11 @@ public class SaveViewController {
 
 		Gripper loadGripper = ClampViewController.gripper;
 		
-		Clamping clamping = CNCDeviceViewController.clamping;
+		Clamping clamping = CNCDeviceViewController.clamping;		
 		
 		Smooth loadCNCSmooth = CNCPutViewController.loadCNCSmooth;
 		RobotPutSetting RobotPutSetting = CNCPutViewController.RobotPutSetting;
+
 		
 		Smooth unloadCNCSmooth = CNCPickViewController.unloadCNCSmooth;
 		
@@ -63,7 +68,11 @@ public class SaveViewController {
 		
 		Smooth loadStackerSmooth = PlaceViewController.smooth;
 		
-		Program program = new Program(fulltxtName.getText());
+		UserFrame satckerFrame = CoordinateViewController.userFrame;
+		Step unloadStacker = new Step(loadGripper,rawWorkPiece,satckerFrame,unloadStackerSmooth,null);
+		
+		Program program = new Program(programName,unloadStacker,unloadStacker,unloadStacker,unloadStacker,"","");
+		
 	}			
 	
 	public static void showNotification(final String notification, NotificationBox.Type type) {
