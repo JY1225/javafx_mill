@@ -9,17 +9,15 @@ public class Step {
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
-	private boolean releaseBeforeMachine;
 	
 	public Step(String processName, Process.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
-			Smooth smooth, boolean releaseBeforeMachine) {
+			Smooth smooth) {
 		this.processName = processName;
 		this.step = step;
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
 		this.smooth = smooth;
-		this.releaseBeforeMachine = releaseBeforeMachine;
 	}
 
 	public int getId() {
@@ -77,14 +75,4 @@ public class Step {
 	public void setSmooth(Smooth smooth) {
 		this.smooth = smooth;
 	}
-
-	public boolean isReleaseBeforeMachine() {
-		return releaseBeforeMachine;
-	}
-
-	public void setReleaseBeforeMachine(boolean releaseBeforeMachine) {
-		this.releaseBeforeMachine = releaseBeforeMachine;
-	}
-	
-	
 }

@@ -3,6 +3,8 @@ package cn.greatoo.easymill.ui.set.cnc;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.entity.Process;
+import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,12 +30,14 @@ public class CNCPutViewController extends Controller{
 	@FXML
 	private Button aftBt;
 	List<Button> bts;
-	
+	Smooth loadCNCSmooth = new Smooth();
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(beBt);
 		bts.add(aftBt);
 		isClicked(bts, beBt);
+		
+		loadCNCSmooth.setStep(Process.Step.LOADCNC);
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
