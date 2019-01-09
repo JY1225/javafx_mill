@@ -3,21 +3,19 @@ package cn.greatoo.easymill.entity;
 public class Step {
 
 	private int id;
-	private String processName;
-	private Program.Step step;
 	private Gripper gripper;
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
+	private RobotPutSetting robotPutSetting;
 	
-	public Step(String processName, Program.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
-			Smooth smooth) {
-		this.processName = processName;
-		this.step = step;
+	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
+			Smooth smooth, RobotPutSetting robotPutSetting) {
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
 		this.smooth = smooth;
+		this.robotPutSetting = robotPutSetting;
 	}
 
 	public int getId() {
@@ -26,22 +24,6 @@ public class Step {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getProcessName() {
-		return processName;
-	}
-
-	public void setProcessName(String processName) {
-		this.processName = processName;
-	}
-
-	public Program.Step getStep() {
-		return step;
-	}
-
-	public void setStep(Program.Step step) {
-		this.step = step;
 	}
 
 	public Gripper getGripper() {
@@ -75,4 +57,13 @@ public class Step {
 	public void setSmooth(Smooth smooth) {
 		this.smooth = smooth;
 	}
+
+	public RobotPutSetting getRobotPutSetting() {
+		return robotPutSetting;
+	}
+
+	public void setRobotPutSetting(RobotPutSetting robotPutSetting) {
+		this.robotPutSetting = robotPutSetting;
+	}
+	
 }

@@ -150,14 +150,18 @@ public class DBHandler {
     /**
      * JY
      * renturn CNCMachine
-     * 
+     * results=stmt.getGeneratedKeys();//这一句代码就是得到插入的记录的id
+		   while(results.next()){
+		    id=results.getLong(1);
+		   }
      */
     public AbstractCNCMachine getCNCMillingMachine(final int id,CNCSocketCommunication cncSocketConnection){
     	AbstractCNCMachine cncMillingMachine = null;
     	try {
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNCMILLINGMACHINE WHERE ID = ?");
 		stmt.setInt(1, id);//1
-		ResultSet results = stmt.executeQuery();		
+		ResultSet results = stmt.executeQuery();
+		
 		if (results.next()) {
 			int deviceInterfaceId = results.getInt("DEVICEINTERFACE");//1
 			int clampingWidthR = results.getInt("CLAMPING_WIDTH_R");//90
@@ -168,6 +172,7 @@ public class DBHandler {
 			PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM DEVICEINTERFACE WHERE ID = ?");
 			stmt2.setInt(1, deviceInterfaceId);
 			ResultSet results2 = stmt2.executeQuery();
+			
 			if (results2.next()) {
 				cncMillingMachine = CNCMachine.getInstance(cncSocketConnection, getMCodeAdapter(id), wayOfOperating);			
 				Map<ECNCOption, Boolean> cncOptions = getCNCOptions(id);

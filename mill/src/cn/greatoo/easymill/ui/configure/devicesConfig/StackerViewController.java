@@ -68,20 +68,21 @@ public class StackerViewController {
 	@SuppressWarnings("unchecked")
 	public void init() {
 		coordinateCombox.getItems().add("STACKER");
-		stacker = new Stacker(Integer.parseInt(hField.getText()),
-				Integer.parseInt(vField.getText()),
-				Float.parseFloat(hDistanceField.getText()),
-				Float.parseFloat(vDistanceField.getText()),
-				Float.parseFloat(studField.getText()),
-				Float.parseFloat(paddingField.getText()),
-				Float.parseFloat(buttomField.getText()),
-				Float.parseFloat(r0Field.getText()),
-				Float.parseFloat(studHightField.getText()));
+		
 	}
 	
 	@FXML
 	public void saveBtAction(ActionEvent event) {
-		
+//		stacker = new Stacker(Integer.parseInt(hField.getText()),
+//				Integer.parseInt(vField.getText()),
+//				Float.parseFloat(hDistanceField.getText()),
+//				Float.parseFloat(vDistanceField.getText()),
+//				Float.parseFloat(studField.getText()),
+//				Float.parseFloat(paddingField.getText()),
+//				Float.parseFloat(buttomField.getText()),
+//				
+//				Float.parseFloat(r0Field.getText()),
+//				Float.parseFloat(studHightField.getText()));
 	}
 
 	public static Stacker getStacker() {

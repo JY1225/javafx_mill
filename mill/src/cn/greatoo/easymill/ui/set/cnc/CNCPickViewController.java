@@ -25,7 +25,7 @@ public class CNCPickViewController {
 	public static Smooth unloadCNCSmooth = new Smooth();
 	
 	public void init() {
-		unloadCNCSmooth.setStep(Program.Step.UNLOADCNC);
+		
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {

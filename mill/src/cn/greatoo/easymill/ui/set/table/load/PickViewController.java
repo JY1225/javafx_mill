@@ -1,9 +1,6 @@
 package cn.greatoo.easymill.ui.set.table.load;
 
-import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Smooth;
-import cn.greatoo.easymill.process.ProcessStepType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -26,7 +23,7 @@ public class PickViewController {
 
 	public static Smooth smooth = new Smooth();
 	public void init() {
-		smooth.setStep(Program.Step.UNLOADSTACKER);
+		
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {

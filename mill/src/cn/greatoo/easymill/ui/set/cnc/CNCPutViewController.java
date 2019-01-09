@@ -40,7 +40,6 @@ public class CNCPutViewController extends Controller{
 		bts.add(aftBt);
 		isClicked(bts, beBt);
 		
-		loadCNCSmooth.setStep(Program.Step.LOADCNC);
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
