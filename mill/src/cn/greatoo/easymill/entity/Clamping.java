@@ -1,9 +1,22 @@
 package cn.greatoo.easymill.entity;
 
+import java.beans.Transient;
 import java.util.HashSet;
 import java.util.Set;
 
 import cn.greatoo.easymill.entity.Coordinates;
+
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="Clamping")
 
 public class Clamping implements Cloneable {
 	
@@ -41,17 +54,25 @@ public class Clamping implements Cloneable {
 		NONE
 	} 
 	
+	@Id
+	@Column(name="Clamping_ID", nullable=false, updatable=false, unique=true)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	@Column(name = "Clamping_NAME",length=32)
 	private String name;
-	private String processName;
-	private Process.Step step;
+	
+	@Column(name = "relativePosition",length=32)
 	private Coordinates relativePosition;
+	
 	private Coordinates smoothToPoint;
 	private Coordinates smoothFromPoint;
 	private float height;
 	private float defaultHeight;
 	private String imageURL;
 	private Type type;
+	
+	private String processName;
+	private Process.Step step;
 	// Process ID that is currently located in the clamping - default value = -1
 	// In case of dualLoad, we can have 'two' workpieces in 'one' clamping
 	private Set<Integer> prcIdUsingClamping;
