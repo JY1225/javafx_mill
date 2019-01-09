@@ -55,8 +55,9 @@ public class RawWPViewController extends Controller {
 	private Button calculateBt;
 	List<Button> bts;
 	List<Button> mBts;
-	WorkPiece workPiece = new WorkPiece();
-	Stacker stacker = new Stacker();
+	public static WorkPiece workPiece = new WorkPiece();
+	public static Stacker stacker = new Stacker();
+	
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
@@ -177,25 +178,25 @@ public class RawWPViewController extends Controller {
 	@FXML
 	public void AlBtAction(MouseEvent event) {
 		isClicked(mBts, AlBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.AL);
 	}
 	
 	@FXML
 	public void CuBtAction(MouseEvent event) {
 		isClicked(mBts, CuBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.CU);
 	}
 	
 	@FXML
 	public void FeBtAction(MouseEvent event) {
 		isClicked(mBts, FeBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.FE);
 	}
 	
 	@FXML
 	public void OBtAction(MouseEvent event) {
 		isClicked(mBts, OBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.OTHER);
 	}
 	
 	@FXML

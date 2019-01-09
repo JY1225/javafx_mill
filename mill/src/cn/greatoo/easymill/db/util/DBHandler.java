@@ -32,7 +32,6 @@ import cn.greatoo.easymill.cnc.ECNCOption;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.cnc.GenericMCode;
 import cn.greatoo.easymill.cnc.MCodeAdapter;
-import cn.greatoo.easymill.entity.Process;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 public class DBHandler {
 
@@ -43,10 +42,6 @@ public class DBHandler {
     private static final String DB_URL = "jdbc:derby:database;create=true;user=irscw;password=password";//jdbc:derby:roboDB;create=true";/
     private static Connection conn = null;
     private static Statement stmt = null;
-	private static final int CLAMPING_MANNER_LENGTH = 1;
-	private static final int CLAMPING_MANNER_WIDTH = 2;
-	private Process processFlow;
-	private Process activeProcessFlow;
 
 	
 
@@ -54,8 +49,6 @@ public class DBHandler {
         createConnection();
         inflateDB();
     }
-
-	private String saveProcessName;
 
 
     private DBHandler() {

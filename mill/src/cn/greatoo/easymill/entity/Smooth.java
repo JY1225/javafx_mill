@@ -17,6 +17,10 @@ public class Smooth {
 		this.z = z;
 	}
 
+	public Smooth() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

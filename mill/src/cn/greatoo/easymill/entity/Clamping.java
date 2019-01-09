@@ -7,6 +7,10 @@ import cn.greatoo.easymill.entity.Coordinates;
 
 public class Clamping implements Cloneable {
 	
+	public enum ClampingType {
+		LENGTH, WIDTH
+	}
+	
 	public static enum Type {
 		CENTRUM {
 			@Override
@@ -52,6 +56,7 @@ public class Clamping implements Cloneable {
 	private float defaultHeight;
 	private String imageURL;
 	private Type type;
+	private ClampingType clampingType;
 	// Process ID that is currently located in the clamping - default value = -1
 	// In case of dualLoad, we can have 'two' workpieces in 'one' clamping
 	private Set<Integer> prcIdUsingClamping;
@@ -60,7 +65,7 @@ public class Clamping implements Cloneable {
 	// Default
 	private int nbOfPossibleWPToStore = 1;
 	
-	public Clamping(final Type type, final String name, String processName, Process.Step step, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
+	public Clamping(final Type type, ClampingType clampingType, final String name, String processName, Process.Step step, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
 			final Coordinates smoothFromPoint, final String imageURL) {
 		this.name = name;
 		this.processName = processName;
@@ -74,13 +79,18 @@ public class Clamping implements Cloneable {
 		this.prcIdUsingClamping = new HashSet<Integer>();
 		this.relatedClampings = new HashSet<Clamping>();
 		this.type = type;
+		this.clampingType = clampingType;
 	}
 
-	public Clamping(final Type type, final String name, String  processName, Process.Step step, final float defaultHeight, 
+	public Clamping(final Type type, ClampingType clampingType,final String name, String  processName, Process.Step step, final float defaultHeight, 
 			final Coordinates relativePosition, final Coordinates smoothPoint, final String imageURL) {
-		this(type, name, processName, step, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
+		this(type, clampingType, name, processName, step, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
 	}
 	
+	public Clamping() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -111,6 +121,14 @@ public class Clamping implements Cloneable {
 
 	public void setType(final Type type) {
 		this.type = type;
+	}
+
+	public ClampingType getClampingType() {
+		return clampingType;
+	}
+
+	public void setClampingType(ClampingType clampingType) {
+		this.clampingType = clampingType;
 	}
 
 	public void addRelatedClamping(final Clamping clamping) {
@@ -223,7 +241,7 @@ public class Clamping implements Cloneable {
 	
 	@Override
 	public Clamping clone() throws CloneNotSupportedException {
-		Clamping clonedClamping = new Clamping(this.type, this.name, this.processName, this.step, this.defaultHeight, this.relativePosition, this.smoothToPoint, this.smoothFromPoint, this.imageURL);
+		Clamping clonedClamping = new Clamping(this.type, this.clampingType,this.name, this.processName, this.step, this.defaultHeight, this.relativePosition, this.smoothToPoint, this.smoothFromPoint, this.imageURL);
 		clonedClamping.setId(this.id);
 		return clonedClamping;
 	}
