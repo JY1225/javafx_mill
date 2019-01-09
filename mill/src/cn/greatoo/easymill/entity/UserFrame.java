@@ -4,13 +4,13 @@ public class UserFrame {
 
 	private int id; 
 	private String processName;
-	private Process.Step step;
+	private Program.Step step;
 	private String name;
 	private int number;
 	private float zSafeDistance;
 	private Coordinates location;
 	
-	public UserFrame(String processName, Process.Step step, final int number, final String name, final float zSafeDistance, final Coordinates location) {
+	public UserFrame(String processName, Program.Step step, final int number, final String name, final float zSafeDistance, final Coordinates location) {
 		this.processName = processName;
 		this.step = step;
 		this.number = number;
@@ -27,11 +27,11 @@ public class UserFrame {
 		this.processName = processName;
 	}
 
-	public Process.Step getStep() {
+	public Program.Step getStep() {
 		return step;
 	}
 
-	public void setStep(Process.Step step) {
+	public void setStep(Program.Step step) {
 		this.step = step;
 	}
 

@@ -4,22 +4,20 @@ public class Step {
 
 	private int id;
 	private String processName;
-	private Process.Step step;
+	private Program.Step step;
 	private Gripper gripper;
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
-	private boolean releaseBeforeMachine;
 	
-	public Step(String processName, Process.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
-			Smooth smooth, boolean releaseBeforeMachine) {
+	public Step(String processName, Program.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
+			Smooth smooth) {
 		this.processName = processName;
 		this.step = step;
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
 		this.smooth = smooth;
-		this.releaseBeforeMachine = releaseBeforeMachine;
 	}
 
 	public int getId() {
@@ -38,11 +36,11 @@ public class Step {
 		this.processName = processName;
 	}
 
-	public Process.Step getStep() {
+	public Program.Step getStep() {
 		return step;
 	}
 
-	public void setStep(Process.Step step) {
+	public void setStep(Program.Step step) {
 		this.step = step;
 	}
 
@@ -77,14 +75,4 @@ public class Step {
 	public void setSmooth(Smooth smooth) {
 		this.smooth = smooth;
 	}
-
-	public boolean isReleaseBeforeMachine() {
-		return releaseBeforeMachine;
-	}
-
-	public void setReleaseBeforeMachine(boolean releaseBeforeMachine) {
-		this.releaseBeforeMachine = releaseBeforeMachine;
-	}
-	
-	
 }

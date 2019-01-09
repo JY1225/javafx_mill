@@ -49,7 +49,7 @@ public class ClampViewController  extends Controller {
         comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-            	gripper.setName((String) newValue);
+            	gripper.setSelectGripper((String) newValue);
             }
         });
         

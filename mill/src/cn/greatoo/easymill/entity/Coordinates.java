@@ -4,7 +4,7 @@ public class Coordinates {
 	
 	private int id;
 	private String processName;
-	private Process.Step step;
+	private Program.Step step;
 	private float x;
 	private float y;
 	private float z;
@@ -12,7 +12,7 @@ public class Coordinates {
 	private float p;
 	private float r;
 		
-	public Coordinates(String processName, Process.Step step, final float x, final float y, final float z, final float w, final float p, final float r) {
+	public Coordinates(String processName, Program.Step step, final float x, final float y, final float z, final float w, final float p, final float r) {
 		this.processName = processName;
 		this.step = step;
 		this.x = x;
@@ -60,11 +60,11 @@ public class Coordinates {
 		this.processName = processName;
 	}
 
-	public Process.Step getStep() {
+	public Program.Step getStep() {
 		return step;
 	}
 
-	public void setStep(Process.Step step) {
+	public void setStep(Program.Step step) {
 		this.step = step;
 	}
 

@@ -4,9 +4,8 @@ import java.beans.Transient;
 import java.util.HashSet;
 import java.util.Set;
 
+
 import cn.greatoo.easymill.entity.Coordinates;
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +18,10 @@ import javax.persistence.Table;
 @Table(name="Clamping")
 
 public class Clamping implements Cloneable {
+	
+	public enum ClampingType {
+		LENGTH, WIDTH
+	}
 	
 	public static enum Type {
 		CENTRUM {
@@ -60,8 +63,9 @@ public class Clamping implements Cloneable {
 	private int id;
 	@Column(name = "Clamping_NAME",length=32)
 	private String name;
-	
+
 	@Column(name = "relativePosition",length=32)
+
 	private Coordinates relativePosition;
 	
 	private Coordinates smoothToPoint;
@@ -69,10 +73,10 @@ public class Clamping implements Cloneable {
 	private float height;
 	private float defaultHeight;
 	private String imageURL;
-	private Type type;
-	
+	private Type type;	
 	private String processName;
-	private Process.Step step;
+	private ClampingType clampingType;
+
 	// Process ID that is currently located in the clamping - default value = -1
 	// In case of dualLoad, we can have 'two' workpieces in 'one' clamping
 	private Set<Integer> prcIdUsingClamping;
@@ -81,11 +85,9 @@ public class Clamping implements Cloneable {
 	// Default
 	private int nbOfPossibleWPToStore = 1;
 	
-	public Clamping(final Type type, final String name, String processName, Process.Step step, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
+	public Clamping(final Type type, ClampingType clampingType, final String name, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
 			final Coordinates smoothFromPoint, final String imageURL) {
 		this.name = name;
-		this.processName = processName;
-		this.step = step;
 		this.height = defaultHeight;
 		this.defaultHeight = defaultHeight;
 		this.relativePosition = relativePosition;
@@ -95,13 +97,18 @@ public class Clamping implements Cloneable {
 		this.prcIdUsingClamping = new HashSet<Integer>();
 		this.relatedClampings = new HashSet<Clamping>();
 		this.type = type;
+		this.clampingType = clampingType;
 	}
 
-	public Clamping(final Type type, final String name, String  processName, Process.Step step, final float defaultHeight, 
+	public Clamping(final Type type, ClampingType clampingType,final String name, String  processName, Program.Step step, final float defaultHeight, 
 			final Coordinates relativePosition, final Coordinates smoothPoint, final String imageURL) {
-		this(type, name, processName, step, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
+		this(type, clampingType, name, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
 	}
 	
+	public Clamping() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -110,28 +117,20 @@ public class Clamping implements Cloneable {
 		this.name = name;
 	}
 
-	public String getProcessName() {
-		return processName;
-	}
-
-	public void setProcessName(String processName) {
-		this.processName = processName;
-	}
-
-	public Process.Step getStep() {
-		return step;
-	}
-
-	public void setStep(Process.Step step) {
-		this.step = step;
-	}
-
 	public Type getType() {
 		return type;
 	}
 
 	public void setType(final Type type) {
 		this.type = type;
+	}
+
+	public ClampingType getClampingType() {
+		return clampingType;
+	}
+
+	public void setClampingType(ClampingType clampingType) {
+		this.clampingType = clampingType;
 	}
 
 	public void addRelatedClamping(final Clamping clamping) {
@@ -244,7 +243,7 @@ public class Clamping implements Cloneable {
 	
 	@Override
 	public Clamping clone() throws CloneNotSupportedException {
-		Clamping clonedClamping = new Clamping(this.type, this.name, this.processName, this.step, this.defaultHeight, this.relativePosition, this.smoothToPoint, this.smoothFromPoint, this.imageURL);
+		Clamping clonedClamping = new Clamping(this.type, this.clampingType,this.name, this.defaultHeight, this.relativePosition, this.smoothToPoint, this.smoothFromPoint, this.imageURL);
 		clonedClamping.setId(this.id);
 		return clonedClamping;
 	}

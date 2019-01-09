@@ -28,7 +28,7 @@ public class PickClampViewController extends Controller {
     private IconFlowSelector ifsClamping;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	
-	public static Gripper gripper = new Gripper();	
+	public static Gripper gripper = new Gripper();
 	
 	@SuppressWarnings("unchecked")
 	public void init() {
@@ -48,7 +48,7 @@ public class PickClampViewController extends Controller {
         comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-            	gripper.setName((String) newValue);
+            	gripper.setSelectGripper((String) newValue);
             }
         });
 	}

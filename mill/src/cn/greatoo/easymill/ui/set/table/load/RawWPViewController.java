@@ -3,7 +3,7 @@ package cn.greatoo.easymill.ui.set.table.load;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.entity.Process;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -55,8 +55,9 @@ public class RawWPViewController extends Controller {
 	private Button calculateBt;
 	List<Button> bts;
 	List<Button> mBts;
-	WorkPiece workPiece = new WorkPiece();
-	Stacker stacker = new Stacker();
+	public static WorkPiece workPiece = new WorkPiece();
+	public static Stacker stacker = new Stacker();
+	
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
@@ -69,7 +70,8 @@ public class RawWPViewController extends Controller {
 		mBts.add(FeBt);
 		mBts.add(OBt);
 
-		workPiece.setStep(Process.Step.UNLOADSTACKER);
+		workPiece.setStep(Program.Step.UNLOADSTACKER);
+		workPiece.setType(WorkPiece.Type.RAW);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
@@ -177,25 +179,25 @@ public class RawWPViewController extends Controller {
 	@FXML
 	public void AlBtAction(MouseEvent event) {
 		isClicked(mBts, AlBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.AL);
 	}
 	
 	@FXML
 	public void CuBtAction(MouseEvent event) {
 		isClicked(mBts, CuBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.CU);
 	}
 	
 	@FXML
 	public void FeBtAction(MouseEvent event) {
 		isClicked(mBts, FeBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.FE);
 	}
 	
 	@FXML
 	public void OBtAction(MouseEvent event) {
 		isClicked(mBts, OBt);
-		
+		workPiece.setMaterial(WorkPiece.Material.OTHER);
 	}
 	
 	@FXML

@@ -1,6 +1,8 @@
 package cn.greatoo.easymill.ui.set.table.unload;
 
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Program;
+import cn.greatoo.easymill.entity.Smooth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,24 +23,25 @@ public class PlaceViewController {
 	@FXML
 	private Button resetBt;
 
-	public static Coordinates coordinates = new Coordinates();
+	public static Smooth smooth = new Smooth();
 	public void init() {
+		smooth.setStep(Program.Step.LOADSTACKER);
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	coordinates.setX(Float.parseFloat(XField.getText()));  
+	        	smooth.setX(Float.parseFloat(XField.getText()));  
 	        }
 		});	
 		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	coordinates.setY(Float.parseFloat(YField.getText()));  
+	        	smooth.setY(Float.parseFloat(YField.getText()));  
 	        }
 		});	
 		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	coordinates.setZ(Float.parseFloat(ZField.getText()));  
+	        	smooth.setZ(Float.parseFloat(ZField.getText()));  
 	        }
 		});	
 		

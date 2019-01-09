@@ -1,12 +1,12 @@
 package cn.greatoo.easymill.entity;
 
-public class Process {			
+public class Program {			
 
 	private int id;	
 	private String name;
 	private Step step;
 	
-	public Process(String name) {
+	public Program(String name) {
 		this.name = name;
 	}
 	public enum Step {
