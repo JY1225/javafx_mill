@@ -9,7 +9,6 @@ public class Step {
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
-	
 	public Step(String processName, Program.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
 			Smooth smooth) {
 		this.processName = processName;
