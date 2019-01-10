@@ -8,14 +8,16 @@ public class Step {
 	private UserFrame userFrame;
 	private Smooth smooth;
 	private RobotPutSetting robotPutSetting;
+	private Coordinates offset;
 	
 	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
-			Smooth smooth, RobotPutSetting robotPutSetting) {
+			Smooth smooth, RobotPutSetting robotPutSetting, Coordinates offset) {
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
 		this.smooth = smooth;
 		this.robotPutSetting = robotPutSetting;
+		this.offset = offset;
 	}
 
 	public int getId() {
@@ -64,6 +66,14 @@ public class Step {
 
 	public void setRobotPutSetting(RobotPutSetting robotPutSetting) {
 		this.robotPutSetting = robotPutSetting;
+	}
+
+	public Coordinates getOffset() {
+		return offset;
+	}
+
+	public void setOffset(Coordinates offset) {
+		this.offset = offset;
 	}
 	
 }
