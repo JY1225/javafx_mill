@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.entity.Program;
-import cn.greatoo.easymill.entity.RobotPutSetting;
+import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.beans.value.ChangeListener;
@@ -32,7 +32,7 @@ public class CNCPutViewController extends Controller{
 	private Button aftBt;
 	List<Button> bts;
 	public static Smooth loadCNCSmooth = new Smooth();
-	public static RobotPutSetting RobotPutSetting = new RobotPutSetting();
+	public static RobotSetting RobotPutSetting = new RobotSetting();
 	
 	public void init() {
 		bts = new ArrayList<Button>();

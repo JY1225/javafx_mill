@@ -39,7 +39,7 @@ public class DBHandler {
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
 
     private static DBHandler handler = null;
-    private static final String DB_URL = "jdbc:derby:database;create=true;user=irscw;password=password";//jdbc:derby:roboDB;create=true";/
+    private static final String DB_URL = "jdbc:derby:database;create=true";//jdbc:derby:roboDB;create=true";/
     private static Connection conn = null;
     private static Statement stmt = null;
 
@@ -63,6 +63,7 @@ public class DBHandler {
     
     private static void inflateDB() {
         List<String> tableData = new ArrayList<>();
+        String tableName = null;
         try {
             Set<String> loadedTables = getDBTables();
             System.out.println("Already loaded tables " + loadedTables);
@@ -73,7 +74,7 @@ public class DBHandler {
             for (int i = 0; i < nList.getLength(); i++) {
                 Node nNode = nList.item(i);
                 Element entry = (Element) nNode;
-                String tableName = entry.getAttribute("name");
+                tableName = entry.getAttribute("name");
                 String query = entry.getAttribute("col-data");
                 if (!loadedTables.contains(tableName.toLowerCase())) {
                     tableData.add(String.format("CREATE TABLE %s (%s)", tableName, query));
@@ -88,7 +89,7 @@ public class DBHandler {
             }
         }
         catch (Exception ex) {
-            LOGGER.log(Level.ERROR, "{}", ex);
+            LOGGER.log(Level.ERROR, "{}", ex);            
         }
     }
 
