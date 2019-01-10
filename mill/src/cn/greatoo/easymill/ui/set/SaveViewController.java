@@ -1,9 +1,12 @@
 package cn.greatoo.easymill.ui.set;
 
+import java.sql.Timestamp;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.RobotPutSetting;
@@ -47,6 +50,10 @@ public class SaveViewController {
 	@FXML
 	public void save(MouseEvent event) throws DuplicateProcessFlowNameException  {
 		String programName = fulltxtName.getText();
+		Timestamp creatTime = new Timestamp(System.currentTimeMillis());
+		Timestamp lastOpenTime = null;
+		
+		//设置
 		Stacker stacker = RawWPViewController.stacker;
 		WorkPiece rawWorkPiece = RawWPViewController.workPiece;
 		
@@ -58,7 +65,6 @@ public class SaveViewController {
 		
 		Smooth loadCNCSmooth = CNCPutViewController.loadCNCSmooth;
 		RobotPutSetting RobotPutSetting = CNCPutViewController.RobotPutSetting;
-
 		
 		Smooth unloadCNCSmooth = CNCPickViewController.unloadCNCSmooth;
 		
@@ -68,10 +74,22 @@ public class SaveViewController {
 		
 		Smooth loadStackerSmooth = PlaceViewController.smooth;
 		
-		UserFrame satckerFrame = CoordinateViewController.userFrame;
-		Step unloadStacker = new Step(loadGripper,rawWorkPiece,satckerFrame,unloadStackerSmooth,null);
 		
-		Program program = new Program(programName,unloadStacker,unloadStacker,unloadStacker,unloadStacker,"","");
+		//step1
+		UserFrame satckerFrame = CoordinateViewController.stackerFrame;
+		Step unloadStacker = new Step(loadGripper,rawWorkPiece,satckerFrame,unloadStackerSmooth,null,new Coordinates());		
+		
+		//step2
+		UserFrame cncFrame = CoordinateViewController.cncFrame;
+		Step loadCNC = new Step(loadGripper,rawWorkPiece,cncFrame,loadCNCSmooth,RobotPutSetting,new Coordinates());
+		
+		//step3
+		Step unloadCNC = new Step(unloadGripper,finishWorkPiece,cncFrame,unloadCNCSmooth,null,new Coordinates());
+		
+		//step4
+		Step loadstacker = new Step(unloadGripper,finishWorkPiece,satckerFrame,loadStackerSmooth,null,new Coordinates());
+				
+		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime);
 		
 	}			
 	

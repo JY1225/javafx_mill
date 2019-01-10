@@ -52,8 +52,8 @@ public class CoordinateViewController extends Controller {
 
 	private boolean editMode;
 	List<Button> bts;
-	public static UserFrame userFrame = new UserFrame();	
-	
+	public static UserFrame stackerFrame = new UserFrame();	
+	public static UserFrame cncFrame = new UserFrame();
 	@SuppressWarnings("unchecked")
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -123,9 +123,6 @@ public class CoordinateViewController extends Controller {
 	@FXML
 	public void saveBtAction(ActionEvent event) {
 		String name = nameText.getText();
-		userFrame.setName(name);
-		userFrame.setNumber(Integer.parseInt(NrText.getText()));
-		userFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));
 		Coordinates location = new Coordinates();
 		location.setX(Float.parseFloat(XText.getText()));
 		location.setY(Float.parseFloat(YText.getText()));
@@ -133,7 +130,17 @@ public class CoordinateViewController extends Controller {
 		location.setW(Float.parseFloat(WText.getText()));
 		location.setP(Float.parseFloat(PText.getText()));
 		location.setR(Float.parseFloat(RText.getText()));
-		userFrame.setLocation(location);
+		if(name.equals("STACKER")) {
+			stackerFrame.setName(name);
+			stackerFrame.setNumber(Integer.parseInt(NrText.getText()));
+			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
+			stackerFrame.setLocation(location);
+		}else {
+			cncFrame.setName(name);
+			cncFrame.setNumber(Integer.parseInt(NrText.getText()));
+			cncFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
+			cncFrame.setLocation(location);
+		}
 		
 	}
 	@Override

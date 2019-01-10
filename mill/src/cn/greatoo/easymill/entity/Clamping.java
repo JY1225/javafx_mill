@@ -57,17 +57,10 @@ public class Clamping implements Cloneable {
 		NONE
 	} 
 	
-	@Id
-	@Column(name="Clamping_ID", nullable=false, updatable=false, unique=true)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	private int id;
-	@Column(name = "Clamping_NAME",length=32)
 	private String name;
-
-	@Column(name = "relativePosition",length=32)
-
-	private Coordinates relativePosition;
-	
+	private Coordinates relativePosition;	
 	private Coordinates smoothToPoint;
 	private Coordinates smoothFromPoint;
 	private float height;
@@ -76,12 +69,8 @@ public class Clamping implements Cloneable {
 	private Type type;	
 	private ClampingType clampingType;
 
-	// Process ID that is currently located in the clamping - default value = -1
-	// In case of dualLoad, we can have 'two' workpieces in 'one' clamping
 	private Set<Integer> prcIdUsingClamping;
-	// Related clampings that are currently active for use - unique per processFlow
 	private Set<Clamping> relatedClampings;
-	// Default
 	private int nbOfPossibleWPToStore = 1;
 	
 	public Clamping(final Type type, ClampingType clampingType, final String name, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,

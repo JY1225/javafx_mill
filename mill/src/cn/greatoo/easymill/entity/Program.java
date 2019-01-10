@@ -1,23 +1,25 @@
 package cn.greatoo.easymill.entity;
 
+import java.sql.Timestamp;
+
 public class Program {			
 
 	private int id;	
 	private String name;
-	private String timeCreate;
-	private String timeLastOpen;
+	private Timestamp timeCreate;
+	private Timestamp timeLastOpen;
 	private cn.greatoo.easymill.entity.Step unloadstacker;
 	private cn.greatoo.easymill.entity.Step loadCNC;
 	private cn.greatoo.easymill.entity.Step unloadCNC;
 	private cn.greatoo.easymill.entity.Step loadstacker;
 	
-	public Program(String name,cn.greatoo.easymill.entity.Step unloadStacker2,cn.greatoo.easymill.entity.Step unloadStacker3,
-			cn.greatoo.easymill.entity.Step unloadStacker4,cn.greatoo.easymill.entity.Step unloadStacker5, String timeCreate, String timeLastOpen) {
+	public Program(String name,cn.greatoo.easymill.entity.Step unloadstacker,cn.greatoo.easymill.entity.Step loadCNC,
+			cn.greatoo.easymill.entity.Step unloadCNC,cn.greatoo.easymill.entity.Step loadstacker, Timestamp timeCreate, Timestamp timeLastOpen) {
 		this.name = name;
-		this.unloadstacker = unloadStacker2;
-		this.loadCNC = unloadStacker3;
-		this.unloadCNC = unloadStacker4;
-		this.loadstacker = unloadStacker5;
+		this.unloadstacker = unloadstacker;
+		this.loadCNC = loadCNC;
+		this.unloadCNC = unloadCNC;
+		this.loadstacker = loadstacker;
 		this.timeCreate = timeCreate;
 		this.timeLastOpen = timeLastOpen;
 	}
@@ -73,19 +75,19 @@ public class Program {
 		this.loadstacker = loadstacker;
 	}
 
-	public String getTimeCreate() {
+	public Timestamp getTimeCreate() {
 		return timeCreate;
 	}
 
-	public void setTimeCreate(String timeCreate) {
+	public void setTimeCreate(Timestamp timeCreate) {
 		this.timeCreate = timeCreate;
 	}
 
-	public String getTimeLastOpen() {
+	public Timestamp getTimeLastOpen() {
 		return timeLastOpen;
 	}
 
-	public void setTimeLastOpen(String timeLastOpen) {
+	public void setTimeLastOpen(Timestamp timeLastOpen) {
 		this.timeLastOpen = timeLastOpen;
 	}
 	
