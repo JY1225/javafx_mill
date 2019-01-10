@@ -11,7 +11,8 @@ public class Step {
 	private Coordinates offset;
 	
 	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
-			Smooth smooth, RobotPutSetting robotPutSetting, Coordinates offset) {
+		Smooth smooth, RobotPutSetting robotPutSetting, Coordinates offset) {
+
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
