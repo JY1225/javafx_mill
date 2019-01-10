@@ -74,7 +74,6 @@ public class Clamping implements Cloneable {
 	private float defaultHeight;
 	private String imageURL;
 	private Type type;	
-	private String processName;
 	private ClampingType clampingType;
 
 	// Process ID that is currently located in the clamping - default value = -1

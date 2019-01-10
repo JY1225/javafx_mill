@@ -3,7 +3,25 @@ package cn.greatoo.easymill.entity;
 public class Gripper {
 	
 	public enum Type {
-		TWOPOINT, VACUUM
+		TWOPOINT(1), VACUUM(2);
+		private int id;
+		
+		private Type(int id) {
+			this.id = id;
+		}
+		
+		public int getTypeId() {
+			return this.id;
+		}
+		
+		public static Type getTypeById(int id) throws IllegalStateException {
+			for (Type GripperType: Type.values()) {
+				if (GripperType.getTypeId() == id) {
+					return GripperType;
+				}
+			}
+			throw new IllegalStateException("Unknown workpiece type: [" + id + "].");
+		}
 	}
 	
 	private int id;

@@ -7,18 +7,11 @@ public class Step {
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
-<<<<<<< HEAD
-	private RobotPutsetting RobotPutsetting;
-	public Step(String processName, Program.Step step, Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
-			Smooth smooth) {
-		this.processName = processName;
-		this.step = step;
-=======
+
 	private RobotPutSetting robotPutSetting;
 	
 	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
 			Smooth smooth, RobotPutSetting robotPutSetting) {
->>>>>>> branch 'master' of http://192.168.1.73:1000/r/mill/v1.0.git
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
