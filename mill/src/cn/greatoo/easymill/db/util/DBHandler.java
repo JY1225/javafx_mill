@@ -320,8 +320,17 @@ public class DBHandler {
 		return mCodes;
 	}
 
+    /**
+     * results=stmt.getGeneratedKeys();//这一句代码就是得到插入的记录的id
+		   while(results.next()){
+		    id=results.getLong(1);
+		   }
+     * @param program
+     */
     public void saveProgram(Program program) {
-    	
+    	PreparedStatement stmt = conn.prepareStatement("SELECT * FROM MCODE WHERE MCODEADAPTER = ?");
+		stmt.setInt(1, cncMachineId);//1
+		ResultSet results = stmt.executeQuery();	
     }
     private static void createTables(List<String> tableData) throws SQLException {
         Statement statement = conn.createStatement();
