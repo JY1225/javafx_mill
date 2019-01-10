@@ -25,6 +25,7 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 		<buildCommand>
 			<name>org.hibernate.eclipse.console.hibernateBuilder</name>
 			<arguments>
@@ -37,5 +38,13 @@
 		<nature>org.jkiss.dbeaver.DBeaverNature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
+=======
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.jkiss.dbeaver.DBeaverNature</nature>
+		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+>>>>>>> branch 'master' of http://192.168.1.73:1000/r/mill/v1.0.git
 	</natures>
 </projectDescription>

@@ -331,6 +331,13 @@ public class CNCMachine extends AbstractCNCMachine {
 		
 		return command;
 	}
+
+	public boolean canPut(int mCodeLoad) throws InterruptedException, DeviceActionException {
+		if ((getWayOfOperating() == EWayOfOperating.M_CODES) || (getWayOfOperating() == EWayOfOperating.M_CODES_DUAL_LOAD)) {			
+			return getMCodeAdapter().isMCodeActive(mCodeLoad);
+		}
+		return true;
+	}
 	
 	public void putFinished() throws AbstractCommunicationException, InterruptedException {
 	}

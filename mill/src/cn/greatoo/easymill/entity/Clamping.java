@@ -1,26 +1,35 @@
 package cn.greatoo.easymill.entity;
 
-import java.beans.Transient;
 import java.util.HashSet;
 import java.util.Set;
-
-
-import cn.greatoo.easymill.entity.Coordinates;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-
-@Entity
-@Table(name="Clamping")
 
 public class Clamping implements Cloneable {
 	
 	public enum ClampingType {
-		LENGTH, WIDTH
+		LENGTH(1), WIDTH(2);
+		
+		private int id;
+		
+		private ClampingType(int id) {
+			this.id = id;
+		}
+		
+		public int getId() {
+			return this.id;
+		}
+		
+		public int getIdTypeId() {
+			return this.id;
+		}
+		public static ClampingType getTypeById(int id) throws IllegalStateException {
+			for (ClampingType clampingType: ClampingType.values()) {
+				if (clampingType.getId() == id) {
+					return clampingType;
+				}
+			}
+			throw new IllegalStateException("Unknown workpiece type: [" + id + "].");
+		}
+
 	}
 	
 	public static enum Type {

@@ -50,7 +50,7 @@ public class TeachAndAutoThread implements Runnable {
 			
 			//===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
 			PutToCNCStep.putToCNC(robot, cncMachine, teached, view);
-			
+
 			//===从机床pick工件出来===机器人抓取工件回到原点
 			PickFromCNCStep.pickFromCNC(robot, cncMachine, teached, view);
 			
