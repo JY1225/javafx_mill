@@ -7,8 +7,9 @@ public class Step {
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
-	private RobotPutSetting robotPutSetting;
+	private RobotPutSetting robotPutSetting;	
 	private Coordinates offset;
+	
 	
 	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
 		Smooth smooth, RobotPutSetting robotPutSetting, Coordinates offset) {

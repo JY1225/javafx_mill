@@ -32,6 +32,7 @@ import cn.greatoo.easymill.cnc.ECNCOption;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.cnc.GenericMCode;
 import cn.greatoo.easymill.cnc.MCodeAdapter;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 public class DBHandler {
 
@@ -150,10 +151,7 @@ public class DBHandler {
     /**
      * JY
      * renturn CNCMachine
-     * results=stmt.getGeneratedKeys();//这一句代码就是得到插入的记录的id
-		   while(results.next()){
-		    id=results.getLong(1);
-		   }
+     * 
      */
     public AbstractCNCMachine getCNCMillingMachine(final int id,CNCSocketCommunication cncSocketConnection){
     	AbstractCNCMachine cncMillingMachine = null;
@@ -322,6 +320,9 @@ public class DBHandler {
 		return mCodes;
 	}
 
+    public void saveProgram(Program program) {
+    	
+    }
     private static void createTables(List<String> tableData) throws SQLException {
         Statement statement = conn.createStatement();
         statement.closeOnCompletion();
@@ -339,19 +340,5 @@ public class DBHandler {
 		return conn;
     }
     
-	
-	private void deleteWorkPiece(Integer workPieceId) throws SQLException {
-		PreparedStatement stmtDeleteCoordinates = conn.prepareStatement("delete from workpiece where id=?");
-		stmtDeleteCoordinates.setInt(1, workPieceId);
-		stmtDeleteCoordinates.executeUpdate();
-	}
-	
-	private void deleteCoordinate(Integer coordinateId) throws SQLException {
-		PreparedStatement stmtDeleteCoordinates = conn.prepareStatement("delete from coordinates where id=?");
-		stmtDeleteCoordinates.setInt(1, coordinateId);
-		stmtDeleteCoordinates.executeUpdate();
-	}
-    
-
     
 }

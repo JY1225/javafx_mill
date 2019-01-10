@@ -63,7 +63,7 @@ public class PutToCNCStep {
 			float smoothPointZ = 20.5f;
 			
 			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
-					clamping, approachType, zSafePlane);
+					clamping, approachType, zSafePlane);			
 			robot.startService();
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PUT_TO_CNC));
 			cncMachine.prepareForPut(false, 0,0);
