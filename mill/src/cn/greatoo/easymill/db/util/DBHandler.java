@@ -40,7 +40,7 @@ public class DBHandler {
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
 
     private static DBHandler handler = null;
-    private static final String DB_URL = "jdbc:derby:database;create=true;user=irscw;password=password";//jdbc:derby:roboDB;create=true";/
+    private static final String DB_URL = "jdbc:derby:database;create=true";
     private static Connection conn = null;
     private static Statement stmt = null;
 
@@ -321,16 +321,24 @@ public class DBHandler {
 	}
 
     /**
-     * results=stmt.getGeneratedKeys();//这一句代码就是得到插入的记录的id
-		   while(results.next()){
-		    id=results.getLong(1);
-		   }
+     * 
      * @param program
      */
     public void saveProgram(Program program) {
-    	PreparedStatement stmt = conn.prepareStatement("SELECT * FROM MCODE WHERE MCODEADAPTER = ?");
-		stmt.setInt(1, cncMachineId);//1
-		ResultSet results = stmt.executeQuery();	
+    	try {
+    		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PROGRAM WHERE NAME = ?");		
+			stmt.setString(1, program.getName());
+			ResultSet results = stmt.executeQuery();
+			if(results != null) {
+				PreparedStatement updateStmt = conn.prepareStatement("UPDATE PROGRAM SET NAME = ?");		
+				stmt.setString(1, program.getName());
+			}else {
+				
+			}
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		
     }
     private static void createTables(List<String> tableData) throws SQLException {
         Statement statement = conn.createStatement();
