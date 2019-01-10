@@ -9,7 +9,7 @@ import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
-import cn.greatoo.easymill.entity.RobotPutSetting;
+import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.Step;
@@ -64,7 +64,7 @@ public class SaveViewController {
 		Clamping clamping = CNCDeviceViewController.clamping;		
 		
 		Smooth loadCNCSmooth = CNCPutViewController.loadCNCSmooth;
-		RobotPutSetting RobotPutSetting = CNCPutViewController.RobotPutSetting;
+		RobotSetting RobotPutSetting = CNCPutViewController.RobotPutSetting;
 		
 		Smooth unloadCNCSmooth = CNCPickViewController.unloadCNCSmooth;
 		

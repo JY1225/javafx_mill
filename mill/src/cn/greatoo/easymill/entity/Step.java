@@ -7,18 +7,17 @@ public class Step {
 	private WorkPiece workPiece;
 	private UserFrame userFrame;
 	private Smooth smooth;
-	private RobotPutSetting robotPutSetting;	
+	private RobotSetting robotSetting;
 	private Coordinates offset;
-	
-	
-	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
-		Smooth smooth, RobotPutSetting robotPutSetting, Coordinates offset) {
 
+
+	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
+		Smooth smooth, RobotSetting robotSetting, Coordinates offset) {
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
 		this.smooth = smooth;
-		this.robotPutSetting = robotPutSetting;
+		this.robotSetting = robotSetting;
 		this.offset = offset;
 	}
 
@@ -62,12 +61,12 @@ public class Step {
 		this.smooth = smooth;
 	}
 
-	public RobotPutSetting getRobotPutSetting() {
-		return robotPutSetting;
+	public RobotSetting getRobotSetting() {
+		return robotSetting;
 	}
 
-	public void setRobotPutSetting(RobotPutSetting robotPutSetting) {
-		this.robotPutSetting = robotPutSetting;
+	public void setRobotSetting(RobotSetting robotSetting) {
+		this.robotSetting = robotSetting;
 	}
 
 	public Coordinates getOffset() {
