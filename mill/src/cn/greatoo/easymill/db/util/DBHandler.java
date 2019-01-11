@@ -158,88 +158,16 @@ public class DBHandler {
     	try {
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNCMILLINGMACHINE WHERE ID = ?");
 		stmt.setInt(1, id);//1
-		ResultSet results = stmt.executeQuery();
-		
+		ResultSet results = stmt.executeQuery();		
 		if (results.next()) {
-			int deviceInterfaceId = results.getInt("DEVICEINTERFACE");//1
-			int clampingWidthR = results.getInt("CLAMPING_WIDTH_R");//90
-			boolean usesNewDevInt = results.getBoolean("NEW_DEV_INT");//true
-			int nbFixtures = results.getInt("NB_FIXTURES");//1
-			float rRoundPieces = results.getFloat("R_ROUND_PIECES");//90
-			EWayOfOperating wayOfOperating = EWayOfOperating.getWayOfOperatingById(results.getInt("WAYOFOPERATING"));//2
-			PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM DEVICEINTERFACE WHERE ID = ?");
-			stmt2.setInt(1, deviceInterfaceId);
-			ResultSet results2 = stmt2.executeQuery();
-			
-			if (results2.next()) {
-				cncMillingMachine = CNCMachine.getInstance(cncSocketConnection, getMCodeAdapter(id), wayOfOperating);			
-				Map<ECNCOption, Boolean> cncOptions = getCNCOptions(id);
-				if (cncOptions.get(ECNCOption.TIM_ALLOWED) != null) {
-					cncMillingMachine.setTIMAllowed(cncOptions.get(ECNCOption.TIM_ALLOWED));
-				}
-				if (cncOptions.get(ECNCOption.MACHINE_AIRBLOW) != null) {
-					cncMillingMachine.setMachineAirblow(cncOptions.get(ECNCOption.MACHINE_AIRBLOW));
-				}
-				if (cncOptions.get(ECNCOption.WORKNUMBER_SEARCH) != null) {
-				    cncMillingMachine.setWorkNumberSearch(cncOptions.get(ECNCOption.WORKNUMBER_SEARCH));
-				}
-				if (cncOptions.get(ECNCOption.CLAMPING_PRESSURE_SELECTABLE) != null) {
-				    cncMillingMachine.setClampingPressureSelectable(cncOptions.get(ECNCOption.CLAMPING_PRESSURE_SELECTABLE));
-				}
-				cncMillingMachine.setId(id);
-			}
+			EWayOfOperating wayOfOperating = EWayOfOperating.getWayOfOperatingById(results.getInt("WAYOFOPERATING"));//2			
+			cncMillingMachine = CNCMachine.getInstance(cncSocketConnection, getMCodeAdapter(id), wayOfOperating);	
+			cncMillingMachine.setId(id);
 		}
     	}catch (SQLException ex) {
 	          LOGGER.log(Level.ERROR, "{}", ex);
 	      }
 		return cncMillingMachine;
-	}
-    
-    public int getZoneNr(int id) {
-    	int zonenr = 0;
-    	try {
-    		PreparedStatement stmt = conn.prepareStatement("SELECT ZONE_NR FROM ZONE WHERE ID = ?");
-    		stmt.setInt(1, id);
-    		ResultSet results = stmt.executeQuery();
-    		if (results.next()) {
-    			zonenr = results.getInt("ZONE_NR");
-    		}
-    	}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return zonenr;
-    }
-    
-    public int getWorkArea(int id) {
-    	int zonenr = 0;
-    	try {
-    		PreparedStatement stmt = conn.prepareStatement("SELECT NUMBER FROM USERFRAME WHERE ID = ?");
-    		stmt.setInt(1, id);
-    		ResultSet results = stmt.executeQuery();
-    		if (results.next()) {
-    			zonenr = results.getInt("NUMBER");
-    		}
-    	}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return zonenr;
-    }
-    
-    private Map<ECNCOption, Boolean> getCNCOptions(final int id){    	
-		Map<ECNCOption, Boolean> resultMap = new HashMap<ECNCOption, Boolean>();
-		try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNC_OPTION WHERE CNC_ID = ?");
-		stmt.setInt(1, id);
-		ResultSet results = stmt.executeQuery();
-		while (results.next()) {
-			ECNCOption option = ECNCOption.getCNCOptionById(results.getInt("OPTION_ID"));
-			boolean value = results.getBoolean("OPTION_VALUE");
-			resultMap.put(option, value);
-		}
-		}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return resultMap;
 	}
     
     /**

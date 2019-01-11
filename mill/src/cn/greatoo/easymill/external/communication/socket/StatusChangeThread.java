@@ -71,6 +71,7 @@ public class StatusChangeThread implements Runnable {
 				}
 
 				if (cncMachine != null) {
+					//更新状态和MCode
 					cncMachine.updateStatusAndAlarms();
 					boolean statusChanged = false;
 					// cncMachine.statusChanged();
@@ -81,6 +82,7 @@ public class StatusChangeThread implements Runnable {
 					}
 					Set<Integer> activeMCodes = new HashSet<Integer>();
 					activeMCodes = cncMachine.getMCodeAdapter().getActiveMCodes();
+					//如果状态变或者MCode变通知线程继续进行
 					if ((statusChanged) || (!previousActiveMCodes.containsAll(activeMCodes))
 							|| (!activeMCodes.containsAll(previousActiveMCodes))) {
 
