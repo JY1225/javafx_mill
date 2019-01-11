@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import cn.greatoo.easymill.entity.Coordinates;
 
@@ -12,28 +13,32 @@ public class CoordinatesHandler {
 
 	Connection conn = DBHandler.getInstance().getConnection();
 
-	public long saveCoordinates(Coordinates Coordinates) {
-		long index = -1;
-		try {
-			String sql = "insert into Coordinates(x,y,z,w,p,r) value(?,?,?,?,?,?)";
-			PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setDouble(1, Coordinates.getX());
-			stmt.setDouble(2, Coordinates.getY());
-			stmt.setDouble(3, Coordinates.getZ());
-			stmt.setDouble(4, Coordinates.getW());
-			stmt.setDouble(5, Coordinates.getP());
-			stmt.setDouble(6, Coordinates.getR());			
-			stmt.executeUpdate();
-			ResultSet results = stmt.getGeneratedKeys();// 这一句代码就是得到插入的记录的id
-			while (results.next()) {
-				index = results.getLong(1);
-			}
-			return index;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return index;
-	}
+    public void saveCoordinates(final Coordinates coordinates) throws SQLException {
+        if (coordinates.getId() <= 0) {
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO COORDINATES (X, Y, Z, W, P, R) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            stmt.setFloat(1, coordinates.getX());
+            stmt.setFloat(2, coordinates.getY());
+            stmt.setFloat(3, coordinates.getZ());
+            stmt.setFloat(4, coordinates.getW());
+            stmt.setFloat(5, coordinates.getP());
+            stmt.setFloat(6, coordinates.getR());
+            stmt.executeUpdate();
+            ResultSet keys = stmt.getGeneratedKeys();
+            if ((keys != null) && (keys.next())) {
+                coordinates.setId(keys.getInt(1));
+            }
+        } else {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE COORDINATES SET X = ?, Y = ?, Z = ?, W = ?, P = ?, R = ? WHERE ID = ?");
+            stmt.setFloat(1, coordinates.getX());
+            stmt.setFloat(2, coordinates.getY());
+            stmt.setFloat(3, coordinates.getZ());
+            stmt.setFloat(4, coordinates.getW());
+            stmt.setFloat(5, coordinates.getP());
+            stmt.setFloat(6, coordinates.getR());
+            stmt.setInt(7, coordinates.getId());
+            stmt.executeUpdate();
+        }
+    }
 
 	public void updateCoordinates(Coordinates Coordinates) {
 		String sql = "update Coordinates set name=?,relativePosition=?,smoothToPoint=?,smoothFromPoint=?,height=?,defaultHeight=?,imageURL=?,"
