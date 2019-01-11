@@ -4,7 +4,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.cnc.EWayOfOperating;
+import cn.greatoo.easymill.cnc.GenericMCode;
+import cn.greatoo.easymill.cnc.MCodeAdapter;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import javafx.event.ActionEvent;
@@ -36,30 +42,59 @@ public class CNCConfigViewController extends Controller {
 	FXMLLoader fxmlLoader;
 	private Parent generalParent;
 	private Parent mCodeParent;
+	private static CNCMachine cnc;
 	
 	@SuppressWarnings("unchecked")
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(generalBt);
 		bts.add(MCodeBt);
-
-		comboBox.getItems().add("CNC MACHINE1");
-		comboBox.getItems().add("CNC MACHINE2");
+		comboBox.getItems().add("CNC MACHINE");
+		comboBox.getSelectionModel().select(0);
+		cnc = CNCMachine.getInstance(null, null, null);
+		if(cnc.getSocketConnection() == null) {
+			cnc.setName((String)comboBox.getValue());
+		}else {		
+			cnc.getSocketConnection().setName("CNC MACHINE");
+		}
 	}
 
+	@SuppressWarnings({"static-access" })
 	@FXML
 	public void saveBtAction(ActionEvent event) {
-		showNotificationOverlay(MainViewController.parentStackPane, "保存CNC配置信息", "请注意，更改只有在重启后生效！");
+		//askConfirmation(MainViewController.parentStackPane, "保存CNC配置信息", "请注意，更改只有在重启后生效！");
+		List<String> robotServiceInputNames = mCodeConfigViewController.getRobotServiceInputNames();
+		List<String> robotServiceOutputNames = mCodeConfigViewController.getRobotServiceOutputNames();
+		
+		List<String> mCodeNames = mCodeConfigViewController.getMCodeNames();
+		
+		List<Set<Integer>> robotServiceInputs = mCodeConfigViewController.getMCodeRobotServiceInputs();
+		List<Set<Integer>> robotServiceOutputs = mCodeConfigViewController.getMCodeRobotServiceOutputs();
+		
+		SocketConnection socketConnection = generalConfigViewController.getSocketConnection();
+				
+		List<GenericMCode> genericMCodes = new ArrayList<>();
+		for(int i = 0;i < robotServiceInputs.size();i++) {		
+			GenericMCode genericMCode = new GenericMCode(i, mCodeNames.get(i), robotServiceInputs.get(i),
+					robotServiceOutputs.get(i));
+			genericMCodes.add(genericMCode);
+		}
+		
+		MCodeAdapter mCodeAdapter = new MCodeAdapter(genericMCodes,robotServiceInputNames,robotServiceOutputNames);
+		cnc.setMCodeAdapter(mCodeAdapter);
+		cnc.setSocketConnection(socketConnection);
+		cnc.setWayOfOperating(EWayOfOperating.getWayOfOperatingById(2));
+		
 	}
 
 	@FXML
 	public void generalBtAction(ActionEvent event) {
-		openGeneralview();
+		openGeneralview(cnc);
 	}
 
 	@FXML
 	public void MCodeBtAction(ActionEvent event) {
-		openMCodeView();
+		openMCodeView(cnc);
 	}
 
 	@FXML
@@ -71,7 +106,8 @@ public class CNCConfigViewController extends Controller {
 		}
 	}
 
-	private void openGeneralview() {
+	GeneralConfigViewController generalConfigViewController;
+	private void openGeneralview(CNCMachine cnc) {
 		if (comboBox.getValue() == null) {
 			showNotificationOverlay(MainViewController.parentStackPane, "通用配置", "注意，请选择机床！");
 		} else {
@@ -84,8 +120,8 @@ public class CNCConfigViewController extends Controller {
 					fxmlLoader.setLocation(location);
 					fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 					generalParent = fxmlLoader.load();
-					GeneralConfigViewController generalConfigViewController = fxmlLoader.getController();
-					generalConfigViewController.init();
+					generalConfigViewController = fxmlLoader.getController();
+					generalConfigViewController.init(cnc);
 					gridPane.add(generalParent, 0, 1, 2, 1);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -95,7 +131,8 @@ public class CNCConfigViewController extends Controller {
 		}
 	}
 
-	private void openMCodeView() {
+	MCodeConfigViewController mCodeConfigViewController;
+	private void openMCodeView(CNCMachine cnc) {
 		if (comboBox.getValue() == null) {
 			showNotificationOverlay(MainViewController.parentStackPane, "MCode配置", "注意，请选择机床！");
 		} else {
@@ -108,8 +145,8 @@ public class CNCConfigViewController extends Controller {
 					fxmlLoader.setLocation(location);
 					fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 					mCodeParent = fxmlLoader.load();
-					MCodeConfigViewController mCodeConfigViewController = fxmlLoader.getController();
-					mCodeConfigViewController.init();
+					mCodeConfigViewController = fxmlLoader.getController();
+					mCodeConfigViewController.init(cnc);
 					gridPane.add(mCodeParent, 0, 1, 2, 1);
 				} catch (IOException e) {
 					e.printStackTrace();

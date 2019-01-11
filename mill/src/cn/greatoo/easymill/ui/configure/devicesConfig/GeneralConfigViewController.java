@@ -3,7 +3,11 @@ package cn.greatoo.easymill.ui.configure.devicesConfig;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.ui.main.Controller;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -27,10 +31,22 @@ public class GeneralConfigViewController extends Controller {
 	@FXML
 	private Button postiveBt;
 	List<Button> bts;
-	public void init() {
+	public void init(CNCMachine cnc) {
 		bts = new ArrayList<Button>();
 		bts.add(minusBt);
 		bts.add(postiveBt);
+		nameText.setDisable(true);
+		if(cnc.getSocketConnection() == null) {
+			nameText.setText(cnc.getName());
+		}else {
+			nameText.setText(cnc.getSocketConnection().getName());
+			ipText.setText(cnc.getSocketConnection().getIpAddress());
+			portText.setText(String.valueOf(cnc.getSocketConnection().getPortNumber()));
+		}
+	}
+	
+	public SocketConnection getSocketConnection() {
+		return new SocketConnection(SocketConnection.Type.CLIENT,"CNC_CONN_THREAD", ipText.getText(), Integer.parseInt(portText.getText()));	
 	}
 	@FXML
 	private void minusBtAction(ActionEvent event) {

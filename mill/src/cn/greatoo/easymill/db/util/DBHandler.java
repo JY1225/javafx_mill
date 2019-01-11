@@ -8,10 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -28,7 +26,6 @@ import org.w3c.dom.NodeList;
 
 import cn.greatoo.easymill.cnc.AbstractCNCMachine;
 import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.cnc.ECNCOption;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.cnc.GenericMCode;
 import cn.greatoo.easymill.cnc.MCodeAdapter;

@@ -264,13 +264,7 @@ public class CNCMachine extends AbstractCNCMachine {
 
 		// Set pressure selection value
 		int clampingPressure = CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT_DEFAULT;
-		if (isClampingPressureSelectable()) {
-			if (true) {
-				clampingPressure = CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT_LOW;
-			} else {
-				clampingPressure = CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT_HIGH;
-			}
-		}
+
 		int[] pressureValue = { clampingPressure };
 		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT, pressureValue);
 
