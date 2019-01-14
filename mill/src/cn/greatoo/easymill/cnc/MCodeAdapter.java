@@ -5,13 +5,22 @@ import java.util.List;
 import java.util.Set;
 
 public class MCodeAdapter {
-	
+	private int id;
 	private List<GenericMCode> genericMCodes;
 	private List<String> robotServiceInputNames;
 	private List<String> robotServiceOutputNames;
 	private Set<Integer> activeRobotServiceInputs;
 	private Set<Integer> activeMCodes;
 	
+	public MCodeAdapter(int id, final List<GenericMCode> genericMCodes, final List<String> robotServiceInputNames,
+			final List<String> robotServiceOutputNames) {
+		this.id = id;
+		this.genericMCodes = genericMCodes;
+		this.robotServiceInputNames = robotServiceInputNames;
+		this.robotServiceOutputNames = robotServiceOutputNames;
+		this.activeRobotServiceInputs = new HashSet<Integer>();
+		this.activeMCodes = new HashSet<Integer>();
+	}
 	public MCodeAdapter(final List<GenericMCode> genericMCodes, final List<String> robotServiceInputNames,
 			final List<String> robotServiceOutputNames) {
 		this.genericMCodes = genericMCodes;
@@ -20,7 +29,13 @@ public class MCodeAdapter {
 		this.activeRobotServiceInputs = new HashSet<Integer>();
 		this.activeMCodes = new HashSet<Integer>();
 	}
-
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public List<String> getRobotServiceInputNames() {
 		return robotServiceInputNames;
 	}

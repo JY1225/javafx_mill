@@ -19,6 +19,14 @@ public class GenericMCode {
         this.robotServiceOutputsUsed = robotServiceOutputsUsed;
     }
 
+    public GenericMCode(final int index, final String name, final Set<Integer> robotServiceInputsRequired,
+            final Set<Integer> robotServiceOutputsUsed) {
+        this.index = index;
+        this.name = name;
+        this.robotServiceInputsRequired = robotServiceInputsRequired;
+        this.robotServiceOutputsUsed = robotServiceOutputsUsed;
+    }
+    
     public int getId() {
         return id;
     }

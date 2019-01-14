@@ -3,6 +3,7 @@ package cn.greatoo.easymill.ui.configure.devicesConfig;
 import java.util.HashSet;
 import java.util.Set;
 
+import cn.greatoo.easymill.cnc.MCodeAdapter;
 import cn.greatoo.easymill.util.FullTextField;
 import cn.greatoo.easymill.util.TextInputControlListener;
 import cn.greatoo.easymill.util.UIConstants;
@@ -79,6 +80,21 @@ public class MCodeNode extends GridPane implements TextInputControlListener{
 		fullTxtGmc.setFocusListener(listener);
 	}
 	
+	public void refresh(final MCodeAdapter mCodeAdapter) {
+		if (mCodeAdapter != null) {
+			fullTxtGmc.setText(mCodeAdapter.getGenericMCode(GMCIndex - 1).getName());
+			for (int i = 0; i < cbGmcList.length; i++) {
+				cbGmcList[i].selectedProperty().set(mCodeAdapter.getGenericMCode(GMCIndex - 1).getRobotServiceInputsRequired().contains(i));
+			}
+			cbGmcRsa.selectedProperty().set(mCodeAdapter.getGenericMCode(GMCIndex - 1).getRobotServiceOutputsUsed().contains(0));
+		} else {
+			fullTxtGmc.setText(lblGmc.getText());
+			for (int i = 0; i < cbGmcList.length; i++) {
+				cbGmcList[i].selectedProperty().set(true);
+			}
+			cbGmcRsa.selectedProperty().set(true);
+		}
+	}
 	
 	public Set<Integer> getMCodeRobotServiceInputs() {
 		Set<Integer> robotServiceInputs = new HashSet<Integer>();

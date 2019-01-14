@@ -1,13 +1,13 @@
 package cn.greatoo.easymill.external.communication.socket;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.db.util.CNCHandler;
+import cn.greatoo.easymill.db.util.RobotHandler;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -36,8 +36,8 @@ public class StatusChangeThread implements Runnable {
 		this.previousStatus = new HashMap<Integer, Integer>();
 		this.previousActiveMCodes = new HashSet<Integer>();
 		this.alive = true;
-		connCNC("127.0.0.1", 2010);
-		connRobo("127.0.0.1", 2001);
+		connCNC();
+		connRobo();
 		conn();
 	}
 
@@ -71,6 +71,7 @@ public class StatusChangeThread implements Runnable {
 				}
 
 				if (cncMachine != null) {
+					//更新状态和MCode
 					cncMachine.updateStatusAndAlarms();
 					boolean statusChanged = false;
 					// cncMachine.statusChanged();
@@ -81,6 +82,7 @@ public class StatusChangeThread implements Runnable {
 					}
 					Set<Integer> activeMCodes = new HashSet<Integer>();
 					activeMCodes = cncMachine.getMCodeAdapter().getActiveMCodes();
+					//如果状态变或者MCode变通知线程继续进行
 					if ((statusChanged) || (!previousActiveMCodes.containsAll(activeMCodes))
 							|| (!activeMCodes.containsAll(previousActiveMCodes))) {
 
@@ -103,16 +105,16 @@ public class StatusChangeThread implements Runnable {
 			@Override
 			public void run() {
 				while (isRunning) {
-					if (alarmListenThread != null) {
+					if (alarmListenThread != null && robotSocket != null && cncSocket != null) {
 						boolean isRobotConn = robotSocket.isConnected();
 						alarmListenThread.setIsRobotConn(isRobotConn);
 						if (!isRobotConn) {
-							connRobo("127.0.0.1", 2001);
+							connRobo();
 						}
 						boolean isCNCConn = cncSocket.isConnected();
 						alarmListenThread.setIsCNCConn(isCNCConn);
 						if (!isCNCConn) {
-							isCNCConn = connCNC("127.0.0.1", 2000);
+							isCNCConn = connCNC();
 						}
 						if (isCNCConn && isRobotConn) {
 							alarmListenThread.setIsRobotConn(isRobotConn);
@@ -130,33 +132,29 @@ public class StatusChangeThread implements Runnable {
 		}).start();
 	}
 
-	protected boolean connCNC(String ip, int port) {
+	protected boolean connCNC() {
 		try {
-			cncSocket = new SocketConnection(SocketConnection.Type.CLIENT, "CNC_CONN_THREAD", ip, port);
-			cncSocket.connect();
-			cncSocketConnection = new CNCSocketCommunication(cncSocket);
-			cncMachine = (CNCMachine) DBHandler.getInstance().getCNCMillingMachine(1, cncSocketConnection);
-			cncMachine.indicateOperatorRequested(false);
-			cncMachine.indicateOperatorRequested(false);
+			cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine(1);
+			if(cncMachine != null) {
+				cncMachine.indicateOperatorRequested(false);
+				cncMachine.indicateOperatorRequested(false);
+			}
 			return true;
-		} catch (IOException | SocketResponseTimedOutException | SocketDisconnectedException
+		} catch (SocketResponseTimedOutException | SocketDisconnectedException
 				| SocketWrongResponseException | InterruptedException e) {
-			cncSocket.disconnect();
 			return false;
 		}
 	}
 
-	protected boolean connRobo(String ip, int port) {
+	protected boolean connRobo() {
 		try {
-			robotSocket = new SocketConnection(SocketConnection.Type.CLIENT, "ROBO_CONN_THREAD", ip, port);
-			robotSocket.connect();
-			roboSocketConnection = new RobotSocketCommunication(robotSocket);
-			robot = FanucRobot.getInstance(roboSocketConnection);
-			robot.restartProgram();
+			robot = (FanucRobot)RobotHandler.getRobot(1);
+			if(robot != null) {
+				robot.restartProgram();
+			}
 			return true;
-		} catch (IOException | SocketDisconnectedException | SocketResponseTimedOutException
+		} catch (SocketDisconnectedException | SocketResponseTimedOutException
 				| SocketWrongResponseException | InterruptedException e) {
-			robotSocket.disconnect();
 			return false;
 		}
 	}

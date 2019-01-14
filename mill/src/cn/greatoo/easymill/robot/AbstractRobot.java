@@ -6,11 +6,12 @@ import java.util.Set;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public abstract class AbstractRobot {
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractRobot.disconnectedWhileWaiting";
-	private static RobotSocketCommunication fanucRobotCommunication;
-	private static Set<RobotAlarm> alarms;
+	private SocketConnection socketConnection;
+	private Set<RobotAlarm> alarms;
 	private static double xrest, yrest, zrest;
 	private static RobotAlarm robotTimeout;
 	private static int speed;
@@ -20,15 +21,13 @@ public abstract class AbstractRobot {
 	private static boolean statusChanged;
 	private static boolean teachingNeeded;
 	private int id;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public AbstractRobot(final RobotSocketCommunication socketConnection) {
-		fanucRobotCommunication = socketConnection;
+	private String name;
+	private float payload; 
+		
+	public AbstractRobot(String name,float payload,final SocketConnection socketConnection) {
+		this.socketConnection = socketConnection;
+		this.name = name;
+		this.payload = payload;
 		alarms = new HashSet<RobotAlarm>();
 		currentStatus = 0;
 		xrest = -1;
@@ -228,4 +227,30 @@ public abstract class AbstractRobot {
 			syncObject.notifyAll();
 		}
 	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public SocketConnection getSocketConnection() {
+		return socketConnection;
+	}
+	public void setSocketConnection(SocketConnection socketConnection) {
+		this.socketConnection = socketConnection;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public float getPayload() {
+		return payload;
+	}
+	public void setPayload(float payload) {
+		this.payload = payload;
+	}
+	
 }

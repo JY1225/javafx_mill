@@ -26,12 +26,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import cn.greatoo.easymill.cnc.AbstractCNCMachine;
-import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.cnc.ECNCOption;
-import cn.greatoo.easymill.cnc.EWayOfOperating;
-import cn.greatoo.easymill.cnc.GenericMCode;
-import cn.greatoo.easymill.cnc.MCodeAdapter;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
@@ -40,7 +34,6 @@ import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Step;
 import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.entity.WorkPiece;
-import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public class DBHandler {
@@ -238,178 +231,6 @@ public class DBHandler {
         }
     }
     
-    /**
-     * JY
-     * renturn CNCMachine
-     * 
-     */
-    public AbstractCNCMachine getCNCMillingMachine(final int id,CNCSocketCommunication cncSocketConnection){
-    	AbstractCNCMachine cncMillingMachine = null;
-    	try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNCMILLINGMACHINE WHERE ID = ?");
-		stmt.setInt(1, id);//1
-		ResultSet results = stmt.executeQuery();
-		
-		if (results.next()) {
-			int deviceInterfaceId = results.getInt("DEVICEINTERFACE");//1
-			int clampingWidthR = results.getInt("CLAMPING_WIDTH_R");//90
-			boolean usesNewDevInt = results.getBoolean("NEW_DEV_INT");//true
-			int nbFixtures = results.getInt("NB_FIXTURES");//1
-			float rRoundPieces = results.getFloat("R_ROUND_PIECES");//90
-			EWayOfOperating wayOfOperating = EWayOfOperating.getWayOfOperatingById(results.getInt("WAYOFOPERATING"));//2
-			PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM DEVICEINTERFACE WHERE ID = ?");
-			stmt2.setInt(1, deviceInterfaceId);
-			ResultSet results2 = stmt2.executeQuery();
-			
-			if (results2.next()) {
-				cncMillingMachine = CNCMachine.getInstance(cncSocketConnection, getMCodeAdapter(id), wayOfOperating);			
-				Map<ECNCOption, Boolean> cncOptions = getCNCOptions(id);
-				if (cncOptions.get(ECNCOption.TIM_ALLOWED) != null) {
-					cncMillingMachine.setTIMAllowed(cncOptions.get(ECNCOption.TIM_ALLOWED));
-				}
-				if (cncOptions.get(ECNCOption.MACHINE_AIRBLOW) != null) {
-					cncMillingMachine.setMachineAirblow(cncOptions.get(ECNCOption.MACHINE_AIRBLOW));
-				}
-				if (cncOptions.get(ECNCOption.WORKNUMBER_SEARCH) != null) {
-				    cncMillingMachine.setWorkNumberSearch(cncOptions.get(ECNCOption.WORKNUMBER_SEARCH));
-				}
-				if (cncOptions.get(ECNCOption.CLAMPING_PRESSURE_SELECTABLE) != null) {
-				    cncMillingMachine.setClampingPressureSelectable(cncOptions.get(ECNCOption.CLAMPING_PRESSURE_SELECTABLE));
-				}
-				cncMillingMachine.setId(id);
-			}
-		}
-    	}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return cncMillingMachine;
-	}
-    
-    public int getZoneNr(int id) {
-    	int zonenr = 0;
-    	try {
-    		PreparedStatement stmt = conn.prepareStatement("SELECT ZONE_NR FROM ZONE WHERE ID = ?");
-    		stmt.setInt(1, id);
-    		ResultSet results = stmt.executeQuery();
-    		if (results.next()) {
-    			zonenr = results.getInt("ZONE_NR");
-    		}
-    	}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return zonenr;
-    }
-    
-    public int getWorkArea(int id) {
-    	int zonenr = 0;
-    	try {
-    		PreparedStatement stmt = conn.prepareStatement("SELECT NUMBER FROM USERFRAME WHERE ID = ?");
-    		stmt.setInt(1, id);
-    		ResultSet results = stmt.executeQuery();
-    		if (results.next()) {
-    			zonenr = results.getInt("NUMBER");
-    		}
-    	}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return zonenr;
-    }
-    
-    private Map<ECNCOption, Boolean> getCNCOptions(final int id){    	
-		Map<ECNCOption, Boolean> resultMap = new HashMap<ECNCOption, Boolean>();
-		try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNC_OPTION WHERE CNC_ID = ?");
-		stmt.setInt(1, id);
-		ResultSet results = stmt.executeQuery();
-		while (results.next()) {
-			ECNCOption option = ECNCOption.getCNCOptionById(results.getInt("OPTION_ID"));
-			boolean value = results.getBoolean("OPTION_VALUE");
-			resultMap.put(option, value);
-		}
-		}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return resultMap;
-	}
-    
-    /**
-     * JY
-     * renturn MCodeAdapter
-     * RS1
-     */
-    public MCodeAdapter getMCodeAdapter(final int cncMachineId){
-    	MCodeAdapter mCodeAdapter = null;
-    	try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM MCODEADAPTER WHERE ID = ?");
-		stmt.setInt(1, cncMachineId);//1
-		ResultSet results = stmt.executeQuery();		
-		if (results.next()) {
-			String robotServiceInput1Name = results.getString("ROBOTSERVICEINPUT1");//RS1
-			String robotServiceInput2Name = results.getString("ROBOTSERVICEINPUT2");//RS2
-			String robotServiceInput3Name = results.getString("ROBOTSERVICEINPUT3");//RS3
-			String robotServiceInput4Name = results.getString("ROBOTSERVICEINPUT4");//RS4
-			String robotServiceInput5Name = results.getString("ROBOTSERVICEINPUT5");//RS5
-			String robotServiceOutput1Name = results.getString("ROBOTSERVICEOUTPUT1");//RSA
-			List<String> robotServiceInputNames = new ArrayList<String>();
-			robotServiceInputNames.add(robotServiceInput1Name);
-			robotServiceInputNames.add(robotServiceInput2Name);
-			robotServiceInputNames.add(robotServiceInput3Name);
-			robotServiceInputNames.add(robotServiceInput4Name);
-			robotServiceInputNames.add(robotServiceInput5Name);
-			List<String> robotServiceOutputNames = new ArrayList<String>();
-			robotServiceOutputNames.add(robotServiceOutput1Name);
-			mCodeAdapter = new MCodeAdapter(getMCodes(cncMachineId), robotServiceInputNames, robotServiceOutputNames);
-		}
-    	}catch (SQLException ex) {
-          LOGGER.log(Level.ERROR, "{}", ex);
-      }
-		return mCodeAdapter;
-	}
-    public List<GenericMCode> getMCodes(final int cncMachineId) throws SQLException{
-    	List<GenericMCode> mCodes = new ArrayList<GenericMCode>();
-    	try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM MCODE WHERE MCODEADAPTER = ?");
-		stmt.setInt(1, cncMachineId);//1
-		ResultSet results = stmt.executeQuery();		
-		while (results.next()) {
-			int id = results.getInt("ID");
-			String name = results.getString("NAME");
-			boolean usesRobotServiceInput1 = results.getBoolean("ROBOTSERVICEINPUT1");
-			boolean usesRobotServiceInput2 = results.getBoolean("ROBOTSERVICEINPUT2");
-			boolean usesRobotServiceInput3 = results.getBoolean("ROBOTSERVICEINPUT3");
-			boolean usesRobotServiceInput4 = results.getBoolean("ROBOTSERVICEINPUT4");
-			boolean usesRobotServiceInput5 = results.getBoolean("ROBOTSERVICEINPUT5");
-			Set<Integer> robotServiceInputsUsed = new HashSet<Integer>();
-			if (usesRobotServiceInput1) {
-				robotServiceInputsUsed.add(0);
-			}
-			if (usesRobotServiceInput2) {
-				robotServiceInputsUsed.add(1);
-			}
-			if (usesRobotServiceInput3) {
-				robotServiceInputsUsed.add(2);
-			}
-			if (usesRobotServiceInput4) {
-				robotServiceInputsUsed.add(3);
-			}
-			if (usesRobotServiceInput5) {
-				robotServiceInputsUsed.add(4);
-			}
-			boolean usesRobotServiceOutput1 = results.getBoolean("ROBOTSERVICEOUTPUT1");
-			Set<Integer> robotServiceOutputsUsed = new HashSet<Integer>();
-			if (usesRobotServiceOutput1) {
-				robotServiceOutputsUsed.add(0);
-			}
-			int index = results.getInt("INDEX");
-			GenericMCode mcode = new GenericMCode(id, index, name, robotServiceInputsUsed, robotServiceOutputsUsed);
-			mCodes.add(index, mcode);
-		}
-    	}catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, "{}", ex);
-        }
-		return mCodes;
-	}
-
     /**
      * 
      * @param program

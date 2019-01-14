@@ -1,61 +1,49 @@
 package cn.greatoo.easymill.cnc;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public abstract class AbstractCNCMachine  {	
+	private SocketConnection socketConnection;
 	private static int currentStatus;
 	private static boolean statusChanged;
 	private static Object syncObject;
 	private static boolean stopAction;
-	private static int clampingWidthR;
-	private static int nbFixtures;
 	private static Map<Integer, Integer> statusMap;
-	private static boolean timAllowed;
-	private static boolean machineAirblow;
-	private static float rRoundPieces;
-	private static boolean workNumberSearch;
-	private static boolean clampingPressureSelectable;
-	private static CNCMachineAlarm cncMachineTimeout;
-	private static Set<CNCMachineAlarm> alarms;
-	private static String name;
-	private static EWayOfOperating wayOfOperating;
-	private static MCodeAdapter mCodeAdapter;
-	private static int id;
+	private boolean timAllowed;
+	private CNCMachineAlarm cncMachineTimeout;
+	private Set<CNCMachineAlarm> alarms;
+	private String name;
+	private EWayOfOperating wayOfOperating;
+	private MCodeAdapter mCodeAdapter;
+	private int id;
 	private static Logger logger = LogManager.getLogger(AbstractCNCMachine.class.getName());
 	
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractCNCMachine.disconnectedWhileWaiting";
 	private static final String EXCEPTION_WHILE_WAITING = "AbstractCNCMachine.exceptionWhileWaiting";
 	
-	public AbstractCNCMachine(final CNCSocketCommunication socketConnection, MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
+	@SuppressWarnings("static-access")
+	public AbstractCNCMachine(SocketConnection socketConnection,MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
+		this.socketConnection = socketConnection;
 		this.statusChanged = false;
 		syncObject = new Object();
 		this.mCodeAdapter = mCodeAdapter;
 		this.currentStatus = 0;
 		this.stopAction = false;
-		this.clampingWidthR = clampingWidthR;
-		this.nbFixtures = nbFixtures;
-		this.rRoundPieces = rRoundPieces;
 		this.alarms = new HashSet<CNCMachineAlarm>();
 		//default values
 		this.timAllowed = false;
-		this.machineAirblow = false;
-		this.clampingPressureSelectable = false;
 		this.statusMap = new HashMap<Integer, Integer>();
-		this.zones = new HashSet<Zone>();
 		this.wayOfOperating = wayOfOperating;
 	}
 	
@@ -308,41 +296,6 @@ public abstract class AbstractCNCMachine  {
 		this.name = name;
 	}
 	
-	public void loadDeviceSettings(final DeviceSettings deviceSettings) {
-		for (Entry<SimpleWorkArea, Clamping> entry : deviceSettings.getClampings().entrySet()) {
-			entry.getKey().setDefaultClamping(entry.getValue());
-		}
-	}
-
-	private Set<Zone> zones;
-	public DeviceSettings getDeviceSettings() {
-		return new DeviceSettings(getWorkAreas());
-	}
-	
-	public List<SimpleWorkArea> getWorkAreas() {
-		List<SimpleWorkArea> workAreas = new ArrayList<SimpleWorkArea>();
-		for (WorkAreaManager workArea: getWorkAreaManagers()) {
-			workAreas.addAll(workArea.getWorkAreas().values());
-		}
-		return workAreas;
-	}
-	
-	public List<WorkAreaManager> getWorkAreaManagers() {
-		List<WorkAreaManager> workAreas = new ArrayList<WorkAreaManager>();
-		for (Zone zone : zones) {
-			workAreas.addAll(zone.getWorkAreaManagers());
-		}
-		return workAreas;
-	}
-	
-	public int getClampingWidthR() {
-		return clampingWidthR;
-	}
-
-	public void setClampingWidthR(final int clampingWidthR) {
-		this.clampingWidthR = clampingWidthR;
-	}
-	
 	public int getMaxNbOfProcesses() {
 		return wayOfOperating.getNbOfSides() + 1;
 	}
@@ -351,69 +304,12 @@ public abstract class AbstractCNCMachine  {
 	
 	public abstract CNCSocketCommunication getCNCSocketCommunication();
 	
-	public int getNbFixtures() {
-		return this.nbFixtures;
-	}
-	
-	public void setNbFixtures(final int nbFixtures) {
-		this.nbFixtures = nbFixtures;
-	}
-	
-	public float getRRoundPieces() {
-		return this.rRoundPieces;
-	}
-	
-	public void setRRoundPieces(float r) {
-		this.rRoundPieces = r;
-	}
-	
 	public boolean getTIMAllowed() {
 		return this.timAllowed;
 	}
 	
 	public void setTIMAllowed(boolean timAllowed) {
 		this.timAllowed = timAllowed;
-	}
-	
-	public boolean getMachineAirblow() {
-		return this.machineAirblow;
-	}
-	
-	public void setMachineAirblow(boolean machineAirblow) {
-		this.machineAirblow = machineAirblow;
-	}
-	
-	public boolean hasWorkNumberSearch() {
-	    return this.workNumberSearch;
-	}
-	
-	public void setWorkNumberSearch(boolean workNumberSearch) {
-	    this.workNumberSearch = workNumberSearch;
-	}
-
-    public boolean isClampingPressureSelectable() {
-        return clampingPressureSelectable;
-    }
-
-    public void setClampingPressureSelectable(boolean clampingPressureSelectable) {
-        this.clampingPressureSelectable = clampingPressureSelectable;
-    }
-
-    /**
-	 * Get the index of the mcode to check based on the workarea and the type of action.
-	 * 
-	 * @param 	workarea to use for the action (get the priority)
-	 * @param 	isPut represents a flag telling whether a put action or a pick action is needed
-	 * @return	index of Mcode
-	 * @see		WorkArea.#getPrioIfCloned()
-	 */
-	public int getMCodeIndex(final SimpleWorkArea workarea, final boolean isPut) {
-		int workAreaSeqNb = workarea.getSequenceNb() - 1;
-		int mCodeIndex = workAreaSeqNb * 2;
-		if (isPut) {
-			return mCodeIndex;
-		} 
-		return ++mCodeIndex;
 	}
 	
 	public static int getNxtMCode(final int mCode, final int nbCNCSteps) {
@@ -429,5 +325,13 @@ public abstract class AbstractCNCMachine  {
 	}
 	
 	 public abstract void stopMonitoringMotionEnablingThreads();
+
+	public SocketConnection getSocketConnection() {
+		return socketConnection;
+	}
+
+	public void setSocketConnection(SocketConnection socketConnection) {
+		this.socketConnection = socketConnection;
+	}
 
 }

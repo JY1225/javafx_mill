@@ -6,37 +6,36 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
 
 public class CNCMachine extends AbstractCNCMachine {
-
+	//private SocketConnection socketConnection;
 	private CNCSocketCommunication cncMachineCommunication;
 	public static CNCMachine INSTANCE = null;
 	private static final int PREPARE_PUT_TIMEOUT = 2 * 60 * 1000;
 	private static final int PREPARE_PICK_TIMEOUT = 2 * 60 * 1000;
 	private static final int CLAMP_TIMEOUT = 1 * 60 * 1000;
 	private static final int UNCLAMP_TIMEOUT = 1 * 60 * 1000;
-	private static final int START_CYCLE_TIMEOUT = 3 * 60 * 1000;
 	private static final int SLEEP_TIME_AFTER_RESET = 500;
 	private static final int OPERATOR_RQST_BLUE_LAMP_VAL = 5;
 	private static final int FINISH_BLUE_LAMP_VAL = 10;
 
 	private static Logger logger = LogManager.getLogger(CNCMachine.class.getName());
 
-	public CNCMachine(final CNCSocketCommunication socketConnection, final MCodeAdapter mCodeAdapter,
+	public CNCMachine(final SocketConnection socketConnection, final MCodeAdapter mCodeAdapter,
 			final EWayOfOperating wayOfOperating) {
-		super(socketConnection, mCodeAdapter, wayOfOperating);
-		this.cncMachineCommunication = socketConnection;
+		super(socketConnection,mCodeAdapter, wayOfOperating);
+		this.cncMachineCommunication = new CNCSocketCommunication(socketConnection,this);
 	}
 	
-	public static CNCMachine getInstance(final CNCSocketCommunication socketConnection,final MCodeAdapter mCodeAdapter,
+	public static CNCMachine getInstance(final SocketConnection socketConnection,final MCodeAdapter mCodeAdapter,
 			final EWayOfOperating wayOfOperating) {
-		if (INSTANCE == null) {
+		if (INSTANCE == null && socketConnection != null) {
 			INSTANCE = new CNCMachine(socketConnection,mCodeAdapter,wayOfOperating);
 		}
 		return INSTANCE;
@@ -75,7 +74,6 @@ public class CNCMachine extends AbstractCNCMachine {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void finishMCode(final int processId, final int mCodeIndex) throws SocketResponseTimedOutException,
 			SocketDisconnectedException, SocketWrongResponseException, InterruptedException, DeviceActionException {
 		Set<Integer> robotServiceOutputs = getMCodeAdapter().getGenericMCode(mCodeIndex).getRobotServiceOutputsUsed();
@@ -213,8 +211,8 @@ public class CNCMachine extends AbstractCNCMachine {
 		resetStatusValue(CNCMachineConstantsDevIntv.IPC_OK, CNCMachineConstantsDevIntv.IPC_PREPARE_FOR_PICK_OK);
 
 		int fixSelectCommand = 0;
-		fixSelectCommand = fixSelectCommand | selectZone(1);
-		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectZone();
+		fixSelectCommand = fixSelectCommand | selectWorkArea();
 		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
 		int command2 = 0 | CNCMachineConstantsDevIntv.IPC_PREPARE_FOR_PICK_CMD;
 		
@@ -264,20 +262,14 @@ public class CNCMachine extends AbstractCNCMachine {
 
 		// Set pressure selection value
 		int clampingPressure = CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT_DEFAULT;
-		if (isClampingPressureSelectable()) {
-			if (true) {
-				clampingPressure = CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT_LOW;
-			} else {
-				clampingPressure = CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT_HIGH;
-			}
-		}
+
 		int[] pressureValue = { clampingPressure };
 		cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.PRESSURE_LEVEL_SELECT, pressureValue);
 
 		// Create prepare for put command
 		int fixSelectCommand = 0;
-		fixSelectCommand = fixSelectCommand | selectZone(1);
-		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectZone();
+		fixSelectCommand = fixSelectCommand | selectWorkArea();
 		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
 		int command2 = 0 | CNCMachineConstantsDevIntv.IPC_PREPARE_FOR_PUT_CMD;
 		int[] registers = { fixSelectCommand, command2 };
@@ -293,23 +285,21 @@ public class CNCMachine extends AbstractCNCMachine {
 		}
 	}
 	
-	private int selectZone(int i) {
+	private int selectZone() {
 		int command = 0;
-		int zn = DBHandler.getInstance().getZoneNr(i);
+		int zn = 1;
 		if(zn == 1) {
 			command = command | CNCMachineConstantsDevIntv.ZONE1_SELECT;
-		} else if (zn == 2) {
-			command = command | CNCMachineConstantsDevIntv.ZONE2_SELECT;
 		} else {
-			throw new IllegalArgumentException("Unknown zone number: " + DBHandler.getInstance().getZoneNr(i));
+			throw new IllegalArgumentException("Unknown zone number: " );
 		}
 		return command;
 	}
 	
 	int workAreaNr;
-	private int selectWorkArea(int i) {	
+	private int selectWorkArea() {	
 		int command = 0;
-		int wa = DBHandler.getInstance().getWorkArea(i);
+		int wa = 3;
 		switch (wa) {
 		case 3:
 			this.workAreaNr = 1;
@@ -326,7 +316,7 @@ public class CNCMachine extends AbstractCNCMachine {
 		} else if (workAreaNr == 2) {
 			command = command | CNCMachineConstantsDevIntv.WA2_SELECT;
 		} else {
-			throw new IllegalArgumentException("Unknown workarea number: " + DBHandler.getInstance().getWorkArea(i));
+			throw new IllegalArgumentException("Unknown workarea number: " + 3);
 		}
 		
 		return command;
@@ -350,8 +340,8 @@ public class CNCMachine extends AbstractCNCMachine {
 
 		//cncMachineCommunication.writeRegisters(CNCMachineConstantsDevIntv.ZONE_WA_FIX_SELECT, registers);
 		int fixSelectCommand = 0;
-		fixSelectCommand = fixSelectCommand | selectZone(1);
-		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectZone();
+		fixSelectCommand = fixSelectCommand | selectWorkArea();
 		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
 		int actionCommand = 0 | CNCMachineConstantsDevIntv.IPC_UNCLAMP_CMD;
 		
@@ -371,8 +361,8 @@ public class CNCMachine extends AbstractCNCMachine {
 
 		resetStatusValue(CNCMachineConstantsDevIntv.IPC_OK, CNCMachineConstantsDevIntv.IPC_CLAMP_OK);
 		int fixSelectCommand = 0;
-		fixSelectCommand = fixSelectCommand | selectZone(1);
-		fixSelectCommand = fixSelectCommand | selectWorkArea(1);
+		fixSelectCommand = fixSelectCommand | selectZone();
+		fixSelectCommand = fixSelectCommand | selectWorkArea();
 		fixSelectCommand = fixSelectCommand | selectFixture(EFixtureType.FIXTURE_1);
 		int actionCommand = 0 | CNCMachineConstantsDevIntv.IPC_CLAMP_CMD;
 
@@ -513,8 +503,8 @@ public class CNCMachine extends AbstractCNCMachine {
 
 	@Override
 	public void stopMonitoringMotionEnablingThreads() {
-		// TODO Auto-generated method stub
-
+		
+		
 	}
 
 }
