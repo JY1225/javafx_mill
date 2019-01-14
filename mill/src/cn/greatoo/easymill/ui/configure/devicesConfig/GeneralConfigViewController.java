@@ -34,8 +34,8 @@ public class GeneralConfigViewController extends Controller {
 		bts.add(minusBt);
 		bts.add(postiveBt);
 		this.cnc = cnc;
-		if(cnc.getSocketConnection() == null) {
-			nameText.setText(cnc.getName());
+		if(cnc == null) {
+			nameText.setText("");
 		}else {
 			nameText.setText(cnc.getSocketConnection().getName());
 			ipText.setText(cnc.getSocketConnection().getIpAddress());
@@ -45,7 +45,7 @@ public class GeneralConfigViewController extends Controller {
 	
 	public SocketConnection getSocketConnection() {
 		SocketConnection socketConnection = null;
-		if(cnc.getSocketConnection() == null) {
+		if(cnc == null) {
 			socketConnection = new SocketConnection(SocketConnection.Type.CLIENT,nameText.getText(), ipText.getText(), Integer.parseInt(portText.getText()));	
 		}else {
 			cnc.getSocketConnection().setName(nameText.getText());
