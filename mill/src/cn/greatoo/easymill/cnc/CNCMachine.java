@@ -6,7 +6,6 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
@@ -15,29 +14,28 @@ import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutE
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
 
 public class CNCMachine extends AbstractCNCMachine {
-	private SocketConnection socketConnection;
+	//private SocketConnection socketConnection;
 	private CNCSocketCommunication cncMachineCommunication;
 	public static CNCMachine INSTANCE = null;
 	private static final int PREPARE_PUT_TIMEOUT = 2 * 60 * 1000;
 	private static final int PREPARE_PICK_TIMEOUT = 2 * 60 * 1000;
 	private static final int CLAMP_TIMEOUT = 1 * 60 * 1000;
 	private static final int UNCLAMP_TIMEOUT = 1 * 60 * 1000;
-	private static final int START_CYCLE_TIMEOUT = 3 * 60 * 1000;
 	private static final int SLEEP_TIME_AFTER_RESET = 500;
 	private static final int OPERATOR_RQST_BLUE_LAMP_VAL = 5;
 	private static final int FINISH_BLUE_LAMP_VAL = 10;
 
 	private static Logger logger = LogManager.getLogger(CNCMachine.class.getName());
 
-	public CNCMachine(final CNCSocketCommunication socketConnection, final MCodeAdapter mCodeAdapter,
+	public CNCMachine(final SocketConnection socketConnection, final MCodeAdapter mCodeAdapter,
 			final EWayOfOperating wayOfOperating) {
-		super(socketConnection, mCodeAdapter, wayOfOperating);
-		this.cncMachineCommunication = socketConnection;
+		super(socketConnection,mCodeAdapter, wayOfOperating);
+		this.cncMachineCommunication = new CNCSocketCommunication(socketConnection,this);
 	}
 	
-	public static CNCMachine getInstance(final CNCSocketCommunication socketConnection,final MCodeAdapter mCodeAdapter,
+	public static CNCMachine getInstance(final SocketConnection socketConnection,final MCodeAdapter mCodeAdapter,
 			final EWayOfOperating wayOfOperating) {
-		if (INSTANCE == null) {
+		if (INSTANCE == null && socketConnection != null) {
 			INSTANCE = new CNCMachine(socketConnection,mCodeAdapter,wayOfOperating);
 		}
 		return INSTANCE;
@@ -505,16 +503,8 @@ public class CNCMachine extends AbstractCNCMachine {
 
 	@Override
 	public void stopMonitoringMotionEnablingThreads() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public SocketConnection getSocketConnection() {
-		return socketConnection;
-	}
-
-	public void setSocketConnection(SocketConnection socketConnection) {
-		this.socketConnection = socketConnection;
+		
+		
 	}
 
 }

@@ -11,8 +11,10 @@ import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public abstract class AbstractCNCMachine  {	
+	private SocketConnection socketConnection;
 	private static int currentStatus;
 	private static boolean statusChanged;
 	private static Object syncObject;
@@ -31,7 +33,8 @@ public abstract class AbstractCNCMachine  {
 	private static final String EXCEPTION_WHILE_WAITING = "AbstractCNCMachine.exceptionWhileWaiting";
 	
 	@SuppressWarnings("static-access")
-	public AbstractCNCMachine(final CNCSocketCommunication socketConnection, MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
+	public AbstractCNCMachine(SocketConnection socketConnection,MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
+		this.socketConnection = socketConnection;
 		this.statusChanged = false;
 		syncObject = new Object();
 		this.mCodeAdapter = mCodeAdapter;
@@ -322,5 +325,13 @@ public abstract class AbstractCNCMachine  {
 	}
 	
 	 public abstract void stopMonitoringMotionEnablingThreads();
+
+	public SocketConnection getSocketConnection() {
+		return socketConnection;
+	}
+
+	public void setSocketConnection(SocketConnection socketConnection) {
+		this.socketConnection = socketConnection;
+	}
 
 }

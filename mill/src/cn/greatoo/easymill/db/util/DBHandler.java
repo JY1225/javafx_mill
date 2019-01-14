@@ -31,6 +31,8 @@ import cn.greatoo.easymill.cnc.GenericMCode;
 import cn.greatoo.easymill.cnc.MCodeAdapter;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+import cn.greatoo.easymill.robot.AbstractRobot;
 public class DBHandler {
 
 
@@ -145,106 +147,6 @@ public class DBHandler {
         }
     }
     
-    /**
-     * JY
-     * renturn CNCMachine
-     * 
-     */
-    public AbstractCNCMachine getCNCMillingMachine(final int id,CNCSocketCommunication cncSocketConnection){
-    	AbstractCNCMachine cncMillingMachine = null;
-    	try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNCMILLINGMACHINE WHERE ID = ?");
-		stmt.setInt(1, id);//1
-		ResultSet results = stmt.executeQuery();		
-		if (results.next()) {
-			EWayOfOperating wayOfOperating = EWayOfOperating.getWayOfOperatingById(results.getInt("WAYOFOPERATING"));//2			
-			cncMillingMachine = CNCMachine.getInstance(cncSocketConnection, getMCodeAdapter(id), wayOfOperating);	
-			cncMillingMachine.setId(id);
-		}
-    	}catch (SQLException ex) {
-	          LOGGER.log(Level.ERROR, "{}", ex);
-	      }
-		return cncMillingMachine;
-	}
-    
-    /**
-     * JY
-     * renturn MCodeAdapter
-     * RS1
-     */
-    public MCodeAdapter getMCodeAdapter(final int cncMachineId){
-    	MCodeAdapter mCodeAdapter = null;
-    	try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM MCODEADAPTER WHERE ID = ?");
-		stmt.setInt(1, cncMachineId);//1
-		ResultSet results = stmt.executeQuery();		
-		if (results.next()) {
-			String robotServiceInput1Name = results.getString("ROBOTSERVICEINPUT1");//RS1
-			String robotServiceInput2Name = results.getString("ROBOTSERVICEINPUT2");//RS2
-			String robotServiceInput3Name = results.getString("ROBOTSERVICEINPUT3");//RS3
-			String robotServiceInput4Name = results.getString("ROBOTSERVICEINPUT4");//RS4
-			String robotServiceInput5Name = results.getString("ROBOTSERVICEINPUT5");//RS5
-			String robotServiceOutput1Name = results.getString("ROBOTSERVICEOUTPUT1");//RSA
-			List<String> robotServiceInputNames = new ArrayList<String>();
-			robotServiceInputNames.add(robotServiceInput1Name);
-			robotServiceInputNames.add(robotServiceInput2Name);
-			robotServiceInputNames.add(robotServiceInput3Name);
-			robotServiceInputNames.add(robotServiceInput4Name);
-			robotServiceInputNames.add(robotServiceInput5Name);
-			List<String> robotServiceOutputNames = new ArrayList<String>();
-			robotServiceOutputNames.add(robotServiceOutput1Name);
-			mCodeAdapter = new MCodeAdapter(getMCodes(cncMachineId), robotServiceInputNames, robotServiceOutputNames);
-		}
-    	}catch (SQLException ex) {
-          LOGGER.log(Level.ERROR, "{}", ex);
-      }
-		return mCodeAdapter;
-	}
-    public List<GenericMCode> getMCodes(final int cncMachineId) throws SQLException{
-    	List<GenericMCode> mCodes = new ArrayList<GenericMCode>();
-    	try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM MCODE WHERE MCODEADAPTER = ?");
-		stmt.setInt(1, cncMachineId);//1
-		ResultSet results = stmt.executeQuery();		
-		while (results.next()) {
-			int id = results.getInt("ID");
-			String name = results.getString("NAME");
-			boolean usesRobotServiceInput1 = results.getBoolean("ROBOTSERVICEINPUT1");
-			boolean usesRobotServiceInput2 = results.getBoolean("ROBOTSERVICEINPUT2");
-			boolean usesRobotServiceInput3 = results.getBoolean("ROBOTSERVICEINPUT3");
-			boolean usesRobotServiceInput4 = results.getBoolean("ROBOTSERVICEINPUT4");
-			boolean usesRobotServiceInput5 = results.getBoolean("ROBOTSERVICEINPUT5");
-			Set<Integer> robotServiceInputsUsed = new HashSet<Integer>();
-			if (usesRobotServiceInput1) {
-				robotServiceInputsUsed.add(0);
-			}
-			if (usesRobotServiceInput2) {
-				robotServiceInputsUsed.add(1);
-			}
-			if (usesRobotServiceInput3) {
-				robotServiceInputsUsed.add(2);
-			}
-			if (usesRobotServiceInput4) {
-				robotServiceInputsUsed.add(3);
-			}
-			if (usesRobotServiceInput5) {
-				robotServiceInputsUsed.add(4);
-			}
-			boolean usesRobotServiceOutput1 = results.getBoolean("ROBOTSERVICEOUTPUT1");
-			Set<Integer> robotServiceOutputsUsed = new HashSet<Integer>();
-			if (usesRobotServiceOutput1) {
-				robotServiceOutputsUsed.add(0);
-			}
-			int index = results.getInt("INDEX");
-			GenericMCode mcode = new GenericMCode(id, index, name, robotServiceInputsUsed, robotServiceOutputsUsed);
-			mCodes.add(index, mcode);
-		}
-    	}catch (SQLException ex) {
-            LOGGER.log(Level.ERROR, "{}", ex);
-        }
-		return mCodes;
-	}
-
     /**
      * 
      * @param program

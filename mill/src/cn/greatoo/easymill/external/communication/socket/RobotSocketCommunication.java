@@ -9,16 +9,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.robot.AbstractRobot;
 import cn.greatoo.easymill.util.RobotConstants;
 
 public class RobotSocketCommunication extends ExternalSocketCommunication {
 
 	private StringBuffer command;
-	//private AbstractRobot robot;
+	private AbstractRobot robot;
 	private static Logger logger = LogManager.getLogger(RobotSocketCommunication.class.getName());
 		
-	public RobotSocketCommunication(final SocketConnection socketConnection) {
+	public RobotSocketCommunication(final SocketConnection socketConnection,AbstractRobot fanucRobot) {
 		super(socketConnection);
+		this.robot = fanucRobot;
 		this.command = new StringBuffer();
 	}
 
@@ -105,13 +107,13 @@ public class RobotSocketCommunication extends ExternalSocketCommunication {
 
 	@Override
 	public void connected() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void disconnected() {
-		// TODO Auto-generated method stub
+		robot.disconnect();
 		
 	}
 }

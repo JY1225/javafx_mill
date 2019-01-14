@@ -17,13 +17,11 @@ import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
 import cn.greatoo.easymill.util.RobotConstants;
-import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
-import cn.greatoo.easymill.workpiece.RectangularDimensions;
-import cn.greatoo.easymill.workpiece.WorkPiece.Dimensions;
 
 public class FanucRobot extends AbstractRobot{
 	public static FanucRobot INSTANCE = null;
@@ -51,9 +49,9 @@ public class FanucRobot extends AbstractRobot{
 
     private static Logger logger = LogManager.getLogger(FanucRobot.class.getName());
 
-    public FanucRobot(final RobotSocketCommunication socketConnection) {
-    	super(socketConnection);
-        fanucRobotCommunication = socketConnection;
+    public FanucRobot(String name,float payload,final SocketConnection socketConnection) {
+    	super(name,payload,socketConnection);
+        fanucRobotCommunication = new RobotSocketCommunication(socketConnection, this);;
         df = new DecimalFormat("#.###");
         df2 = new DecimalFormat("#");
         df.setDecimalSeparatorAlwaysShown(false);
@@ -568,9 +566,9 @@ public class FanucRobot extends AbstractRobot{
 	}
 	
 	
-	public static FanucRobot getInstance(final RobotSocketCommunication socketConnection) {
+	public static FanucRobot getInstance(String name,float payload,final SocketConnection socketConnection) {
 		if (INSTANCE == null && socketConnection != null) {
-			INSTANCE = new FanucRobot(socketConnection);
+			INSTANCE = new FanucRobot(name,payload,socketConnection);
 		}
 		return INSTANCE;
 	}

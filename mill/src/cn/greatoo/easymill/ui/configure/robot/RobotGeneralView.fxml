@@ -91,6 +91,25 @@
                   </TextField>
                </children>
             </HBox>
+            <HBox prefHeight="219.0" prefWidth="255.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Label contentDisplay="CENTER" prefHeight="31.0" prefWidth="49.0" text="负载">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="form-label" />
+                        <String fx:value="form-label-name" />
+                     </styleClass>
+                  </Label>
+                  <TextField fx:id="payload" prefHeight="35.0" prefWidth="58.0">
+                     <styleClass>
+                        <String fx:value="form-full-textfield" />
+                        <String fx:value="form-full-textfield-name" />
+                     </styleClass>
+                  </TextField>
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>
