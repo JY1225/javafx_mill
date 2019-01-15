@@ -159,16 +159,11 @@ public class CNCHandler {
 			}
 
 			PreparedStatement stmt2 = conn.prepareStatement(
-					"INSERT INTO CNCMILLINGMACHINE(WAYOFOPERATING, SOCKETCONNECTION) VALUES (?, ?)",
-					Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO CNCMILLINGMACHINE(WAYOFOPERATING, SOCKETCONNECTION) VALUES (?, ?)");
 			stmt2.setInt(1, cncMillingMachine.getWayOfOperating().getId());
 			stmt2.setInt(2, socketConnectionId);
 			stmt2.executeUpdate();
-			ResultSet keys2 = stmt.getGeneratedKeys();
-			int cncId = 0;
-			if ((keys2 != null) && (keys2.next())) {
-				cncId = keys2.getInt(1);
-			}
+
 
 			PreparedStatement stmt3 = conn.prepareStatement(
 					"INSERT INTO MCODEADAPTER(RSI1, RSI2,RSI3,RSI4,RSI5,RSA) VALUES (?, ?,?,?,?,?)",
@@ -180,7 +175,7 @@ public class CNCHandler {
 			stmt3.setString(5, cncMillingMachine.getMCodeAdapter().getRobotServiceInputNames().get(4));
 			stmt3.setString(6, cncMillingMachine.getMCodeAdapter().getRobotServiceOutputNames().get(0));
 			stmt3.executeUpdate();
-			ResultSet keys3 = stmt.getGeneratedKeys();
+			ResultSet keys3 = stmt3.getGeneratedKeys();
 			int mcodeId = 0;
 			if ((keys3 != null) && (keys3.next())) {
 				mcodeId = keys3.getInt(1);

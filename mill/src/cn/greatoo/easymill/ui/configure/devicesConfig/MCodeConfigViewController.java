@@ -56,7 +56,9 @@ public class MCodeConfigViewController {
 		spDetails.setPrefHeight(UIConstants.TEXT_FIELD_HEIGHT*9);
 		spDetails.setStyle("-fx-background:transparent;");//透明
 		addNodesToScrollPane();
-		refresh(cnc.getMCodeAdapter());
+		if(cnc != null) {
+			refresh(cnc.getMCodeAdapter());
+		}
 		
 	}
 	

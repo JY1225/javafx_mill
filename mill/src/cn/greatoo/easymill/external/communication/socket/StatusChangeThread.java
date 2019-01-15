@@ -19,8 +19,6 @@ public class StatusChangeThread implements Runnable {
 
 	private FanucRobot robot;
 	private CNCMachine cncMachine;
-	public static CNCSocketCommunication cncSocketConnection;
-	public static RobotSocketCommunication roboSocketConnection;
 	private double previousXRest,previousYRest,previousZRest;
 	private int rpreviousStatus;
 	private boolean alive;

@@ -7,9 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
-import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
-import cn.greatoo.easymill.external.communication.socket.StatusChangeThread;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -178,16 +175,16 @@ public class AutoViewController extends Controller{
 
 	//开始
 	@FXML
-	public void startAction(ActionEvent event) {
-		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
-		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
-		if(roboSocketConnection != null && cncSocketConnection != null) {
+	public void startAction(ActionEvent event) {	
+		FanucRobot robot = FanucRobot.getInstance(null,0,null);
+		CNCMachine cncMachine = CNCMachine.getInstance(null, null, null);
+		if(robot != null && cncMachine != null)  {
 			for(int i = 0;i < bts.size(); i++) {
 				bts.get(i).setDisable(true);
 			}
 			startBt.setDisable(true);
 			stopBt.setDisable(false);
-			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,false,this);
+			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(robot,cncMachine,false,this);
 			ThreadManager.submit(teachSocketThread);
 			enableContinuousAnimation(true);
 		}else {
@@ -203,7 +200,7 @@ public class AutoViewController extends Controller{
 		startBt.setDisable(false);
 		stopBt.setDisable(true);
 		messegeText.setText("当前程序未激活！");
-		FanucRobot.getInstance(null).interruptCurrentAction();
+		FanucRobot.getInstance(null,0f,null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
 	
