@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import cn.greatoo.easymill.cnc.DeviceSettings;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Program;
+import cn.greatoo.easymill.entity.Step;
 import cn.greatoo.easymill.robot.AbstractRobot;
 
 
@@ -24,7 +24,7 @@ public class Programhandler {
 	Connection conn = DBHandler.getInstance().getConnection();
 	private static final int CLAMPING_MANNER_LENGTH = 1;
 	private static final int CLAMPING_MANNER_WIDTH = 2;
-	
+	Stephandler stephandler;
 	
 	
 	public void saveProgram(final Program program) throws SQLException {
@@ -59,15 +59,9 @@ public class Programhandler {
 	
 	private void saveProcessFlowStepsAndSettings(final Program program) throws SQLException {
 		int index = 1;
-		for (AbstractProcessStep step : program.getProcessSteps()) {
-			saveStep(step, index);
+		for (cn.greatoo.easymill.entity.Program.Step step : program.getProgramSteps()) {
+			stephandler.saveStep(step, index);
 			index++;
-		}
-		for (Entry<AbstractDevice, DeviceSettings> entry : program.getDeviceSettings().entrySet()) {
-			saveDeviceSettings(program.getId(), entry.getKey(), entry.getValue());
-		}
-		for (Entry<AbstractRobot, RobotSettings> entry : program.getRobotSettings().entrySet()) {
-			saveRobotSettings(program.getId(), entry.getKey(), entry.getValue());
 		}
 	}
 	
@@ -142,7 +136,7 @@ public class Programhandler {
 			Timestamp lastOpened = results.getTimestamp("LASTOPENED");
 			int clampingMannerId = results.getInt("CLAMPING_MANNER");
 			boolean isSingleCycle = results.getBoolean("SINGLE_CYCLE");
-			List<AbstractProcessStep> processSteps = getProcessSteps(id);
+			List<AbstractProcessStep> processSteps = getProgramSteps(id);
 			// We have 1 deviceSetting per device - per Program
 			Map<AbstractDevice, DeviceSettings> deviceSettings = getDeviceSettings(id);
 			Map<AbstractRobot, RobotSettings> robotSettings = getRobotSettings(id);
@@ -264,13 +258,13 @@ public class Programhandler {
 		for (RobotSettings robotSettings : Program.getRobotSettings().values()) {
 			robotSettings.setId(0);
 		}
-		for (AbstractProcessStep step : Program.getProcessSteps()) {
+		for (AbstractProcessStep step : Program.getProgramSteps()) {
 			step.setId(0);
 		}
 	}
 	
 	private void clearProcessFlowStepsSettingsAndReferencedIds(final Program program) {
-		for (AbstractProcessStep step : program.getProcessSteps()) {
+		for (AbstractProcessStep step : program.getProgramSteps()) {
 			if (step instanceof PickStep) {
 				PickStep pStep = (PickStep) step;
 				pStep.getRobotSettings().getWorkPiece().setId(0);

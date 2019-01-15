@@ -78,7 +78,7 @@ public class SaveViewController {
 		//step1
 		UserFrame satckerFrame = CoordinateViewController.stackerFrame;
 		Step unloadStacker = new Step(loadGripper,rawWorkPiece,satckerFrame,unloadStackerSmooth,null,new Coordinates());		
-		
+	
 		//step2
 		UserFrame cncFrame = CoordinateViewController.cncFrame;
 		Step loadCNC = new Step(loadGripper,rawWorkPiece,cncFrame,loadCNCSmooth,RobotPutSetting,new Coordinates());

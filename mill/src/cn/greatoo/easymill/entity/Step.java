@@ -1,6 +1,8 @@
 package cn.greatoo.easymill.entity;
 
-public class Step {
+import cn.greatoo.easymill.entity.Clamping.ClampingType;
+
+public class Step implements Cloneable {
 
 	private int id;
 	private Gripper gripper;
@@ -20,7 +22,36 @@ public class Step {
 		this.robotSetting = robotSetting;
 		this.offset = offset;
 	}
+					
+	public enum StepType {
+		UNLOADSTACKER(1), LOADCNC(2), UNLOADCNC(3), LOADSTACKER(4);
+		
 
+		private int id;
+		
+		private StepType(int id) {
+			this.id = id;
+		}
+		
+		public int getId() {
+			return this.id;
+		}
+		
+		public int getIdTypeId() {
+			return this.id;
+		}
+		public static ClampingType getTypeById(int id) throws IllegalStateException {
+			for (ClampingType clampingType: ClampingType.values()) {
+				if (clampingType.getId() == id) {
+					return clampingType;
+				}
+			}
+			throw new IllegalStateException("Unknown workpiece type: [" + id + "].");
+		}
+
+	}
+	
+	
 	public int getId() {
 		return id;
 	}

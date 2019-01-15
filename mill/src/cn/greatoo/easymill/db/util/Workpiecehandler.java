@@ -10,7 +10,6 @@ import java.util.Map;
 
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
-import eu.robojob.millassist.db.ConnectionManager;
 
 public class Workpiecehandler {
 	
