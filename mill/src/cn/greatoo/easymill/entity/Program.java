@@ -1,6 +1,7 @@
 package cn.greatoo.easymill.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Program {			
 
@@ -12,6 +13,7 @@ public class Program {
 	private cn.greatoo.easymill.entity.Step loadCNC;
 	private cn.greatoo.easymill.entity.Step unloadCNC;
 	private cn.greatoo.easymill.entity.Step loadstacker;
+	private List<Step> Steps;
 	
 	public Program(String name,cn.greatoo.easymill.entity.Step unloadstacker,cn.greatoo.easymill.entity.Step loadCNC,
 			cn.greatoo.easymill.entity.Step unloadCNC,cn.greatoo.easymill.entity.Step loadstacker, Timestamp timeCreate, Timestamp timeLastOpen) {
@@ -86,6 +88,10 @@ public class Program {
 
 	public void setTimeLastOpen(Timestamp timeLastOpen) {
 		this.timeLastOpen = timeLastOpen;
+	}
+	
+	public List<Step> getProgramSteps() {
+		return Steps;
 	}
 	
 }

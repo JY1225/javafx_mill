@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.greatoo.easymill.entity.Coordinates;
@@ -34,9 +31,10 @@ public class Stephandler {
 	SmoothHandler smoothHandler;
 	
 	
-	private void saveStep(final Step step, final int index) throws SQLException {
+	public void saveStep(final step, final int index) throws SQLException {
 		int type = 0;
-		if (step instanceof PickAfterWaitStep) {	// note: these have to go first!
+		
+		if (step.equals(UNLOADSTACKER) ) {	
 			type = STEP_TYPE_UNLOADSTACKER;
 		} else if (step instanceof PutAndWaitStep) {
 			type = STEP_TYPE_LOADCNC;
@@ -44,6 +42,41 @@ public class Stephandler {
 			type = STEP_TYPE_UNLOADCNC;
 		} else if (step instanceof PutStep) {
 			type = STEP_TYPE_LOADSTACKER;
+		}
+		
+		switch (type) {
+		case STEP_TYPE_PICK:
+			PickStep pickStep = getPickStep(processId, id);
+			processSteps.add(pickStep);
+			break;
+		case STEP_TYPE_PUT:
+			PutStep putStep = getPutStep(processId, id);
+			processSteps.add(putStep);
+			break;
+		case STEP_TYPE_PROCESSING:
+			ProcessingStep processingStep = getProcessingStep(processId, id);
+			processSteps.add(processingStep);
+			break;
+		case STEP_TYPE_INTERVENTION:
+			InterventionStep interventionStep = getInterventionStep(processId, id);
+			processSteps.add(interventionStep);
+			break;
+		case STEP_TYPE_PUTANDWAIT:
+			PutAndWaitStep putAndWaitStep = getPutAndWaitStep(processId, id);
+			processSteps.add(putAndWaitStep);
+			break;
+		case STEP_TYPE_PICKAFTERWAIT:
+			PickAfterWaitStep pickAfterWaitStep = getPickAfterWaitStep(processId, id);
+			processSteps.add(pickAfterWaitStep);
+			break;
+		case STEP_TYPE_PROCESSINGWHILEWAITING:
+			ProcessingWhileWaitingStep processingWhileWaitingStep = getProcessingWhileWaitingStep(processId, id);
+			processSteps.add(processingWhileWaitingStep);
+			break;
+		default:
+			throw new IllegalStateException("Unkown step type: [" + type + "].");
+	}
+		
  else {
 			throw new IllegalStateException("Unknown step type: " + step);
 		}
