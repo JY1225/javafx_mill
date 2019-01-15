@@ -120,9 +120,6 @@ public class Gripperhandler {
 	public void deleteGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
 		try {
-			PreparedStatement stmt = conn.prepareStatement("DELETE FROM GRIPPERHEAD_GRIPPER WHERE GRIPPER = ?");
-			stmt.setInt(1, gripper.getId());
-			stmt.executeUpdate();
 			PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM GRIPPER WHERE ID = ?");
 			stmt2.setInt(1, gripper.getId());
 			stmt2.executeUpdate();

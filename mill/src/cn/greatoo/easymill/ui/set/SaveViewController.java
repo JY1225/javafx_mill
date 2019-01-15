@@ -76,18 +76,18 @@ public class SaveViewController {
 		
 		
 		//step1
-		UserFrame satckerFrame = CoordinateViewController.stackerFrame;
-		Step unloadStacker = new Step(loadGripper,rawWorkPiece,satckerFrame,unloadStackerSmooth,null,new Coordinates());		
+		//UserFrame satckerFrame = CoordinateViewController.stackerFrame;
+		Step unloadStacker = new Step(loadGripper,rawWorkPiece,1,unloadStackerSmooth,null,new Coordinates());		
 	
 		//step2
-		UserFrame cncFrame = CoordinateViewController.cncFrame;
-		Step loadCNC = new Step(loadGripper,rawWorkPiece,cncFrame,loadCNCSmooth,RobotPutSetting,new Coordinates());
+		//UserFrame cncFrame = CoordinateViewController.cncFrame;
+		Step loadCNC = new Step(loadGripper,rawWorkPiece,3,loadCNCSmooth,RobotPutSetting,new Coordinates());
 		
 		//step3
-		Step unloadCNC = new Step(unloadGripper,finishWorkPiece,cncFrame,unloadCNCSmooth,null,new Coordinates());
+		Step unloadCNC = new Step(unloadGripper,finishWorkPiece,3,unloadCNCSmooth,null,new Coordinates());
 		
 		//step4
-		Step loadstacker = new Step(unloadGripper,finishWorkPiece,satckerFrame,loadStackerSmooth,null,new Coordinates());
+		Step loadstacker = new Step(unloadGripper,finishWorkPiece,1,loadStackerSmooth,null,new Coordinates());
 				
 		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime);
 		

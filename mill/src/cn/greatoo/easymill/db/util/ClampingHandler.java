@@ -70,35 +70,21 @@ public class ClampingHandler {
 			conn.setAutoCommit(true);
 		}
 	}	
-	public void updateClamping(final Clamping clamping, final String name, final Clamping.Type type, final float height, 
-			final String imagePath, final float defaultheight, final float x, final float y, final float z, final float w, final float p, 
-			final float r, final float smoothToX, final float smoothToY, final float smoothToZ, final float smoothFromX, 
-			final float smoothFromY, final float smoothFromZ, final Clamping.ClampingType clampingType) throws SQLException {
+	public void updateClamping(final Clamping clamping) throws SQLException {
 		conn.setAutoCommit(false);
 		Coordinates relPos = clamping.getRelativePosition();
-		relPos.setX(x);
-		relPos.setY(y);
-		relPos.setZ(z);
-		relPos.setW(w);
-		relPos.setP(p);
-		relPos.setR(r);
 		coordinatesHandler.saveCoordinates(relPos);
 		Coordinates smoothTo = clamping.getSmoothToPoint();
-		smoothTo.setX(smoothToX);
-		smoothTo.setY(smoothToY);
-		smoothTo.setZ(smoothToZ);
 		coordinatesHandler.saveCoordinates(smoothTo);
 		Coordinates smoothFrom = clamping.getSmoothFromPoint();
-		smoothFrom.setX(smoothFromX);
-		smoothFrom.setY(smoothFromY);
-		smoothFrom.setZ(smoothFromZ);
 		coordinatesHandler.saveCoordinates(smoothFrom);
 
 		PreparedStatement stmt = conn.prepareStatement("UPDATE CLAMPING " +
 				"SET NAME = ?, TYPE = ?, HEIGHT = ?, IMAGE_URL = ?, DEFAULTHEIGHT = ? CLAMPINFTYPE = ?, WHERE ID = ?");
-		stmt.setString(1, name);
+		stmt.setString(1, clamping.getName());
 		int typeInt = 0;
-		if (type == Type.CENTRUM) {
+		Clamping.Type type = clamping.getType();
+		if ( type== Type.CENTRUM) {
 			typeInt = CLAMPING_TYPE_CENTRUM;
 		} else if (type == Type.FIXED_XP) {
 			typeInt = CLAMPING_TYPE_FIXED_XP;
@@ -114,18 +100,12 @@ public class ClampingHandler {
 			throw new IllegalStateException("Unknown clamping type: " + type);
 		}
 		stmt.setInt(2, typeInt);
-		stmt.setFloat(3, height);
-		stmt.setString(4, imagePath);
-		stmt.setFloat(5, defaultheight);
-		stmt.setFloat(6, clampingType.getId());
+		stmt.setFloat(3, clamping.getHeight());
+		stmt.setString(4, clamping.getImageUrl());
+		stmt.setFloat(5, clamping.getDefaultHeight());
+		stmt.setFloat(6, clamping.getClampingType().getId());
 		stmt.setInt(7, clamping.getId());
 		stmt.executeUpdate();
-		clamping.setName(name);
-		clamping.setType(type);
-		clamping.setHeight(height);
-		clamping.setImageUrl(imagePath);
-		clamping.setDefaultHeight(defaultheight);
-		clamping.setClampingType(clampingType);	
 		
 		conn.commit();
 		conn.setAutoCommit(true);

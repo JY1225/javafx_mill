@@ -7,13 +7,13 @@ public class Step implements Cloneable {
 	private int id;
 	private Gripper gripper;
 	private WorkPiece workPiece;
-	private UserFrame userFrame;
+	private int userFrame;
 	private Smooth smooth;
 	private RobotSetting robotSetting;
 	private Coordinates offset;
 
 
-	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
+	public Step(Gripper gripper, WorkPiece workPiece, int userFrame,
 		Smooth smooth, RobotSetting robotSetting, Coordinates offset) {
 		this.gripper = gripper;
 		this.workPiece = workPiece;
@@ -78,11 +78,11 @@ public class Step implements Cloneable {
 		this.workPiece = workPiece;
 	}
 
-	public UserFrame getUserFrame() {
+	public int getUserFrame() {
 		return userFrame;
 	}
 
-	public void setUserFrame(UserFrame userFrame) {
+	public void setUserFrame(int userFrame) {
 		this.userFrame = userFrame;
 	}
 
