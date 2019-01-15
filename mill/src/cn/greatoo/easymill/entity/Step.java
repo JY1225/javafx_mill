@@ -20,7 +20,7 @@ public class Step {
 		this.robotSetting = robotSetting;
 		this.offset = offset;
 	}
-
+	
 	public int getId() {
 		return id;
 	}

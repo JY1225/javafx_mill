@@ -22,10 +22,7 @@ public class Program {
 		this.loadstacker = loadstacker;
 		this.timeCreate = timeCreate;
 		this.timeLastOpen = timeLastOpen;
-	}
-	public enum Step {
-		UNLOADSTACKER, LOADCNC, UNLOADCNC, LOADSTACKER;
-	}
+	}	
 
 	public int getId() {
 		return id;

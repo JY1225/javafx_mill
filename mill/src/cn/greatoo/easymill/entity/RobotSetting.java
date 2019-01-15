@@ -10,10 +10,16 @@ public class RobotSetting {
 	private float Playload;
 		
 	
-	public RobotSetting() {
-		
+	public RobotSetting(boolean releaseBeforeMachine, SocketConnection socketConnection, float Playload) {
+		this.releaseBeforeMachine =releaseBeforeMachine;
+		this.socketConnection = socketConnection;
+		this.Playload = Playload;
 	}
 	
+	public RobotSetting() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

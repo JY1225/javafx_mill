@@ -59,7 +59,6 @@ public class MCodeConfigViewController {
 		if(cnc != null) {
 			refresh(cnc.getMCodeAdapter());
 		}
-		
 	}
 	
 	

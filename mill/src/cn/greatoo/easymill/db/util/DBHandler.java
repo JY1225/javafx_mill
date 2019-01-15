@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -24,15 +26,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import cn.greatoo.easymill.cnc.AbstractCNCMachine;
-import cn.greatoo.easymill.cnc.CNCMachine;
-import cn.greatoo.easymill.cnc.EWayOfOperating;
-import cn.greatoo.easymill.cnc.GenericMCode;
-import cn.greatoo.easymill.cnc.MCodeAdapter;
+import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
-import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
+import cn.greatoo.easymill.entity.RobotSetting;
+import cn.greatoo.easymill.entity.Smooth;
+import cn.greatoo.easymill.entity.Step;
+import cn.greatoo.easymill.entity.UserFrame;
+import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
-import cn.greatoo.easymill.robot.AbstractRobot;
+
 public class DBHandler {
 
 
@@ -41,8 +44,85 @@ public class DBHandler {
     private static final String DB_URL = "jdbc:derby:database;create=true";
     private static Connection conn = null;
     private static Statement stmt = null;
-
+	private Map<Integer, UserFrame> userFrameBuffer;
+    private Map<Integer, Map<Integer, Coordinates>> coordinatesBuffer;
+    private Map<Integer, Map<Integer, Step>> stepBuffer;
+    private Map<Integer, Map<Integer, WorkPiece>> workPieceBuffer;
+	private Map<Integer, Gripper> grippersBuffer;
+	private Map<Integer, RobotSetting> RobotSettingBuffer;
+	private Map<Integer, SocketConnection> socketConnectionBuffer;
 	
+	public Map<Integer, SocketConnection> getSocketConnectionBuffer() {
+		return socketConnectionBuffer;
+	}
+
+	public void setSocketConnectionBuffer(Map<Integer, SocketConnection> socketConnectionBuffer) {
+		this.socketConnectionBuffer = socketConnectionBuffer;
+	}
+
+	public Map<Integer, Map<Integer, Step>> getStepBuffer() {
+		return stepBuffer;
+	}
+
+	public Map<Integer, RobotSetting> getRobotSettingBuffer() {
+		return RobotSettingBuffer;
+	}
+
+	public void setRobotSettingBuffer(Map<Integer, RobotSetting> robotSettingBuffer) {
+		RobotSettingBuffer = robotSettingBuffer;
+	}
+
+	public void setStepBuffer(Map<Integer, Map<Integer, Step>> stepBuffer) {
+		this.stepBuffer = stepBuffer;
+	}
+
+	private Map<Integer, Map<Integer, Smooth>> smoothsBuffer;
+    
+	public Map<Integer, Map<Integer, Smooth>> getSmoothsBuffer() {
+		return smoothsBuffer;
+	}
+
+	public void setSmoothsBuffer(Map<Integer, Map<Integer, Smooth>> smoothsBuffer) {
+		this.smoothsBuffer = smoothsBuffer;
+	}
+
+	public Map<Integer, UserFrame> getUserFrameBuffer() {
+		return userFrameBuffer;
+	}
+
+	public void setUserFrameBuffer(Map<Integer, UserFrame> userFrameBuffer) {
+		this.userFrameBuffer = userFrameBuffer;
+	}
+
+	public Map<Integer, Map<Integer, Coordinates>> getCoordinatesBuffer() {
+		return coordinatesBuffer;
+	}
+
+	public void setCoordinatesBuffer(Map<Integer, Map<Integer, Coordinates>> coordinatesBuffer) {
+		this.coordinatesBuffer = coordinatesBuffer;
+	}
+
+	public Map<Integer, Map<Integer, WorkPiece>> getWorkPieceBuffer() {
+		return workPieceBuffer;
+	}
+
+	public void setWorkPieceBuffer(Map<Integer, Map<Integer, WorkPiece>> workPieceBuffer) {
+		this.workPieceBuffer = workPieceBuffer;
+	}
+
+	public Map<Integer, Gripper> getGrippersBuffer() {
+		return grippersBuffer;
+	}
+
+	public void setGrippersBuffer(Map<Integer, Gripper> grippersBuffer) {
+		this.grippersBuffer = grippersBuffer;
+	}
+
+
+    public void clearBuffers(final int processFlowId) {   	
+        coordinatesBuffer.remove(processFlowId);
+        workPieceBuffer.remove(processFlowId);
+    }
 
     static {
         createConnection();
@@ -51,6 +131,10 @@ public class DBHandler {
 
 
     private DBHandler() {
+    	
+        this.userFrameBuffer = new HashMap<Integer, UserFrame>();
+        this.coordinatesBuffer = new HashMap<Integer, Map<Integer, Coordinates>>();
+        this.workPieceBuffer = new HashMap<Integer, Map<Integer, WorkPiece>>();
     }
 
     public static DBHandler getInstance() {
@@ -184,5 +268,30 @@ public class DBHandler {
 		return conn;
     }
     
+    
+	public SocketConnection getSocketConnectionById(final int socketConnectionId) throws SQLException {
+		SocketConnection socketConnection = socketConnectionBuffer.get(socketConnectionId);
+		if (socketConnection != null) {
+			return socketConnection;
+		}
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SOCKETCONNECTION WHERE ID = ?");
+		stmt.setInt(1, socketConnectionId);
+		ResultSet results = stmt.executeQuery();
+		if (results.next()) {
+			String ipAddress = results.getString("IPADDRESS");
+			int portNumber = results.getInt("PORTNR");
+			boolean client = results.getBoolean("CLIENT");
+			String name = results.getString("NAME");
+			if (client) {
+				socketConnection = new SocketConnection(SocketConnection.Type.CLIENT, name, ipAddress, portNumber);
+			} else {
+				socketConnection = new SocketConnection(SocketConnection.Type.SERVER, name, ipAddress, portNumber);
+			}
+			socketConnection.setId(socketConnectionId);
+		}
+		stmt.close();
+		socketConnectionBuffer.put(socketConnectionId, socketConnection);
+		return socketConnection;
+	}
     
 }
