@@ -58,6 +58,7 @@ public class CoordinatesHandler {
             coordinates.setId(0);
         }
     }
+
      
     public Coordinates getCoordinatesById(final int processFlowId, final int coordinatesId) throws SQLException {
         Coordinates coordinates = null;
@@ -92,4 +93,5 @@ public class CoordinatesHandler {
         }
         return coordinates;
     }
+
 }

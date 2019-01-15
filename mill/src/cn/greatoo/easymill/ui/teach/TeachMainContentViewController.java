@@ -43,10 +43,10 @@ public class TeachMainContentViewController extends Controller{
 	
 
 	@FXML
-	public void btnStartAllAction(ActionEvent event) {		
-		RobotSocketCommunication roboSocketConnection = StatusChangeThread.roboSocketConnection;
-		CNCSocketCommunication cncSocketConnection = StatusChangeThread.cncSocketConnection;	
-		if(roboSocketConnection != null && cncSocketConnection != null) {
+	public void btnStartAllAction(ActionEvent event) {
+		FanucRobot robot = FanucRobot.getInstance(null,0,null);
+		CNCMachine cncMachine = CNCMachine.getInstance(null, null, null);
+		if(robot != null && cncMachine != null) {
 			btnStartAll.setDisable(true);
 			stopBt.setDisable(false);
 			reset.setDisable(false);
@@ -54,7 +54,7 @@ public class TeachMainContentViewController extends Controller{
 			for(int i = 0;i < bts.size(); i++) {
 				bts.get(i).setDisable(true);
 			}
-			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(roboSocketConnection,cncSocketConnection,true,this);
+			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(robot,cncMachine,true,this);
 			ThreadManager.submit(teachSocketThread);
 		}else {
 			showNotificationOverlay(MainViewController.parentStackPane, "示教错误", "请注意，设备连接错误！");
@@ -79,7 +79,7 @@ public class TeachMainContentViewController extends Controller{
 		for(int i = 0;i < bts.size(); i++) {
 			bts.get(i).setDisable(false);
 		}
-		FanucRobot.getInstance(null).interruptCurrentAction();
+		FanucRobot.getInstance(null,0,null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
 	

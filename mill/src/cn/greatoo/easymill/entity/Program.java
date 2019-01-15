@@ -2,8 +2,6 @@ package cn.greatoo.easymill.entity;
 
 import java.sql.Timestamp;
 import java.util.List;
-
-
 public class Program {			
 
 	private int id;	
@@ -25,10 +23,7 @@ public class Program {
 		this.loadstacker = loadstacker;
 		this.timeCreate = timeCreate;
 		this.timeLastOpen = timeLastOpen;
-	}
-	public enum Step {
-		UNLOADSTACKER, LOADCNC, UNLOADCNC, LOADSTACKER;
-	}
+	}	
 
 	public int getId() {
 		return id;

@@ -16,6 +16,10 @@ public class RobotSetting {
 		this.Playload = Playload;
 	}
 	
+	public RobotSetting() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

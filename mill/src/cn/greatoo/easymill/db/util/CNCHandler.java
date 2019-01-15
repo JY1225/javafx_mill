@@ -159,8 +159,7 @@ public class CNCHandler {
 			}
 
 			PreparedStatement stmt2 = conn.prepareStatement(
-					"INSERT INTO CNCMILLINGMACHINE(WAYOFOPERATING, SOCKETCONNECTION) VALUES (?, ?)",
-					Statement.RETURN_GENERATED_KEYS);
+					"INSERT INTO CNCMILLINGMACHINE(WAYOFOPERATING, SOCKETCONNECTION) VALUES (?, ?)");
 			stmt2.setInt(1, cncMillingMachine.getWayOfOperating().getId());
 			stmt2.setInt(2, socketConnectionId);
 			stmt2.executeUpdate();

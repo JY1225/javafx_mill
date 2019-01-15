@@ -2,6 +2,7 @@ package cn.greatoo.easymill.external.communication.socket;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
+import cn.greatoo.easymill.db.util.CNCHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.process.FinishStep;
 import cn.greatoo.easymill.process.PickFromCNCStep;
@@ -20,18 +21,14 @@ import cn.greatoo.easymill.ui.main.Controller;
 public class TeachAndAutoThread implements Runnable {
 
 	private boolean teached;
-	private boolean isAlive;
 	private FanucRobot robot;
 	private CNCMachine cncMachine; 
-	private EWayOfOperating wayOfOperating;
 	private static Controller view;
 
-	public TeachAndAutoThread(RobotSocketCommunication roboSocketConnection,
-			CNCSocketCommunication cncSocketConnection, boolean teached, Controller view) {
-		this.robot = FanucRobot.getInstance(roboSocketConnection);		 		
-		this.cncMachine = CNCMachine.getInstance(cncSocketConnection, DBHandler.getInstance().getMCodeAdapter(1), wayOfOperating);// DBHandler.getInstance().getCNCMillingMachine(1,cncSocketConnection);//new CNCMachine(cncSocketConnection, mCodeAdapter, wayOfOperating.M_CODES);				
+	public TeachAndAutoThread(FanucRobot robot,CNCMachine cncMachine,boolean teached, Controller view) {
+		this.robot = robot;		 		
+		this.cncMachine = cncMachine;				
 		this.teached = teached;
-		this.isAlive = true;
 		this.view = view;
 	}
 

@@ -87,7 +87,7 @@ public class CNCConfigViewController extends Controller {
 			mCodeAdapter = new MCodeAdapter(MCode, robotServiceInputNames, robotServiceOutputNames);
 		}
 		if(generalConfigViewController != null) {
-		 socketConnection = generalConfigViewController.getSocketConnection();
+			socketConnection = generalConfigViewController.getSocketConnection();
 		}
 		// 更新
 		if (cnc != null && cnc.getId() > 0) {

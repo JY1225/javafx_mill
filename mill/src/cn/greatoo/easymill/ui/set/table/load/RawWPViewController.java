@@ -116,7 +116,11 @@ public class RawWPViewController extends Controller {
 		fulltxtS.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	stacker.setAmount(Integer.parseInt(fulltxtS.getText()));
+	        	if(!"".equals(fulltxtS.getText())) {	        		
+	        		stacker.setAmount(Integer.parseInt(fulltxtS.getText()));
+	        	}else {
+	        		stacker.setAmount(0);
+	        	}
 	        }
 		});	
 	}

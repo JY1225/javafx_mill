@@ -22,6 +22,7 @@ public class Step implements Cloneable {
 		this.robotSetting = robotSetting;
 		this.offset = offset;
 	}
+
 					
 	public enum StepType {
 		UNLOADSTACKER(1), LOADCNC(2), UNLOADCNC(3), LOADSTACKER(4);
@@ -51,6 +52,7 @@ public class Step implements Cloneable {
 
 	}
 	
+
 	
 	public int getId() {
 		return id;
