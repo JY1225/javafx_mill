@@ -3,7 +3,6 @@ package cn.greatoo.easymill.entity;
 import java.sql.Timestamp;
 import java.util.List;
 
-import eu.robojob.millassist.process.AbstractProcessStep;
 
 public class Program {			
 

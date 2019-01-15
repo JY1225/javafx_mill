@@ -97,7 +97,7 @@ public class Clamping implements Cloneable {
 		this.clampingType = clampingType;
 	}
 
-	public Clamping(final Type type, ClampingType clampingType,final String name, String  processName, Program.Step step, final float defaultHeight, 
+	public Clamping(final Type type, ClampingType clampingType,final String name, String  processName, final float defaultHeight, 
 			final Coordinates relativePosition, final Coordinates smoothPoint, final String imageURL) {
 		this(type, clampingType, name, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
 	}
