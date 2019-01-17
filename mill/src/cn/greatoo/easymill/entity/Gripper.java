@@ -33,7 +33,7 @@ public class Gripper {
 	public void setId(final int id) {
 		this.id = id;
 	}
-	public boolean isGripperInner() {
+	public static boolean isGripperInner() {
 		return gripperInner;
 	}
 	public void setGripperInner(boolean gripperInner) {
