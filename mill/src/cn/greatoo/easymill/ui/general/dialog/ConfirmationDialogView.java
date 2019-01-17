@@ -1,6 +1,5 @@
 package cn.greatoo.easymill.ui.general.dialog;
 
-import com.sun.java.accessibility.util.Translator;
 
 import cn.greatoo.easymill.util.UIConstants;
 import javafx.event.ActionEvent;

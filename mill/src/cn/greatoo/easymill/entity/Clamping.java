@@ -67,11 +67,11 @@ public class Clamping implements Cloneable {
 	} 
 	
 
-	private int id;
+	private static int id;
 	private String name;
 	private Coordinates relativePosition;	
-	private Coordinates smoothToPoint;
-	private Coordinates smoothFromPoint;
+	private static Coordinates smoothToPoint;
+	private static Coordinates smoothFromPoint;
 	private float height;
 	private float defaultHeight;
 	private String imageURL;
@@ -82,6 +82,7 @@ public class Clamping implements Cloneable {
 	private Set<Clamping> relatedClampings;
 	private int nbOfPossibleWPToStore = 1;
 	
+	@SuppressWarnings("static-access")
 	public Clamping(final Type type, ClampingType clampingType, final String name, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
 			final Coordinates smoothFromPoint, final String imageURL) {
 		this.name = name;
@@ -155,7 +156,7 @@ public class Clamping implements Cloneable {
 		this.relatedClampings = tobeRelatedClampings;
 	}
 
-	public int getId() {
+	public static int getId() {
 		return id;
 	}
 
@@ -179,7 +180,7 @@ public class Clamping implements Cloneable {
 		this.imageURL = imageURL;
 	}
 
-	public Coordinates getSmoothToPoint() {
+	public static Coordinates getSmoothToPoint() {
 		return smoothToPoint;
 	}
 
@@ -187,7 +188,7 @@ public class Clamping implements Cloneable {
 		this.smoothToPoint = smoothToPoint;
 	}
 
-	public Coordinates getSmoothFromPoint() {
+	public static Coordinates getSmoothFromPoint() {
 		return smoothFromPoint;
 	}
 

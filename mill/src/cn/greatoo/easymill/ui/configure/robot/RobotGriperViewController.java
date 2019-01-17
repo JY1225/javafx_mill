@@ -17,17 +17,18 @@ public class RobotGriperViewController {
 	@FXML
 	private Button newBt;
 
-    private IconFlowSelector ifsGrippers;
+    private IconFlowSelector ifsClamping;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	RobotGripperView robotGripperView;
 	public void init() {
-		//抓爪图
-		ifsGrippers = new IconFlowSelector();
-        ifsGrippers.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
-        gridPane.add(ifsGrippers, 0, 0, 2, 1);
+
+		ifsClamping = new IconFlowSelector(false);
+        ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
+        gridPane.add(ifsClamping, 0, 0, 2, 1);
+
         //编辑，新增
         robotGripperView = new RobotGripperView();
-        robotGripperView.init(gridPane,editBt,newBt,ifsGrippers);
+        robotGripperView.init(gridPane,editBt,newBt,ifsClamping);
         
         
 	}
@@ -41,6 +42,7 @@ public class RobotGriperViewController {
 	public void newBtAction(ActionEvent event) {
 		robotGripperView.clickedNew();
 	}
+
 
 //	public void refresh() {
 //		ifsGrippers.clearItems();
@@ -59,4 +61,5 @@ public class RobotGriperViewController {
 //			itemIndex++;
 //		}
 //	}
+
 }

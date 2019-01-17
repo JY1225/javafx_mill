@@ -19,7 +19,7 @@ public class ConfigGriperViewController {
 	CNCClampingsView robotGripperView;
 
 	public void init() {
-		// 抓爪图
+		// 夹爪图
 		ifsClamping = new IconFlowSelector(false);
 		ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
 		gridPane.add(ifsClamping, 0, 0, 2, 1);

@@ -14,8 +14,8 @@ import cn.greatoo.easymill.entity.Coordinates;
 
 public class ClampingHandler {
 
-	Connection conn = DBHandler.getInstance().getConnection();
-	private CoordinatesHandler coordinatesHandler;
+	static Connection conn = DBHandler.getInstance().getConnection();
+
 	private static final int CLAMPING_TYPE_CENTRUM = 1;
 	private static final int CLAMPING_TYPE_FIXED_XP = 2;
 	private static final int CLAMPING_TYPE_NONE = 3;
@@ -25,9 +25,9 @@ public class ClampingHandler {
 	
 	public void saveClamping(final Clamping clamping) throws SQLException {
 		conn.setAutoCommit(false);
-		coordinatesHandler.saveCoordinates(clamping.getRelativePosition());
-		coordinatesHandler.saveCoordinates(clamping.getSmoothToPoint());
-		coordinatesHandler.saveCoordinates(clamping.getSmoothFromPoint());
+		CoordinatesHandler.saveCoordinates(clamping.getRelativePosition());
+		CoordinatesHandler.saveCoordinates(clamping.getSmoothToPoint());
+		CoordinatesHandler.saveCoordinates(clamping.getSmoothFromPoint());
 		int typeInt = 0;
 		if (clamping.getType() == Type.CENTRUM) {
 			typeInt = CLAMPING_TYPE_CENTRUM;
@@ -73,12 +73,17 @@ public class ClampingHandler {
 	public void updateClamping(final Clamping clamping) throws SQLException {
 		conn.setAutoCommit(false);
 		Coordinates relPos = clamping.getRelativePosition();
-		coordinatesHandler.saveCoordinates(relPos);
-		Coordinates smoothTo = clamping.getSmoothToPoint();
-		coordinatesHandler.saveCoordinates(smoothTo);
-		Coordinates smoothFrom = clamping.getSmoothFromPoint();
-		coordinatesHandler.saveCoordinates(smoothFrom);
+		
+		CoordinatesHandler.saveCoordinates(relPos);
 
+		Coordinates smoothTo = clamping.getSmoothToPoint();
+
+		CoordinatesHandler.saveCoordinates(smoothTo);
+
+		Coordinates smoothFrom = clamping.getSmoothFromPoint();
+
+		CoordinatesHandler.saveCoordinates(smoothFrom);
+		
 		PreparedStatement stmt = conn.prepareStatement("UPDATE CLAMPING " +
 				"SET NAME = ?, TYPE = ?, HEIGHT = ?, IMAGE_URL = ?, DEFAULTHEIGHT = ? CLAMPINFTYPE = ?, WHERE ID = ?");
 		stmt.setString(1, clamping.getName());
@@ -122,11 +127,11 @@ public class ClampingHandler {
 			int type = results.getInt("TYPE");
 			int clampingType = results.getInt("CLAMPINFTYPE");
 			int relativePositionId = results.getInt("RELATIVEPOSITION");
-			Coordinates relativePosition = coordinatesHandler.getCoordinatesById(0, relativePositionId);
+			Coordinates relativePosition = CoordinatesHandler.getCoordinatesById(0, relativePositionId);
 			int smoothToId = results.getInt("SMOOTHTOPOINT");
-			Coordinates smoothTo = coordinatesHandler.getCoordinatesById(0, smoothToId);
+			Coordinates smoothTo = CoordinatesHandler.getCoordinatesById(0, smoothToId);
 			int smoothFromId = results.getInt("SMOOTHFROMPOINT");
-			Coordinates smoothFrom = coordinatesHandler.getCoordinatesById(0, smoothFromId);
+			Coordinates smoothFrom = CoordinatesHandler.getCoordinatesById(0, smoothFromId);
 			float height = results.getFloat("HEIGHT");
 			float defaultHeight = results.getFloat("DEFAULTHEIGHT");
 			String imageUrl = results.getString("IMAGEURL");
