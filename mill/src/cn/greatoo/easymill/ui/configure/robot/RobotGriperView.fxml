@@ -24,6 +24,7 @@
          <children>
             <HBox prefHeight="42.0" prefWidth="603.0" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
                <children>
+                  <ComboBox fx:id="combox" prefHeight="43.0" prefWidth="150.0" />
                   <Button fx:id="editBt" mnemonicParsing="false" onAction="#editBtAction" prefHeight="45.0" prefWidth="106.0" styleClass="form-button" text="编辑" textFill="#f7f7f7">
                      <graphic>
                         <SVGPath content="M 15.71875,0 3.28125,12.53125 0,20 7.46875,16.71875 20,4.28125 C 20,4.28105 19.7362,2.486 18.625,1.375 17.5134,0.2634 15.71875,0 15.71875,0 z M 3.53125,12.78125 c 0,0 0.3421,-0.0195 1.0625,0.3125 C 4.85495,13.21295 5.1112,13.41 5.375,13.625 l 0.96875,0.96875 c 0.2258,0.2728 0.4471,0.5395 0.5625,0.8125 C 7.01625,15.66565 7.25,16.5 7.25,16.5 L 3,18.34375 C 2.5602,17.44355 2.55565,17.44 1.65625,17 l 1.875,-4.21875 z" styleClass="form-button-icon" />

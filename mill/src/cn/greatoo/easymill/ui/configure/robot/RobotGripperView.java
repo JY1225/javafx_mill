@@ -279,7 +279,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 			imageVw.setImage(new Image(UIConstants.IMG_NOT_FOUND_URL, IMG_WIDTH, IMG_HEIGHT, true, true));
 		}
 		imagePath = gripper.getImageUrl();
-		cbA.setSelected((gripper.getSelectGripper() != null) );
+		//cbA.setSelected((gripper.getSelectGripper() != null) );
 		
 	}
 	

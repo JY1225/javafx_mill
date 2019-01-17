@@ -10,6 +10,7 @@ import java.util.Map;
 
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Step;
@@ -33,14 +34,15 @@ public class Stephandler {
 	public static void saveProgramStep(Step step) throws SQLException {
 		if(step.getId() <= 0) {
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO STEP(GRIPPER, WORKPIECE, USERFRAME,SMOOTH,ROBOTSETTING,OFFSET) VALUES (?, ?, ?,?,?,?)",
+					"INSERT INTO STEP(GRIPPERHEAD,GRIPPER, WORKPIECE, USERFRAME,SMOOTH,ROBOTSETTING,OFFSET) VALUES (?,?,?, ?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
-			stmt.setInt(1, step.getGripper().getId());
-			stmt.setInt(2, step.getWorkPiece().getId());
-			stmt.setInt(3, step.getUserFrame());
-			stmt.setInt(4, step.getSmooth().getId());
-			stmt.setInt(5, step.getRobotSetting().getId());
-			stmt.setInt(6, step.getOffset().getId());
+			stmt.setInt(1, step.getGripperHead().getId());
+			stmt.setInt(2, step.getGripper().getId());
+			stmt.setInt(3, step.getWorkPiece().getId());
+			stmt.setInt(4, step.getUserFrame());
+			stmt.setInt(5, step.getSmooth().getId());
+			stmt.setInt(6, step.getRobotSetting().getId());
+			stmt.setInt(7, step.getOffset().getId());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {
@@ -56,8 +58,9 @@ public class Stephandler {
         stmt.setInt(1, stepId);
         ResultSet results = stmt.executeQuery();
         if (results.next()) {
-        	int gripperHeadId = results.getInt("GRIPPERHEAD");
-        	
+        	int gripperHeadId = results.getInt("GRIPPERHEAD");       	 
+            GripperHead gripperHead = GripperHeadHandle.getGripperHeadById(gripperHeadId);
+                         
         	int GripperId = results.getInt("GRIPPER");
         	Gripper gripper =gripperhandler.getGripperById(GripperId);  
         	
@@ -76,7 +79,7 @@ public class Stephandler {
             int OffSetId = results.getInt("OFFSET");
             Coordinates offSet = coordinatesHandler.getCoordinatesById(programId,OffSetId);
             
-            step = new Step(gripper, workpice, UserFrameId, smooth, robotSetting, offSet);
+            step = new Step(gripperHead,gripper, workpice, UserFrameId, smooth, robotSetting, offSet);
             step.setId(stepId);
         }
         stmt.close();
