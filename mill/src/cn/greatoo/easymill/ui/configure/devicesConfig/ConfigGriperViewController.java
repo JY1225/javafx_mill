@@ -4,11 +4,14 @@ import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 
 public class ConfigGriperViewController {
 	@FXML
 	private GridPane gridPane;
+	@FXML
+	private ComboBox<String> combox;
 	@FXML
 	private Button editBt;
 	@FXML
