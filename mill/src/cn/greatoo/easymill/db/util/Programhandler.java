@@ -96,12 +96,14 @@ public class Programhandler {
 	public static void saveProgram(Program program) throws SQLException {
 		if (program.getId() <= 0) {// insert
 			// unloadstacker
+			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());			
 			Gripperhandler.saveGripper(program.getUnloadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadstacker().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getUnloadstacker().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadstacker());
 			//loadCNC
+			GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());		
 			Gripperhandler.saveGripper(program.getLoadCNC().getGripper());
 			RobotSettinghandler.saveRobotSetting(program.getLoadCNC().getRobotSetting());
 			SmoothHandler.saveSmooth(program.getLoadCNC().getSmooth());
@@ -109,12 +111,14 @@ public class Programhandler {
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getLoadCNC());
 			//unloadCNC
+			GripperHeadHandle.saveGripperHead(program.getUnloadCNC().getGripperHead());
 			Gripperhandler.saveGripper(program.getUnloadCNC().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadCNC().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getUnloadCNC().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadCNC());
 			//loadstacker
+			GripperHeadHandle.saveGripperHead(program.getLoadstacker().getGripperHead());
 			Gripperhandler.saveGripper(program.getLoadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getLoadstacker().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getLoadstacker().getWorkPiece());
