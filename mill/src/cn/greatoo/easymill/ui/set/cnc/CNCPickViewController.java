@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.ui.set.cnc;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Smooth;
@@ -25,7 +26,14 @@ public class CNCPickViewController {
 	public static Smooth unloadCNCSmooth = new Smooth();
 	
 	public void init() {
-		
+		String programName = DBHandler.getInstance().getProgramName();
+		if (programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			unloadCNCSmooth = program.getUnloadCNC().getSmooth();
+			XField.setText(String.valueOf(unloadCNCSmooth.getX()));
+			YField.setText(String.valueOf(unloadCNCSmooth.getY()));
+			ZField.setText(String.valueOf(unloadCNCSmooth.getZ()));
+		}
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {

@@ -14,9 +14,9 @@ import cn.greatoo.easymill.entity.Smooth;
 
 public class SmoothHandler {
 
-	Connection conn = DBHandler.getInstance().getConnection();
+	static Connection conn = DBHandler.getInstance().getConnection();
 
-    public void saveSmooth(final Smooth smooth) throws SQLException {
+    public static void saveSmooth(final Smooth smooth) throws SQLException {
         if (smooth.getId() <= 0) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO SMOOTH (X, Y, Z) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             stmt.setFloat(1, smooth.getX());
@@ -48,27 +48,11 @@ public class SmoothHandler {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM smooth WHERE ID = ?");
             stmt.setInt(1, smooth.getId());
             stmt.executeUpdate();
-            for (Map<Integer, Smooth> buffer : DBHandler.getInstance().getSmoothsBuffer().values()) {
-                buffer.remove(smooth.getId());
-            }
-            smooth.setId(0);
         }
     }
      
     public Smooth getSmoothById(final int programId, final int smoothId) throws SQLException {
         Smooth smooth = null;
-        if (programId != 0) {
-            Map<Integer, Smooth> buffer = DBHandler.getInstance().getSmoothsBuffer().get(programId);
-            if (buffer != null) {
-                smooth = buffer.get(smoothId);
-                if (smooth != null) {
-                    return smooth;
-                }
-            } else {
-                Map<Integer, Smooth> newBuffer = new HashMap<Integer, Smooth>();
-                DBHandler.getInstance().getSmoothsBuffer().put(programId, newBuffer);
-            }
-        }
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM smooth WHERE ID = ?");
         stmt.setInt(1, smoothId);
         ResultSet results = stmt.executeQuery();
@@ -80,9 +64,6 @@ public class SmoothHandler {
             smooth.setId(smoothId);
         }
         stmt.close();
-        if (programId != 0) {
-        	DBHandler.getInstance().getSmoothsBuffer().get(programId).put(smoothId, smooth);
-        }
         return smooth;
     }
 }

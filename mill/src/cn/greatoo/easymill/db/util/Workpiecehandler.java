@@ -13,9 +13,9 @@ import cn.greatoo.easymill.entity.WorkPiece.Material;
 
 public class Workpiecehandler {
 	
-	Connection conn = DBHandler.getInstance().getConnection();
+	static Connection conn = DBHandler.getInstance().getConnection();
 
-	   public void saveWorkPiece(final WorkPiece workPiece) throws SQLException {
+	   public static void saveWorkPiece(final WorkPiece workPiece) throws SQLException {
 	        int type = workPiece.getType().getTypeId();
 	        int shape = workPiece.getShape().getShapeId();
 	        int material = workPiece.getMaterial().getId();
@@ -55,20 +55,8 @@ public class Workpiecehandler {
 	        }
 	    }
 	  
-	    public WorkPiece getWorkPieceById(final int processFlowId, final int workPieceId) throws SQLException {
+	    public static WorkPiece getWorkPieceById(final int processFlowId, final int workPieceId) throws SQLException {
 	        WorkPiece workPiece = null;
-	        if (processFlowId != 0) {
-	            Map<Integer, WorkPiece> buffer = DBHandler.getInstance().getWorkPieceBuffer().get(processFlowId);
-	            if (buffer != null) {
-	                workPiece = buffer.get(workPieceId);
-	                if (workPiece != null) {
-	                    return workPiece;
-	                }
-	            } else {
-	                Map<Integer, WorkPiece> newBuffer = new HashMap<Integer, WorkPiece>();
-	                DBHandler.getInstance().getWorkPieceBuffer().put(processFlowId, newBuffer);
-	            }
-	        }
 	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM WORKPIECE WHERE ID = ?");
 	        stmt.setInt(1, workPieceId);
 	        ResultSet results = stmt.executeQuery();
@@ -87,9 +75,6 @@ public class Workpiecehandler {
 	            workPiece.setId(workPieceId);
 	        }
 	        stmt.close();
-	        if (processFlowId != 0) {
-	        	DBHandler.getInstance().getWorkPieceBuffer().get(processFlowId).put(workPieceId, workPiece);
-	        }
 	        return workPiece;
 	    }
 	

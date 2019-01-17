@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.ui.set.cnc;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.util.NumericTextField;
@@ -37,7 +38,15 @@ public class CNCFinishedWPViewController implements TextInputControlListener {
 	public static WorkPiece workPiece = new WorkPiece();
 
 	public void init() {
-		
+		String programName = DBHandler.getInstance().getProgramName();
+		if (programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			workPiece = program.getLoadstacker().getWorkPiece();
+			fullnumL.setText(String.valueOf(workPiece.getLength()));
+			fullnumW.setText(String.valueOf(workPiece.getWidth()));
+			fullnumH.setText(String.valueOf(workPiece.getHeight()));
+			fullnumWT.setText(String.valueOf(workPiece.getWeight()));
+		}
 		workPiece.setType(WorkPiece.Type.FINISHED);
 		fullnumL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override

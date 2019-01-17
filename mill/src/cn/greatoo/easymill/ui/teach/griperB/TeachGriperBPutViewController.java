@@ -5,7 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Program;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.CheckBox;
@@ -43,11 +47,56 @@ public class TeachGriperBPutViewController {
 	private CheckBox checkBox;
 	@FXML
 	private Button changeBt;
-	private Coordinates loadStackerOffset = new Coordinates();
+	public static Coordinates loadStackerOffset = new Coordinates();
 	
 	public void init() {
-		xTextField.setText("2");
-		
+		String programName = DBHandler.getInstance().getProgramName();
+		if (programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			loadStackerOffset = program.getLoadstacker().getOffset();
+			xTextField.setText(String.valueOf(loadStackerOffset.getX()));
+			yTextField.setText(String.valueOf(loadStackerOffset.getY()));
+			zTextField.setText(String.valueOf(loadStackerOffset.getZ()));
+			wTextField.setText(String.valueOf(loadStackerOffset.getW()));
+			pTextField.setText(String.valueOf(loadStackerOffset.getP()));
+			rTextField.setText(String.valueOf(loadStackerOffset.getR()));			
+		}
+		xTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadStackerOffset.setX(Float.parseFloat(xTextField.getText()));
+	        }
+		});	
+		yTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadStackerOffset.setY(Float.parseFloat(yTextField.getText()));
+	        }
+		});	
+		zTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadStackerOffset.setZ(Float.parseFloat(zTextField.getText()));
+	        }
+		});	
+		wTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadStackerOffset.setW(Float.parseFloat(wTextField.getText()));
+	        }
+		});	
+		pTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadStackerOffset.setP(Float.parseFloat(pTextField.getText()));
+	        }
+		});	
+		rTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadStackerOffset.setR(Float.parseFloat(rTextField.getText()));
+	        }
+		});	
 	}
 	@FXML
 	public void xResetBtAction(ActionEvent event) {
