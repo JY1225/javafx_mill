@@ -43,7 +43,7 @@ public class RobotSettinghandler {
 	public void updateRobotSetting(final RobotSetting robotSetting, final boolean releaseBeforeMachine, final SocketConnection socketConnection, final float playload) throws SQLException {
 		conn.setAutoCommit(false);
 		if ((!robotSetting.isReleaseBeforeMachine()==releaseBeforeMachine) || (!robotSetting.getSocketConnection().equals(socketConnection)) || (robotSetting.getPlayload() != playload)) {
-			PreparedStatement stmt = conn.prepareStatement("UPDATE GRIPPER SET RELEASEBEFOREMACHINE = ?, SOCKETCONNECTION = ?, PAYLOAD = ? WHERE ID = ?");
+			PreparedStatement stmt = conn.prepareStatement("UPDATE ROBOTSETTING SET RELEASEBEFOREMACHINE = ?, SOCKETCONNECTION = ?, PAYLOAD = ? WHERE ID = ?");
 			stmt.setBoolean(1, releaseBeforeMachine);
 			stmt.setInt(2, socketConnection.getId());
 			stmt.setFloat(3, playload);
@@ -82,9 +82,6 @@ public class RobotSettinghandler {
 	public void deleteRobotSetting(final RobotSetting robotSetting) throws SQLException {
 		conn.setAutoCommit(false);
 		try {
-			PreparedStatement stmt = conn.prepareStatement("DELETE FROM STEP WHERE GRIPPER = ?");
-			stmt.setInt(1, robotSetting.getId());
-			stmt.executeUpdate();
 			PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM ROBOTSETTING WHERE ID = ?");
 			stmt2.setInt(1, robotSetting.getId());
 			stmt2.executeUpdate();

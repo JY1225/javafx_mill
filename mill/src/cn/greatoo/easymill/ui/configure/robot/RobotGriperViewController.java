@@ -18,7 +18,7 @@ public class RobotGriperViewController {
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	RobotGripperView robotGripperView;
 	public void init() {
-		//抓爪图
+		//夹爪图
 		ifsClamping = new IconFlowSelector(false);
         ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
         gridPane.add(ifsClamping, 0, 0, 2, 1);
@@ -36,5 +36,6 @@ public class RobotGriperViewController {
 	public void newBtAction(ActionEvent event) {
 		robotGripperView.clickedNew();
 	}
+	
 	
 }

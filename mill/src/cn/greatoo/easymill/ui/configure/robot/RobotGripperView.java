@@ -1,7 +1,9 @@
 package cn.greatoo.easymill.ui.configure.robot;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.robot.AbstractRobot;
@@ -218,16 +220,17 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		btnSave = createButton(SAVE_PATH, CSS_CLASS_FORM_BUTTON, "保存", BTN_WIDTH, BTN_HEIGHT, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-//				Gripper.Type type = Gripper.Type.TWOPOINT;
-//				if (rbGripperTypeTwoPoint.isSelected()) {
-//					type = Gripper.Type.TWOPOINT;
-//				} else if (rbGripperTypeVacuum.isSelected()) {
-//					type = Type.VACUUM;
-//				} else {
-//					throw new IllegalStateException("No type radio button selected");
-//				}
-//				getPresenter().saveData(fulltxtName.getText(), type, imagePath, Float.parseFloat(numtxtHeight.getText()), cbFixedHeight.selectedProperty().get(),
-//						cbA.selectedProperty().get(), cbB.selectedProperty().get(), cbC.selectedProperty().get(), cbD.selectedProperty().get());
+				Gripper.Type type = Gripper.Type.TWOPOINT;
+				if (rbGripperTypeTwoPoint.isSelected()) {
+					type = Gripper.Type.TWOPOINT;
+				} else if (rbGripperTypeVacuum.isSelected()) {
+					type = Type.VACUUM;
+				} else {
+					throw new IllegalStateException("No type radio button selected");
+				}				
+				selectedGripper = Gripper(fulltxtName.getText(), type, Float.parseFloat(numtxtHeight.getText()), ""+ cbFixedHeight.selectedProperty().get(), true, imagePath);
+					saveData (selectedGripper);
+					//(final String name, final Type type, final float height, final String selectGripper, boolean gripperInner, final String imageUrl)
 			}
 		});
 		btnSave.getStyleClass().add("save-btn");
@@ -368,5 +371,16 @@ public class RobotGripperView extends Controller implements TextInputControlList
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void saveData(Gripper gripper) throws SQLException {
+		if (selectedGripper != null) {
+			Gripperhandler.updateGripper(gripper);
+		} else {
+			Gripperhandler.saveGripper(gripper);
+		}
+		selectedGripper = null;
+		editMode = false;
+		//getView().refresh();
 	}
 }

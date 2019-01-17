@@ -172,7 +172,7 @@
             <TextField fx:id="safeField" prefHeight="35.0" text="5.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
             <TextField fx:id="r0Field" prefHeight="35.0" text="90.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
             <TextField fx:id="overMaxField" prefHeight="35.0" text="30.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-            <TextField fx:id="studHightField" prefHeight="35.0" text="16.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <TextField fx:id="studHight_StakckerField" prefHeight="35.0" text="16.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
             <TextField fx:id="paddingField" prefHeight="35.0" text="45.0" GridPane.columnIndex="5" GridPane.rowIndex="6" />
             <TextField fx:id="buttomField" prefHeight="35.0" text="26.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
             <TextField fx:id="overPersentField" prefHeight="35.0" text="0.5" GridPane.columnIndex="5" GridPane.rowIndex="8" />

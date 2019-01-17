@@ -12,9 +12,9 @@ import cn.greatoo.easymill.entity.Coordinates;
 
 public class CoordinatesHandler {
 
-	Connection conn = DBHandler.getInstance().getConnection();
+	static Connection conn = DBHandler.getInstance().getConnection();
 
-    public void saveCoordinates(final Coordinates coordinates) throws SQLException {
+    public static void saveCoordinates(final Coordinates coordinates) throws SQLException {
         if (coordinates.getId() <= 0) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO COORDINATES (X, Y, Z, W, P, R) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             stmt.setFloat(1, coordinates.getX());
@@ -60,7 +60,7 @@ public class CoordinatesHandler {
     }
 
      
-    public Coordinates getCoordinatesById(final int processFlowId, final int coordinatesId) throws SQLException {
+    public static Coordinates getCoordinatesById(final int processFlowId, final int coordinatesId) throws SQLException {
         Coordinates coordinates = null;
         if (processFlowId != 0) {
             Map<Integer, Coordinates> buffer = DBHandler.getInstance().getCoordinatesBuffer().get(processFlowId);

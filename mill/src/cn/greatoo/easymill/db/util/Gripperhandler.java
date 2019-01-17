@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.google.common.base.FinalizablePhantomReference;
+
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 
@@ -13,10 +15,9 @@ public class Gripperhandler {
 	
 	private static final int GRIPPER_TYPE_TWOPOINT = 1;
 	private static final int GRIPPER_TYPE_VACUUM = 2;
-	Connection conn = DBHandler.getInstance().getConnection();
-	private CoordinatesHandler coordinatesHandler;
+	static Connection conn = DBHandler.getInstance().getConnection();
 
-	public void saveGripper(final Gripper gripper) throws SQLException {
+	public static void saveGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO GRIPPER (NAME, HEIGHT, FIXEDHEIGHT, SELECTGRIPPER, GRIPPERINNER, IMAGEURL,TYPE) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, gripper.getName());
@@ -48,37 +49,27 @@ public class Gripperhandler {
 			conn.setAutoCommit(true);
 		}
 	}
-	public void updateGripper(final Gripper gripper, final String name, final float height, final boolean fixedHeight,
-			final String selectGripper, final boolean gripperInner, final String imgUrl, final Gripper.Type type ) throws SQLException {
+	public static void updateGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
-		if ((!gripper.getName().equals(name)) || (!gripper.getImageUrl().equals(imgUrl)) || (gripper.getHeight() != height)
-				|| (gripper.isFixedHeight() != fixedHeight) || (gripper.getType() != type)) {
 			PreparedStatement stmt = conn.prepareStatement("UPDATE GRIPPER SET NAME = ?, HEIGHT = ?, FIXEDHEIGHT = ?, SELECTGRIPPER = ?, GRIPPERINNER = ?, IMAGEURL = ?, TYPE = ? WHERE ID = ?");
-			stmt.setString(1, name);
-			stmt.setFloat(2, height);
-			stmt.setBoolean(3, fixedHeight);
-			stmt.setString(4, selectGripper);
-			stmt.setBoolean(5, gripperInner);
-			stmt.setString(6, imgUrl);
-			int gripperTypeId = GRIPPER_TYPE_TWOPOINT;
-			if (type == Type.TWOPOINT) {
-				gripperTypeId = GRIPPER_TYPE_TWOPOINT;
-			} else if (type == Type.VACUUM) {
-				gripperTypeId = GRIPPER_TYPE_VACUUM;
+			stmt.setString(1, gripper.getName());
+			stmt.setFloat(2, gripper.getHeight());
+			stmt.setBoolean(3, gripper.isFixedHeight());
+			stmt.setString(4, gripper.getSelectGripper());
+			stmt.setString(5, gripper.getImageUrl());
+			stmt.setBoolean(6, gripper.isGripperInner());
+
+			int typeInt = GRIPPER_TYPE_TWOPOINT;
+			if (gripper.getType() == Type.TWOPOINT) {
+				typeInt = GRIPPER_TYPE_TWOPOINT;
+			} else if (gripper.getType() == Type.VACUUM) {
+				typeInt = GRIPPER_TYPE_VACUUM;
 			} else {
-				throw new IllegalArgumentException("Unknown gripper type: " + type);
+				throw new IllegalArgumentException("Unknown gripper type: " + gripper.getType() );
 			}
-			stmt.setInt(7, gripperTypeId);
+			stmt.setInt(7, typeInt);
 			stmt.setInt(8, gripper.getId());
 			stmt.executeUpdate();
-			gripper.setName(name);
-			gripper.setImageUrl(imgUrl);
-			gripper.setHeight(height);
-			gripper.setFixedHeight(fixedHeight);
-			gripper.setType(type);
-			gripper.setGripperInner(gripperInner);
-			gripper.setSelectGripper(selectGripper);
-		}
 		conn.commit();
 		conn.setAutoCommit(true);
 		// TODO updating of gripper head compatibility

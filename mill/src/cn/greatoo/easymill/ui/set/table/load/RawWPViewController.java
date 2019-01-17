@@ -102,14 +102,24 @@ public class RawWPViewController extends Controller {
 		fulltxtBH.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	stacker.setStudHeight(Float.parseFloat(fulltxtBH.getText()));
+	        
+	        	if(fulltxtBH.getText()!=null){
+
+	        		stacker.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));
+	        	}
+	        	stacker.setStudHeight_Workpiece(0);
 	        }
 		});	
 		//图层
 		fulltxtC.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        	if(fulltxtC.getText()!=null){
+
 	        	stacker.setLayers(Integer.parseInt(fulltxtC.getText()));
+	        	}
+	        	stacker.setLayers(0);
 	        }
 		});	
 		//数量

@@ -3,7 +3,6 @@ package cn.greatoo.easymill.robot;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sun.java.accessibility.util.Translator;
 
 import cn.greatoo.easymill.util.RobotConstants;
 
