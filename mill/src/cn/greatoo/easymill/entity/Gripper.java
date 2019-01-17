@@ -11,7 +11,7 @@ public class Gripper {
 	private String name;
 	private float height;
 	private boolean fixedHeight;	
-	private boolean gripperInner;
+	private static boolean gripperInner;
 	private String imageUrl;
 
 	public Gripper(final String name, final Type type, final float height, boolean gripperInner, final String imageUrl) {
@@ -33,7 +33,7 @@ public class Gripper {
 	public void setId(final int id) {
 		this.id = id;
 	}
-	public boolean isGripperInner() {
+	public static boolean isGripperInner() {
 		return gripperInner;
 	}
 	public void setGripperInner(boolean gripperInner) {

@@ -24,9 +24,8 @@ public class Gripperhandler {
 		stmt.setString(1, gripper.getName());
 		stmt.setFloat(2, gripper.getHeight());
 		stmt.setBoolean(3, gripper.isFixedHeight());
-		stmt.setString(4, gripper.getImageUrl());
-		stmt.setBoolean(5, gripper.isGripperInner());
-		
+		stmt.setBoolean(4, gripper.isGripperInner());
+		stmt.setString(5, gripper.getImageUrl());	
 		int typeInt = GRIPPER_TYPE_TWOPOINT;
 		if (gripper.getType() == Type.TWOPOINT) {
 			typeInt = GRIPPER_TYPE_TWOPOINT;
@@ -55,10 +54,8 @@ public class Gripperhandler {
 			stmt.setString(1, gripper.getName());
 			stmt.setFloat(2, gripper.getHeight());
 			stmt.setBoolean(3, gripper.isFixedHeight());
-
-			stmt.setString(4, gripper.getImageUrl());
-			stmt.setBoolean(5, gripper.isGripperInner());
-
+			stmt.setBoolean(4, gripper.isGripperInner());
+			stmt.setString(5, gripper.getImageUrl());
 			int typeInt = GRIPPER_TYPE_TWOPOINT;
 			if (gripper.getType() == Type.TWOPOINT) {
 				typeInt = GRIPPER_TYPE_TWOPOINT;

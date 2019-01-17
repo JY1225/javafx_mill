@@ -228,9 +228,13 @@ public class RobotGripperView extends Controller implements TextInputControlList
 				} else {
 					throw new IllegalStateException("No type radio button selected");
 				}				
-				selectedGripper = Gripper(fulltxtName.getText(), type, Float.parseFloat(numtxtHeight.getText()), ""+ cbFixedHeight.selectedProperty().get(), true, imagePath);
-					saveData (selectedGripper);
-					//(final String name, final Type type, final float height, final String selectGripper, boolean gripperInner, final String imageUrl)
+				selectedGripper = new Gripper(fulltxtName.getText(), type, Float.parseFloat(numtxtHeight.getText()), Gripper.isGripperInner(), imagePath);
+					try {
+						saveData (selectedGripper);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 		btnSave.getStyleClass().add("save-btn");
@@ -282,7 +286,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 			imageVw.setImage(new Image(UIConstants.IMG_NOT_FOUND_URL, IMG_WIDTH, IMG_HEIGHT, true, true));
 		}
 		imagePath = gripper.getImageUrl();
-		cbA.setSelected((gripper.getSelectGripper() != null) );
+		//cbA.setSelected((gripper.getSelectGripper() != null) );
 		
 	}
 	
@@ -374,7 +378,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 	}
 	
 	public void saveData(Gripper gripper) throws SQLException {
-		if (selectedGripper != null) {
+		if (selectedGripper.getId()>0) {
 			Gripperhandler.updateGripper(gripper);
 		} else {
 			Gripperhandler.saveGripper(gripper);
