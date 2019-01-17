@@ -5,26 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 
-import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.Gripper.Type;
-import cn.greatoo.easymill.entity.WorkPiece.Material;
-import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.entity.RobotSetting;
-import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public class RobotSettinghandler {
 	
-	Connection conn = DBHandler.getInstance().getConnection();
+	static Connection conn = DBHandler.getInstance().getConnection();
 
-	public void saveRobotSetting(final RobotSetting robotSetting) throws SQLException {
+	public static void saveRobotSetting(final RobotSetting robotSetting) throws SQLException {
 		conn.setAutoCommit(false);
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO ROBOTSETTING (RELEASEBEFOREMACHINE, SOCKETCONNECTION, PAYLOAD) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-		stmt.setBoolean(1, robotSetting.isReleaseBeforeMachine());
-		stmt.setInt(2, robotSetting.getSocketConnection().getId());
-		stmt.setFloat(3, robotSetting.getPlayload());				
+		stmt.setBoolean(1, robotSetting.isReleaseBeforeMachine());				
 		try {
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
@@ -42,8 +34,9 @@ public class RobotSettinghandler {
 	
 	public void updateRobotSetting(final RobotSetting robotSetting, final boolean releaseBeforeMachine, final SocketConnection socketConnection, final float playload) throws SQLException {
 		conn.setAutoCommit(false);
-		if ((!robotSetting.isReleaseBeforeMachine()==releaseBeforeMachine) || (!robotSetting.getSocketConnection().equals(socketConnection)) || (robotSetting.getPlayload() != playload)) {
+		if ((!robotSetting.isReleaseBeforeMachine()==releaseBeforeMachine)) {
 			PreparedStatement stmt = conn.prepareStatement("UPDATE ROBOTSETTING SET RELEASEBEFOREMACHINE = ?, SOCKETCONNECTION = ?, PAYLOAD = ? WHERE ID = ?");
+
 			stmt.setBoolean(1, releaseBeforeMachine);
 			stmt.setInt(2, socketConnection.getId());
 			stmt.setFloat(3, playload);
@@ -51,31 +44,22 @@ public class RobotSettinghandler {
 
 			stmt.executeUpdate();
 			robotSetting.setReleaseBeforeMachine(releaseBeforeMachine);
-            robotSetting.setSocketConnection(socketConnection);
-            robotSetting.setPlayload(playload);
 		}
 		conn.commit();
 		conn.setAutoCommit(true);
 		// TODO updating of gripper head compatibility
 	}
     public RobotSetting getRobotSettingById(final int programId, final int robotSettingId) throws SQLException {
-    	RobotSetting robotSetting = DBHandler.getInstance().getRobotSettingBuffer().get(programId); 
-        if (robotSetting != null) {
-            return robotSetting;
-        }
+    	RobotSetting robotSetting = null; 
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ROBOTSETTING WHERE ID = ?");
         stmt.setInt(1, robotSettingId);
         ResultSet results = stmt.executeQuery();
         if (results.next()) {
-            boolean ReleaseBeforeMachine = results.getBoolean("RELEASEBEFOREMACHINE");
-            int socketConnectionId = results.getInt("SOCKETCONNECTION");
-            SocketConnection socketConnection = DBHandler.getInstance().getSocketConnectionById(socketConnectionId);
-            float payload = results.getFloat("PAYLOAD");    
-            robotSetting = new RobotSetting(ReleaseBeforeMachine, socketConnection, payload);
+            boolean ReleaseBeforeMachine = results.getBoolean("RELEASEBEFOREMACHINE");    
+            robotSetting = new RobotSetting(ReleaseBeforeMachine);
             robotSetting.setId(robotSettingId);
         }
         stmt.close();
-        DBHandler.getInstance().getRobotSettingBuffer().put(robotSettingId, robotSetting);
         return robotSetting;
     }
 	

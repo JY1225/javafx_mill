@@ -38,7 +38,12 @@ public class RobotMenuViewController extends Controller{
 		bts = new ArrayList<Button>();
 		bts.add(generalBt);
 		bts.add(griperBt);
-
+		setAllDisVisible(0, 2, gridPane);
+		if(generalBt.getStyleClass().contains("selected")) {
+			openGeneralView();
+		}else if(griperBt.getStyleClass().contains("selected")) {
+			openGriperView();
+		}
 		
 
 		addMenuItem(prosessVBox,generalBt, 0, "通用", true, new EventHandler<ActionEvent>() {

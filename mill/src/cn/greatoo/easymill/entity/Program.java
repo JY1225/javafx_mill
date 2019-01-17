@@ -25,6 +25,10 @@ public class Program {
 		this.timeLastOpen = timeLastOpen;
 	}	
 
+	public Program() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

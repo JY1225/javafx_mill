@@ -1,6 +1,12 @@
 package cn.greatoo.easymill.ui.set.table.load;
 
+import java.util.Map;
+
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Smooth;
+import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.WorkPiece.Material;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,25 +27,33 @@ public class PickViewController {
 	@FXML
 	private Button resetBt;
 
-	public static Smooth smooth = new Smooth();
+	public static Smooth unloadStackerSmooth = new Smooth();
 	public void init() {
+		String programName = DBHandler.getInstance().getProgramName();
+		if(programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			unloadStackerSmooth = program.getUnloadstacker().getSmooth();			
+			XField.setText(String.valueOf(unloadStackerSmooth.getX()));
+			YField.setText(String.valueOf(unloadStackerSmooth.getY()));
+			ZField.setText(String.valueOf(unloadStackerSmooth.getZ()));
+		}
 		
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	smooth.setX(Float.parseFloat(XField.getText()));  
+	        	unloadStackerSmooth.setX(Float.parseFloat(XField.getText()));  
 	        }
 		});	
 		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	smooth.setY(Float.parseFloat(YField.getText()));  
+	        	unloadStackerSmooth.setY(Float.parseFloat(YField.getText()));  
 	        }
 		});	
 		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	smooth.setZ(Float.parseFloat(ZField.getText()));  
+	        	unloadStackerSmooth.setZ(Float.parseFloat(ZField.getText()));  
 	        }
 		});	
 	}

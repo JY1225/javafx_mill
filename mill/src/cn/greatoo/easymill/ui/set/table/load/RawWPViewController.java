@@ -2,9 +2,13 @@ package cn.greatoo.easymill.ui.set.table.load;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -69,6 +73,33 @@ public class RawWPViewController extends Controller {
 		mBts.add(FeBt);
 		mBts.add(OBt);
 		
+		String programName = DBHandler.getInstance().getProgramName();
+		if(programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			workPiece = program.getUnloadstacker().getWorkPiece();
+			fulltxtL.setText(String.valueOf(workPiece.getLength()));
+			fulltxtW.setText(String.valueOf(workPiece.getWidth()));
+			fulltxtH.setText(String.valueOf(workPiece.getHeight()));
+			fulltxtWei.setText(String.valueOf(workPiece.getWeight()));
+			Material material = workPiece.getMaterial();
+			switch (material) {
+			case AL:
+				isClicked(mBts, AlBt);
+				break;
+			case CU:
+				isClicked(mBts, CuBt);
+				break;
+			case FE:
+				isClicked(mBts, FeBt);
+				break;
+			case OTHER:
+				isClicked(mBts, OBt);
+				break;
+			default:
+				break;
+			}
+			
+		}
 		workPiece.setType(WorkPiece.Type.RAW);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override

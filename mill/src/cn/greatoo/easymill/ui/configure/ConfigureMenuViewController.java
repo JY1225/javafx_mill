@@ -44,6 +44,8 @@ public class ConfigureMenuViewController extends Controller{
 	public void configAction(ActionEvent event) {
 		openConfigView();
 	}
+	
+	RobotMenuViewController robotMenuViewController;
 	private void openRobotView() {
 		isClicked(bts,robotBt);
 		if (!gridPane.getChildren().contains(robotParent)) {
@@ -53,16 +55,18 @@ public class ConfigureMenuViewController extends Controller{
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				robotParent = fxmlLoader.load();
-				RobotMenuViewController robotMenuViewController = fxmlLoader.getController(); 
+				robotMenuViewController = fxmlLoader.getController(); 
 				robotMenuViewController.init(gridPane);
 				gridPane.add(robotParent, 1, 0);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
+			robotMenuViewController.init(gridPane);
 			setDisVisible(0, 1, gridPane, robotParent);
+		}
 	}
-	
+	DevicesConfigMenuViewController devicesConfigMenuViewController;
 	private void openConfigView() {
 		isClicked(bts,configBt);
 		if (!gridPane.getChildren().contains(configParent)) {
@@ -72,14 +76,16 @@ public class ConfigureMenuViewController extends Controller{
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				configParent = fxmlLoader.load();
-				DevicesConfigMenuViewController devicesConfigMenuViewController = fxmlLoader.getController(); 
+				devicesConfigMenuViewController = fxmlLoader.getController(); 
 				devicesConfigMenuViewController.init(gridPane);
 				gridPane.add(configParent, 1, 0);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
+			devicesConfigMenuViewController.init(gridPane);
 			setDisVisible(0, 1, gridPane, configParent);
+		}
 	}
 
 	@Override

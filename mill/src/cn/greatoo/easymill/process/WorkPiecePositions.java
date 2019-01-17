@@ -54,6 +54,7 @@ public class WorkPiecePositions {
 //			c.setZ((amount - 1) * getWorkPiece().getDimensions().getZSafe());
 //		} 
 		// (-45.0, -26.0, 0.0, 0.0, 0.0, 0.0)?????9
+		//c.offset(workArea.getDefaultClamping().getRelativePosition());
 		c.offset(getRelativePosition(9));
 		// (92.5, 107.5, 0.0, 0.0, 0.0, 90.0)
 		return c;

@@ -7,14 +7,15 @@ public class Step implements Cloneable {
 	private int id;
 	private Gripper gripper;
 	private WorkPiece workPiece;
-	private UserFrame userFrame;
+	private int userFrame;
 	private Smooth smooth;
 	private RobotSetting robotSetting;
 	private Coordinates offset;
+	private GripperHead gripperHead;
 
-
-	public Step(Gripper gripper, WorkPiece workPiece, UserFrame userFrame,
+	public Step(GripperHead gripperHead,Gripper gripper, WorkPiece workPiece, int userFrame,
 		Smooth smooth, RobotSetting robotSetting, Coordinates offset) {
+		this.gripperHead = gripperHead;
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
@@ -78,11 +79,11 @@ public class Step implements Cloneable {
 		this.workPiece = workPiece;
 	}
 
-	public UserFrame getUserFrame() {
+	public int getUserFrame() {
 		return userFrame;
 	}
 
-	public void setUserFrame(UserFrame userFrame) {
+	public void setUserFrame(int userFrame) {
 		this.userFrame = userFrame;
 	}
 
@@ -108,6 +109,14 @@ public class Step implements Cloneable {
 
 	public void setOffset(Coordinates offset) {
 		this.offset = offset;
+	}
+
+	public GripperHead getGripperHead() {
+		return gripperHead;
+	}
+
+	public void setGripperHead(GripperHead gripperHead) {
+		this.gripperHead = gripperHead;
 	}
 	
 }

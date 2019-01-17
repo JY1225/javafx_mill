@@ -170,6 +170,22 @@ public abstract class Controller {
 		    }
 		    }
 		}
+
+		public void setAllDisVisible (final int row, final int column, GridPane gridPane) {
+		    ObservableList<Node> childrens = gridPane.getChildren();
+		    
+		    for (Node node : childrens) {
+		    	try {
+		    	int r = gridPane.getRowIndex(node);
+				int c = gridPane.getColumnIndex(node);
+		        if(r == row && c == column) {		        
+					node.setVisible(false);					
+		        }		   
+		    }catch (Exception e) {
+		    	
+		    }
+		    }
+		}
 		
 		public static boolean askConfirmation(StackPane stackPane,final String title, final String message) {
 			final ConfirmationDialogView view = new ConfirmationDialogView(title, message);

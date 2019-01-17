@@ -24,30 +24,18 @@ public class GeneralViewController {
 	private Button removeProcessBt;
 	@FXML
 	private CheckBox singleCycle;
-	private String name;
+	public static String name;
 
 	public void init() {
 	
 		singleCycle.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean oldValue, final Boolean newValue) {
-			//	System.out.println("222222222222222222");
 				
 				
 			}
 		});
 		
-//		fulltxtName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-//	        @Override
-//	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-//	                 // TODO Auto-generated method stub 
-//	        	if(!arg2){
-//	        		System.out.println("光标点击离开文本框，获取文本框的当前值，并把值写入数据库 ");
-//	        		System.out.println("fulltxtName = "+fulltxtName.getText());	
-//	        		
-//	        	}
-//	        }
-//		});
 	}
 	@FXML
 	public void nameChanged(MouseEvent event) {

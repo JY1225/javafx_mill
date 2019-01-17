@@ -1,21 +1,21 @@
 package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.util.Clamping;
-import cn.greatoo.easymill.util.Coordinates;
 import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
 import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
 import cn.greatoo.easymill.workpiece.RectangularDimensions;
-import cn.greatoo.easymill.workpiece.WorkPiece;
-import cn.greatoo.easymill.workpiece.WorkPiece.Material;
 
 /**
  * ===从table抓取工件===机器人抓取工件，回到原点

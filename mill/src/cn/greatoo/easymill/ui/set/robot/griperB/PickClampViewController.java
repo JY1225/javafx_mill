@@ -3,7 +3,10 @@ package cn.greatoo.easymill.ui.set.robot.griperB;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.beans.value.ChangeListener;
@@ -29,7 +32,7 @@ public class PickClampViewController extends Controller {
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	
 	public static Gripper gripper = new Gripper();
-	
+	public static GripperHead gripperhead = new GripperHead();
 	@SuppressWarnings("unchecked")
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -48,9 +51,21 @@ public class PickClampViewController extends Controller {
         comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-            	gripper.setSelectGripper((String) newValue);
+            	gripperhead.setName((String) newValue);
             }
         });
+        
+        String programName = DBHandler.getInstance().getProgramName();
+		if(programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			gripper = program.getUnloadCNC().getGripper();
+			comboBox.getSelectionModel().select(gripperhead.getName());
+			if(gripper.isGripperInner()) {
+				isClicked(bts, inBt);
+			}else {
+				isClicked(bts, outBt);
+			}
+		}
 	}
 	@FXML
 	public void comboBoxAction(ActionEvent event) {
