@@ -23,8 +23,8 @@ public class Stackerhandler {
 	public static void SaveStacker(Stacker stacker) throws SQLException {
 		if (stacker.getId()<=0) {
 		conn.setAutoCommit(false);
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE, HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAXUNDERFLOW, VERTICALHOLEDISTANCE,"
-				+ " ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE, HORIZONTALR, TILTEDR, MAXOVERFLOW, MINOVERLAP, MAXUNDERFLOW, VERTICALHOLEDISTANCE,"
+				+ " ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
 		stmt.setFloat(3, stacker.getHoleDiameter());
@@ -41,10 +41,10 @@ public class Stackerhandler {
 		stmt.setFloat(14, stacker.getMaxOverflow());
 		stmt.setFloat(15, stacker.getMinOverlap());
 		stmt.setFloat(16, stacker.getMaxUnderflow());
-		stmt.setFloat(17, stacker);
-		stmt.setFloat(18, stacker.getMaxUnderflow());
-		stmt.setFloat(19, stacker.getMaxUnderflow());
-		stmt.setFloat(20, stacker.getMaxUnderflow());	
+		stmt.setFloat(17, stacker.getOrientation());
+		stmt.setFloat(18, stacker.getLayers());
+		stmt.setFloat(19, stacker.getAmount());
+		stmt.setFloat(20, stacker.getStudHeight_Workpiece());	
 		stmt.executeUpdate();
 		ResultSet resultSet = stmt.getGeneratedKeys();
 		if (resultSet.next()) {
@@ -56,9 +56,10 @@ public class Stackerhandler {
 		else {
 			updateStacker(stacker);			
 		}
-
-		Coordinates smoothTo = Clamping.getSmoothToPoint();
-		Coordinates smoothFrom = Clamping.getSmoothFromPoint();
+		Coordinates smoothTo = new Coordinates();
+		Coordinates smoothFrom = new Coordinates();
+		//Coordinates smoothTo = Clamping.getSmoothToPoint();
+		//Coordinates smoothFrom = Clamping.getSmoothFromPoint();
 		smoothTo.setX(stacker.getSmoothto().getX());
 		smoothTo.setY(stacker.getSmoothto().getY());
 		smoothTo.setZ(stacker.getSmoothto().getZ());

@@ -4,7 +4,12 @@ import java.io.File;
 import java.sql.SQLException;
 
 import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.Clamping.ClampingType;
 import cn.greatoo.easymill.entity.Gripper.Type;
+import cn.greatoo.easymill.entity.Smooth;
+import cn.greatoo.easymill.ui.configure.robot.RobotGriperViewController;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.FullTextField;
 import cn.greatoo.easymill.util.IconFlowSelector;
@@ -370,6 +375,26 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 			@Override
 			public void handle(final ActionEvent arg0) {
 				
+				 Clamping.Type type = Clamping.Type.CENTRUM;
+					ClampingType clampingType =ClampingType.LENGTH;
+				String clampingName = fullTxtName.getText();
+
+				float defaultHeight = Float.parseFloat(numtxtHeight.getText());
+				Coordinates	relativePosition = new Coordinates(Float.parseFloat(numtxtX.getText()),Float.parseFloat(numtxtY.getText()),Float.parseFloat(numtxtZ.getText()),
+						Float.parseFloat(numtxtW.getText()),Float.parseFloat(numtxtP.getText()),Float.parseFloat(numtxtR.getText()));
+				Smooth smoothToPoint = new Smooth(Float.parseFloat(numtxtSmoothToX.getText()),Float.parseFloat(numtxtSmoothToY.getText()),Float.parseFloat(numtxtSmoothToZ.getText()));
+				Smooth smoothFromPoint = new Smooth(Float.parseFloat(numtxtSmoothFromX.getText()),Float.parseFloat(numtxtSmoothFromY.getText()),Float.parseFloat(numtxtSmoothFromZ.getText()));
+				String imageURL = imagePath;
+				selectedClamping = new Clamping(type, clampingType, clampingName, defaultHeight,relativePosition, smoothToPoint, smoothFromPoint, imagePath);
+				try {
+					ConfigGriperViewController.saveData(selectedClamping);
+					//spDetails.setVisible(false);
+					spControls.setVisible(false);
+					editMode = true;
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		btnCopy = createButton(ADD_PATH, CSS_CLASS_FORM_BUTTON, "另存为", BTN_WIDTH + 40, BTN_HEIGHT, new EventHandler<ActionEvent>() {	
@@ -558,7 +583,8 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		
+		clampingSelected(selectedClamping);
+		fullTxtName.setText(clampingName);
 		gpDetails.setVisible(true);
 		spControls.setVisible(true);
 		btnNew.setDisable(true);
@@ -613,6 +639,37 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 		spControls.setVisible(false);
 	}
 	
+	
+	public void clampingSelected(final Clamping clamping) {
+		if (clamping != null) {		
+		ifsClampings.setSelected(clamping.getName());
+		btnEdit.setDisable(false);
+		fullTxtName.setText(clamping.getName());
+		numtxtHeight.setText("" + clamping.getHeight());
+		numtxtX.setText("" + clamping.getRelativePosition().getX());
+		numtxtY.setText("" + clamping.getRelativePosition().getY());
+		numtxtZ.setText("" + clamping.getRelativePosition().getZ());
+		numtxtW.setText("" + clamping.getRelativePosition().getW());
+		numtxtP.setText("" + clamping.getRelativePosition().getP());
+		numtxtR.setText("" + clamping.getRelativePosition().getR());
+		numtxtSmoothToX.setText("" + clamping.getSmoothToPoint().getX());
+		numtxtSmoothToY.setText("" + clamping.getSmoothToPoint().getY());
+		numtxtSmoothToZ.setText("" + clamping.getSmoothToPoint().getZ());
+		numtxtSmoothFromX.setText("" + clamping.getSmoothFromPoint().getX());
+		numtxtSmoothFromY.setText("" + clamping.getSmoothFromPoint().getY());
+		numtxtSmoothFromZ.setText("" + clamping.getSmoothFromPoint().getZ());
+		String url = clamping.getImageUrl();
+		if (url != null) {
+			url = url.replace("file:///", "");
+		}
+		if ((url != null) && ((new File(url)).exists() || getClass().getClassLoader().getResource(url) != null)) {
+			imageVw.setImage(new Image(clamping.getImageUrl(), IMG_WIDTH, IMG_HEIGHT, true, true));
+		} else {
+			imageVw.setImage(new Image(UIConstants.IMG_NOT_FOUND_URL, IMG_WIDTH, IMG_HEIGHT, true, true));
+		}
+		imagePath = clamping.getImageUrl();
+		}
+	}
 	@Override
 	public void closeKeyboard() {
 		// TODO Auto-generated method stub

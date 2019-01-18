@@ -1,7 +1,12 @@
 package cn.greatoo.easymill.ui.configure.devicesConfig;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import cn.greatoo.easymill.db.util.ClampingHandler;
+import cn.greatoo.easymill.db.util.Gripperhandler;
+import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.event.ActionEvent;
@@ -19,9 +24,6 @@ public class ConfigGriperViewController  extends Controller{
 	private Button editBt;
 	@FXML
 	private Button newBt;
-	
-	@FXML
-	private ComboBox combox;
 
 	private IconFlowSelector ifsClamping;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
@@ -40,6 +42,9 @@ public class ConfigGriperViewController  extends Controller{
 		robotGripperView = new CNCClampingsView();
 		robotGripperView.init(gridPane, editBt, newBt, ifsClamping);
 		
+        combox.getItems().add("Clamping1");
+        combox.getItems().add("Clamping2");
+		
 		if(combox.getValue() != null) {
 		editBt.setDisable(false);
 		}else {
@@ -55,15 +60,33 @@ public class ConfigGriperViewController  extends Controller{
 		String clampingName = combox.getValue().toString();
 		robotGripperView.clickedEdit(clampingName);
 	}
+		
 	
 	@FXML
 	public void newBtAction(ActionEvent event) {
 		robotGripperView.clickedNew();
 	}
 
+	@FXML
+	public void comboBoxAction(ActionEvent event) {		
+		if(combox.getValue() != null) {
+			editBt.setDisable(false);
+		}else {
+			editBt.setDisable(true);
+		}
+		
+	}
 	@Override
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void saveData(Clamping clamping) throws SQLException {
+		if (clamping.getId()>0) {
+			ClampingHandler.updateClamping(clamping);;
+		} else {
+			ClampingHandler.saveClamping(clamping);
+		}
 	}
 }

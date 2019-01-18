@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import cn.greatoo.easymill.db.util.Stackerhandler;
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -110,10 +111,16 @@ public class StackerViewController {
 		float orientation = 0;		
 		int layers = 0;
 		int amount = 0;
-		float studHeight_Workpiece = 0;		
+		float studHeight_Workpiece = 0;	
+		Smooth smoothto = new Smooth(tX, tY, tZ);
+		Smooth smoothfrom = new Smooth(fX, fY, fZ);
+
 		stacker =new Stacker(h, v, hold, stud, hDistance, vDistance, padding, top, buttom, safe, 
 				overPersent, r0, r45, overMax, maxUnder, overMin, studHight_Stakcker, tX, tY, tZ,
 				fX, fY, fZ, orientation, layers, amount, studHeight_Workpiece);
+		
+		stacker.setSmoothfrom(smoothfrom);
+		stacker.setSmoothto(smoothto);
 		validate();
 		
 		try {

@@ -70,8 +70,8 @@ public class Clamping implements Cloneable {
 	private static int id;
 	private String name;
 	private Coordinates relativePosition;	
-	private static Coordinates smoothToPoint;
-	private static Coordinates smoothFromPoint;
+	private static Smooth smoothToPoint;
+	private static Smooth smoothFromPoint;
 	private float height;
 	private float defaultHeight;
 	private String imageURL;
@@ -83,8 +83,8 @@ public class Clamping implements Cloneable {
 	private int nbOfPossibleWPToStore = 1;
 	
 	@SuppressWarnings("static-access")
-	public Clamping(final Type type, ClampingType clampingType, final String name, final float defaultHeight, final Coordinates relativePosition, final Coordinates smoothToPoint,
-			final Coordinates smoothFromPoint, final String imageURL) {
+	public Clamping(final Type type, ClampingType clampingType, final String name, final float defaultHeight, final Coordinates relativePosition, final Smooth smoothToPoint,
+			final Smooth smoothFromPoint, final String imageURL) {
 		this.name = name;
 		this.height = defaultHeight;
 		this.defaultHeight = defaultHeight;
@@ -99,7 +99,7 @@ public class Clamping implements Cloneable {
 	}
 
 	public Clamping(final Type type, ClampingType clampingType,final String name, String  processName, final float defaultHeight, 
-			final Coordinates relativePosition, final Coordinates smoothPoint, final String imageURL) {
+			final Coordinates relativePosition, final Smooth smoothPoint, final String imageURL) {
 		this(type, clampingType, name, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
 	}
 	
@@ -156,7 +156,7 @@ public class Clamping implements Cloneable {
 		this.relatedClampings = tobeRelatedClampings;
 	}
 
-	public static int getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -180,19 +180,20 @@ public class Clamping implements Cloneable {
 		this.imageURL = imageURL;
 	}
 
-	public static Coordinates getSmoothToPoint() {
+	public static Smooth getSmoothToPoint() {
+		
 		return smoothToPoint;
 	}
 
-	public void setSmoothToPoint(final Coordinates smoothToPoint) {
+	public void setSmoothToPoint(final Smooth smoothToPoint) {
 		this.smoothToPoint = smoothToPoint;
 	}
 
-	public static Coordinates getSmoothFromPoint() {
+	public static Smooth getSmoothFromPoint() {
 		return smoothFromPoint;
 	}
 
-	public void setSmoothFromPoint(final Coordinates smoothFromPoint) {
+	public void setSmoothFromPoint(final Smooth smoothFromPoint) {
 		this.smoothFromPoint = smoothFromPoint;
 	}
 
