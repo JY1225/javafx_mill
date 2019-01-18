@@ -45,7 +45,7 @@ public class PickClampViewController extends Controller {
 		
 		comboBox.getItems().add("A");
 		comboBox.getItems().add("B");
-		List<Gripper> list = Gripperhandler.getAllGripper();
+		List<Gripper> list = DBHandler.getInstance().getGriperBuffer();
 		for(Gripper g:list) {
 			nameCombox.getItems().add(g.getName());
 		}

@@ -164,6 +164,7 @@ public class Gripperhandler {
 			Gripper gripper = new Gripper(name, type, height, imageUrl);
 			gripper.setFixedHeight(fixedHeight);
 			gripper.setId(results.getInt("ID"));
+			DBHandler.getInstance().getGriperBuffer().add(gripper);
 			list.add(gripper);
 		}
 		} catch (SQLException e) {			

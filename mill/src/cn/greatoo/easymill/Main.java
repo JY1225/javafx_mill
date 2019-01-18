@@ -51,7 +51,7 @@ public class Main extends Application {
 				DBHandler.getInstance();
 			}).start();
 
-			Programhandler.getProgram();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

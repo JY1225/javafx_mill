@@ -26,11 +26,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Smooth;
+import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.Step;
 import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.entity.WorkPiece;
@@ -46,8 +48,10 @@ public class DBHandler {
     private static Statement stmt = null;
     private String programName;
     private Map<String, Program> programBuffer = new HashMap<>();
-	private Map<Integer, UserFrame> userFrameBuffer = new HashMap<>();
-	
+	private Map<Integer, UserFrame> userFrameBuffer = new HashMap<>();	
+	private List<Gripper> griperBuffer = new ArrayList<>();
+	private Map<String, Stacker> statckerBuffer = new HashMap<>();
+	private List<Clamping> clampBuffer = new ArrayList<>();
 	
 	public String getProgramName() {
 		return programName;
@@ -73,7 +77,31 @@ public class DBHandler {
 		this.userFrameBuffer = userFrameBuffer;
 	}
 
-    static {
+    public List<Gripper> getGriperBuffer() {
+		return griperBuffer;
+	}
+
+	public void setGriperBuffer(List<Gripper> griperBuffer) {
+		this.griperBuffer = griperBuffer;
+	}
+
+	public Map<String, Stacker> getStatckerBuffer() {
+		return statckerBuffer;
+	}
+
+	public void setStatckerBuffer(Map<String, Stacker> statckerBuffer) {
+		this.statckerBuffer = statckerBuffer;
+	}
+
+	public List<Clamping> getClampBuffer() {
+		return clampBuffer;
+	}
+
+	public void setClampBuffer(List<Clamping> clampBuffer) {
+		this.clampBuffer = clampBuffer;
+	}
+
+	static {
         createConnection();
         inflateDB();
     }
@@ -177,26 +205,7 @@ public class DBHandler {
         }
     }
     
-    /**
-     * 
-     * @param program
-     */
-    public void saveProgram(Program program) {
-    	try {
-    		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PROGRAM WHERE NAME = ?");		
-			stmt.setString(1, program.getName());
-			ResultSet results = stmt.executeQuery();
-			if(results != null) {
-				PreparedStatement updateStmt = conn.prepareStatement("UPDATE PROGRAM SET NAME = ?");		
-				stmt.setString(1, program.getName());
-			}else {
-				
-			}
-		} catch (SQLException e) {			
-			e.printStackTrace();
-		}
-		
-    }
+
     private static void createTables(List<String> tableData) throws SQLException {
         Statement statement = conn.createStatement();
         statement.closeOnCompletion();

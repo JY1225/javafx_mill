@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+
+import java.sql.SQLException;
+
+import cn.greatoo.easymill.db.util.CoordinatesHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
@@ -141,6 +145,11 @@ public class TeachPutViewController {
 		loadCNCOffset.setW(Float.parseFloat(wTextField.getText()));
 		loadCNCOffset.setP(Float.parseFloat(pTextField.getText()));
 		loadCNCOffset.setR(Float.parseFloat(rTextField.getText()));
+		try {
+			CoordinatesHandler.saveCoordinates(loadCNCOffset);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -7,6 +7,8 @@ import java.util.Set;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.CNCHandler;
+import cn.greatoo.easymill.db.util.Gripperhandler;
+import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.db.util.RobotHandler;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
@@ -34,6 +36,10 @@ public class StatusChangeThread implements Runnable {
 		this.previousStatus = new HashMap<Integer, Integer>();
 		this.previousActiveMCodes = new HashSet<Integer>();
 		this.alive = true;
+		//初始化数据，加载数据库
+		Programhandler.getProgram();
+		Gripperhandler.getAllGripper();
+		//ClampingHandler.
 		connCNC();
 		connRobo();
 		conn();

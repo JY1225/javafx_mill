@@ -1,8 +1,10 @@
 package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
@@ -15,7 +17,7 @@ import cn.greatoo.easymill.robot.FanucRobot;
  */
 public class PrepareStep {
 
-	public static void prepareStep(FanucRobot robot, boolean teached, CNCMachine cncMachine) {
+	public static void prepareStep(Program program, FanucRobot robot, boolean teached, CNCMachine cncMachine) {
 		try {
 			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");
 			final String headId = "A";

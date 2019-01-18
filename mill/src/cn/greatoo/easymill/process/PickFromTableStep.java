@@ -6,6 +6,7 @@ import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
@@ -23,7 +24,7 @@ import cn.greatoo.easymill.workpiece.RectangularDimensions;
  */
 public class PickFromTableStep {
 
-	public static void pickFromTable(FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {
+	public static void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {
 		
 		try {			
 			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");

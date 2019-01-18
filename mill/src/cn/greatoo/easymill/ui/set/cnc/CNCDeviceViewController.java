@@ -2,9 +2,11 @@ package cn.greatoo.easymill.ui.set.cnc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
@@ -36,8 +38,19 @@ public class CNCDeviceViewController  extends Controller {
 		ifsClamping = new IconFlowSelector(false);
         ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
         gridPane.add(ifsClamping, 0, 2, 2, 1);
-        
+              
         clamping.setClampingType(Clamping.ClampingType.LENGTH);
+        List<Clamping> list = DBHandler.getInstance().getClampBuffer();        
+        for(Clamping c:list) {
+        	clamping = c;
+        	clampCombox.getItems().add(c.getName());
+        	clampCombox.getSelectionModel().select(c.getName());
+        	if(c.getClampingType().equals(Clamping.ClampingType.LENGTH)) {
+        		isClicked(bts, LBt);
+			}else {
+				isClicked(bts, wBt);
+			}
+		}  
         
 	}
 	@FXML

@@ -5,6 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+
+import java.sql.SQLException;
+
+import cn.greatoo.easymill.db.util.CoordinatesHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
@@ -142,7 +146,11 @@ public class TeachPickViewController {
 		unloadStacherOffset.setW(Float.parseFloat(wTextField.getText()));
 		unloadStacherOffset.setP(Float.parseFloat(pTextField.getText()));
 		unloadStacherOffset.setR(Float.parseFloat(rTextField.getText()));
-
+		try {
+			CoordinatesHandler.saveCoordinates(unloadStacherOffset);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

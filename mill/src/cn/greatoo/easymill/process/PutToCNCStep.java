@@ -5,6 +5,7 @@ import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
@@ -23,7 +24,7 @@ import cn.greatoo.easymill.workpiece.WorkPiece.Material;
  */
 public class PutToCNCStep {
 
-	public static void putToCNC(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
+	public static void putToCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
 			//===put工件到机床=========================================================================================================			
 			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");
