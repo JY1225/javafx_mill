@@ -156,7 +156,7 @@ public class Clamping implements Cloneable {
 		this.relatedClampings = tobeRelatedClampings;
 	}
 
-	public int getId() {
+	public static int getId() {
 		return id;
 	}
 

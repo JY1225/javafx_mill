@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Smooth;
 
 public class Stackerhandler {
 	
@@ -109,16 +110,16 @@ public class Stackerhandler {
 		stmt.setInt(21, stacker.getId());
 		stmt.execute();
 
-		Coordinates smoothTo = Clamping.getSmoothToPoint();
-		Coordinates smoothFrom = Clamping.getSmoothFromPoint();
+		Smooth smoothTo = Clamping.getSmoothToPoint();
+		Smooth smoothFrom = Clamping.getSmoothFromPoint();
 		smoothTo.setX(stacker.getSmoothto().getX());
 		smoothTo.setY(stacker.getSmoothto().getY());
 		smoothTo.setZ(stacker.getSmoothto().getZ());
 		smoothFrom.setX(stacker.getSmoothfrom().getX());
 		smoothFrom.setY(stacker.getSmoothfrom().getY());
 		smoothFrom.setZ(stacker.getSmoothfrom().getZ());
-		CoordinatesHandler.saveCoordinates(smoothTo);
-		CoordinatesHandler.saveCoordinates(smoothFrom);
+		SmoothHandler.saveSmooth(smoothTo);
+		SmoothHandler.saveSmooth(smoothFrom);
 		conn.commit();
 		conn.setAutoCommit(true);
 		
