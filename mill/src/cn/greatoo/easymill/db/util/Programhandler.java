@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.entity.Program;
+import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Step;
 
 public class Programhandler {
@@ -45,8 +46,10 @@ public class Programhandler {
 				program.setUnloadCNC(unloadCNC);
 				Step loadstacker = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadstacker"));
 				program.setLoadstacker(loadstacker);
-
-			}
+	            RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ID"), results.getInt("ROBOTSETTING"));
+	            program.setRobotSetting(robotSetting);
+			}			
+            
 			if (program != null) {
 				DBHandler.getInstance().setProgramName(program.getName());
 				DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);				
@@ -96,36 +99,37 @@ public class Programhandler {
 	public static void saveProgram(Program program) throws SQLException {
 		if (program.getId() <= 0) {// insert
 			// unloadstacker
-			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());			
-			Gripperhandler.saveGripper(program.getUnloadstacker().getGripper());
+			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());	
+			Gripperhandler.getGripperIdByName(program.getUnloadstacker().getGripper().getName(),program.getUnloadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadstacker().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getUnloadstacker().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadstacker());
 			//loadCNC
-			GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());		
-			Gripperhandler.saveGripper(program.getLoadCNC().getGripper());
-			RobotSettinghandler.saveRobotSetting(program.getLoadCNC().getRobotSetting());
+			GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());	
+			Gripperhandler.getGripperIdByName(program.getLoadCNC().getGripper().getName(),program.getLoadCNC().getGripper());
 			SmoothHandler.saveSmooth(program.getLoadCNC().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getLoadCNC().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getLoadCNC());
 			//unloadCNC
 			GripperHeadHandle.saveGripperHead(program.getUnloadCNC().getGripperHead());
-			Gripperhandler.saveGripper(program.getUnloadCNC().getGripper());
+			Gripperhandler.getGripperIdByName(program.getUnloadCNC().getGripper().getName(),program.getUnloadCNC().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadCNC().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getUnloadCNC().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadCNC());
 			//loadstacker
 			GripperHeadHandle.saveGripperHead(program.getLoadstacker().getGripperHead());
-			Gripperhandler.saveGripper(program.getLoadstacker().getGripper());
+			Gripperhandler.getGripperIdByName(program.getLoadstacker().getGripper().getName(),program.getLoadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getLoadstacker().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getLoadstacker().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
 			Stephandler.saveProgramStep(program.getLoadstacker());
+			
+			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER) VALUES (?, ?, ?,?,?,?,?)",
+					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,CLAMPING,ROBOTSETTING) VALUES (?, ?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, program.getName());
 			stmt.setTimestamp(2, program.getTimeCreate());
@@ -134,6 +138,8 @@ public class Programhandler {
 			stmt.setInt(5, program.getLoadCNC().getId());
 			stmt.setInt(6, program.getUnloadCNC().getId());
 			stmt.setInt(7, program.getLoadstacker().getId());
+			stmt.setInt(8, 1);
+			stmt.setInt(9, program.getRobotSetting().getId());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {

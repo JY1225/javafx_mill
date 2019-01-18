@@ -1,8 +1,12 @@
 package cn.greatoo.easymill.ui.configure.devicesConfig;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.FullTextField;
 import cn.greatoo.easymill.util.IconFlowSelector;

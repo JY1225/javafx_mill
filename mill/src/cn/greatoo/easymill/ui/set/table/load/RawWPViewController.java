@@ -73,6 +73,7 @@ public class RawWPViewController extends Controller {
 		mBts.add(FeBt);
 		mBts.add(OBt);
 		
+		
 		String programName = DBHandler.getInstance().getProgramName();
 		if(programName != null) {
 			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
@@ -101,6 +102,7 @@ public class RawWPViewController extends Controller {
 			
 		}
 		workPiece.setType(WorkPiece.Type.RAW);
+		workPiece.setShape(WorkPiece.WorkPieceShape.CUBIC);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.common.base.FinalizablePhantomReference;
 
@@ -20,19 +22,18 @@ public class Gripperhandler {
 
 	public static void saveGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO GRIPPER (NAME, HEIGHT, FIXEDHEIGHT, GRIPPERINNER, IMAGEURL,TYPE) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO GRIPPER (NAME, HEIGHT, FIXEDHEIGHT, IMAGEURL,TYPE) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, gripper.getName());
 		stmt.setFloat(2, gripper.getHeight());
 		stmt.setBoolean(3, gripper.isFixedHeight());
-		stmt.setBoolean(4, gripper.isGripperInner());
-		stmt.setString(5, gripper.getImageUrl());	
+		stmt.setString(4, gripper.getImageUrl());	
 		int typeInt = GRIPPER_TYPE_TWOPOINT;
 		if (gripper.getType() == Type.TWOPOINT) {
 			typeInt = GRIPPER_TYPE_TWOPOINT;
 		} else if (gripper.getType() == Type.VACUUM) {
 			typeInt = GRIPPER_TYPE_VACUUM;
 		}
-		stmt.setInt(6, typeInt);
+		stmt.setInt(5, typeInt);
 
 		try {
 			stmt.executeUpdate();
@@ -50,12 +51,11 @@ public class Gripperhandler {
 	}
 	public static void updateGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
-			PreparedStatement stmt = conn.prepareStatement("UPDATE GRIPPER SET NAME = ?, HEIGHT = ?, FIXEDHEIGHT = ?, GRIPPERINNER = ?, IMAGEURL = ?, TYPE = ? WHERE ID = ?");
+			PreparedStatement stmt = conn.prepareStatement("UPDATE GRIPPER SET NAME = ?, HEIGHT = ?, FIXEDHEIGHT = ?, IMAGEURL = ?, TYPE = ? WHERE ID = ?");
 			stmt.setString(1, gripper.getName());
 			stmt.setFloat(2, gripper.getHeight());
 			stmt.setBoolean(3, gripper.isFixedHeight());
-			stmt.setBoolean(4, gripper.isGripperInner());
-			stmt.setString(5, gripper.getImageUrl());
+			stmt.setString(4, gripper.getImageUrl());
 			int typeInt = GRIPPER_TYPE_TWOPOINT;
 			if (gripper.getType() == Type.TWOPOINT) {
 				typeInt = GRIPPER_TYPE_TWOPOINT;
@@ -64,17 +64,17 @@ public class Gripperhandler {
 			} else {
 				throw new IllegalArgumentException("Unknown gripper type: " +gripper.getType() );
 			}
-			stmt.setInt(6, typeInt);
-			stmt.setInt(7, gripper.getId());
+			stmt.setInt(5, typeInt);
+			stmt.setInt(6, gripper.getId());
 			stmt.executeUpdate();
 		conn.commit();
 		conn.setAutoCommit(true);
 		// TODO updating of gripper head compatibility
 	}
 		
-	public Gripper getGripperById(final int id) throws SQLException {
+	
+	public static Gripper getGripperById(final int id) throws SQLException {
 		Gripper gripper = null;
-		//gripper = DBHandler.getInstance().getGrippersBuffer().get(id);
 		if (gripper == null) {
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GRIPPER WHERE ID = ?");
 			stmt.setInt(1, id);
@@ -83,8 +83,6 @@ public class Gripperhandler {
 				float height = results.getFloat("HEIGHT");
 				boolean fixedHeight = results.getBoolean("FIXEDHEIGHT");
 				String name = results.getString("NAME");
-				String selectGripper = results.getString("SELECTGRIPPER");
-				boolean gripperInner = results.getBoolean("GRIPPERINNER");
 				String imageUrl = results.getString("IMAGEURL");
 				int typeId = results.getInt("TYPE");
 				Gripper.Type type = Gripper.Type.TWOPOINT;
@@ -95,15 +93,55 @@ public class Gripperhandler {
 				} else {
 					throw new IllegalArgumentException("Unkown gripper type id: " + typeId);
 				}
-				gripper = new Gripper(name, type, height, gripperInner, imageUrl);
+				gripper = new Gripper(name, type, height, imageUrl);
 				gripper.setFixedHeight(fixedHeight);
 				gripper.setId(id);
-			}
-			//DBHandler.getInstance().getGrippersBuffer().put(id, gripper);
+			}			
 		}
 		return gripper;
 	}
 	
+	public static int getGripperIdByName(String name, Gripper gripper) throws SQLException {
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GRIPPER WHERE NAME = ?");
+		stmt.setString(1, name);
+		ResultSet results = stmt.executeQuery();
+		if (results.next()) {
+			int id = results.getInt("id");
+			gripper.setId(id);
+		}			
+		return gripper.getId();
+	}
+	
+	public static List<Gripper> getAllGripper(){
+		List<Gripper> list = new ArrayList<>();		
+		PreparedStatement stmt;
+		try {
+			stmt = conn.prepareStatement("SELECT * FROM GRIPPER");		
+		ResultSet results = stmt.executeQuery();
+		if (results.next()) {
+			float height = results.getFloat("HEIGHT");
+			boolean fixedHeight = results.getBoolean("FIXEDHEIGHT");
+			String name = results.getString("NAME");
+			String imageUrl = results.getString("IMAGEURL");
+			int typeId = results.getInt("TYPE");
+			Gripper.Type type = Gripper.Type.TWOPOINT;
+			if (typeId == GRIPPER_TYPE_TWOPOINT) {
+				type = Gripper.Type.TWOPOINT;
+			} else if (typeId == GRIPPER_TYPE_VACUUM) {
+				type = Gripper.Type.VACUUM;
+			} else {
+				throw new IllegalArgumentException("Unkown gripper type id: " + typeId);
+			}
+			Gripper gripper = new Gripper(name, type, height, imageUrl);
+			gripper.setFixedHeight(fixedHeight);
+			gripper.setId(results.getInt("ID"));
+			list.add(gripper);
+		}
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	public void deleteGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);

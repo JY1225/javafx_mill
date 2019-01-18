@@ -1,5 +1,9 @@
 package cn.greatoo.easymill.ui.configure.robot;
 
+import java.util.List;
+
+import cn.greatoo.easymill.db.util.Gripperhandler;
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +34,10 @@ public class RobotGriperViewController {
         robotGripperView = new RobotGripperView();
         robotGripperView.init(gridPane,editBt,newBt,ifsClamping);
         
-        
+        List<Gripper> list = Gripperhandler.getAllGripper();
+		for(Gripper g:list) {
+			combox.getItems().add(g.getName());
+		}
 	}
 	@FXML
 	public void editBtAction(ActionEvent event) {

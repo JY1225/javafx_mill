@@ -9,18 +9,16 @@ public class Step implements Cloneable {
 	private WorkPiece workPiece;
 	private int userFrame;
 	private Smooth smooth;
-	private RobotSetting robotSetting;
 	private Coordinates offset;
 	private GripperHead gripperHead;
 
 	public Step(GripperHead gripperHead,Gripper gripper, WorkPiece workPiece, int userFrame,
-		Smooth smooth, RobotSetting robotSetting, Coordinates offset) {
+		Smooth smooth, Coordinates offset) {
 		this.gripperHead = gripperHead;
 		this.gripper = gripper;
 		this.workPiece = workPiece;
 		this.userFrame = userFrame;
 		this.smooth = smooth;
-		this.robotSetting = robotSetting;
 		this.offset = offset;
 	}
 
@@ -93,14 +91,6 @@ public class Step implements Cloneable {
 
 	public void setSmooth(Smooth smooth) {
 		this.smooth = smooth;
-	}
-
-	public RobotSetting getRobotSetting() {
-		return robotSetting;
-	}
-
-	public void setRobotSetting(RobotSetting robotSetting) {
-		this.robotSetting = robotSetting;
 	}
 
 	public Coordinates getOffset() {
