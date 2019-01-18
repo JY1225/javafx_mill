@@ -3,6 +3,7 @@ package cn.greatoo.easymill.ui.set.cnc;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.ui.set.table.load.RawWPViewController;
 import cn.greatoo.easymill.util.NumericTextField;
 import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.beans.value.ChangeListener;
@@ -38,6 +39,7 @@ public class CNCFinishedWPViewController implements TextInputControlListener {
 	public static WorkPiece workPiece = new WorkPiece();
 
 	public void init() {
+		workPiece = RawWPViewController.workPiece;
 		String programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
 			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
@@ -48,6 +50,7 @@ public class CNCFinishedWPViewController implements TextInputControlListener {
 			fullnumWT.setText(String.valueOf(workPiece.getWeight()));
 		}
 		workPiece.setType(WorkPiece.Type.FINISHED);
+		workPiece.setShape(WorkPiece.WorkPieceShape.CUBIC);
 		fullnumL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {

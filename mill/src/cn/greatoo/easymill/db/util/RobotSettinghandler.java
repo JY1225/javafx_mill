@@ -15,7 +15,7 @@ public class RobotSettinghandler {
 
 	public static void saveRobotSetting(final RobotSetting robotSetting) throws SQLException {
 		conn.setAutoCommit(false);
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO ROBOTSETTING (RELEASEBEFOREMACHINE, SOCKETCONNECTION, PAYLOAD) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO ROBOTSETTING (RELEASEBEFOREMACHINE) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setBoolean(1, robotSetting.isReleaseBeforeMachine());				
 		try {
 			stmt.executeUpdate();
@@ -49,7 +49,7 @@ public class RobotSettinghandler {
 		conn.setAutoCommit(true);
 		// TODO updating of gripper head compatibility
 	}
-    public RobotSetting getRobotSettingById(final int programId, final int robotSettingId) throws SQLException {
+    public static RobotSetting getRobotSettingById(final int programId, final int robotSettingId) throws SQLException {
     	RobotSetting robotSetting = null; 
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ROBOTSETTING WHERE ID = ?");
         stmt.setInt(1, robotSettingId);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.entity.Program;
@@ -22,6 +23,8 @@ public class PickClampViewController extends Controller {
 	private GridPane gridPane;
 	@FXML
 	private ComboBox comboBox;
+	@FXML
+	private ComboBox nameCombox;
 	@FXML
 	private Button outBt;
 	@FXML
@@ -42,25 +45,36 @@ public class PickClampViewController extends Controller {
 		
 		comboBox.getItems().add("A");
 		comboBox.getItems().add("B");
+		List<Gripper> list = Gripperhandler.getAllGripper();
+		for(Gripper g:list) {
+			nameCombox.getItems().add(g.getName());
+		}
 		
 		ifsClamping = new IconFlowSelector(false);
         ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
         gridPane.add(ifsClamping, 0, 2, 2, 1);	
         
-        gripper.setGripperInner(false);
+        gripperhead.setGripperInner(false);
         comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
             	gripperhead.setName((String) newValue);
             }
         });
-        
+        nameCombox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+            	gripper.setName((String) newValue);
+            }
+        });  
         String programName = DBHandler.getInstance().getProgramName();
 		if(programName != null) {
 			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
 			gripper = program.getUnloadCNC().getGripper();
+			gripperhead = program.getUnloadCNC().getGripperHead();
 			comboBox.getSelectionModel().select(gripperhead.getName());
-			if(gripper.isGripperInner()) {
+			nameCombox.getSelectionModel().select((String)gripper.getName());
+			if(gripperhead.isGripperInner()) {
 				isClicked(bts, inBt);
 			}else {
 				isClicked(bts, outBt);
@@ -75,13 +89,13 @@ public class PickClampViewController extends Controller {
 	@FXML
 	public void outBtAction(ActionEvent event) {
 		isClicked(bts, outBt);
-		gripper.setGripperInner(false);
+		gripperhead.setGripperInner(false);
 	}
 	
 	@FXML
 	public void inBtAction(ActionEvent event) {
 		isClicked(bts, inBt);
-		gripper.setGripperInner(true);
+		gripperhead.setGripperInner(true);
 	}
 	
     

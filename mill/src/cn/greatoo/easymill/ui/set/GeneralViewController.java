@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.ui.set;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -27,7 +28,7 @@ public class GeneralViewController {
 	public static String name;
 
 	public void init() {
-	
+		fulltxtName.setText(DBHandler.getInstance().getProgramName());
 		singleCycle.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean oldValue, final Boolean newValue) {

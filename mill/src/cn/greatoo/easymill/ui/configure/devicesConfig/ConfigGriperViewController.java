@@ -14,6 +14,8 @@ public class ConfigGriperViewController  extends Controller{
 	@FXML
 	private GridPane gridPane;
 	@FXML
+	private ComboBox<String> combox;
+	@FXML
 	private Button editBt;
 	@FXML
 	private Button newBt;

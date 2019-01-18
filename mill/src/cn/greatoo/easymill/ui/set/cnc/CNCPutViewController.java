@@ -48,7 +48,7 @@ public class CNCPutViewController extends Controller {
 			XField.setText(String.valueOf(loadCNCSmooth.getX()));
 			YField.setText(String.valueOf(loadCNCSmooth.getY()));
 			ZField.setText(String.valueOf(loadCNCSmooth.getZ()));
-			RobotPutSetting = program.getLoadCNC().getRobotSetting();
+			RobotPutSetting = program.getRobotSetting();
 			if (RobotPutSetting.isReleaseBeforeMachine()) {
 				isClicked(bts, beBt);
 			} else {

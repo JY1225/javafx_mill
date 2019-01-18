@@ -11,16 +11,15 @@ public class Gripper {
 	private String name;
 	private float height;
 	private boolean fixedHeight;	
-	private static boolean gripperInner;
 	private String imageUrl;
 
-	public Gripper(final String name, final Type type, final float height, boolean gripperInner, final String imageUrl) {
+	public Gripper(final String name, final Type type, final float height, final String imageUrl) {
 		this.name = name;
 		this.type = type;
 		this.height = height;
 		this.imageUrl = imageUrl;
 		this.fixedHeight = false;
-		this.gripperInner = gripperInner;
+
 	}
 	
 	public Gripper() {
@@ -33,12 +32,7 @@ public class Gripper {
 	public void setId(final int id) {
 		this.id = id;
 	}
-	public static boolean isGripperInner() {
-		return gripperInner;
-	}
-	public void setGripperInner(boolean gripperInner) {
-		this.gripperInner = gripperInner;
-	}
+
 	public String getName() {
 		return name;
 	}

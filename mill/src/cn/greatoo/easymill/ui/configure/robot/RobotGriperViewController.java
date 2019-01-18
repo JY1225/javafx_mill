@@ -1,18 +1,19 @@
 package cn.greatoo.easymill.ui.configure.robot;
 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.db.util.Gripperhandler;
-import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
+import cn.greatoo.easymill.db.util.Gripperhandler;
+import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.ui.main.Controller;
 
 public class RobotGriperViewController extends Controller {
 	@FXML
@@ -40,14 +41,16 @@ public class RobotGriperViewController extends Controller {
         robotGripperView.init(gridPane,editBt,newBt,ifsClamping);
 		
         combox.getItems().add("Gripper1");
-        combox.getItems().add("Gripper2");
-        
+        combox.getItems().add("Gripper2");   
 		if(combox.getValue() != null) {
 		editBt.setDisable(false);
 		}else {
 			editBt.setDisable(true);
 		}
-        
+        List<Gripper> list = Gripperhandler.getAllGripper();
+		for(Gripper g:list) {
+			combox.getItems().add(g.getName());
+		}
 	}
 	@FXML
 	public void editBtAction(ActionEvent event) {

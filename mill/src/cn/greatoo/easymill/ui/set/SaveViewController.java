@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
@@ -51,14 +52,15 @@ public class SaveViewController {
 	private static NotificationBox notificationBox;
 
 	public void init() {		
-	
+		fulltxtName.setText(DBHandler.getInstance().getProgramName());
+		
 	}
 
 	@FXML
 	public void save(MouseEvent event) throws DuplicateProcessFlowNameException  {
 		String programName = fulltxtName.getText();
 		Timestamp creatTime = new Timestamp(System.currentTimeMillis());
-		Timestamp lastOpenTime = null;
+		Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
 		
 		//设置
 		Stacker stacker = RawWPViewController.stacker;
@@ -84,18 +86,18 @@ public class SaveViewController {
 		Smooth loadStackerSmooth = PlaceViewController.loadStackerSmooth;
 		
 		//step1
-		Step unloadStacker = new Step(loadGripperhead,loadGripper,rawWorkPiece,1,unloadStackerSmooth,null,TeachPickViewController.unloadStacherOffset);		
+		Step unloadStacker = new Step(loadGripperhead,loadGripper,rawWorkPiece,1,unloadStackerSmooth,TeachPickViewController.unloadStacherOffset);		
 	
 		//step2
-		Step loadCNC = new Step(loadGripperhead,loadGripper,rawWorkPiece,3,loadCNCSmooth,RobotSetting,TeachPutViewController.loadCNCOffset);
+		Step loadCNC = new Step(loadGripperhead,loadGripper,rawWorkPiece,3,loadCNCSmooth,TeachPutViewController.loadCNCOffset);
 		
 		//step3
-		Step unloadCNC = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,3,unloadCNCSmooth,null,TeachGriperBPickViewController.unloadCNCOffset);
+		Step unloadCNC = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,3,unloadCNCSmooth,TeachGriperBPickViewController.unloadCNCOffset);
 		
 		//step4
-		Step loadstacker = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,1,loadStackerSmooth,null,TeachGriperBPutViewController.loadStackerOffset);
+		Step loadstacker = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,1,loadStackerSmooth,TeachGriperBPutViewController.loadStackerOffset);
 				
-		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime);
+		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting);
 		
 		try {
 			Programhandler.saveProgram(program);

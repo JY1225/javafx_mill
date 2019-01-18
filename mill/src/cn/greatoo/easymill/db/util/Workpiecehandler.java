@@ -25,28 +25,27 @@ public class Workpiecehandler {
 	        float diameter = workPiece.getDiameter();
 	    	float weight = workPiece.getWeight();	      	        
 	        if (workPiece.getId() > 0) {
-	            PreparedStatement stmt = conn.prepareStatement("UPDATE WORKPIECE SET TYPE = ?, SHAPE = ?, MATERIAL = ?, HEIGTH = ?, LENGTH = ?, WIDTH = ?, DIAMETER = ?, WEIGHT = ? WHERE ID = ?");
+	            PreparedStatement stmt = conn.prepareStatement("UPDATE WORKPIECE SET TYPE = ?, SHAPE = ?, MATERIAL = ?, HEIGHT = ?, LENGTH = ?, WIDTH = ?, DIAMETER = ?, WEIGHT = ? WHERE ID = ?");
 	            stmt.setInt(1, type);
 	            stmt.setInt(2, shape);
 	            stmt.setFloat(3,material);
 	            stmt.setFloat(4, height);
-	            stmt.setFloat(5, width);
-	            stmt.setFloat(6, diameter);
-	            stmt.setFloat(7, weight);
-	            stmt.setFloat(8, material);
-	            stmt.setInt(10, workPiece.getId());
+	            stmt.setFloat(5, length);
+	            stmt.setFloat(6, width);
+	            stmt.setFloat(7, diameter);
+	            stmt.setFloat(8, weight);
+	            stmt.setInt(9, workPiece.getId());
 	            stmt.executeUpdate();
 	        } else {
-	            PreparedStatement stmt = conn.prepareStatement("INSERT INTO WORKPIECE (TYPE, SHAPE, MATERIAL, HEIGTH, LENGTH, WIDTH, DIAMETER, WEIGHT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+	            PreparedStatement stmt = conn.prepareStatement("INSERT INTO WORKPIECE (TYPE, SHAPE, MATERIAL, HEIGHT, LENGTH, WIDTH, DIAMETER, WEIGHT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 	            stmt.setInt(1, type);
 	            stmt.setInt(2, shape);
 	            stmt.setFloat(3,material);
 	            stmt.setFloat(4, height);
-	            stmt.setFloat(5, width);
-	            stmt.setFloat(6, diameter);
-	            stmt.setFloat(7, weight);
-	            stmt.setFloat(8, material);
-	            stmt.setInt(10, workPiece.getId());            
+	            stmt.setFloat(5, length);
+	            stmt.setFloat(6, width);
+	            stmt.setFloat(7, diameter);
+	            stmt.setFloat(8, weight);          
 	            stmt.executeUpdate();
 	            ResultSet keys = stmt.getGeneratedKeys();
 	            if ((keys != null) && (keys.next())) {

@@ -18,6 +18,7 @@ public class GripperHeadHandle {
 		GripperHead gripperHead = new GripperHead();
 		if (results2.next()) {
 			gripperHead.setName(results2.getString("name"));
+			gripperHead.setGripperInner(results2.getBoolean("GRIPPERINNER"));
 			gripperHead.setId(gripperHeadId);
 		}
 		return gripperHead;
@@ -26,8 +27,9 @@ public class GripperHeadHandle {
 	public static int saveGripperHead(GripperHead gripperHead) throws SQLException {
 		try {
 		if (gripperHead.getId() <= 0) {
-			PreparedStatement stmt = conn.prepareStatement("INSERT INTO GRIPPERHEAD SET NAME = ?",Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, gripperHead.getName());			
+			PreparedStatement stmt = conn.prepareStatement("INSERT INTO GRIPPERHEAD (NAME,GRIPPERINNER) VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, gripperHead.getName());		
+			stmt.setBoolean(2, gripperHead.isGripperInner());		
 				stmt.executeUpdate();
 				ResultSet resultSet = stmt.getGeneratedKeys();
 				if (resultSet.next()) {

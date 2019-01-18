@@ -51,7 +51,7 @@ public class SmoothHandler {
         }
     }
      
-    public Smooth getSmoothById(final int programId, final int smoothId) throws SQLException {
+    public static Smooth getSmoothById(final int programId, final int smoothId) throws SQLException {
         Smooth smooth = null;
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM smooth WHERE ID = ?");
         stmt.setInt(1, smoothId);

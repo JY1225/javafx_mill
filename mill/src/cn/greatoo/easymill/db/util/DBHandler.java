@@ -45,8 +45,8 @@ public class DBHandler {
     private static Connection conn = null;
     private static Statement stmt = null;
     private String programName;
-    private Map<String, Program> programBuffer;
-	private Map<Integer, UserFrame> userFrameBuffer;
+    private Map<String, Program> programBuffer = new HashMap<>();
+	private Map<Integer, UserFrame> userFrameBuffer = new HashMap<>();
 	
 	
 	public String getProgramName() {

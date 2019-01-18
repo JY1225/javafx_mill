@@ -3,8 +3,8 @@ package cn.greatoo.easymill.ui.configure.devicesConfig;
 import java.io.File;
 import java.sql.SQLException;
 
-import cn.greatoo.easymill.db.util.ClampingHandler;
 import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.FullTextField;
 import cn.greatoo.easymill.util.IconFlowSelector;
@@ -30,7 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import cn.greatoo.easymill.entity.Clamping.Type;
+import cn.greatoo.easymill.db.util.ClampingHandler;
 
 public class CNCClampingsView extends Controller implements TextInputControlListener{
 	private boolean editMode;
@@ -611,60 +611,6 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 		validate();
 		gpDetails.setVisible(false);
 		spControls.setVisible(false);
-	}
-	
-	public void clampingSelected(final Clamping clamping, final int workAreaNr) {
-		ifsClampings.setSelected(clamping.getName());
-		btnEdit.setDisable(false);
-		fullTxtName.setText(clamping.getName());
-		numtxtHeight.setText("" + clamping.getHeight());
-		numtxtX.setText("" + clamping.getRelativePosition().getX());
-		numtxtY.setText("" + clamping.getRelativePosition().getY());
-		numtxtZ.setText("" + clamping.getRelativePosition().getZ());
-		numtxtW.setText("" + clamping.getRelativePosition().getW());
-		numtxtP.setText("" + clamping.getRelativePosition().getP());
-		numtxtR.setText("" + clamping.getRelativePosition().getR());
-		numtxtSmoothToX.setText("" + clamping.getSmoothToPoint().getX());
-		numtxtSmoothToY.setText("" + clamping.getSmoothToPoint().getY());
-		numtxtSmoothToZ.setText("" + clamping.getSmoothToPoint().getZ());
-		numtxtSmoothFromX.setText("" + clamping.getSmoothFromPoint().getX());
-		numtxtSmoothFromY.setText("" + clamping.getSmoothFromPoint().getY());
-		numtxtSmoothFromZ.setText("" + clamping.getSmoothFromPoint().getZ());
-		String url = clamping.getImageUrl();
-		if (clamping.getType() == Type.CENTRUM) {
-			cbbType.setValue(CLAMPING_TYPE_CENTRUM);
-		} else if (clamping.getType() == Type.FIXED_XP) {
-			cbbType.setValue(CLAMPING_TYPE_FIXED_XP);
-		}  else if (clamping.getType() == Type.FIXED_XM) {
-			cbbType.setValue(CLAMPING_TYPE_FIXED_XM);
-		} else if (clamping.getType() == Type.FIXED_YP) {
-			cbbType.setValue(CLAMPING_TYPE_FIXED_YP);
-		} else if (clamping.getType() == Type.FIXED_YM) {
-			cbbType.setValue(CLAMPING_TYPE_FIXED_YM);
-		}
-		cbbFixtureType.setValue(clamping.getFixtureType().toString());
-		if (url != null) {
-			url = url.replace("file:///", "");
-		}
-		if ((url != null) && ((new File(url)).exists() || getClass().getClassLoader().getResource(url) != null)) {
-			imageVw.setImage(new Image(clamping.getImageUrl(), IMG_WIDTH, IMG_HEIGHT, true, true));
-		} else {
-			imageVw.setImage(new Image(UIConstants.IMG_NOT_FOUND_URL, IMG_WIDTH, IMG_HEIGHT, true, true));
-		}
-		imagePath = clamping.getImageUrl();
-		if (clamping.getDefaultAirblowPoints().getTopCoord() != null && clamping.getDefaultAirblowPoints().getBottomCoord() != null) {
-			topAirblow.setCoordinate(clamping.getDefaultAirblowPoints().getTopCoord());
-			topAirblow.reset();
-			bottomAirblow.setCoordinate(clamping.getDefaultAirblowPoints().getBottomCoord());
-			bottomAirblow.reset();
-		}
-		if (workAreaNr == 1) {
-			cbWa1.setSelected(true);
-			cbWa2.setSelected(false);
-		} else if (workAreaNr == 2) {
-			cbWa2.setSelected(true);
-			cbWa1.setSelected(false);
-		}
 	}
 	
 	@Override

@@ -3,9 +3,11 @@ package cn.greatoo.easymill.entity;
 public class GripperHead {
 	private int id;
 	private String name;
+	private static boolean gripperInner;
 	
-	public GripperHead(String name) {
+	public GripperHead(String name, boolean gripperInner) {
 		this.name = name;
+		this.gripperInner = gripperInner;
 	}
 
 	public GripperHead() {
@@ -26,6 +28,14 @@ public class GripperHead {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public static boolean isGripperInner() {
+		return gripperInner;
+	}
+
+	public static void setGripperInner(boolean gripperInner) {
+		GripperHead.gripperInner = gripperInner;
 	}
 	
 }
