@@ -50,7 +50,7 @@ public class DBHandler {
     private Map<String, Program> programBuffer = new HashMap<>();
 	private Map<Integer, UserFrame> userFrameBuffer = new HashMap<>();	
 	private List<Gripper> griperBuffer = new ArrayList<>();
-	private Map<String, Stacker> statckerBuffer = new HashMap<>();
+	private List<Stacker> statckerBuffer = new ArrayList<>();
 	private List<Clamping> clampBuffer = new ArrayList<>();
 	
 	public String getProgramName() {
@@ -85,11 +85,11 @@ public class DBHandler {
 		this.griperBuffer = griperBuffer;
 	}
 
-	public Map<String, Stacker> getStatckerBuffer() {
+	public List<Stacker> getStatckerBuffer() {
 		return statckerBuffer;
 	}
 
-	public void setStatckerBuffer(Map<String, Stacker> statckerBuffer) {
+	public void setStatckerBuffer(List<Stacker> statckerBuffer) {
 		this.statckerBuffer = statckerBuffer;
 	}
 

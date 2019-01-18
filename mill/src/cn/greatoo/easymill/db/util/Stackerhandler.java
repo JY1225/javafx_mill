@@ -167,4 +167,39 @@ public class Stackerhandler {
 		return stacker;
 	}
 	
+	public static Stacker getStacker() throws SQLException {
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM STACKER");
+		ResultSet results = stmt.executeQuery();
+		Stacker stacker = null;
+		if (results.next()) {
+			int horizontalHoleAmount = results.getInt("HORIZONTALHOLEAMOUNT");
+			int verticalHoleAmount = results.getInt("VERTICALHOLEAMOUNT");
+			float holeDiameter = results.getFloat("HOLEDIAMETER");
+			float studDiameter = results.getFloat("STUDDIAMETER");
+			float horizontalPadding = results.getFloat("HORIZONTALPADDING");
+			float verticalPaddingTop = results.getFloat("VERTICALPADDINGTOP");
+			float verticalPaddingBottom = results.getFloat("VERTICALPADDINGBOTTOM");
+			float horizontalHoleDistance = results.getFloat("HORIZONTALHOLEDISTANCE");
+			float verticalHoleDistance = results.getFloat("VERTICALHOLEDISTANCE");
+			float interferenceDistance = results.getFloat("INTERFERENCEDISTANCE");
+			float overflowPercentage = results.getFloat("OVERFLOWPERCENTAGE");
+			float horizontalR = results.getFloat("HORIZONTAL_R");
+			float tiltedR = results.getFloat("TILTED_R");
+			float maxOverflow = results.getFloat("MAX_OVERFLOW");
+			float maxUnderflow = results.getFloat("MAX_UNDERFLOW");
+			float minOverlap = results.getFloat("MIN_OVERLAP");
+			float orientation = results.getFloat("ORIENTATION");		
+			int layers = results.getInt("LAYERS");
+			int amount = results.getInt("AMOUNT");
+			float studHeight_Workpiece = results.getFloat("STUDHEIGHT_WORKPIECE");
+
+			
+			stacker = new Stacker(horizontalHoleAmount, verticalHoleAmount, holeDiameter, studDiameter, horizontalPadding, verticalPaddingTop, 
+					verticalPaddingBottom, horizontalHoleDistance, verticalHoleDistance, interferenceDistance, overflowPercentage, horizontalR, tiltedR, maxOverflow, maxUnderflow, minOverlap,
+					orientation,layers,amount,studHeight_Workpiece);
+			stacker.setId(results.getInt("ID"));
+			DBHandler.getInstance().getStatckerBuffer().add(stacker);
+		}
+		return stacker;
+	}
 }
