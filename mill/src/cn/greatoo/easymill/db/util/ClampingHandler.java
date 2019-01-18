@@ -216,7 +216,7 @@ public class ClampingHandler {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CLAMPING");
         ResultSet results = stmt.executeQuery();
 		Clamping clamping = null;
-        if (results.next()) {
+        while (results.next()) {
             int id = results.getInt("ID");
 			int type = results.getInt("TYPE");
 			int clampingType = results.getInt("CLAMPINGTYPE");
@@ -253,6 +253,7 @@ public class ClampingHandler {
 					throw new IllegalStateException("Unknown clamping type: [" + type + "].");
 			}
 			clamping.setId(id);
+			DBHandler.getInstance().getClampBuffer().add(clamping);
         }
         stmt.close();
 		return clamping;

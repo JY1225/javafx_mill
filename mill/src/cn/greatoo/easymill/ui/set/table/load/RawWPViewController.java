@@ -101,6 +101,27 @@ public class RawWPViewController extends Controller {
 			}
 			
 		}
+		List<Stacker> list = DBHandler.getInstance().getStatckerBuffer();
+		for(Stacker s:list) {
+			stacker = s;
+			fulltxtBH.setText(String.valueOf(stacker.getStudHeight_Workpiece()));
+			fulltxtC.setText(String.valueOf(stacker.getLayers()));
+			fulltxtS.setText(String.valueOf(stacker.getAmount()));
+			int orientation = (int) stacker.getOrientation();
+			switch (orientation) {
+			case 0:
+				isClicked(bts, HBt);
+				break;
+			case 45:
+				isClicked(bts, tiltedBt);
+				break;
+			case 90:
+				isClicked(bts, VBt);
+				break;
+			default:
+				break;
+			}
+		}
 		workPiece.setType(WorkPiece.Type.RAW);
 		workPiece.setShape(WorkPiece.WorkPieceShape.CUBIC);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -136,11 +157,11 @@ public class RawWPViewController extends Controller {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
 	        
-	        	if(fulltxtBH.getText()!=null){
-
+	        	if(!"".equals(fulltxtBH.getText())){
 	        		stacker.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));
+	        	}else {
+	        		stacker.setStudHeight_Workpiece(0);
 	        	}
-	        	stacker.setStudHeight_Workpiece(0);
 	        }
 		});	
 		//图层
@@ -148,11 +169,12 @@ public class RawWPViewController extends Controller {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
 	        	
-	        	if(fulltxtC.getText()!=null){
+	        	if(!"".equals(fulltxtC.getText())){
 
 	        	stacker.setLayers(Integer.parseInt(fulltxtC.getText()));
+	        	}else {
+	        		stacker.setLayers(0);
 	        	}
-	        	stacker.setLayers(0);
 	        }
 		});	
 		//数量

@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.db.util.ClampingHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Programhandler;
+import cn.greatoo.easymill.db.util.Stackerhandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
@@ -101,6 +102,7 @@ public class SaveViewController {
 		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting);
 		
 		try {
+			Stackerhandler.updateStacker(stacker);
 			ClampingHandler.updateClamping(clamping);
 			Programhandler.saveProgram(program);
 		} catch (SQLException e) {

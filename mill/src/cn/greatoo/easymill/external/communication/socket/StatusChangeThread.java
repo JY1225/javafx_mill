@@ -12,6 +12,7 @@ import cn.greatoo.easymill.db.util.ClampingHandler;
 import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.db.util.RobotHandler;
+import cn.greatoo.easymill.db.util.Stackerhandler;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -43,7 +44,7 @@ public class StatusChangeThread implements Runnable {
 			Programhandler.getProgram();
 			Gripperhandler.getAllGripper();		
 			ClampingHandler.getClampings();
-			
+			Stackerhandler.getStacker();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
