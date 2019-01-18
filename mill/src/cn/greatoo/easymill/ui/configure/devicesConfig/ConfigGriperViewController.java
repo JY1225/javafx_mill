@@ -19,9 +19,7 @@ public class ConfigGriperViewController  extends Controller{
 	private Button editBt;
 	@FXML
 	private Button newBt;
-	
-	@FXML
-	private ComboBox combox;
+
 
 	private IconFlowSelector ifsClamping;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;

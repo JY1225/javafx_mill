@@ -113,7 +113,6 @@ public class Gripperhandler {
 			float height = results.getFloat("HEIGHT");
 			boolean fixedHeight = results.getBoolean("FIXEDHEIGHT");
 			String name = results.getString("NAME");
-			boolean gripperInner = results.getBoolean("GRIPPERINNER");
 			String imageUrl = results.getString("IMAGEURL");
 			int typeId = results.getInt("TYPE");
 			Gripper.Type type = Gripper.Type.TWOPOINT;
