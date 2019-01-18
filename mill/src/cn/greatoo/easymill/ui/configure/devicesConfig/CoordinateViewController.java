@@ -11,14 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SortingFocusTraversalPolicy;
-
-import cn.greatoo.easymill.db.util.CNCHandler;
 import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.util.NumericTextField;
+
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.ComboBox;
@@ -63,7 +60,6 @@ public class CoordinateViewController extends Controller {
 	public static UserFrame stackerFrame =new UserFrame();
 	public static UserFrame cncFrame;
 	UserFrame cncrFrame =new UserFrame();
-	UserFrameHander userFrameHander =new UserFrameHander();
 	@SuppressWarnings("unchecked")
 	
 	public void init() {
@@ -96,7 +92,7 @@ public class CoordinateViewController extends Controller {
 			String name = comboBox.getValue().toString();
 			try {
 			//通过名称读取坐标系
-				userFrame = userFrameHander.getUserFrameByName(name);
+				userFrame = UserFrameHander.getUserFrameByName(name);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -160,14 +156,14 @@ public class CoordinateViewController extends Controller {
 //			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
 //			stackerFrame.setLocation(location);
 			try {
-				userFrameHander.saveUserFrame(stackerFrame);
+				UserFrameHander.saveUserFrame(stackerFrame);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}else {
 			cncrFrame = new UserFrame(name, Nr, safeDistance, location);
 			try {
-				userFrameHander.saveUserFrame(cncrFrame);
+				UserFrameHander.saveUserFrame(cncrFrame);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

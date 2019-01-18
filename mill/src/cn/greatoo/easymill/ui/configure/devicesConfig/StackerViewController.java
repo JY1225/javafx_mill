@@ -107,10 +107,10 @@ public class StackerViewController {
 		float r45 = Float.parseFloat(r45Field.getText());
 		float maxUnder = Float.parseFloat(maxUnderField.getText());
 		float overMin = Float.parseFloat(overMinField.getText());
-		float orientation = stacker.getOrientation();		
-		int layers = stacker.getLayers();
-		int amount = stacker.getAmount();
-		float studHeight_Workpiece = stacker.getStudHeight_Workpiece();		
+		float orientation = 0;		
+		int layers = 0;
+		int amount = 0;
+		float studHeight_Workpiece = 0;		
 		stacker =new Stacker(h, v, hold, stud, hDistance, vDistance, padding, top, buttom, safe, 
 				overPersent, r0, r45, overMax, maxUnder, overMin, studHight_Stakcker, tX, tY, tZ,
 				fX, fY, fZ, orientation, layers, amount, studHeight_Workpiece);
@@ -129,31 +129,31 @@ public class StackerViewController {
 
 	public void validate() {
 		if (!nameField.getText().equals("") 
-				&& !hField.getText().equals("") && (Integer.parseInt(hField.getText()) > 0) 
-				&& !tXField.getText().equals("") && (Integer.parseInt(tXField.getText()) > 0)
-				&& !tYField.getText().equals("") && (Integer.parseInt(tYField.getText()) > 0)
-				&& !tZField.getText().equals("") && (Integer.parseInt(tZField.getText()) > 0)
-				&& !fXField.getText().equals("") && (Integer.parseInt(fXField.getText()) > 0)
-				&& !fYField.getText().equals("") && (Integer.parseInt(fYField.getText()) > 0)
-				&& !fZField.getText().equals("") && (Integer.parseInt(fZField.getText()) > 0)
+				&& !hField.getText().equals("") && (Integer.valueOf(hField.getText()) > 0) 
+				&& !tXField.getText().equals("") && (Float.parseFloat(tXField.getText()) > 0)
+				&& !tYField.getText().equals("") && (Float.parseFloat(tYField.getText()) > 0)
+				&& !tZField.getText().equals("") && (Float.parseFloat(tZField.getText()) > 0)
+				&& !fXField.getText().equals("") && (Float.parseFloat(fXField.getText()) > 0)
+				&& !fYField.getText().equals("") && (Float.parseFloat(fYField.getText()) > 0)
+				&& !fZField.getText().equals("") && (Float.parseFloat(fZField.getText()) > 0)
 				&& !vField.getText().equals("") && (Integer.parseInt(vField.getText()) > 0)
-				&& !holdField.getText().equals("") && (Integer.parseInt(holdField.getText()) > 0)
-				&& !studField.getText().equals("") && (Integer.parseInt(studField.getText()) > 0)
-				&& !hDistanceField.getText().equals("") && (Integer.parseInt(hDistanceField.getText()) > 0)
-				&& !vDistanceField.getText().equals("") && (Integer.parseInt(vDistanceField.getText()) > 0)
-				&& !topField.getText().equals("") && (Integer.parseInt(topField.getText()) > 0)
-				&& !safeField.getText().equals("") && (Integer.parseInt(safeField.getText()) > 0)
-				&& !r0Field.getText().equals("") && (Integer.parseInt(r0Field.getText()) > 0)
-				&& !overMaxField.getText().equals("") && (Integer.parseInt(overMaxField.getText()) > 0)
-				&& !studHight_StakckerField.getText().equals("") && (Integer.parseInt(studHight_StakckerField.getText()) > 0)
-				&& !paddingField.getText().equals("") && (Integer.parseInt(paddingField.getText()) > 0)
-				&& !buttomField.getText().equals("") && (Integer.parseInt(buttomField.getText()) > 0)
-				&& !overPersentField.getText().equals("") && (Integer.parseInt(overPersentField.getText()) > 0)
-				&& !r45Field.getText().equals("") && (Integer.parseInt(r45Field.getText()) > 0)
-				&& !maxUnderField.getText().equals("") && (Integer.parseInt(maxUnderField.getText()) > 0)
-				&& !overMinField.getText().equals("") && (Integer.parseInt(overMinField.getText()) > 0)
-				&& (stacker.getOrientation() > 0)&& (stacker.getLayers() > 0)&& (stacker.getAmount() > 0)
-				&& (stacker.getStudHeight_Workpiece()> 0)) {
+				&& !holdField.getText().equals("") && (Float.parseFloat(holdField.getText()) > 0)
+				&& !studField.getText().equals("") && (Float.parseFloat(studField.getText()) > 0)
+				&& !"".equals(hDistanceField.getText()) && (Float.parseFloat(hDistanceField.getText()) > 0)
+				&& !vDistanceField.getText().equals("") && (Float.parseFloat(vDistanceField.getText()) > 0)
+				&& !topField.getText().equals("") && (Float.parseFloat(topField.getText()) > 0)
+				&& !safeField.getText().equals("") && (Float.parseFloat(safeField.getText()) > 0)
+				&& !r0Field.getText().equals("") && (Float.parseFloat(r0Field.getText()) > 0)
+				&& !overMaxField.getText().equals("") && (Float.parseFloat(overMaxField.getText()) > 0)
+				&& !studHight_StakckerField.getText().equals("") && (Float.parseFloat(studHight_StakckerField.getText()) > 0)
+				&& !paddingField.getText().equals("") && (Float.parseFloat(paddingField.getText()) > 0)
+				&& !buttomField.getText().equals("") && (Float.parseFloat(buttomField.getText()) > 0)
+				&& !overPersentField.getText().equals("") && (Float.parseFloat(overPersentField.getText()) > 0)
+				&& !r45Field.getText().equals("") && (Float.parseFloat(r45Field.getText()) > 0)
+				&& !maxUnderField.getText().equals("") && (Float.parseFloat(maxUnderField.getText()) > 0)
+				&& !overMinField.getText().equals("") && (Float.parseFloat(overMinField.getText()) > 0)
+				//&& (stacker.getOrientation() > 0)&& (stacker.getLayers() > 0)&& (stacker.getAmount() > 0) && (stacker.getStudHeight_Workpiece()> 0)
+				) {
 			saveBt.setDisable(false);
 		} else {
 			//saveBt.setDisable(true);
