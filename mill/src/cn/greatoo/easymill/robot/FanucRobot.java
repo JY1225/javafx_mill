@@ -12,8 +12,10 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.Clamping.ClampingType;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
@@ -155,7 +157,8 @@ public class FanucRobot extends AbstractRobot{
     }
     
     public void initiatePick(int speed) throws AbstractCommunicationException, RobotActionException, InterruptedException {
-    	Gripper gripper = new Gripper("name", Type.TWOPOINT, 192, "description",false, "");
+    	Gripper gripper = new Gripper("name", Type.TWOPOINT, 192, "description");
+    	
 		final String headId = "A";
 //		final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
 //		final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
@@ -179,11 +182,12 @@ public class FanucRobot extends AbstractRobot{
 		String name = "A";
 		float defaultHeight = 11;
 		Coordinates relativePosition = new Coordinates(1, 1, 5, 1, 1, 1);
-		Coordinates smoothToPoint = null;
-		Coordinates smoothFromPoint = null;
+		Smooth smoothToPoint = null;
+		Smooth smoothFromPoint = null;
 		String imageURL = "";
-		Clamping clamping = new Clamping(Clamping.Type.CENTRUM, name, defaultHeight, relativePosition,
+		Clamping clamping = new Clamping(Clamping.Type.CENTRUM, ClampingType.LENGTH, name, defaultHeight, relativePosition,
 				smoothToPoint, smoothFromPoint, imageURL);
+
 		approachType = 1;// APPRCH_STRAT
 		float zSafePlane = 60;
 		int smoothPointZ = 25;
