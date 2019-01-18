@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.external.communication.socket;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Set;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.CNCHandler;
+import cn.greatoo.easymill.db.util.ClampingHandler;
 import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.db.util.RobotHandler;
@@ -37,9 +39,14 @@ public class StatusChangeThread implements Runnable {
 		this.previousActiveMCodes = new HashSet<Integer>();
 		this.alive = true;
 		//初始化数据，加载数据库
-		Programhandler.getProgram();
-		Gripperhandler.getAllGripper();
-		//ClampingHandler.
+		try {
+			Programhandler.getProgram();
+			Gripperhandler.getAllGripper();		
+			ClampingHandler.getClampings();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		connCNC();
 		connRobo();
 		conn();
