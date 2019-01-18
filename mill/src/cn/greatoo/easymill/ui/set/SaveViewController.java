@@ -100,6 +100,7 @@ public class SaveViewController {
 		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting);
 		
 		try {
+			
 			Programhandler.saveProgram(program);
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -129,7 +129,7 @@ public class Programhandler {
 			
 			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,CLAMPING,ROBOTSETTING) VALUES (?, ?,?,?,?,?,?,?,?)",
+					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING) VALUES (?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, program.getName());
 			stmt.setTimestamp(2, program.getTimeCreate());
@@ -138,8 +138,7 @@ public class Programhandler {
 			stmt.setInt(5, program.getLoadCNC().getId());
 			stmt.setInt(6, program.getUnloadCNC().getId());
 			stmt.setInt(7, program.getLoadstacker().getId());
-			stmt.setInt(8, 1);
-			stmt.setInt(9, program.getRobotSetting().getId());
+			stmt.setInt(8, program.getRobotSetting().getId());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {

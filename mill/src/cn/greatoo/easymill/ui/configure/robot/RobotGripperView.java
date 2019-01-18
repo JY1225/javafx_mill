@@ -228,7 +228,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 				} else {
 					throw new IllegalStateException("No type radio button selected");
 				}				
-				selectedGripper = new Gripper(fulltxtName.getText(), type, Float.parseFloat(numtxtHeight.getText()), Gripper.isGripperInner(), imagePath);
+				selectedGripper = new Gripper(fulltxtName.getText(), type, Float.parseFloat(numtxtHeight.getText()), imagePath);
 					try {
 						saveData (selectedGripper);
 					} catch (SQLException e) {

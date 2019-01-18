@@ -75,7 +75,7 @@ public class ClampViewController  extends Controller {
 			gripper = program.getUnloadstacker().getGripper();
 			gripperhead = program.getUnloadstacker().getGripperHead();
 			comboBox.getSelectionModel().select(gripperhead.getName());
-			nameCombox.getSelectionModel().select((String)gripper.getName());
+			nameCombox.getSelectionModel().select(gripper.getName());
 			if(gripperhead.isGripperInner()) {
 				isClicked(bts, inBt);
 			}else {

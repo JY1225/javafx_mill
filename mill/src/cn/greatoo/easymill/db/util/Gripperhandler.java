@@ -22,7 +22,7 @@ public class Gripperhandler {
 
 	public static void saveGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO GRIPPER (NAME, HEIGHT, FIXEDHEIGHT, IMAGEURL,TYPE) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO GRIPPER (NAME, HEIGHT, FIXEDHEIGHT, IMAGEURL,TYPE) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, gripper.getName());
 		stmt.setFloat(2, gripper.getHeight());
 		stmt.setBoolean(3, gripper.isFixedHeight());
@@ -118,7 +118,7 @@ public class Gripperhandler {
 		try {
 			stmt = conn.prepareStatement("SELECT * FROM GRIPPER");		
 		ResultSet results = stmt.executeQuery();
-		if (results.next()) {
+		while (results.next()) {
 			float height = results.getFloat("HEIGHT");
 			boolean fixedHeight = results.getBoolean("FIXEDHEIGHT");
 			String name = results.getString("NAME");
