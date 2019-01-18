@@ -3,9 +3,7 @@ package cn.greatoo.easymill.ui.configure.devicesConfig;
 import java.io.File;
 import java.sql.SQLException;
 
-import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.entity.Clamping;
-import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.FullTextField;
@@ -32,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import cn.greatoo.easymill.db.util.ClampingHandler;
 
 public class CNCClampingsView extends Controller implements TextInputControlListener{
 	private boolean editMode;
@@ -532,12 +531,12 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 				&& !numtxtP.getText().equals("")
 				&& !numtxtR.getText().equals(""));
 	}
-	public void clickedEdit() {
+	public void clickedEdit(String clampingName) {
 		if (editMode) {
 			reset();
 			editMode = false;
 		} else {
-			showFormEdit();
+			showFormEdit(clampingName);
 			editMode = true;
 		}
 	}
@@ -552,7 +551,14 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 			editMode = false;
 		}
 	}
-	public void showFormEdit() {
+	public void showFormEdit(String clampingName) {
+		try {
+			//通过名称获得Clamping
+			selectedClamping = ClampingHandler.getClampingByName(clampingName);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		
 		gpDetails.setVisible(true);
 		spControls.setVisible(true);
 		btnNew.setDisable(true);
@@ -606,6 +612,7 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 		gpDetails.setVisible(false);
 		spControls.setVisible(false);
 	}
+	
 	@Override
 	public void closeKeyboard() {
 		// TODO Auto-generated method stub

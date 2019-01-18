@@ -10,7 +10,9 @@ import java.util.List;
 
 import com.google.common.base.FinalizablePhantomReference;
 
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.entity.Gripper.Type;
 
 public class Gripperhandler {
@@ -96,11 +98,39 @@ public class Gripperhandler {
 				gripper = new Gripper(name, type, height, imageUrl);
 				gripper.setFixedHeight(fixedHeight);
 				gripper.setId(id);
-			}			
+			}
 		}
 		return gripper;
 	}
 	
+    public static Gripper getGripperByName(final String gripperName) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GRIPPER WHERE NAME = ?");
+        stmt.setString(1, gripperName);
+        ResultSet results = stmt.executeQuery();
+        Gripper gripper = null;
+        if (results.next()) {
+            int id = results.getInt("ID");
+			float height = results.getFloat("HEIGHT");
+			boolean fixedHeight = results.getBoolean("FIXEDHEIGHT");
+			String name = results.getString("NAME");
+			boolean gripperInner = results.getBoolean("GRIPPERINNER");
+			String imageUrl = results.getString("IMAGEURL");
+			int typeId = results.getInt("TYPE");
+			Gripper.Type type = Gripper.Type.TWOPOINT;
+			if (typeId == GRIPPER_TYPE_TWOPOINT) {
+				type = Gripper.Type.TWOPOINT;
+			} else if (typeId == GRIPPER_TYPE_VACUUM) {
+				type = Gripper.Type.VACUUM;
+			} else {
+				throw new IllegalArgumentException("Unkown gripper type id: " + typeId);
+			}
+			gripper = new Gripper(name, type, height, imageUrl);
+			gripper.setFixedHeight(fixedHeight);
+			gripper.setId(id);
+        }
+        stmt.close();
+        return gripper;
+    }
 	public static int getGripperIdByName(String name, Gripper gripper) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM GRIPPER WHERE NAME = ?");
 		stmt.setString(1, name);
