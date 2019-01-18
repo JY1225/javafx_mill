@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.db.util.ClampingHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.entity.Clamping;
@@ -100,6 +101,7 @@ public class SaveViewController {
 		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting);
 		
 		try {
+			ClampingHandler.updateClamping(clamping);
 			Programhandler.saveProgram(program);
 		} catch (SQLException e) {
 			e.printStackTrace();

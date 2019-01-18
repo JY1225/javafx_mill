@@ -37,7 +37,7 @@ public class ClampViewController  extends Controller {
 	
 	public static Gripper gripper = new Gripper();
 	public static GripperHead gripperhead = new GripperHead();
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "static-access", "rawtypes" })
 	public void init() {		
 		bts = new ArrayList<Button>();
 		bts.add(outBt);
@@ -46,7 +46,7 @@ public class ClampViewController  extends Controller {
 		
 		comboBox.getItems().add("A");
 		comboBox.getItems().add("B");
-		List<Gripper> list = Gripperhandler.getAllGripper();
+		List<Gripper> list = DBHandler.getInstance().getGriperBuffer();
 		for(Gripper g:list) {
 			nameCombox.getItems().add(g.getName());
 		}
@@ -75,7 +75,7 @@ public class ClampViewController  extends Controller {
 			gripper = program.getUnloadstacker().getGripper();
 			gripperhead = program.getUnloadstacker().getGripperHead();
 			comboBox.getSelectionModel().select(gripperhead.getName());
-			nameCombox.getSelectionModel().select((String)gripper.getName());
+			nameCombox.getSelectionModel().select(gripper.getName());
 			if(gripperhead.isGripperInner()) {
 				isClicked(bts, inBt);
 			}else {

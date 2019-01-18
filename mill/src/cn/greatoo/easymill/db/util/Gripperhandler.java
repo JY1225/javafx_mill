@@ -113,7 +113,6 @@ public class Gripperhandler {
 			float height = results.getFloat("HEIGHT");
 			boolean fixedHeight = results.getBoolean("FIXEDHEIGHT");
 			String name = results.getString("NAME");
-			boolean gripperInner = results.getBoolean("GRIPPERINNER");
 			String imageUrl = results.getString("IMAGEURL");
 			int typeId = results.getInt("TYPE");
 			Gripper.Type type = Gripper.Type.TWOPOINT;
@@ -148,7 +147,7 @@ public class Gripperhandler {
 		try {
 			stmt = conn.prepareStatement("SELECT * FROM GRIPPER");		
 		ResultSet results = stmt.executeQuery();
-		if (results.next()) {
+		while (results.next()) {
 			float height = results.getFloat("HEIGHT");
 			boolean fixedHeight = results.getBoolean("FIXEDHEIGHT");
 			String name = results.getString("NAME");
@@ -165,6 +164,7 @@ public class Gripperhandler {
 			Gripper gripper = new Gripper(name, type, height, imageUrl);
 			gripper.setFixedHeight(fixedHeight);
 			gripper.setId(results.getInt("ID"));
+			DBHandler.getInstance().getGriperBuffer().add(gripper);
 			list.add(gripper);
 		}
 		} catch (SQLException e) {			

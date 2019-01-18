@@ -61,6 +61,7 @@
                   <Insets top="5.0" />
                </padding>
             </HBox>
+            <ComboBox fx:id="clampCombox" prefHeight="34.0" prefWidth="150.0" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

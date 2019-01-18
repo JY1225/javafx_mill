@@ -307,12 +307,13 @@ public class RobotGripperView extends Controller implements TextInputControlList
 	}
 	
 	public void clickedNew() {
-			reset();
-		if (!editMode) {
+		reset();
+		if (!editMode) {			
 			selectedGripper = null;
 			showFormNew();
 			editMode = true;
 		} else {
+			btnEdit.setDisable(false);
 			editMode = false;
 		}
 	}
@@ -323,7 +324,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		btnEdit.getStyleClass().remove(CSS_CLASS_FORM_BUTTON_ACTIVE);
 		btnCreateNew.setDisable(false);
 		cbFixedHeight.setSelected(false);
-		btnEdit.setDisable(true);
+		//btnEdit.setDisable(true);
 		fulltxtName.setText("");
 		numtxtHeight.setText("");
 		cbA.setSelected(true);
