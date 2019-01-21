@@ -9,23 +9,24 @@ import java.util.List;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Stacker;
+import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.ui.configure.devicesConfig.StackerViewController;
 
 public class WorkPiecePositions {
 
 	List<Coordinates> coordinatesList = new ArrayList<>();
 
-	public List<Coordinates> initializeRawWorkPiecePositionsDeg90(final RectangularDimensions dimensions) {		
+	public List<Coordinates> initializeRawWorkPiecePositionsDeg90(final WorkPiece dimensions) {		
 		
-		Stacker stacker = StackerViewController.getStacker();//?
+		Stacker stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
 		//工件宽占多少行
 		int amountOfStudsWorkPiece = (int) Math.ceil((dimensions.getWidth()/stacker.getHorizontalHoleDistance())+1);
 		//工件长占多少行
 		int amountOfStudsWorkPieceVertical = (int) Math.ceil((dimensions.getLength()/ stacker.getVerticalHoleDistance())+1);
 		//横向可以放的工件数
-		int amountHorizontal = Math.round((stacker.gethPaddingSum()-1)/(float)amountOfStudsWorkPiece);
+		int amountHorizontal = Math.round((stacker.getHorizontalHoleAmount()-1)/(float)amountOfStudsWorkPiece);
 		//纵向可以放的工件数
-		int amountVertical = Math.round((stacker.getvPaddingSum()-1)/(float)amountOfStudsWorkPieceVertical);
+		int amountVertical = Math.round((stacker.getVerticalHoleAmount()-1)/(float)amountOfStudsWorkPieceVertical);
 		
 		for (int i = 0; i < amountVertical; i++) {// 2
 			for (int j = 0; j < amountHorizontal; j++) {// 4
@@ -55,7 +56,8 @@ public class WorkPiecePositions {
 //		} 
 		// (-45.0, -26.0, 0.0, 0.0, 0.0, 0.0)?????9
 		//c.offset(workArea.getDefaultClamping().getRelativePosition());
-		c.offset(getRelativePosition(9));
+		//DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition();
+		c.offset(DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition());
 		// (92.5, 107.5, 0.0, 0.0, 0.0, 90.0)
 		return c;
 

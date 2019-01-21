@@ -27,6 +27,10 @@ public class TeachAndAutoThread implements Runnable {
 	private static Controller view;
 	private String programName;
 	private Program program;
+	private PickFromTableStep pickFromTableStep;
+	private PutToCNCStep putToCNCStep;
+	private PickFromCNCStep pickFromCNCStep;
+	private PutToTableStep putToTableStep;
 	public TeachAndAutoThread(FanucRobot robot,CNCMachine cncMachine,boolean teached, Controller view) {
 		this.programName = DBHandler.getInstance().getProgramName();
 		this.program = DBHandler.getInstance().getProgramBuffer().get(programName);
@@ -34,6 +38,10 @@ public class TeachAndAutoThread implements Runnable {
 		this.cncMachine = cncMachine;				
 		this.teached = teached;
 		this.view = view;
+		pickFromTableStep = new PickFromTableStep();
+		putToCNCStep = new PutToCNCStep();
+		pickFromCNCStep = new PickFromCNCStep();
+		putToTableStep = new PutToTableStep();
 	}
 
 	@Override
@@ -47,16 +55,16 @@ public class TeachAndAutoThread implements Runnable {
 			PrepareStep.prepareStep(program, robot, teached, cncMachine);
 			
 			//===从table抓取工件===机器人抓取工件，回到原点
-			PickFromTableStep.pickFromTable(program, robot, cncMachine, teached, wIndex, view);
+			pickFromTableStep.pickFromTable(program, robot, cncMachine, teached, wIndex, view);
 			
 			//===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
-			PutToCNCStep.putToCNC(program, robot, cncMachine, teached, view);
+			putToCNCStep.putToCNC(program, robot, cncMachine, teached, view);
 
 			//===从机床pick工件出来===机器人抓取工件回到原点
-			PickFromCNCStep.pickFromCNC(program, robot, cncMachine, teached, view);
+			pickFromCNCStep.pickFromCNC(program, robot, cncMachine, teached, view);
 			
 			//====把工件put到table===机器人put工件到卡盘，回到原点
-			PutToTableStep.putToTable(program, robot, cncMachine, teached, view);
+			putToTableStep.putToTable(program, robot, cncMachine, teached, view);
 			
 			//===示教、自动化结束===重置设备
 			FinishStep.finish(robot, cncMachine, teached, view);
