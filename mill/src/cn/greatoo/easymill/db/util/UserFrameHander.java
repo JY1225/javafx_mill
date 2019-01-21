@@ -79,36 +79,33 @@ public class UserFrameHander {
 		conn.setAutoCommit(true);
 	}
 	
-    public Set<UserFrame> getAllUserFrames() throws SQLException {
+    public static Set<UserFrame> getAllUserFrames() throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("SELECT ID FROM USERFRAME");
         ResultSet results = stmt.executeQuery();
         Set<UserFrame> userFrames = new HashSet<UserFrame>();
         while (results.next()) {
-            int id = results.getInt("ID");
-            userFrames.add(getUserFrameById(id));
+            int num = results.getInt("NUMBER");
+            userFrames.add(getUserFrameByName(num));
         }
         return userFrames;
     } 
     
-    public UserFrame getUserFrameById(final int userFrameId) throws SQLException {
-        UserFrame userFrame = DBHandler.getInstance().getUserFrameBuffer().get(userFrameId);
+    public static UserFrame getUserFrameByName(final int number) throws SQLException {
+        UserFrame userFrame = DBHandler.getInstance().getUserFrameBuffer().get(number);
         if (userFrame != null) {
             return userFrame;
         }
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME WHERE ID = ?");
-        stmt.setInt(1, userFrameId);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME WHERE NUMBER = ?");
+        stmt.setInt(1, number);
         ResultSet results = stmt.executeQuery();
         while (results.next()) {
-            String name = results.getString("NAME");
-            int number = results.getInt("NUMBER");
-            float ZSAFEDISTANCE = results.getFloat("ZSAFEDISTANCE");
             int locationId = results.getInt("LOCATION");
             Coordinates location = CoordinatesHandler.getCoordinatesById(0, locationId);
-            userFrame = new UserFrame(name, number, ZSAFEDISTANCE, location);
-            userFrame.setId(userFrameId);
+            userFrame = new UserFrame(results.getString("NAME"), results.getInt("NUMBER"), results.getFloat("ZSAFEDISTANCE"), location);
+            userFrame.setId(results.getInt("ID"));
         }
         stmt.close();
-        DBHandler.getInstance().getUserFrameBuffer().put(userFrameId, userFrame);
+        DBHandler.getInstance().getUserFrameBuffer().put(number, userFrame);
         return userFrame;
     }
 

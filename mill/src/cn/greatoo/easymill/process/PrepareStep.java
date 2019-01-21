@@ -19,13 +19,11 @@ public class PrepareStep {
 
 	public static void prepareStep(Program program, FanucRobot robot, boolean teached, CNCMachine cncMachine) {
 		try {
-			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");
-			final String headId = "A";
-			final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
-			final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
+			Gripper gripper = new Gripper();
+			final String headId = program.getLoadCNC().getGripperHead().getName();
 			int serviceType = 5;
 			boolean gripInner = false;
-			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);// 75			
+			robot.writeServiceGripperSet(headId, program.getLoadCNC().getGripper(), program.getUnloadCNC().getGripper(), serviceType, gripInner);// 75			
 			robot.recalculateTCPs();// 64
 			if(teached) {
 				robot.moveToHome(robot.getSpeed());// 71
