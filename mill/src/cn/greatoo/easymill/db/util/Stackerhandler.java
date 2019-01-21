@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.derby.impl.sql.compile.GetCurrentConnectionNode;
@@ -103,10 +104,10 @@ public class Stackerhandler {
 		stmt.setFloat(14, stacker.getMaxOverflow());
 		stmt.setFloat(15, stacker.getMinOverlap());
 		stmt.setFloat(16, stacker.getMaxUnderflow());
-		stmt.setFloat(17, stacker.getMaxUnderflow());
-		stmt.setFloat(18, stacker.getMaxUnderflow());
-		stmt.setFloat(19, stacker.getMaxUnderflow());
-		stmt.setFloat(20, stacker.getMaxUnderflow());	
+		stmt.setFloat(17, stacker.getOrientation());
+		stmt.setFloat(18, stacker.getLayers());
+		stmt.setFloat(19, stacker.getAmount());
+		stmt.setFloat(20, stacker.getStudHeight_Workpiece());
 		stmt.setInt(21, stacker.getId());
 		stmt.execute();
 
@@ -199,6 +200,7 @@ public class Stackerhandler {
 					orientation,layers,amount,studHeight_Workpiece);
 			stacker.setId(results.getInt("ID"));
 			DBHandler.getInstance().getStatckerBuffer().add(stacker);
+			List<Stacker> s=DBHandler.getInstance().getStatckerBuffer();
 		}
 		return stacker;
 	}
