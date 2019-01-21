@@ -199,18 +199,21 @@ public class RawWPViewController extends Controller {
 	public void HBtAction(MouseEvent event) {
 		isClicked(bts, HBt);
 		stacker.setOrientation(0);
+		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(0);
 	}
 	
 	@FXML
 	public void tiltedAction(MouseEvent event) {
 		isClicked(bts, tiltedBt);
 		stacker.setOrientation(45);
+		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(45);
 	}
 	
 	@FXML
 	public void VBtAction(MouseEvent event) {
 		isClicked(bts, VBt);
 		stacker.setOrientation(90);
+		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(90);
 	}
 	
 	@FXML

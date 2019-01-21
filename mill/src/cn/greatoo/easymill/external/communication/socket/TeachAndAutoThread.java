@@ -64,7 +64,7 @@ public class TeachAndAutoThread implements Runnable {
 			pickFromCNCStep.pickFromCNC(program, robot, cncMachine, teached, view);
 			
 			//====把工件put到table===机器人put工件到卡盘，回到原点
-			putToTableStep.putToTable(program, robot, cncMachine, teached, view);
+			putToTableStep.putToTable(program, robot, cncMachine, teached, wIndex, view);
 			
 			//===示教、自动化结束===重置设备
 			FinishStep.finish(robot, cncMachine, teached, view);

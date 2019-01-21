@@ -5,21 +5,15 @@ import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.Gripper.Type;
-import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.entity.Program;
-import cn.greatoo.easymill.entity.WorkPiece;
-import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.RobotConstants;
-import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
-import cn.greatoo.easymill.workpiece.RectangularDimensions;
+import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
 
-public class PickFromCNCStep {
+public class PickFromCNCStep extends AbstractStep{
 
 	@SuppressWarnings("static-access")
 	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
@@ -43,13 +37,25 @@ public class PickFromCNCStep {
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,
 					program.getUnloadCNC().getWorkPiece(), approachType, payLoad1, payLoad2);
 			
+			//-----------------------------------------------------
 			int workArea = 3;
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
+			Coordinates originalPosition = WorkPiecePositions.getPutLocation(clamping);
+			Coordinates position = new Coordinates(originalPosition);
+			if (getRelativeTeachedOffset() == null) {
+				//初始化安全示教偏移
+				initSafeTeachedOffset(program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+			}
+			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
+			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getRelativeTeachedOffset());
+			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
+			position.offset(absoluteOffset);			
 			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
 			//77
-			robot.writeServicePointSet(workArea, location, program.getUnloadCNC().getSmooth(),
+			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),
 					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 
 					clamping, approachType, zSafePlane);
+			//-------------------------------------------------
 			robot.startService();						
 			cncMachine.prepareForPick(false, 0, 1);
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
@@ -79,4 +85,6 @@ public class PickFromCNCStep {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

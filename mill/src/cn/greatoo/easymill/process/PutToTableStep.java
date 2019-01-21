@@ -2,6 +2,7 @@ package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
@@ -9,11 +10,12 @@ import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.RobotConstants;
+import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
 
-public class PutToTableStep {
+public class PutToTableStep extends AbstractStep{
 
 	@SuppressWarnings("static-access")
-	public void putToTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
+	public void putToTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {
 		try {
 
 			int serviceType = 13;	
@@ -34,8 +36,17 @@ public class PutToTableStep {
 			//76
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,
 					program.getLoadstacker().getWorkPiece(), approachType,  payLoad1, payLoad2);
+			//-----------------------------------
 			int workArea = 1;
 			float zSafePlane = 0;
+			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
+			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);;
+			Coordinates position = new Coordinates(originalPosition);
+			if (getRelativeTeachedOffset() == null) {
+				initSafeTeachedOffset(program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+			}			
+			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getRelativeTeachedOffset());			
+			position.offset(absoluteOffset);		
 			float wh = program.getUnloadstacker().getWorkPiece().getHeight();
 			float sh = DBHandler.getInstance().getStatckerBuffer().get(0).getStudHeight_Stacker();
 			if(wh >= sh) {
@@ -44,11 +55,11 @@ public class PutToTableStep {
 				zSafePlane = wh + sh;
 			}
 			//77
-			robot.writeServicePointSet(workArea, location, program.getLoadstacker().getSmooth(), 
+			robot.writeServicePointSet(workArea, position, program.getLoadstacker().getSmooth(), 
 					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getLoadstacker().getWorkPiece(), 
 					DBHandler.getInstance().getClampBuffer().get(0),
 					approachType, zSafePlane);
-
+			//--------------------------------------------------
 			robot.startService();
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PUT_TO_TABLE));
 			if(teached) {
