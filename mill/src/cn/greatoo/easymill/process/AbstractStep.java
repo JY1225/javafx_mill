@@ -2,17 +2,21 @@ package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
 
 public abstract class AbstractStep {
-	private static Coordinates unloadStackerRelativeTeachedOffset;
-	private static Coordinates loadCNCRelativeTeachedOffset;
-	private static Coordinates unloadCNCRelativeTeachedOffset;
-	private static Coordinates loadStackerRelativeTeachedOffset;
+	private  Coordinates unloadStackerRelativeTeachedOffset;
+	private  Coordinates loadCNCRelativeTeachedOffset;
+	private  Coordinates unloadCNCRelativeTeachedOffset;
+	private  Coordinates loadStackerRelativeTeachedOffset;
 
 	public AbstractStep() {
 		unloadStackerRelativeTeachedOffset = null;
+		loadCNCRelativeTeachedOffset = null;
+		unloadCNCRelativeTeachedOffset = null;
+		loadStackerRelativeTeachedOffset = null;
 	}
 	
 	protected void initSafeTeachedOffset(int step, WorkPiece workPiece, Clamping clampping, final Coordinates originalPosition) {
@@ -44,6 +48,15 @@ public abstract class AbstractStep {
 		}
 	}
 
+	protected void updateProgramOffset(Coordinates original, Coordinates  offset) {
+		original.setX(offset.getX());
+		original.setY(offset.getY());
+		original.setZ(offset.getZ());
+		original.setW(offset.getW());
+		original.setP(offset.getP());
+		original.setR(offset.getR());		
+	}
+	
 	public Coordinates getUnloadStackerRelativeTeachedOffset() {
 		return unloadStackerRelativeTeachedOffset;
 	}

@@ -72,6 +72,7 @@ public class PutToCNCStep extends AbstractStep{
 				Coordinates robotPosition = robot.getPosition();
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
 				setLoadCNCRelativeTeachedOffset(relTeachedOffset);
+				updateProgramOffset(program.getLoadCNC().getOffset(), relTeachedOffset);
 			}else {				
 				robot.continuePutTillAtLocation(false);				
 				robot.continuePutTillClampAck(false);
