@@ -1,0 +1,747 @@
+2019-01-07 09:51:53.202 [main] INFO  cn.greatoo.easymill.Main - Library Assistant launched on 07-01-2019 09:51:53 上午
+2019-01-07 09:52:17.181 [Thread-6] INFO   - Already loaded tables [conveyor, allowed_approachtype_device, processflow, workarea, pallet, reversalunitsettings, user_group_email_settings, workarea_clamping, devicetype, robot, conveyoreaton, devicesettings, zone, workpiece, rob_toolframe, stackplateorientation, userframe, clamping_clamping, workarea_boundaries, cnc_option, wp_rect_dim, clamping, gripper, version, conveyorsettings, gridplate, rbj_user_group, steptype, gripperhead, gripperhead_gripper, deviceactionsettings, stackplatesettings, step_teachedcoordinates, cncmillingmachine, cnc_option_type, fanucrobot, device, socketconnection, stackplate, reversalunit, rob_userframe, robotsettings, workpieceshape, clamping_type, rob_rp_point, robotairblowsettings, pragefix, robotactionsettings, palletsettings, devicesettings_workarea_clamping, robotpicksettings, wp_cyl_dim, mcodeadapter, robottype, rob_ip_point, conveyoreatonsettings, workpiecematerial, coordinates, robotsettings_gripperhead_gripper, unloadpalletsettings, schemachanges, mcode, palletlayout, rob_special_point, simple_workarea, robot_gripperbody, gridhole, gripperbody, workpiecetype, robotputsettings, step, deviceinterface, interventionstep, config, rob_register]
+2019-01-07 09:52:17.185 [Thread-6] INFO   - Tables are already loaded
+2019-01-07 09:52:18.723 [JavaFX Application Thread] INFO  cn.greatoo.easymill.login.LoginController - User successfully logged in 
+2019-01-07 09:52:19.475 [Thread-8] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:19.476 [Thread-8] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:19.477 [Thread-8] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:19.477 [Thread-8] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:19.478 [Thread-8] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:19.479 [Thread-8] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:19.479 [Thread-8] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:19.480 [Thread-8] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:19.480 [Thread-8] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:19.481 [Thread-8] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:19.481 [Thread-8] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:19.482 [Thread-8] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:19.482 [Thread-8] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:19.483 [Thread-8] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:19.483 [Thread-8] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.<init>(RobotStatusChangeThread.java:29)
+2019-01-07 09:52:19.484 [Thread-8] INFO   - 	at cn.greatoo.easymill.ui.main.MainViewController$1.run(MainViewController.java:120)
+2019-01-07 09:52:19.485 [Thread-8] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:21.496 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:22.504 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:22.505 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:22.505 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:22.506 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:22.506 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:22.507 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:22.508 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:22.508 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:22.509 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:22.509 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:22.510 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:22.510 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:22.511 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:22.511 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:22.512 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:22.512 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:24.010 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:25.014 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:25.014 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:25.014 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:25.014 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:25.014 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:25.015 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:25.015 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:25.015 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:25.015 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:25.016 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:25.016 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:25.016 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:25.016 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:25.016 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:25.016 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:25.016 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:25.925 [JavaFX Application Thread] INFO   - Text = 
+2019-01-07 09:52:25.926 [JavaFX Application Thread] ERROR cn.greatoo.easymill.util.DefaultExceptionHandler - Exception occurred {}
+java.lang.NullPointerException: null
+	at cn.greatoo.easymill.util.AbstractTextField$TextFieldFocusListener.changed(AbstractTextField.java:109) ~[bin/:?]
+	at cn.greatoo.easymill.util.AbstractTextField$TextFieldFocusListener.changed(AbstractTextField.java:1) ~[bin/:?]
+	at com.sun.javafx.binding.ExpressionHelper$Generic.fireValueChangedEvent(ExpressionHelper.java:361) ~[jfxrt.jar:?]
+	at com.sun.javafx.binding.ExpressionHelper.fireValueChangedEvent(ExpressionHelper.java:81) ~[jfxrt.jar:?]
+	at javafx.beans.property.ReadOnlyBooleanPropertyBase.fireValueChangedEvent(ReadOnlyBooleanPropertyBase.java:72) ~[jfxrt.jar:?]
+	at javafx.scene.Node$FocusedProperty.notifyListeners(Node.java:7720) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$13.invalidated(Scene.java:2080) ~[jfxrt.jar:?]
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:111) ~[jfxrt.jar:?]
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:146) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$KeyHandler.setFocusOwner(Scene.java:3924) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$KeyHandler.requestFocus(Scene.java:3971) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$KeyHandler.access$1900(Scene.java:3910) ~[jfxrt.jar:?]
+	at javafx.scene.Scene.requestFocus(Scene.java:2044) ~[jfxrt.jar:?]
+	at javafx.scene.Node.requestFocus(Node.java:7881) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.behavior.TextFieldBehavior.mousePressed(TextFieldBehavior.java:248) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.BehaviorSkinBase$1.handle(BehaviorSkinBase.java:95) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.BehaviorSkinBase$1.handle(BehaviorSkinBase.java:89) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54) ~[jfxrt.jar:?]
+	at javafx.event.Event.fireEvent(Event.java:198) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485) ~[jfxrt.jar:?]
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:381) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:295) ~[jfxrt.jar:?]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_131]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:417) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:416) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.notifyMouse(View.java:937) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191) ~[jfxrt.jar:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_131]
+2019-01-07 09:52:26.526 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:27.529 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:27.530 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:27.530 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:27.530 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:27.531 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:27.532 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:27.532 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:27.533 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:27.533 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:27.533 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:27.534 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:27.534 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:27.534 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:27.535 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:27.535 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:27.536 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:28.125 [JavaFX Application Thread] ERROR cn.greatoo.easymill.util.DefaultExceptionHandler - Exception occurred {}
+java.lang.NullPointerException: null
+	at cn.greatoo.easymill.util.AbstractTextField$TextFieldFocusListener.changed(AbstractTextField.java:112) ~[bin/:?]
+	at cn.greatoo.easymill.util.AbstractTextField$TextFieldFocusListener.changed(AbstractTextField.java:1) ~[bin/:?]
+	at com.sun.javafx.binding.ExpressionHelper$Generic.fireValueChangedEvent(ExpressionHelper.java:361) ~[jfxrt.jar:?]
+	at com.sun.javafx.binding.ExpressionHelper.fireValueChangedEvent(ExpressionHelper.java:81) ~[jfxrt.jar:?]
+	at javafx.beans.property.ReadOnlyBooleanPropertyBase.fireValueChangedEvent(ReadOnlyBooleanPropertyBase.java:72) ~[jfxrt.jar:?]
+	at javafx.scene.Node$FocusedProperty.notifyListeners(Node.java:7720) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$13.invalidated(Scene.java:2077) ~[jfxrt.jar:?]
+	at javafx.beans.property.ObjectPropertyBase.markInvalid(ObjectPropertyBase.java:111) ~[jfxrt.jar:?]
+	at javafx.beans.property.ObjectPropertyBase.set(ObjectPropertyBase.java:146) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$KeyHandler.setFocusOwner(Scene.java:3924) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$KeyHandler.requestFocus(Scene.java:3971) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$KeyHandler.access$1900(Scene.java:3910) ~[jfxrt.jar:?]
+	at javafx.scene.Scene.requestFocus(Scene.java:2044) ~[jfxrt.jar:?]
+	at javafx.scene.Node.requestFocus(Node.java:7881) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mousePressed(ButtonBehavior.java:156) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.BehaviorSkinBase$1.handle(BehaviorSkinBase.java:95) ~[jfxrt.jar:?]
+	at com.sun.javafx.scene.control.skin.BehaviorSkinBase$1.handle(BehaviorSkinBase.java:89) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:218) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:238) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74) ~[jfxrt.jar:?]
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54) ~[jfxrt.jar:?]
+	at javafx.event.Event.fireEvent(Event.java:198) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3757) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$MouseHandler.access$1500(Scene.java:3485) ~[jfxrt.jar:?]
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1762) ~[jfxrt.jar:?]
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2494) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:381) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:295) ~[jfxrt.jar:?]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_131]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$354(GlassViewEventHandler.java:417) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:389) ~[jfxrt.jar:?]
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:416) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:555) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.View.notifyMouse(View.java:937) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method) ~[jfxrt.jar:?]
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191) ~[jfxrt.jar:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_131]
+2019-01-07 09:52:29.039 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:30.040 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:30.041 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:30.041 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:30.042 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:30.042 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:30.042 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:30.043 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:30.043 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:30.043 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:30.044 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:30.044 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:30.044 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:30.045 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:30.045 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:30.045 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:30.046 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:31.547 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:32.553 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:32.554 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:32.555 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:32.555 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:32.556 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:32.556 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:32.557 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:32.557 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:32.558 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:32.558 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:32.558 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:32.559 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:32.559 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:32.559 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:32.560 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:32.560 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:34.064 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:35.064 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:35.065 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:35.065 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:35.066 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:35.066 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:35.066 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:35.067 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:35.068 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:35.068 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:35.068 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:35.069 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:35.069 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:35.070 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:35.070 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:35.071 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:35.071 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:36.571 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:37.575 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:37.576 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:37.577 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:37.577 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:37.577 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:37.578 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:37.578 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:37.579 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:37.579 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:37.579 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:37.580 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:37.580 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:37.580 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:37.581 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:37.581 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:37.581 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:39.078 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:40.079 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:40.080 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:40.080 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:40.081 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:40.081 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:40.081 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:40.082 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:40.082 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:40.082 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:40.082 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:40.083 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:40.083 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:40.083 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:40.083 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:40.083 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:40.083 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:41.579 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:42.585 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:42.586 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:42.587 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:42.587 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:42.588 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:42.588 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:42.589 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:42.589 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:42.589 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:42.590 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:42.590 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:42.590 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:42.591 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:42.591 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:42.592 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:42.592 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:44.092 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:45.093 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:45.094 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:45.094 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:45.095 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:45.095 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:45.096 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:45.096 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:45.096 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:45.097 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:45.097 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:45.097 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:45.098 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:45.098 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:45.098 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:45.098 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:45.099 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:46.601 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:47.604 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:47.605 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:47.606 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:47.606 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:47.607 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:47.607 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:47.607 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:47.608 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:47.608 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:47.608 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:47.609 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:47.609 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:47.609 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:47.610 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:47.610 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:47.611 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:49.111 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:50.112 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:50.113 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:50.113 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:50.114 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:50.114 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:50.114 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:50.115 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:50.115 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:50.115 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:50.116 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:50.116 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:50.116 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:50.117 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:50.117 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:50.117 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:50.117 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:51.617 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:52.619 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:52.620 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:52.620 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:52.621 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:52.621 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:52.621 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:52.622 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:52.622 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:52.622 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:52.622 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:52.623 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:52.623 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:52.623 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:52.623 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:52.623 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:52.624 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:54.121 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:55.123 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:55.124 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:55.124 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:55.125 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:55.125 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:55.126 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:55.126 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:55.126 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:55.127 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:55.127 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:55.128 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:55.128 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:55.128 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:55.129 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:55.129 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:55.129 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:56.631 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:52:57.636 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:52:57.637 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:52:57.637 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:52:57.638 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:52:57.638 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:52:57.638 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:57.638 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:57.639 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:52:57.639 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:57.639 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:52:57.640 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:57.640 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:52:57.640 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:52:57.640 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:52:57.641 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:52:57.641 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:52:59.142 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:00.145 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:00.145 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:00.145 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:00.145 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:00.145 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:00.145 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:00.145 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:00.145 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:00.146 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:01.646 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:02.654 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:02.654 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:02.654 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:02.654 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:02.654 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:02.654 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:02.654 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:02.655 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:04.156 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:05.157 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:05.158 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:05.158 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:05.158 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:05.159 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:05.159 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:05.159 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:05.160 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:05.160 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:05.160 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:05.161 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:05.161 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:05.161 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:05.161 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:05.162 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:05.162 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:06.659 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:07.664 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:07.664 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:07.665 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:07.665 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:07.665 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:07.665 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:07.666 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:07.666 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:07.666 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:07.667 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:07.667 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:07.667 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:07.667 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:07.668 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:07.668 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:07.668 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:09.171 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:10.172 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:10.173 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:10.173 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:10.173 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:10.173 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:10.174 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:10.174 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:10.174 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:10.174 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:10.174 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:10.175 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:10.175 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:10.175 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:10.175 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:10.175 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:10.176 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:11.678 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:12.679 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:12.680 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:12.680 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:12.680 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:12.681 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:12.681 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:12.681 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:12.681 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:12.682 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:12.682 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:12.682 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:12.682 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:12.683 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:12.683 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:12.683 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:12.683 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:14.185 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:15.192 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:15.192 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:15.192 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:15.192 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:15.192 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:15.192 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:15.193 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:16.695 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:17.698 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:17.698 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:17.699 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:17.699 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:17.699 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:17.699 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:17.699 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:19.209 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:20.208 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:20.209 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:20.209 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:20.209 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:20.210 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:20.210 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:20.210 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:20.210 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:20.210 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:20.210 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:20.211 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:20.211 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:20.211 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:20.211 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:20.211 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:20.212 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:21.713 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:22.713 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:22.713 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:22.714 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:22.714 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:22.714 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:22.714 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:22.714 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:24.215 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:25.216 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:25.216 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:25.217 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:25.217 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:25.217 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:25.217 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:25.217 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:25.217 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:25.217 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:26.717 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:27.718 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:27.718 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:27.719 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:27.719 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:27.719 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:27.719 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:27.719 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:29.220 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:30.221 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:30.222 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:30.222 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:30.222 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:30.223 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:30.223 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:30.223 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:30.223 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:30.223 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:30.223 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:30.224 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:30.224 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:30.224 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:30.224 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:30.224 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:30.225 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:31.727 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:32.730 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:32.731 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:32.731 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:32.731 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:32.731 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:32.732 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:32.732 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:32.732 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:32.732 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:32.732 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:32.733 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:32.734 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:32.734 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:32.734 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:32.734 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:32.734 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:34.228 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:35.236 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:35.237 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:35.237 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:35.237 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:35.237 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:35.237 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:35.237 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:35.238 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:35.238 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:35.238 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:35.238 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:35.238 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:35.238 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:35.238 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:35.239 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:35.239 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:36.737 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:37.738 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:37.739 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:37.739 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:37.739 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:37.739 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:37.739 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:37.740 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:37.740 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:37.740 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:37.740 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:37.740 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:37.740 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:37.740 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:37.741 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:37.741 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:37.741 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:39.243 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:40.240 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:40.241 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:40.241 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:40.241 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:40.242 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:40.243 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:40.243 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:40.243 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:40.243 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:41.744 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:42.744 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:42.745 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:42.745 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:42.745 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:42.745 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:42.746 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:42.746 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:42.746 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:42.746 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:42.746 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:42.746 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:42.746 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:42.747 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:42.747 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:42.747 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:42.747 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:44.255 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:45.266 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:45.267 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:45.267 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:45.267 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:45.267 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:45.267 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:45.267 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:45.268 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:45.268 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:45.268 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:45.268 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:45.268 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:45.268 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:45.268 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:45.269 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:45.269 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:46.774 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:47.774 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:47.775 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:47.775 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:47.775 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:47.775 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:47.775 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:47.776 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:47.776 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:47.776 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:47.776 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:47.776 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:47.776 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:47.776 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:47.777 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:47.777 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:47.777 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:49.287 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:50.288 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:50.289 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:50.290 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:50.290 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:50.290 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:50.290 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:50.290 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:50.290 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:50.290 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)
+2019-01-07 09:53:51.794 [Thread-14] INFO   - isCNCConn = false
+2019-01-07 09:53:52.788 [Thread-14] INFO   - java.net.ConnectException: Connection refused: connect
+2019-01-07 09:53:52.789 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+2019-01-07 09:53:52.789 [Thread-14] INFO   - 	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+2019-01-07 09:53:52.789 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+2019-01-07 09:53:52.789 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+2019-01-07 09:53:52.790 [Thread-14] INFO   - 	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:52.790 [Thread-14] INFO   - 	at java.net.PlainSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:52.790 [Thread-14] INFO   - 	at java.net.SocksSocketImpl.connect(Unknown Source)
+2019-01-07 09:53:52.790 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:52.790 [Thread-14] INFO   - 	at java.net.Socket.connect(Unknown Source)
+2019-01-07 09:53:52.790 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:52.790 [Thread-14] INFO   - 	at java.net.Socket.<init>(Unknown Source)
+2019-01-07 09:53:52.791 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.SocketConnection.connect(SocketConnection.java:59)
+2019-01-07 09:53:52.791 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread.connCNC(RobotStatusChangeThread.java:165)
+2019-01-07 09:53:52.791 [Thread-14] INFO   - 	at cn.greatoo.easymill.external.communication.socket.RobotStatusChangeThread$2.run(RobotStatusChangeThread.java:145)
+2019-01-07 09:53:52.791 [Thread-14] INFO   - 	at java.lang.Thread.run(Unknown Source)

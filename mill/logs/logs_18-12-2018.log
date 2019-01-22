@@ -1,0 +1,8 @@
+2018-12-18 10:15:45.865 [main] INFO  cn.greatoo.easymill.Main - Library Assistant launched on 18-12-2018 10:15:45 上午
+2018-12-18 10:16:08.564 [Thread-6] INFO   - Already loaded tables [workpieceshape_cylindrical_dimension, processflow, workarea, workarea_clamping, devicetype, robot, devicesettings, zone, workpiece, stackplateorientation, userframe, workarea_boundaries, clamping, gripper, version, gridplate, steptype, gripperhead, gripperhead_gripper, deviceactionsettings, stackplatesettings, step_teachedcoordinates, cncmillingmachine, fanucrobot, device, socketconnection, stackplate, robotsettings, workpieceshape, clamping_type, workpieceshape_cubic_dimension, robotactionsettings, devicesettings_workarea_clamping, robotpicksettings, mcodeadapter, robottype, workpiecematerial, coordinates, robotsettings_gripperhead_gripper, mcode, simple_workarea, robot_gripperbody, gridhole, gripperbody, workpiecetype, robotputsettings, step, deviceinterface, rob_register]
+2018-12-18 10:16:08.567 [Thread-6] INFO   - Tables are already loaded
+2018-12-18 10:16:13.186 [JavaFX Application Thread] INFO  cn.greatoo.easymill.login.LoginController - User successfully logged in 
+2018-12-18 10:18:14.970 [main] INFO  cn.greatoo.easymill.Main - Library Assistant launched on 18-12-2018 10:18:14 上午
+2018-12-18 10:18:38.945 [JavaFX Application Thread] INFO  cn.greatoo.easymill.login.LoginController - User successfully logged in 
+2018-12-18 10:19:30.848 [main] INFO  cn.greatoo.easymill.Main - Library Assistant launched on 18-12-2018 10:19:30 上午
+2018-12-18 10:19:53.312 [JavaFX Application Thread] INFO  cn.greatoo.easymill.login.LoginController - User successfully logged in 

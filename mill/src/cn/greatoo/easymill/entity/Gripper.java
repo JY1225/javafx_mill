@@ -1,7 +1,5 @@
 package cn.greatoo.easymill.entity;
 
-import cn.greatoo.easymill.workpiece.WorkPiece;
-
 public class Gripper {
 	
 	public enum Type {
@@ -13,20 +11,24 @@ public class Gripper {
 	private String name;
 	private float height;
 	private boolean fixedHeight;
-	private String description;
+	private String selectGripper;
+	private boolean gripperInner;
 	private String imageUrl;
-	private WorkPiece workPiece;
 	
-	public Gripper(final String name, final Type type, final float height, final String description, final String imageUrl) {
+
+	public Gripper(final String name, final Type type, final float height, final String selectGripper, boolean gripperInner, final String imageUrl) {
 		this.name = name;
 		this.type = type;
 		this.height = height;
-		this.description = description;
+		this.selectGripper = selectGripper;
 		this.imageUrl = imageUrl;
 		this.fixedHeight = false;
-		this.workPiece = null;
+		this.gripperInner = gripperInner;
 	}
 	
+	public Gripper() {
+		
+	}
 	public int getId() {
 		return id;
 	}
@@ -35,14 +37,18 @@ public class Gripper {
 		this.id = id;
 	}
 
-	public WorkPiece getWorkPiece() {
-		return workPiece;
+	public String getSelectGripper() {
+		return selectGripper;
 	}
-	
-	public void setWorkPiece(final WorkPiece workPiece) {
-		this.workPiece = workPiece;
+	public void setSelectGripper(String selectGripper) {
+		this.selectGripper = selectGripper;
 	}
-
+	public boolean isGripperInner() {
+		return gripperInner;
+	}
+	public void setGripperInner(boolean gripperInner) {
+		this.gripperInner = gripperInner;
+	}
 	public String getName() {
 		return name;
 	}
@@ -65,14 +71,6 @@ public class Gripper {
 
 	public void setHeight(final float height) {
 		this.height = height;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	public String getImageUrl() {

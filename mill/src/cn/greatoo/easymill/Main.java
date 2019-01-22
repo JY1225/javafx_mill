@@ -1,5 +1,7 @@
 package cn.greatoo.easymill;
 
+import java.util.Properties;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +29,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-
+	            
 			Parent root = FXMLLoader.load(getClass().getResource("/cn/greatoo/easymill/login/login.fxml"));
 
 			Scene scene = new Scene(root);
@@ -55,7 +57,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		Long startTime = System.currentTimeMillis();
-		LOGGER.log(Level.INFO, "Library Assistant launched on {}", CommonUtil.formatDateTimeString(startTime));
+		LOGGER.log(Level.INFO, "mill launched on {}", CommonUtil.formatDateTimeString(startTime));
 		launch(args);
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override

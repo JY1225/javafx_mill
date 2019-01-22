@@ -436,7 +436,9 @@ form-button:pressed, .form-button.selected {
 	-fx-text-alignment: left;
 	-fx-alignment: center-left;
 }
-
+.test{
+	-fx-font-size: 20px;
+}
 .table .column-header-background .column-drag-header {
 	-fx-background-color: null;
 }
@@ -767,4 +769,35 @@ form-button:pressed, .form-button.selected {
     -fx-stroke-opacity:1;
     -fx-fill:#f3be3e;
     -fx-fill-rule:evenodd;
+}
+.info-msg {
+	-fx-text-alignment: left;
+	-fx-alignment: center-left;
+	-fx-text-wrap: true;
+	-fx-text-fill: white;
+	-fx-fill: white;
+	-fx-font-size: 14px;
+	-fx-font-family: "Open Sans";
+	-fx-font-smoothing-type: lcd;
+	-fx-padding: 0;
+} 
+
+.info-msg-title {
+	-fx-font-family: "Open Sans Bold";
+	-fx-font-size: 16px;
+}
+
+.status-msg {
+	-fx-font-family: "Open Sans";
+	-fx-font-size: 16px;
+}
+
+.info-border-bottom {
+	-fx-border-color: #3d4046, #777a81;
+	-fx-border-width: 0 0 2 0, 0 0 1 0;
+}
+
+.info-border-both {
+	-fx-border-color: #3d4046, #777a81;
+	-fx-border-width: 1 0 1 0, 2 0 2 0;
 }

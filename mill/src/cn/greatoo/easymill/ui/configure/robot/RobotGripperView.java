@@ -4,7 +4,6 @@ import java.io.File;
 
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
-import cn.greatoo.easymill.entity.GripperBody;
 import cn.greatoo.easymill.robot.AbstractRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.FullTextField;
@@ -184,10 +183,6 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		cbB = new CheckBox("B");
 		cbC = new CheckBox("C");
 		cbD = new CheckBox("D");
-		cbA.setDisable(true);
-		cbB.setDisable(true);
-		cbC.setDisable(true);
-		cbD.setDisable(true);
 		gpEditor.setAlignment(Pos.CENTER);
 		int column2 = 0;
 		int row2 = 0;
@@ -284,11 +279,8 @@ public class RobotGripperView extends Controller implements TextInputControlList
 			imageVw.setImage(new Image(UIConstants.IMG_NOT_FOUND_URL, IMG_WIDTH, IMG_HEIGHT, true, true));
 		}
 		imagePath = gripper.getImageUrl();
-		GripperBody body = robot.getGripperBody();
-		cbA.setSelected((body.getGripperHeadByName("A") != null) && (body.getGripperHeadByName("A").getGripperById(gripper.getId()) != null));
-		cbB.setSelected((body.getGripperHeadByName("B") != null) && (body.getGripperHeadByName("B").getGripperById(gripper.getId()) != null));
-		cbC.setSelected((body.getGripperHeadByName("C") != null) && (body.getGripperHeadByName("C").getGripperById(gripper.getId()) != null));
-		cbD.setSelected((body.getGripperHeadByName("D") != null) && (body.getGripperHeadByName("D").getGripperById(gripper.getId()) != null));
+		cbA.setSelected((gripper.getSelectGripper() != null) );
+		
 	}
 	
 	public void clickedEdit() {
@@ -371,5 +363,10 @@ public class RobotGripperView extends Controller implements TextInputControlList
 	@Override
 	public void textFieldLostFocus(TextInputControl textInputControl) {
 			
+	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

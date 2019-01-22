@@ -3,6 +3,7 @@ package cn.greatoo.easymill.ui.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogView;
@@ -337,5 +338,65 @@ public abstract class Controller {
 			button.getStyleClass().add(CSS_CLASS_FORM_BUTTON);
 			return button;
 		}
-
+		
+		static String mes = null;
+		public void statusChanged(final StatusChangedEvent e) {
+			Platform.runLater(new Runnable() {
+				@Override public void run() {
+						switch (e.getStatusId()) {							
+							case StatusChangedEvent.STARTED:
+								mes = "启动程序。";
+								setMessege("启动程序。");								
+								break;
+							case StatusChangedEvent.PICK_FROM_TABLE:
+								mes = "从卡盘下料。";
+								setMessege("从卡盘下料。");								
+								break;
+							case StatusChangedEvent.PUT_TO_CNC:
+								mes = "给机床上料。";
+								setMessege("给机床上料。");
+								break;
+							case StatusChangedEvent.EXECUTE_TEACHED:
+								break;
+							case StatusChangedEvent.CNC_PROCESSING:
+								mes = "机床加工中。";
+								setMessege("机床加工中。");
+								break;
+							case StatusChangedEvent.PICK_FROM_CNC:
+								mes = "从机床下料。";
+								setMessege("从机床下料。");
+								break;
+							case StatusChangedEvent.PUT_TO_TABLE:
+								mes = "给卡盘上料。";
+								setMessege("给卡盘上料。");
+								break;
+							case StatusChangedEvent.ENDED:
+								mes = "成功示教。";
+								setMessege("成功示教。");								
+								break;
+							case StatusChangedEvent.TEACHING_NEEDED://请把机器人示教至正确位置。
+								mes = "请把机器人示教至正确位置。";
+								setMessege("请把机器人示教至正确位置。");
+								break;
+							case StatusChangedEvent.TEACHING_FINISHED://位置示教正确，可继续执行
+								mes = "位置示教正确，可继续执行。";
+								setMessege("位置示教正确，可继续执行。");
+								break;
+							case StatusChangedEvent.FINISHED:
+								mes = "加工完成。";
+								setMessege("加工完成。");
+								break;								
+							default:
+								throw new IllegalArgumentException("Unknown status id: " + e.getStatusId());
+						}				
+				}
+			});
+		}
+		
+		public abstract void setMessege(String mess);
+		
+		public static String getMessege() {
+			return mes;
+			
+		}
 }

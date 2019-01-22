@@ -65,4 +65,9 @@ public class PickClampMenuViewController extends Controller {
 		} else
 			setDisVisible(2, 1, setProsessPane, clampParent);
 	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 }

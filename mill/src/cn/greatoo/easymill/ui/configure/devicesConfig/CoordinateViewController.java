@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.event.ActionEvent;
 
@@ -50,6 +52,8 @@ public class CoordinateViewController extends Controller {
 
 	private boolean editMode;
 	List<Button> bts;
+	public static UserFrame stackerFrame = new UserFrame();	
+	public static UserFrame cncFrame = new UserFrame();
 	@SuppressWarnings("unchecked")
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -67,17 +71,19 @@ public class CoordinateViewController extends Controller {
 			editBt.setDisable(true);
 		}
 		
+		
 	}
 	@FXML
 	public void editBtAction(ActionEvent event) {
 		if (editMode) {
-			isDisSelect(bts, editBt);
+			isDisSelect(bts, editBt);			
 			contentGridPane.setVisible(false);
 			addBt.setDisable(false);
 			comboBox.setDisable(false);
 			editMode = false;
 		} else {	
 			isClicked(bts, editBt);
+			nameText.setText((String)comboBox.getValue());
 			contentGridPane.setVisible(true);
 			addBt.setDisable(true);
 			comboBox.setDisable(true);
@@ -89,7 +95,7 @@ public class CoordinateViewController extends Controller {
 	@FXML
 	public void addBtAction(ActionEvent event) {	
 		if (!editMode) {	
-			isClicked(bts, addBt);
+			isClicked(bts, addBt);			
 			contentGridPane.setVisible(true);
 			editBt.setDisable(true);
 			comboBox.setDisable(true);
@@ -116,6 +122,30 @@ public class CoordinateViewController extends Controller {
 	
 	@FXML
 	public void saveBtAction(ActionEvent event) {
+		String name = nameText.getText();
+		Coordinates location = new Coordinates();
+		location.setX(Float.parseFloat(XText.getText()));
+		location.setY(Float.parseFloat(YText.getText()));
+		location.setZ(Float.parseFloat(ZText.getText()));
+		location.setW(Float.parseFloat(WText.getText()));
+		location.setP(Float.parseFloat(PText.getText()));
+		location.setR(Float.parseFloat(RText.getText()));
+		if(name.equals("STACKER")) {
+			stackerFrame.setName(name);
+			stackerFrame.setNumber(Integer.parseInt(NrText.getText()));
+			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
+			stackerFrame.setLocation(location);
+		}else {
+			cncFrame.setName(name);
+			cncFrame.setNumber(Integer.parseInt(NrText.getText()));
+			cncFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
+			cncFrame.setLocation(location);
+		}
+		
+	}
+	@Override
+	public void setMessege(String mess) {
+		
 		
 	}
 	

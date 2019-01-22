@@ -3,12 +3,15 @@ package cn.greatoo.easymill.db.util;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -23,26 +26,115 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
+import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.Program;
+import cn.greatoo.easymill.entity.RobotSetting;
+import cn.greatoo.easymill.entity.Smooth;
+import cn.greatoo.easymill.entity.Step;
+import cn.greatoo.easymill.entity.UserFrame;
+import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public class DBHandler {
 
 
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
-
     private static DBHandler handler = null;
-    private static final String DB_URL = "jdbc:derby:database;create=true;user=admin;password=admin";
+    private static final String DB_URL = "jdbc:derby:database;create=true";
     private static Connection conn = null;
     private static Statement stmt = null;
+	private Map<Integer, UserFrame> userFrameBuffer;
+    private Map<Integer, Map<Integer, Coordinates>> coordinatesBuffer;
+    private Map<Integer, Map<Integer, Step>> stepBuffer;
+    private Map<Integer, Map<Integer, WorkPiece>> workPieceBuffer;
+	private Map<Integer, Gripper> grippersBuffer;
+	private Map<Integer, RobotSetting> RobotSettingBuffer;
+	private Map<Integer, SocketConnection> socketConnectionBuffer;
+	
+	public Map<Integer, SocketConnection> getSocketConnectionBuffer() {
+		return socketConnectionBuffer;
+	}
+
+	public void setSocketConnectionBuffer(Map<Integer, SocketConnection> socketConnectionBuffer) {
+		this.socketConnectionBuffer = socketConnectionBuffer;
+	}
+
+	public Map<Integer, Map<Integer, Step>> getStepBuffer() {
+		return stepBuffer;
+	}
+
+	public Map<Integer, RobotSetting> getRobotSettingBuffer() {
+		return RobotSettingBuffer;
+	}
+
+	public void setRobotSettingBuffer(Map<Integer, RobotSetting> robotSettingBuffer) {
+		RobotSettingBuffer = robotSettingBuffer;
+	}
+
+	public void setStepBuffer(Map<Integer, Map<Integer, Step>> stepBuffer) {
+		this.stepBuffer = stepBuffer;
+	}
+
+	private Map<Integer, Map<Integer, Smooth>> smoothsBuffer;
+    
+	public Map<Integer, Map<Integer, Smooth>> getSmoothsBuffer() {
+		return smoothsBuffer;
+	}
+
+	public void setSmoothsBuffer(Map<Integer, Map<Integer, Smooth>> smoothsBuffer) {
+		this.smoothsBuffer = smoothsBuffer;
+	}
+
+	public Map<Integer, UserFrame> getUserFrameBuffer() {
+		return userFrameBuffer;
+	}
+
+	public void setUserFrameBuffer(Map<Integer, UserFrame> userFrameBuffer) {
+		this.userFrameBuffer = userFrameBuffer;
+	}
+
+	public Map<Integer, Map<Integer, Coordinates>> getCoordinatesBuffer() {
+		return coordinatesBuffer;
+	}
+
+	public void setCoordinatesBuffer(Map<Integer, Map<Integer, Coordinates>> coordinatesBuffer) {
+		this.coordinatesBuffer = coordinatesBuffer;
+	}
+
+	public Map<Integer, Map<Integer, WorkPiece>> getWorkPieceBuffer() {
+		return workPieceBuffer;
+	}
+
+	public void setWorkPieceBuffer(Map<Integer, Map<Integer, WorkPiece>> workPieceBuffer) {
+		this.workPieceBuffer = workPieceBuffer;
+	}
+
+	public Map<Integer, Gripper> getGrippersBuffer() {
+		return grippersBuffer;
+	}
+
+	public void setGrippersBuffer(Map<Integer, Gripper> grippersBuffer) {
+		this.grippersBuffer = grippersBuffer;
+	}
+
+
+    public void clearBuffers(final int processFlowId) {   	
+        coordinatesBuffer.remove(processFlowId);
+        workPieceBuffer.remove(processFlowId);
+    }
 
     static {
         createConnection();
         inflateDB();
     }
 
+
     private DBHandler() {
+    	
+        this.userFrameBuffer = new HashMap<Integer, UserFrame>();
+        this.coordinatesBuffer = new HashMap<Integer, Map<Integer, Coordinates>>();
+        this.workPieceBuffer = new HashMap<Integer, Map<Integer, WorkPiece>>();
     }
 
     public static DBHandler getInstance() {
@@ -51,9 +143,10 @@ public class DBHandler {
         }
         return handler;
     }
-
+    
     private static void inflateDB() {
         List<String> tableData = new ArrayList<>();
+        String tableName = null;
         try {
             Set<String> loadedTables = getDBTables();
             System.out.println("Already loaded tables " + loadedTables);
@@ -64,7 +157,7 @@ public class DBHandler {
             for (int i = 0; i < nList.getLength(); i++) {
                 Node nNode = nList.item(i);
                 Element entry = (Element) nNode;
-                String tableName = entry.getAttribute("name");
+                tableName = entry.getAttribute("name");
                 String query = entry.getAttribute("col-data");
                 if (!loadedTables.contains(tableName.toLowerCase())) {
                     tableData.add(String.format("CREATE TABLE %s (%s)", tableName, query));
@@ -79,7 +172,7 @@ public class DBHandler {
             }
         }
         catch (Exception ex) {
-            LOGGER.log(Level.ERROR, "{}", ex);
+            LOGGER.log(Level.ERROR, "{}", ex);            
         }
     }
 
@@ -137,157 +230,27 @@ public class DBHandler {
         finally {
         }
     }
-
-//    public boolean deleteBook(Book book) {
-//        try {
-//            String deleteStatement = "DELETE FROM BOOK WHERE ID = ?";
-//            PreparedStatement stmt = conn.prepareStatement(deleteStatement);
-//            stmt.setString(1, book.getId());
-//            int res = stmt.executeUpdate();
-//            if (res == 1) {
-//                return true;
-//            }
-//        }
-//        catch (SQLException ex) {
-//            LOGGER.log(Level.ERROR, "{}", ex);
-//        }
-//        return false;
-//    }
-//
-//    public boolean isBookAlreadyIssued(Book book) {
-//        try {
-//            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE bookid=?";
-//            PreparedStatement stmt = conn.prepareStatement(checkstmt);
-//            stmt.setString(1, book.getId());
-//            ResultSet rs = stmt.executeQuery();
-//            if (rs.next()) {
-//                int count = rs.getInt(1);
-//                System.out.println(count);
-//                return (count > 0);
-//            }
-//        }
-//        catch (SQLException ex) {
-//            LOGGER.log(Level.ERROR, "{}", ex);
-//        }
-//        return false;
-//    }
-//
-//    public boolean deleteMember(MemberListController.Member member) {
-//        try {
-//            String deleteStatement = "DELETE FROM MEMBER WHERE id = ?";
-//            PreparedStatement stmt = conn.prepareStatement(deleteStatement);
-//            stmt.setString(1, member.getId());
-//            int res = stmt.executeUpdate();
-//            if (res == 1) {
-//                return true;
-//            }
-//        }
-//        catch (SQLException ex) {
-//            LOGGER.log(Level.ERROR, "{}", ex);
-//        }
-//        return false;
-//    }
-//
-//    public boolean isMemberHasAnyBooks(MemberListController.Member member) {
-//        try {
-//            String checkstmt = "SELECT COUNT(*) FROM ISSUE WHERE memberID=?";
-//            PreparedStatement stmt = conn.prepareStatement(checkstmt);
-//            stmt.setString(1, member.getId());
-//            ResultSet rs = stmt.executeQuery();
-//            if (rs.next()) {
-//                int count = rs.getInt(1);
-//                System.out.println(count);
-//                return (count > 0);
-//            }
-//        }
-//        catch (SQLException ex) {
-//            LOGGER.log(Level.ERROR, "{}", ex);
-//        }
-//        return false;
-//    }
-//
-//    public boolean updateBook(Book book) {
-//        try {
-//            String update = "UPDATE BOOK SET TITLE=?, AUTHOR=?, PUBLISHER=? WHERE ID=?";
-//            PreparedStatement stmt = conn.prepareStatement(update);
-//            stmt.setString(1, book.getTitle());
-//            stmt.setString(2, book.getAuthor());
-//            stmt.setString(3, book.getPublisher());
-//            stmt.setString(4, book.getId());
-//            int res = stmt.executeUpdate();
-//            return (res > 0);
-//        }
-//        catch (SQLException ex) {
-//            LOGGER.log(Level.ERROR, "{}", ex);
-//        }
-//        return false;
-//    }
-//
-//    public boolean updateMember(MemberListController.Member member) {
-//        try {
-//            String update = "UPDATE MEMBER SET NAME=?, EMAIL=?, MOBILE=? WHERE ID=?";
-//            PreparedStatement stmt = conn.prepareStatement(update);
-//            stmt.setString(1, member.getName());
-//            stmt.setString(2, member.getEmail());
-//            stmt.setString(3, member.getMobile());
-//            stmt.setString(4, member.getId());
-//            int res = stmt.executeUpdate();
-//            return (res > 0);
-//        }
-//        catch (SQLException ex) {
-//            LOGGER.log(Level.ERROR, "{}", ex);
-//        }
-//        return false;
-//    }
-
-//  public static void main(String[] args) throws Exception {
-//   DBHandler.getInstance();
-//   }
-
-    public ObservableList<PieChart.Data> getBookGraphStatistics() {
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-        try {
-            String qu1 = "SELECT COUNT(*) FROM BOOK";
-            String qu2 = "SELECT COUNT(*) FROM ISSUE";
-            ResultSet rs = execQuery(qu1);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data("Total Books (" + count + ")", count));
-            }
-            rs = execQuery(qu2);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data("Issued Books (" + count + ")", count));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
+    
+    /**
+     * 
+     * @param program
+     */
+    public void saveProgram(Program program) {
+    	try {
+    		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PROGRAM WHERE NAME = ?");		
+			stmt.setString(1, program.getName());
+			ResultSet results = stmt.executeQuery();
+			if(results != null) {
+				PreparedStatement updateStmt = conn.prepareStatement("UPDATE PROGRAM SET NAME = ?");		
+				stmt.setString(1, program.getName());
+			}else {
+				
+			}
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		
     }
-
-    public ObservableList<PieChart.Data> getMemberGraphStatistics() {
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-        try {
-            String qu1 = "SELECT COUNT(*) FROM MEMBER";
-            String qu2 = "SELECT COUNT(DISTINCT memberID) FROM ISSUE";
-            ResultSet rs = execQuery(qu1);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data("Total Members (" + count + ")", count));
-            }
-            rs = execQuery(qu2);
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                data.add(new PieChart.Data("Active (" + count + ")", count));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
     private static void createTables(List<String> tableData) throws SQLException {
         Statement statement = conn.createStatement();
         statement.closeOnCompletion();
@@ -299,7 +262,36 @@ public class DBHandler {
     }
 
     public Connection getConnection() {
-        return conn;
+    	if (conn == null) {
+    		createConnection();
+		}
+		return conn;
     }
-
+    
+    
+	public SocketConnection getSocketConnectionById(final int socketConnectionId) throws SQLException {
+		SocketConnection socketConnection = socketConnectionBuffer.get(socketConnectionId);
+		if (socketConnection != null) {
+			return socketConnection;
+		}
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SOCKETCONNECTION WHERE ID = ?");
+		stmt.setInt(1, socketConnectionId);
+		ResultSet results = stmt.executeQuery();
+		if (results.next()) {
+			String ipAddress = results.getString("IPADDRESS");
+			int portNumber = results.getInt("PORTNR");
+			boolean client = results.getBoolean("CLIENT");
+			String name = results.getString("NAME");
+			if (client) {
+				socketConnection = new SocketConnection(SocketConnection.Type.CLIENT, name, ipAddress, portNumber);
+			} else {
+				socketConnection = new SocketConnection(SocketConnection.Type.SERVER, name, ipAddress, portNumber);
+			}
+			socketConnection.setId(socketConnectionId);
+		}
+		stmt.close();
+		socketConnectionBuffer.put(socketConnectionId, socketConnection);
+		return socketConnection;
+	}
+    
 }

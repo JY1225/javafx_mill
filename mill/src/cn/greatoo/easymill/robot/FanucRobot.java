@@ -9,22 +9,23 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.entity.GripperHead;
+import cn.greatoo.easymill.entity.Clamping;
+import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.Gripper.Type;
+import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;
 import cn.greatoo.easymill.external.communication.socket.SocketWrongResponseException;
-import cn.greatoo.easymill.util.Clamping;
-import cn.greatoo.easymill.util.Coordinates;
 import cn.greatoo.easymill.util.RobotConstants;
-import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
-import cn.greatoo.easymill.workpiece.RectangularDimensions;
-import cn.greatoo.easymill.workpiece.WorkPiece;
-import cn.greatoo.easymill.workpiece.WorkPiece.Dimensions;
 
 public class FanucRobot extends AbstractRobot{
-	private RobotSocketCommunication fanucRobotCommunication;
+	public static FanucRobot INSTANCE = null;
+	private static RobotSocketCommunication fanucRobotCommunication;
 
     private static final int WRITE_VALUES_TIMEOUT = 2 * 5000;
     private static final int MOVE_TO_LOCATION_TIMEOUT = 3 * 60 * 1000;
@@ -48,9 +49,9 @@ public class FanucRobot extends AbstractRobot{
 
     private static Logger logger = LogManager.getLogger(FanucRobot.class.getName());
 
-    public FanucRobot(final RobotSocketCommunication socketConnection) {
-    	super(socketConnection);
-        this.fanucRobotCommunication = socketConnection;
+    public FanucRobot(String name,float payload,final SocketConnection socketConnection) {
+    	super(name,payload,socketConnection);
+        fanucRobotCommunication = new RobotSocketCommunication(socketConnection, this);;
         df = new DecimalFormat("#.###");
         df2 = new DecimalFormat("#");
         df.setDecimalSeparatorAlwaysShown(false);
@@ -64,18 +65,18 @@ public class FanucRobot extends AbstractRobot{
         fanucRobotCommunication.writeValue(RobotConstants.COMMAND_SET_SPEED, RobotConstants.RESPONSE_SET_SPEED, WRITE_VALUES_TIMEOUT, speedPercentage + "");
     }
     
-    public List<String> askStatusRest() throws SocketDisconnectedException, SocketResponseTimedOutException, SocketWrongResponseException, InterruptedException {
+    @Override
+    public void updateStatusRestAndAlarms() throws SocketDisconnectedException, SocketResponseTimedOutException, SocketWrongResponseException, InterruptedException  {
         List<String> values = fanucRobotCommunication.readValues(RobotConstants.COMMAND_ASK_STATUS, RobotConstants.RESPONSE_ASK_STATUS, ASK_STATUS_TIMEOUT);
         int errorId = Integer.parseInt(values.get(0));
         int controllerValue = Integer.parseInt(values.get(1));
-        int controllerString = Integer.parseInt(values.get(2));//机器人当前状态
+        int controllerString = Integer.parseInt(values.get(2));
         double xRest = Float.parseFloat(values.get(3));
         double yRest = Float.parseFloat(values.get(4));
         double zRest = Float.parseFloat(values.get(5));
         setAlarms(RobotAlarm.parseFanucRobotAlarms(errorId, controllerValue, getRobotTimeout()));//报警机器人各种错误
         setStatus(controllerString);//机器人当前状态
         setRestValues(xRest, yRest, zRest);
-        return values;
     }
     @Override
     public Coordinates getPosition() throws SocketDisconnectedException, SocketResponseTimedOutException,  InterruptedException, SocketWrongResponseException {
@@ -90,10 +91,10 @@ public class FanucRobot extends AbstractRobot{
 
     @Override
     public void abort() throws InterruptedException, AbstractCommunicationException {
-        
+   
         fanucRobotCommunication.writeCommand(RobotConstants.COMMAND_ABORT, RobotConstants.RESPONSE_ABORT, WRITE_VALUES_TIMEOUT);
         restartProgram();
-        //setSpeed(this.getSpeed());
+        sendSpeed(this.getSpeed());
     }
 
     @Override
@@ -152,7 +153,47 @@ public class FanucRobot extends AbstractRobot{
        
         fanucRobotCommunication.writeValue(RobotConstants.COMMAND_TO_HOME, RobotConstants.RESPONSE_TO_HOME, WRITE_VALUES_TIMEOUT, "" + speed);
     }
-    public void writeServiceGripperSet(final String headId, final GripperHead gHeadA, final GripperHead gHeadB, final int serviceType,
+    
+    public void initiatePick(int speed) throws AbstractCommunicationException, RobotActionException, InterruptedException {
+    	Gripper gripper = new Gripper("name", Type.TWOPOINT, 192, "description",false, "");
+		final String headId = "A";
+//		final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
+//		final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
+		boolean gripInner = false;
+//        writeServiceGripperSet(headId, gHeadA, gHeadB, RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK, gripInner);
+        
+        boolean freeAfterService = false;
+		final int serviceHandlingPPMode = 48;
+		final IWorkPieceDimensions dimensions = new RectangularDimensions(180, 160, 30);
+		final float weight2 = 16;
+		int approachType = 1;
+		WorkPiece wp1 = new WorkPiece(WorkPiece.Type.FINISHED, dimensions, Material.AL, 2.4f);
+		WorkPiece wp2 = null;
+		//发送料架Pick的搬运信息: 76;0;1;180;160;30;0;10;24;0;48;1;
+		writeServiceHandlingSet(speed, freeAfterService, serviceHandlingPPMode,
+				dimensions, weight2, approachType, wp1, wp2);    
+        
+		int workArea = 1;
+		Coordinates location = new Coordinates(97.5f, 87.5f, 0, 0, 0, 90);
+		Coordinates smoothPoint = new Coordinates(97.5f, 87.5f, 5, 0, 5, 90);
+		String name = "A";
+		float defaultHeight = 11;
+		Coordinates relativePosition = new Coordinates(1, 1, 5, 1, 1, 1);
+		Coordinates smoothToPoint = null;
+		Coordinates smoothFromPoint = null;
+		String imageURL = "";
+		Clamping clamping = new Clamping(Clamping.Type.CENTRUM, name, defaultHeight, relativePosition,
+				smoothToPoint, smoothFromPoint, imageURL);
+		approachType = 1;// APPRCH_STRAT
+		float zSafePlane = 60;
+		int smoothPointZ = 25;
+		//Pick的位置信息: 77; 1;97.5;87.5;0;0;0;90;60;25.0;5;0;5;1;16;
+		writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions,
+				clamping, approachType, zSafePlane);
+        logger.info("About to write start service!");
+        fanucRobotCommunication.writeValue(RobotConstants.COMMAND_START_SERVICE, RobotConstants.RESPONSE_START_SERVICE, WRITE_VALUES_TIMEOUT, "1");
+    }
+    public void writeServiceGripperSet(final String headId, final Gripper gA, final Gripper gB, final int serviceType,
             final boolean gripInner) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
         boolean a = false;
@@ -170,9 +211,9 @@ public class FanucRobot extends AbstractRobot{
         } else {
             values.add("3");
         }
-        values.add("" + (int) Math.floor(gHeadA.getGripper().getHeight()));		// a height
-        if (gHeadB != null) {
-            values.add("" + (int) Math.floor(gHeadB.getGripper().getHeight()));		// b height
+        values.add("" + (int) Math.floor(gA.getHeight()));		// a height
+        if (gB != null) {
+            values.add("" + (int) Math.floor(gB.getHeight()));		// b height
         } else {
             values.add("0");		// b height
         }
@@ -202,24 +243,22 @@ public class FanucRobot extends AbstractRobot{
     		final float weight2, int approachType,WorkPiece wp1,WorkPiece wp2)
             throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
-        // free after this service ; shape WP ;  WP length ; WP width ; WP height ;
-        //;  ; dx correction P1 ; dy correction P1 ; dx correction P2 ; dy correction P2 ; dW correction ;
-        //    dP correction ; robot speed ; payload 1 ; payload 2 ; PP mode ; positioning type (approach)
-        if (freeAfterService) {				// free after this service
-            values.add("1");
+
+        if (freeAfterService) {				
+            values.add("1");//Go to home after service
         } else {
-            values.add("0");
+            values.add("0");//Wait in IP point after service
         }
-        if (dimensions instanceof RectangularDimensions) {
-            values.add("1");	// select shape (Box - 1)
+        if (dimensions instanceof RectangularDimensions) {//工件是否是矩形
+            values.add("1");	
             values.add(df.format(Math.max(dimensions.getDimension(Dimensions.LENGTH), dimensions.getDimension(Dimensions.WIDTH))));	// WP length (WP diameter)
             values.add(df.format(Math.min(dimensions.getDimension(Dimensions.LENGTH), dimensions.getDimension(Dimensions.WIDTH))));	// WP width
-            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	// WP height
+            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	
         } else {
-            values.add("2");	// select shape (Round - 2)
-            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	// WP length (WP diameter)
-            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	// WP width
-            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	// WP height
+            values.add("2");	
+            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	
+            values.add(df.format(dimensions.getDimension(Dimensions.DIAMETER)));	
+            values.add(df.format(dimensions.getDimension(Dimensions.HEIGHT)));	
         }
         values.add("0");					// gripped height
 
@@ -246,7 +285,7 @@ public class FanucRobot extends AbstractRobot{
         fanucRobotCommunication.writeValues(RobotConstants.COMMAND_WRITE_SERVICE_HANDLING, RobotConstants.RESPONSE_WRITE_SERVICE_HANDLING, WRITE_VALUES_TIMEOUT, values);
     }
     
-    public void writeServicePointSet(final int workArea, final Coordinates location, final Coordinates smoothPoint,final int smoothPointZ, final IWorkPieceDimensions dimensions,
+    public void writeServicePointSet(final int workArea, final Coordinates location, final Coordinates smoothPoint,final float smoothPointZ, final IWorkPieceDimensions dimensions,
             final Clamping clamping, final int approachType,final float zSafePlane) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
         // user frame id ; x destination ; y destination ; z destination ; w destination, p destination, r destination ; z-safe plane ; safety add z ; smooth x ; smooth y ; smooth z ;
@@ -374,35 +413,60 @@ public class FanucRobot extends AbstractRobot{
     }
 
 	@Override
-	public void updateStatusRestAndAlarms() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void moveToHome() throws AbstractCommunicationException, InterruptedException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void continuePutTillAtLocation() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+	 @Override
+	    public void continuePutTillAtLocation(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {
+	        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PUT);	       
+	        if (isTeachingNeeded) {
+	            boolean waitingForTeachingNeeded = waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING, MOVE_TO_LOCATION_TIMEOUT);
+	            if (!waitingForTeachingNeeded) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PUT_POSITION_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING);
+	                setRobotTimeout(null);
+	            }
+	        } else {
+	            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST, MOVE_TO_LOCATION_TIMEOUT);
+	            if (!waitingForRelease) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PUT_POSITION_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST);
+	                setRobotTimeout(null);
+	            }
+	        }
+	    }
 
-	@Override
-	public void continuePutTillClampAck() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+	 @Override
+	    public void continuePutTillClampAck(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {	        
+	        if (isTeachingNeeded) {
+	            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST, TEACH_TIMEOUT);
+	            if (!waitingForRelease) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.TEACH_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST);
+	                setRobotTimeout(null);
+	            }
+	        } else {
+	            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST, CLAMP_ACK_REQUEST_TIMEOUT);
+	            if (!waitingForRelease) {
+	                setRobotTimeout(new RobotAlarm(RobotAlarm.CLAMP_ACK_REQUEST_TIMEOUT));
+	                waitForStatus(RobotConstants.STATUS_PUT_CLAMP_REQUEST);
+	                setRobotTimeout(null);
+	            }
+	        }
+	    }
 
-	@Override
-	public void continuePutTillIPPoint() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
-
+	 @Override
+	    public void continuePutTillIPPoint() throws AbstractCommunicationException, RobotActionException, InterruptedException {	     
+	        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PUT_CLAMP_ACK);
+	        boolean waitingForPickFinished = waitForStatus(RobotConstants.STATUS_PUT_OUT_OF_MACHINE, MOVE_FINISH_TIMEOUT);
+	        if (!waitingForPickFinished) {
+	            setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_IPPOINT_PUT_TIMEOUT));
+	            waitForStatus(RobotConstants.STATUS_PUT_OUT_OF_MACHINE);
+	            setRobotTimeout(null);
+	        }
+	    }
 	@Override
 	public void finalizePut() throws AbstractCommunicationException, InterruptedException {
 		// TODO Auto-generated method stub
@@ -410,22 +474,54 @@ public class FanucRobot extends AbstractRobot{
 	}
 
 	@Override
-	public void continuePickTillAtLocation() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void continuePickTillAtLocation(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {
+        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PICK);
+        if (isTeachingNeeded) {
+            boolean waitingForTeachingNeeded = waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING, MOVE_TO_LOCATION_TIMEOUT);
+            if (!waitingForTeachingNeeded) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PICK_POSITION_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_AWAITING_TEACHING);
+                setRobotTimeout(null);
+            }
+        } else {
+            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST, MOVE_TO_LOCATION_TIMEOUT);
+            if (!waitingForRelease) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_PICK_POSITION_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST);
+                setRobotTimeout(null);
+            }
+        }
+    }
 
 	@Override
-	public void continuePickTillUnclampAck() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void continuePickTillUnclampAck(boolean isTeachingNeeded) throws AbstractCommunicationException, RobotActionException, InterruptedException {       
+        if (isTeachingNeeded) {
+            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST, TEACH_TIMEOUT);
+            if (!waitingForRelease) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.TEACH_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST);
+                setRobotTimeout(null);
+            }
+        } else {
+            boolean waitingForRelease = waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST, CLAMP_ACK_REQUEST_TIMEOUT);
+            if (!waitingForRelease) {
+                setRobotTimeout(new RobotAlarm(RobotAlarm.UNCLAMP_ACK_REQUEST_TIMEOUT));
+                waitForStatus(RobotConstants.STATUS_PICK_RELEASE_REQUEST);
+                setRobotTimeout(null);
+            }
+        }
+    }
 
 	@Override
-	public void continuePickTillIPPoint() throws AbstractCommunicationException, InterruptedException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void continuePickTillIPPoint() throws AbstractCommunicationException, RobotActionException, InterruptedException {
+        writeCommand(RobotConstants.PERMISSIONS_COMMAND_PICK_RELEASE_ACK);
+        boolean waitingForPickFinished = waitForStatus(RobotConstants.STATUS_PICK_OUT_OF_MACHINE, MOVE_TO_IPPOINT_TIMEOUT);
+        if (!waitingForPickFinished) {
+            setRobotTimeout(new RobotAlarm(RobotAlarm.MOVE_TO_IPPOINT_PICK_TIMEOUT));
+            waitForStatus(RobotConstants.STATUS_PICK_OUT_OF_MACHINE);
+            setRobotTimeout(null);
+        }
+    }
 
 	@Override
 	public void finalizePick() throws AbstractCommunicationException, InterruptedException {
@@ -467,5 +563,13 @@ public class FanucRobot extends AbstractRobot{
 	public void finalizeMovePiece() throws AbstractCommunicationException, InterruptedException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	public static FanucRobot getInstance(String name,float payload,final SocketConnection socketConnection) {
+		if (INSTANCE == null && socketConnection != null) {
+			INSTANCE = new FanucRobot(name,payload,socketConnection);
+		}
+		return INSTANCE;
 	}
 }

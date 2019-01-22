@@ -6,9 +6,16 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
+import cn.greatoo.easymill.robot.FanucRobot;
+import cn.greatoo.easymill.ui.main.Controller;
+import cn.greatoo.easymill.ui.main.MainViewController;
+import cn.greatoo.easymill.util.ThreadManager;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.Transition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,7 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
@@ -29,7 +36,7 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-public class AutoViewController {
+public class AutoViewController extends Controller{
 	private static final Logger logger = LogManager.getLogger(AutoViewController.class.getName());
 	public static final int WIDTH = 800;
 	public static final int WIDTH_BOTTOM_RIGHT = 230;
@@ -99,9 +106,13 @@ public class AutoViewController {
 	private Button deviceProcess1;
 	@FXML
 	private Button deviceProcess3;
+	@FXML
+	private Label messegeText;
 	private RotateTransition rtContinuous;
-
-	public void init() {
+	List<Button> bts;
+	public void init(List<Button> bts) {
+		this.bts = bts;
+		stopBt.setDisable(true);
 		rtContinuous = new RotateTransition(Duration.millis(2000), circleBackContinuous);
 		rtContinuous.setByAngle(360);
 		rtContinuous.setInterpolator(Interpolator.LINEAR);
@@ -158,9 +169,41 @@ public class AutoViewController {
 			regions.get(i).getChildren().addAll(shapeRegion, clickableRegion);
 			regions.get(i).setPrefWidth(70);
 			regions.get(i).setMinWidth(70);
-		}
+		}		
+		
 	}
 
+	//开始
+	@FXML
+	public void startAction(ActionEvent event) {	
+		FanucRobot robot = FanucRobot.getInstance(null,0,null);
+		CNCMachine cncMachine = CNCMachine.getInstance(null, null, null);
+		if(robot != null && cncMachine != null)  {
+			for(int i = 0;i < bts.size(); i++) {
+				bts.get(i).setDisable(true);
+			}
+			startBt.setDisable(true);
+			stopBt.setDisable(false);
+			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(robot,cncMachine,false,this);
+			ThreadManager.submit(teachSocketThread);
+			enableContinuousAnimation(true);
+		}else {
+			showNotificationOverlay(MainViewController.parentStackPane, "开始信息", "请注意，设备连接错误！");
+		}
+	}
+	
+	@FXML
+	public void stopAction(ActionEvent event) {
+		for(int i = 0;i < bts.size(); i++) {
+			bts.get(i).setDisable(false);
+		}
+		startBt.setDisable(false);
+		stopBt.setDisable(true);
+		messegeText.setText("当前程序未激活！");
+		FanucRobot.getInstance(null,0f,null).interruptCurrentAction();
+		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
+	}
+	
 	@FXML
 	public void openM1(MouseEvent event) {
 
@@ -247,6 +290,12 @@ public class AutoViewController {
 			piePiecePath.setVisible(true);
 			circleBackContinuous.setVisible(false);
 			rtContinuous.pause();
+		}
+	}
+	public void setMessege(String messege) {
+		if(messegeText != null) {
+			messegeText.setText(messege);
+			messegeText.setTextFill(Color.WHITE);
 		}
 	}
 }

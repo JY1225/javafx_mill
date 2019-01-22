@@ -66,6 +66,11 @@ public class PickConfigMenuViewController extends Controller{
 	public void openPutV(MouseEvent event) {
 		
 	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 }

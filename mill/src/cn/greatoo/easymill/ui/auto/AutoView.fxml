@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.auto.AutoViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.auto.AutoViewController">
    <children>
       <StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -63,12 +64,12 @@
                               </StackPane>
                               <VBox alignment="CENTER_LEFT" prefHeight="191.0" prefWidth="193.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                    <Button fx:id="startBt" mnemonicParsing="false" prefHeight="40.0" prefWidth="125.0" styleClass="form-button" text="开始" textFill="WHITE">
+                                    <Button fx:id="startBt" mnemonicParsing="false" onAction="#startAction" prefHeight="40.0" prefWidth="125.0" styleClass="form-button" text="开始" textFill="WHITE">
                                        <graphic>
                                           <SVGPath content="M 11.46875 0 C 5.1620208 0 0 5.1349468 0 11.5 C 0 17.865052 5.1620208 23 11.46875 23 C 17.775477 23 22.9375 17.865052 22.9375 11.5 C 22.9375 5.1349468 17.775478 0 11.46875 0 z M 11.46875 1.59375 C 17.003076 1.59375 21.40625 6.0239967 21.40625 11.5 C 21.40625 16.976002 17.003076 21.40625 11.46875 21.40625 C 5.9344209 21.40625 1.5 16.976002 1.5 11.5 C 1.5 6.0239967 5.9344209 1.59375 11.46875 1.59375 z M 6.875 5.34375 L 6.875 17.65625 L 19.125 11.5 L 6.875 5.34375 z" styleClass="form-button-icon" />
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="stopBt" mnemonicParsing="false" prefHeight="40.0" prefWidth="125.0" styleClass="form-button" text="停止" textFill="WHITE">
+                                    <Button fx:id="stopBt" mnemonicParsing="false" onAction="#stopAction" prefHeight="40.0" prefWidth="125.0" styleClass="form-button" text="停止" textFill="WHITE">
                                        <graphic>
                                           <SVGPath content="M 11.46875 0 C 5.1620208 0 0 5.1349468 0 11.5 C 0 17.865052 5.1620208 23 11.46875 23 C 17.775477 23 22.9375 17.865052 22.9375 11.5 C 22.9375 5.1349468 17.775478 0 11.46875 0 z M 11.46875 1.59375 C 17.003076 1.59375 21.40625 6.0239967 21.40625 11.5 C 21.40625 16.976002 17.003076 21.40625 11.46875 21.40625 C 5.9344209 21.40625 1.5 16.976002 1.5 11.5 C 1.5 6.0239967 5.9344209 1.59375 11.46875 1.59375 z M 6.40625 6.4375 L 6.40625 16.5625 L 16.53125 16.5625 L 16.53125 6.4375 L 6.40625 6.4375 z " styleClass="form-button-icon" />
                                        </graphic>
@@ -78,7 +79,14 @@
                                     <Insets left="25.0" />
                                  </padding>
                               </VBox>
-                              <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowSpan="2" />
+                              <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.rowSpan="2">
+                                 <children>
+                                    <Label fx:id="messegeText" alignment="TOP_LEFT" prefHeight="59.0" prefWidth="449.0" text="当前程序未激活！" textFill="WHITE" underline="true" wrapText="true" StackPane.alignment="CENTER_RIGHT">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children></StackPane>
                            </children>
                         </GridPane>
                      </children>

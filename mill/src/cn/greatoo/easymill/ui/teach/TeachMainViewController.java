@@ -7,7 +7,6 @@ import java.util.List;
 
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.teach.griperA.TeachGriperAMenuViewController;
-import cn.greatoo.easymill.ui.teach.griperA.TeachPickViewController;
 import cn.greatoo.easymill.ui.teach.griperB.TeachGriperBMenuViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,8 +62,8 @@ public class TeachMainViewController extends Controller {
 	private Parent teachGriperAMenuParent;
 	private Parent teachGriperBMenuParent;
 	private FXMLLoader fxmlLoader;
-	public void init() {
-		openContent();
+	public void init(List<Button> bts) {
+		openContent(bts);
 		// 给流程按钮set css
 		List<Button> buttons = new ArrayList<>();
 		buttons.add(deviceProcess1);
@@ -172,8 +171,8 @@ public class TeachMainViewController extends Controller {
 		}
 	}
 
-	TeachMainContentViewController teachMainContentViewController;
-	private void openContent(){
+	public static TeachMainContentViewController teachMainContentViewController;
+	private void openContent(List<Button> bts){
 		if (!gridPane.getChildren().contains(teachMainContentParent)) {
 			try {
 				URL location = getClass()
@@ -184,14 +183,20 @@ public class TeachMainViewController extends Controller {
 				teachMainContentParent = fxmlLoader.load();
 				teachMainContentViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				teachMainContentViewController.init();
+				teachMainContentViewController.init(bts);
 				gridPane.add(teachMainContentParent, 0, 2,2,1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			teachMainContentViewController.init();
+			teachMainContentViewController.init(bts);
 			setDisVisible(2,gridPane, teachMainContentParent);
 		}
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

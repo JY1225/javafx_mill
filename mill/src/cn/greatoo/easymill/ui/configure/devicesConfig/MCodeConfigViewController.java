@@ -2,7 +2,11 @@ package cn.greatoo.easymill.ui.configure.devicesConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.cnc.GenericMCode;
+import cn.greatoo.easymill.cnc.MCodeAdapter;
 import cn.greatoo.easymill.util.UIConstants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,7 +40,8 @@ public class MCodeConfigViewController {
 	private ScrollPane spDetails;
 	private static GridPane spGrid;
 	private static List<MCodeNode> gmcNodeList;
-	public void init() {
+	
+	public void init(CNCMachine cnc) {
 		gmcNodeList = new ArrayList<MCodeNode>();
 		spGrid = new GridPane();
 		spDetails.setContent(spGrid);
@@ -51,13 +56,91 @@ public class MCodeConfigViewController {
 		spDetails.setPrefHeight(UIConstants.TEXT_FIELD_HEIGHT*9);
 		spDetails.setStyle("-fx-background:transparent;");//透明
 		addNodesToScrollPane();
+		if(cnc != null) {
+			refresh(cnc.getMCodeAdapter());
+		}
 	}
+	
+	
+	//初始化---------------------------
+	public void refresh(final MCodeAdapter mCodeAdapter) {
+		if (mCodeAdapter != null) {
+			buildMCodeNodes(mCodeAdapter);
+			rs1TextFied.setText(mCodeAdapter.getRobotServiceInputNames().get(0));
+			rs2TextFied.setText(mCodeAdapter.getRobotServiceInputNames().get(1));
+			rs3TextFied.setText(mCodeAdapter.getRobotServiceInputNames().get(2));
+			rs4TextFied.setText(mCodeAdapter.getRobotServiceInputNames().get(3));
+			rs5TextFied.setText(mCodeAdapter.getRobotServiceInputNames().get(4));
+			rs6TextFied.setText(mCodeAdapter.getRobotServiceOutputNames().get(0));
+		} else {
+			rs1TextFied.setText("RS1");
+			rs2TextFied.setText("RS2");
+			rs3TextFied.setText("RS3");
+			rs4TextFied.setText("RS4");
+			rs5TextFied.setText("RS5");
+			rs6TextFied.setText("RSA");
+		}
+		for (MCodeNode mcodeNode: gmcNodeList) {
+			mcodeNode.refresh(mCodeAdapter);
+		}
+	}
+	
+	static void buildMCodeNodes(final MCodeAdapter mCodeAdapter) {
+		if (mCodeAdapter != null) {
+			for (GenericMCode mCode: mCodeAdapter.getGenericMCodes()) {
+				gmcNodeList.add(new MCodeNode(mCode.getIndex() + 1));
+			}
+		}
+		addNodesToScrollPane();
+	}
+	//end-------------------------------------------------
+	
+	public static List<String> getMCodeNames() {
+		List<String> mCodeNames = new ArrayList<String>();
+		for (MCodeNode mcodeNode: gmcNodeList) {
+			mCodeNames.add(mcodeNode.getName());
+		}
+		return mCodeNames;
+	}
+	
+	public static List<Set<Integer>> getMCodeRobotServiceInputs() {
+		List<Set<Integer>> robotServiceInputs = new ArrayList<Set<Integer>>();
+		for (MCodeNode mcodeNode: gmcNodeList) {
+			robotServiceInputs.add(mcodeNode.getMCodeRobotServiceInputs());
+		}
+		return robotServiceInputs;
+	}
+	
+	public static List<Set<Integer>> getMCodeRobotServiceOutputs() {
+		List<Set<Integer>> robotServiceOutputs = new ArrayList<Set<Integer>>();
+		for (MCodeNode mcodeNode: gmcNodeList) {
+			robotServiceOutputs.add(mcodeNode.getMCodeRobotServiceOutputs());
+		}
+		return robotServiceOutputs;
+	}
+	
+	public  List<String> getRobotServiceInputNames() {
+		List<String> robotServiceInputNames = new ArrayList<String>();
+		robotServiceInputNames.add(rs1TextFied.getText());
+		robotServiceInputNames.add(rs2TextFied.getText());
+		robotServiceInputNames.add(rs3TextFied.getText());
+		robotServiceInputNames.add(rs4TextFied.getText());
+		robotServiceInputNames.add(rs5TextFied.getText());
+		return robotServiceInputNames;
+	}
+	
+	public  List<String> getRobotServiceOutputNames() {
+		List<String> robotServiceOutputNames = new ArrayList<String>();
+		robotServiceOutputNames.add(rs6TextFied.getText());
+		return robotServiceOutputNames;
+	}
+	
+	//------------------------------------------
 	@FXML
 	public void addBtAction(ActionEvent event) {
 		MCodeNode newMCode = new MCodeNode(gmcNodeList.size() + 1);
 		gmcNodeList.add(newMCode);
 		addNodesToScrollPane();
-
 	}
 	
 	@FXML
@@ -74,4 +157,5 @@ public class MCodeConfigViewController {
 			row++;
 		}
 	}
+
 }

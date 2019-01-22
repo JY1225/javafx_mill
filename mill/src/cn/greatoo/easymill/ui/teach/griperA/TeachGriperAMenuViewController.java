@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.ui.set.cnc.CNCPickViewController;
-import cn.greatoo.easymill.ui.set.cnc.CNCPutViewController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -105,5 +103,11 @@ public class TeachGriperAMenuViewController extends Controller{
 		} else {
 			setDisVisible(2, 1, gridPane, teachPutParent);
 		}
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

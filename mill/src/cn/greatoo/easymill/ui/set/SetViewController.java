@@ -14,12 +14,9 @@ import cn.greatoo.easymill.ui.set.robot.griperA.ClampMenuViewController;
 import cn.greatoo.easymill.ui.set.robot.griperB.PickClampMenuViewController;
 import cn.greatoo.easymill.ui.set.table.load.DeviceMenuViewController;
 import cn.greatoo.easymill.ui.set.table.unload.PickConfigMenuViewController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -27,11 +24,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 
 /**
@@ -298,6 +292,12 @@ public class SetViewController extends Controller {
 			pickClampMenuViewController.init(gridPane);
 			setDisVisible(2, 0, gridPane, PickClampMenuParent);
 		}
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

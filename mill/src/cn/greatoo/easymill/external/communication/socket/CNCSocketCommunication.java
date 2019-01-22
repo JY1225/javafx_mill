@@ -4,15 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.cnc.AbstractCNCMachine;
+
 public class CNCSocketCommunication extends ExternalSocketCommunication {
 
 	private StringBuffer command;		
-	
+	private AbstractCNCMachine cncMachine;
 	private static final int MAX_REGISTER_NR = 100;
 	private static final int NEEDS_DECIMAL = 10;
 	
-	public CNCSocketCommunication(final SocketConnection socketConnection) {
+	public CNCSocketCommunication(final SocketConnection socketConnection,AbstractCNCMachine cncMachine) {
 		super(socketConnection);
+		this.cncMachine = cncMachine;
 		this.command = new StringBuffer();
 	}
 
@@ -68,6 +71,7 @@ public class CNCSocketCommunication extends ExternalSocketCommunication {
 		// send the command and wait for reply 
 		getExternalCommunicationThread().clearIncommingBuffer();
 		getExternalCommunicationThread().writeString(command.toString());
+		//System.out.println("read from cnc : "+command.toString());
 		return parseResult(awaitResponse(command.toString(), timeout), command.toString());
 	}
 	
@@ -128,12 +132,12 @@ public class CNCSocketCommunication extends ExternalSocketCommunication {
 	
 	@Override
 	public void connected() {
-		//cncMachine.processCNCMachineEvent(new CNCMachineEvent(cncMachine, CNCMachineEvent.CNC_MACHINE_CONNECTED));
+		//cncMachine.disconnect();
 	}
 
 	@Override
 	public void disconnected() {
-		//cncMachine.processCNCMachineEvent(new CNCMachineEvent(cncMachine, CNCMachineEvent.CNC_MACHINE_DISCONNECTED));
+		cncMachine.disconnect();
 	}
 
 	@Override

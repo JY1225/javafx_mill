@@ -1,7 +1,5 @@
 package cn.greatoo.easymill.entity;
 
-import cn.greatoo.easymill.util.Coordinates;
-
 public class UserFrame {
 
 	private int id; 
@@ -10,11 +8,15 @@ public class UserFrame {
 	private float zSafeDistance;
 	private Coordinates location;
 	
-	public UserFrame(final int number, final String name, final float zSafeDistance, final Coordinates location) {
+	public UserFrame( final String name,final int number, final float zSafeDistance, final Coordinates location) {
 		this.number = number;
 		this.name = name;
 		this.zSafeDistance = zSafeDistance;
 		this.location = location;
+	}
+
+	public UserFrame() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getName() {

@@ -5,9 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.ui.configure.robot.RobotMenuViewController;
 import cn.greatoo.easymill.ui.main.Controller;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -25,6 +23,7 @@ public class ConfigureMainViewController extends Controller{
 	private List<Button> bts;
 	private Parent configParent;
 	private FXMLLoader fxmlLoader;
+	
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(robotBt);
@@ -49,5 +48,11 @@ public class ConfigureMainViewController extends Controller{
 			}
 		} else
 			setDisVisible(1, 1, gridPane, configParent);		
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }

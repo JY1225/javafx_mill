@@ -1,11 +1,5 @@
 package cn.greatoo.easymill.ui.configure;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,7 +9,11 @@ import cn.greatoo.easymill.ui.configure.devicesConfig.DevicesConfigMenuViewContr
 import cn.greatoo.easymill.ui.configure.robot.RobotMenuViewController;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.event.ActionEvent;
-
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class ConfigureMenuViewController extends Controller{
@@ -29,6 +27,7 @@ public class ConfigureMenuViewController extends Controller{
 	private Parent robotParent;
 	private Parent configParent;
 	private FXMLLoader fxmlLoader;
+	
 	public void init(GridPane gridPane) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
@@ -81,5 +80,11 @@ public class ConfigureMenuViewController extends Controller{
 			}
 		} else
 			setDisVisible(0, 1, gridPane, configParent);
+	}
+
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 }
