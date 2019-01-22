@@ -42,12 +42,12 @@ public class PickFromCNCStep extends AbstractStep{
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			Coordinates originalPosition = WorkPiecePositions.getPutLocation(clamping);
 			Coordinates position = new Coordinates(originalPosition);
-			if (getRelativeTeachedOffset() == null) {
+			if (getUnloadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移
-				initSafeTeachedOffset(program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+				initSafeTeachedOffset(3,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
 			}
 			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
-			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getRelativeTeachedOffset());
+			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadCNCRelativeTeachedOffset());
 			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
 			position.offset(absoluteOffset);			
 			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
@@ -67,7 +67,7 @@ public class PickFromCNCStep extends AbstractStep{
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
-				setRelativeTeachedOffset(relTeachedOffset);
+				setUnloadCNCRelativeTeachedOffset(relTeachedOffset);
 			} else {
 				robot.continuePickTillAtLocation(false);// 50,1
 				robot.continuePickTillUnclampAck(false);

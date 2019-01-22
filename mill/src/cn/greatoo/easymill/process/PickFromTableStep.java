@@ -44,10 +44,10 @@ public class PickFromTableStep extends AbstractStep{
 			WorkPiecePositions.initializeRawWorkPiecePositionsDeg90(program.getUnloadstacker().getWorkPiece());
 			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);			
 			Coordinates position = new Coordinates(originalPosition);
-			if (getRelativeTeachedOffset() == null) {
-				initSafeTeachedOffset(program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
+			if (getUnloadStackerRelativeTeachedOffset() == null) {
+				initSafeTeachedOffset(1,program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
 			}
-			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getRelativeTeachedOffset());
+			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadStackerRelativeTeachedOffset());
 			position.offset(absoluteOffset);
 			
 			//-----------------------------------------------------------
@@ -76,7 +76,7 @@ public class PickFromTableStep extends AbstractStep{
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition(); 
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
-				setRelativeTeachedOffset(relTeachedOffset);
+				setUnloadStackerRelativeTeachedOffset(relTeachedOffset);				
 			} else {				
 				robot.continuePickTillAtLocation(false);
 				robot.continuePickTillUnclampAck(false);

@@ -43,12 +43,12 @@ public class PutToCNCStep extends AbstractStep{
 			//-----------------------------------------
 			Coordinates originalPosition = WorkPiecePositions.getPutLocation(Clampping);
 			Coordinates position = new Coordinates(originalPosition);
-			if (getRelativeTeachedOffset() == null) {
+			if (getLoadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移
-				initSafeTeachedOffset(program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
+				initSafeTeachedOffset(2,program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
 			}
 			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
-			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getRelativeTeachedOffset());
+			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getLoadCNCRelativeTeachedOffset());
 			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
 			position.offset(absoluteOffset);
 			int workArea = DBHandler.getInstance().getUserFrameBuffer().get(3).getNumber();	
@@ -71,7 +71,7 @@ public class PutToCNCStep extends AbstractStep{
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
-				setRelativeTeachedOffset(relTeachedOffset);
+				setLoadCNCRelativeTeachedOffset(relTeachedOffset);
 			}else {				
 				robot.continuePutTillAtLocation(false);				
 				robot.continuePutTillClampAck(false);

@@ -42,10 +42,10 @@ public class PutToTableStep extends AbstractStep{
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);;
 			Coordinates position = new Coordinates(originalPosition);
-			if (getRelativeTeachedOffset() == null) {
-				initSafeTeachedOffset(program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+			if (getLoadStackerRelativeTeachedOffset() == null) {
+				initSafeTeachedOffset(4,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
 			}			
-			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getRelativeTeachedOffset());			
+			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getLoadStackerRelativeTeachedOffset());			
 			position.offset(absoluteOffset);		
 			float wh = program.getUnloadstacker().getWorkPiece().getHeight();
 			float sh = DBHandler.getInstance().getStatckerBuffer().get(0).getStudHeight_Stacker();
@@ -70,7 +70,7 @@ public class PutToTableStep extends AbstractStep{
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
-				setRelativeTeachedOffset(relTeachedOffset);
+				setLoadStackerRelativeTeachedOffset(relTeachedOffset);
 			}else {
 				robot.continuePutTillAtLocation(false);//50,2
 				robot.continuePutTillClampAck(false);
