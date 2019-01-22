@@ -86,7 +86,7 @@ public class ClampingHandler {
 		SmoothHandler.saveSmooth(smoothFrom);
 		
 		PreparedStatement stmt = conn.prepareStatement("UPDATE CLAMPING " +
-				"SET NAME = ?, TYPE = ?, HEIGHT = ? IMAGEURL = ?, DEFAULTHEIGHT = ? CLAMPINGTYPE = ?, WHERE ID = ?");
+				"SET NAME = ?, TYPE = ?, HEIGHT = ?, IMAGEURL = ?, DEFAULTHEIGHT = ?, CLAMPINGTYPE = ? WHERE ID = ?");
 		stmt.setString(1, clamping.getName());
 		int typeInt = 0;
 		Clamping.Type type = clamping.getType();

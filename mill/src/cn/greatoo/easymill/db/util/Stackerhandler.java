@@ -25,7 +25,7 @@ public class Stackerhandler {
 	public static void SaveStacker(Stacker stacker) throws SQLException {
 		if (stacker.getId()<=0) {
 		conn.setAutoCommit(false);
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE, HORIZONTALR, TILTEDR, MAXOVERFLOW, MINOVERLAP, MAXUNDERFLOW, VERTICALHOLEDISTANCE,"
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE, HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAX_UNDERFLOW, VERTICALHOLEDISTANCE,"
 				+ " ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
@@ -85,8 +85,8 @@ public class Stackerhandler {
 		conn.setAutoCommit(false);
 		PreparedStatement stmt = conn.prepareStatement("UPDATE STACKER SET HORIZONTALHOLEAMOUNT = ?, VERTICALHOLEAMOUNT = ?, HOLEDIAMETER = ?, " +
 				"STUDDIAMETER = ?, HORIZONTALPADDING = ?, VERTICALPADDINGTOP = ?, VERTICALPADDINGBOTTOM = ?, HORIZONTALHOLEDISTANCE = ?, VERTICALHOLEDISTANCE = ?, INTERFERENCEDISTANCE = ?, " +
-				" OVERFLOWPERCENTAGE = ?, HORIZONTAL_R = ?, TILTED_R = ?, MAX_OVERFLOW = ?, MIN_OVERLAP = ?, MAX_UNDERFLOW = ? "
-				+ "ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ?"
+				" OVERFLOWPERCENTAGE = ?, HORIZONTAL_R = ?, TILTED_R = ?, MAX_OVERFLOW = ?, MIN_OVERLAP = ?, MAX_UNDERFLOW = ?, "
+				+ "ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ? "
 				+ "WHERE ID = ?");
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
@@ -111,16 +111,16 @@ public class Stackerhandler {
 		stmt.setInt(21, stacker.getId());
 		stmt.execute();
 
-		Smooth smoothTo = Clamping.getSmoothToPoint();
-		Smooth smoothFrom = Clamping.getSmoothFromPoint();
-		smoothTo.setX(stacker.getSmoothto().getX());
-		smoothTo.setY(stacker.getSmoothto().getY());
-		smoothTo.setZ(stacker.getSmoothto().getZ());
-		smoothFrom.setX(stacker.getSmoothfrom().getX());
-		smoothFrom.setY(stacker.getSmoothfrom().getY());
-		smoothFrom.setZ(stacker.getSmoothfrom().getZ());
-		SmoothHandler.saveSmooth(smoothTo);
-		SmoothHandler.saveSmooth(smoothFrom);
+//		Smooth smoothTo = Clamping.getSmoothToPoint();
+//		Smooth smoothFrom = Clamping.getSmoothFromPoint();
+//		smoothTo.setX(stacker.getSmoothto().getX());
+//		smoothTo.setY(stacker.getSmoothto().getY());
+//		smoothTo.setZ(stacker.getSmoothto().getZ());
+//		smoothFrom.setX(stacker.getSmoothfrom().getX());
+//		smoothFrom.setY(stacker.getSmoothfrom().getY());
+//		smoothFrom.setZ(stacker.getSmoothfrom().getZ());
+//		SmoothHandler.saveSmooth(smoothTo);
+//		SmoothHandler.saveSmooth(smoothFrom);
 		conn.commit();
 		conn.setAutoCommit(true);
 		
