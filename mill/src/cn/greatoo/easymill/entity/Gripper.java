@@ -10,20 +10,16 @@ public class Gripper {
 	private Type type;
 	private String name;
 	private float height;
-	private boolean fixedHeight;
-	private String selectGripper;
-	private boolean gripperInner;
+	private boolean fixedHeight;	
 	private String imageUrl;
-	
 
-	public Gripper(final String name, final Type type, final float height, final String selectGripper, boolean gripperInner, final String imageUrl) {
+	public Gripper(final String name, final Type type, final float height, final String imageUrl) {
 		this.name = name;
 		this.type = type;
 		this.height = height;
-		this.selectGripper = selectGripper;
 		this.imageUrl = imageUrl;
 		this.fixedHeight = false;
-		this.gripperInner = gripperInner;
+
 	}
 	
 	public Gripper() {
@@ -37,18 +33,6 @@ public class Gripper {
 		this.id = id;
 	}
 
-	public String getSelectGripper() {
-		return selectGripper;
-	}
-	public void setSelectGripper(String selectGripper) {
-		this.selectGripper = selectGripper;
-	}
-	public boolean isGripperInner() {
-		return gripperInner;
-	}
-	public void setGripperInner(boolean gripperInner) {
-		this.gripperInner = gripperInner;
-	}
 	public String getName() {
 		return name;
 	}

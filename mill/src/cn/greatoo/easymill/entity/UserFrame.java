@@ -1,5 +1,12 @@
 package cn.greatoo.easymill.entity;
 
+import org.apache.logging.log4j.CloseableThreadContext.Instance;
+
+import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.cnc.EWayOfOperating;
+import cn.greatoo.easymill.cnc.MCodeAdapter;
+import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+
 public class UserFrame {
 
 	private int id; 
@@ -7,6 +14,7 @@ public class UserFrame {
 	private int number;
 	private float zSafeDistance;
 	private Coordinates location;
+	public static UserFrame Instace = null;
 	
 	public UserFrame( final String name,final int number, final float zSafeDistance, final Coordinates location) {
 		this.number = number;
@@ -57,6 +65,13 @@ public class UserFrame {
 
 	public void setLocation(final Coordinates location) {
 		this.location = location;
+	}
+	
+	public static UserFrame getInstance(final String name, final int number, final float zSafeDistance, final Coordinates location) {
+		if (Instace == null && location != null) {
+			Instace = new UserFrame(name, number, zSafeDistance, location);
+		}
+		return Instace;
 	}
 
 }

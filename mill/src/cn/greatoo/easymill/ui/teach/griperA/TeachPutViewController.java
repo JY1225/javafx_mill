@@ -5,7 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+
+import java.sql.SQLException;
+
+import cn.greatoo.easymill.db.util.CoordinatesHandler;
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Program;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.CheckBox;
@@ -43,11 +51,56 @@ public class TeachPutViewController {
 	private CheckBox checkBox;
 	@FXML
 	private Button changeBt;
-	private Coordinates loadCNCOffset = new Coordinates();
+	public static Coordinates loadCNCOffset = new Coordinates();
 	
 	public void init() {
-		xTextField.setText("0");
-		
+		String programName = DBHandler.getInstance().getProgramName();
+		if (programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			loadCNCOffset = program.getLoadCNC().getOffset();
+			xTextField.setText(String.valueOf(loadCNCOffset.getX()));
+			yTextField.setText(String.valueOf(loadCNCOffset.getY()));
+			zTextField.setText(String.valueOf(loadCNCOffset.getZ()));
+			wTextField.setText(String.valueOf(loadCNCOffset.getW()));
+			pTextField.setText(String.valueOf(loadCNCOffset.getP()));
+			rTextField.setText(String.valueOf(loadCNCOffset.getR()));			
+		}
+		xTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadCNCOffset.setX(Float.parseFloat(xTextField.getText()));
+	        }
+		});	
+		yTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadCNCOffset.setY(Float.parseFloat(yTextField.getText()));
+	        }
+		});	
+		zTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadCNCOffset.setZ(Float.parseFloat(zTextField.getText()));
+	        }
+		});	
+		wTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadCNCOffset.setW(Float.parseFloat(wTextField.getText()));
+	        }
+		});	
+		pTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadCNCOffset.setP(Float.parseFloat(pTextField.getText()));
+	        }
+		});	
+		rTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	loadCNCOffset.setR(Float.parseFloat(rTextField.getText()));
+	        }
+		});	
 	}
 	@FXML
 	public void xResetBtAction(ActionEvent event) {
@@ -92,6 +145,11 @@ public class TeachPutViewController {
 		loadCNCOffset.setW(Float.parseFloat(wTextField.getText()));
 		loadCNCOffset.setP(Float.parseFloat(pTextField.getText()));
 		loadCNCOffset.setR(Float.parseFloat(rTextField.getText()));
+		try {
+			CoordinatesHandler.saveCoordinates(loadCNCOffset);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

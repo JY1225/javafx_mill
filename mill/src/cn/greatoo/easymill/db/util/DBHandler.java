@@ -26,11 +26,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Smooth;
+import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.Step;
 import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.entity.WorkPiece;
@@ -44,46 +46,27 @@ public class DBHandler {
     private static final String DB_URL = "jdbc:derby:database;create=true";
     private static Connection conn = null;
     private static Statement stmt = null;
-	private Map<Integer, UserFrame> userFrameBuffer;
-    private Map<Integer, Map<Integer, Coordinates>> coordinatesBuffer;
-    private Map<Integer, Map<Integer, Step>> stepBuffer;
-    private Map<Integer, Map<Integer, WorkPiece>> workPieceBuffer;
-	private Map<Integer, Gripper> grippersBuffer;
-	private Map<Integer, RobotSetting> RobotSettingBuffer;
-	private Map<Integer, SocketConnection> socketConnectionBuffer;
+    private String programName;
+    private Map<String, Program> programBuffer = new HashMap<>();
+	private Map<Integer, UserFrame> userFrameBuffer = new HashMap<>();	
+	private List<Gripper> griperBuffer = new ArrayList<>();
+	private List<Stacker> statckerBuffer = new ArrayList<>();
+	private List<Clamping> clampBuffer = new ArrayList<>();
 	
-	public Map<Integer, SocketConnection> getSocketConnectionBuffer() {
-		return socketConnectionBuffer;
+	public String getProgramName() {
+		return programName;
 	}
 
-	public void setSocketConnectionBuffer(Map<Integer, SocketConnection> socketConnectionBuffer) {
-		this.socketConnectionBuffer = socketConnectionBuffer;
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 
-	public Map<Integer, Map<Integer, Step>> getStepBuffer() {
-		return stepBuffer;
+	public Map<String, Program> getProgramBuffer() {
+		return programBuffer;
 	}
 
-	public Map<Integer, RobotSetting> getRobotSettingBuffer() {
-		return RobotSettingBuffer;
-	}
-
-	public void setRobotSettingBuffer(Map<Integer, RobotSetting> robotSettingBuffer) {
-		RobotSettingBuffer = robotSettingBuffer;
-	}
-
-	public void setStepBuffer(Map<Integer, Map<Integer, Step>> stepBuffer) {
-		this.stepBuffer = stepBuffer;
-	}
-
-	private Map<Integer, Map<Integer, Smooth>> smoothsBuffer;
-    
-	public Map<Integer, Map<Integer, Smooth>> getSmoothsBuffer() {
-		return smoothsBuffer;
-	}
-
-	public void setSmoothsBuffer(Map<Integer, Map<Integer, Smooth>> smoothsBuffer) {
-		this.smoothsBuffer = smoothsBuffer;
+	public void setProgramBuffer(Map<String, Program> programBuffer) {
+		this.programBuffer = programBuffer;
 	}
 
 	public Map<Integer, UserFrame> getUserFrameBuffer() {
@@ -94,47 +77,38 @@ public class DBHandler {
 		this.userFrameBuffer = userFrameBuffer;
 	}
 
-	public Map<Integer, Map<Integer, Coordinates>> getCoordinatesBuffer() {
-		return coordinatesBuffer;
+    public List<Gripper> getGriperBuffer() {
+		return griperBuffer;
 	}
 
-	public void setCoordinatesBuffer(Map<Integer, Map<Integer, Coordinates>> coordinatesBuffer) {
-		this.coordinatesBuffer = coordinatesBuffer;
+	public void setGriperBuffer(List<Gripper> griperBuffer) {
+		this.griperBuffer = griperBuffer;
 	}
 
-	public Map<Integer, Map<Integer, WorkPiece>> getWorkPieceBuffer() {
-		return workPieceBuffer;
+	public List<Stacker> getStatckerBuffer() {
+		return statckerBuffer;
 	}
 
-	public void setWorkPieceBuffer(Map<Integer, Map<Integer, WorkPiece>> workPieceBuffer) {
-		this.workPieceBuffer = workPieceBuffer;
+	public void setStatckerBuffer(List<Stacker> statckerBuffer) {
+		this.statckerBuffer = statckerBuffer;
 	}
 
-	public Map<Integer, Gripper> getGrippersBuffer() {
-		return grippersBuffer;
+	public List<Clamping> getClampBuffer() {
+		return clampBuffer;
 	}
 
-	public void setGrippersBuffer(Map<Integer, Gripper> grippersBuffer) {
-		this.grippersBuffer = grippersBuffer;
+	public void setClampBuffer(List<Clamping> clampBuffer) {
+		this.clampBuffer = clampBuffer;
 	}
 
-
-    public void clearBuffers(final int processFlowId) {   	
-        coordinatesBuffer.remove(processFlowId);
-        workPieceBuffer.remove(processFlowId);
-    }
-
-    static {
+	static {
         createConnection();
         inflateDB();
     }
 
 
     private DBHandler() {
-    	
-        this.userFrameBuffer = new HashMap<Integer, UserFrame>();
-        this.coordinatesBuffer = new HashMap<Integer, Map<Integer, Coordinates>>();
-        this.workPieceBuffer = new HashMap<Integer, Map<Integer, WorkPiece>>();
+
     }
 
     public static DBHandler getInstance() {
@@ -231,26 +205,7 @@ public class DBHandler {
         }
     }
     
-    /**
-     * 
-     * @param program
-     */
-    public void saveProgram(Program program) {
-    	try {
-    		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM PROGRAM WHERE NAME = ?");		
-			stmt.setString(1, program.getName());
-			ResultSet results = stmt.executeQuery();
-			if(results != null) {
-				PreparedStatement updateStmt = conn.prepareStatement("UPDATE PROGRAM SET NAME = ?");		
-				stmt.setString(1, program.getName());
-			}else {
-				
-			}
-		} catch (SQLException e) {			
-			e.printStackTrace();
-		}
-		
-    }
+
     private static void createTables(List<String> tableData) throws SQLException {
         Statement statement = conn.createStatement();
         statement.closeOnCompletion();
@@ -267,31 +222,5 @@ public class DBHandler {
 		}
 		return conn;
     }
-    
-    
-	public SocketConnection getSocketConnectionById(final int socketConnectionId) throws SQLException {
-		SocketConnection socketConnection = socketConnectionBuffer.get(socketConnectionId);
-		if (socketConnection != null) {
-			return socketConnection;
-		}
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM SOCKETCONNECTION WHERE ID = ?");
-		stmt.setInt(1, socketConnectionId);
-		ResultSet results = stmt.executeQuery();
-		if (results.next()) {
-			String ipAddress = results.getString("IPADDRESS");
-			int portNumber = results.getInt("PORTNR");
-			boolean client = results.getBoolean("CLIENT");
-			String name = results.getString("NAME");
-			if (client) {
-				socketConnection = new SocketConnection(SocketConnection.Type.CLIENT, name, ipAddress, portNumber);
-			} else {
-				socketConnection = new SocketConnection(SocketConnection.Type.SERVER, name, ipAddress, portNumber);
-			}
-			socketConnection.setId(socketConnectionId);
-		}
-		stmt.close();
-		socketConnectionBuffer.put(socketConnectionId, socketConnection);
-		return socketConnection;
-	}
     
 }

@@ -43,6 +43,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
+                  <ComboBox fx:id="nameCombox" prefHeight="32.0" prefWidth="150.0" />
                </children>
             </HBox>
             <ComboBox fx:id="comboBox" onAction="#comboBoxAction" prefHeight="45.0" prefWidth="67.0" GridPane.columnIndex="1" />

@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.Attributes.Name;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.UserFrame;
@@ -14,12 +19,13 @@ import cn.greatoo.easymill.db.util.CoordinatesHandler;
 
 public class UserFrameHander {
 	
-	Connection conn = DBHandler.getInstance().getConnection();
-	private CoordinatesHandler coordinatesHandler;
+	static Connection conn = DBHandler.getInstance().getConnection();
+	private final static Logger LOGGER = LogManager.getLogger(UserFrameHander.class.getName());
 
-	public void saveUserFrame(final UserFrame userFrame) throws SQLException {
+	public static void saveUserFrame(final UserFrame userFrame) throws SQLException {
+		if (userFrame.getId()<=0) {
 		conn.setAutoCommit(false);
-		coordinatesHandler.saveCoordinates(userFrame.getLocation());
+		CoordinatesHandler.saveCoordinates(userFrame.getLocation());
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO USERFRAME (NAME,NUMBER, ZSAFEDISTANCE, LOCATION) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, userFrame.getName());
 		stmt.setInt(2, userFrame.getNumber());
@@ -33,33 +39,31 @@ public class UserFrameHander {
 		}
 		conn.commit();
 		conn.setAutoCommit(true);
+		}
+		else {
+		updateUserFrame(userFrame);			
+		}
 	}
 	
-	public void updateUserFrame(final UserFrame userFrame, final String name, final int number, final float zSafeDistance, 
-			final float x, final float y, final float z, final float w, final float p, final float r) throws SQLException {
+	public static void updateUserFrame(final UserFrame userFrame) throws SQLException {
 		conn.setAutoCommit(false);
-		if ((!userFrame.getName().equals(name)) || (userFrame.getNumber() != number) || (userFrame.getzSafeDistance() != zSafeDistance) ||
-				(userFrame.getLocation().getX() != x) || (userFrame.getLocation().getY() != y) || (userFrame.getLocation().getZ() != z) 
-					|| (userFrame.getLocation().getW() != w) || (userFrame.getLocation().getP() != p) || (userFrame.getLocation().getR() != r)) {
+		try{
 			PreparedStatement stmt = conn.prepareStatement("UPDATE USERFRAME SET NAME = ?, NUMBER = ?, ZSAFEDISTANCE = ? WHERE ID = ?");
-			stmt.setString(1, name);
+			String name =userFrame.getName();
+			stmt.setString(1,name);
+			int number = userFrame.getNumber();
 			stmt.setInt(2, number);
+			float zSafeDistance =userFrame.getzSafeDistance();
 			stmt.setFloat(3, zSafeDistance);
-			stmt.setInt(4, userFrame.getId());
-			stmt.executeUpdate();
-			userFrame.setName(name);
-			userFrame.setNumber(number);
-			userFrame.setzSafeDistance(zSafeDistance);
-			userFrame.getLocation().setX(x);
-			userFrame.getLocation().setY(y);
-			userFrame.getLocation().setZ(z);
-			userFrame.getLocation().setW(w);
-			userFrame.getLocation().setP(p);
-			userFrame.getLocation().setR(r);
-			coordinatesHandler.saveCoordinates(userFrame.getLocation());
-		}
+			int locationId = userFrame.getLocation().getId();
+			stmt.setInt(4, locationId);
+			CoordinatesHandler.saveCoordinates(userFrame.getLocation());
 		conn.commit();
 		conn.setAutoCommit(true);
+		}catch (SQLException ex) {
+			LOGGER.log(Level.ERROR, "{}", ex);
+		}
+	
 	}
 	
 	public void updateuserframe(final UserFrame userFrame) throws SQLException {
@@ -70,45 +74,42 @@ public class UserFrameHander {
 		stmt.setFloat(3, userFrame.getzSafeDistance());
 		stmt.setInt(4, userFrame.getId());
 		stmt.executeUpdate();
-		coordinatesHandler.saveCoordinates(userFrame.getLocation());
+		CoordinatesHandler.saveCoordinates(userFrame.getLocation());
 		conn.commit();
 		conn.setAutoCommit(true);
 	}
 	
-    public Set<UserFrame> getAllUserFrames() throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT ID FROM USERFRAME");
+    public static Set<UserFrame> getAllUserFrames() throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME");
         ResultSet results = stmt.executeQuery();
         Set<UserFrame> userFrames = new HashSet<UserFrame>();
         while (results.next()) {
-            int id = results.getInt("ID");
-            userFrames.add(getUserFrameById(id));
+            int num = results.getInt("NUMBER");
+            userFrames.add(getUserFrameByName(num));
         }
         return userFrames;
     } 
     
-    public UserFrame getUserFrameById(final int userFrameId) throws SQLException {
-        UserFrame userFrame = DBHandler.getInstance().getUserFrameBuffer().get(userFrameId);
+    public static UserFrame getUserFrameByName(final int number) throws SQLException {
+        UserFrame userFrame = DBHandler.getInstance().getUserFrameBuffer().get(number);
         if (userFrame != null) {
             return userFrame;
         }
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME WHERE ID = ?");
-        stmt.setInt(1, userFrameId);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME WHERE NUMBER = ?");
+        stmt.setInt(1, number);
         ResultSet results = stmt.executeQuery();
         while (results.next()) {
-            String name = results.getString("NAME");
-            int number = results.getInt("NUMBER");
-            float ZSAFEDISTANCE = results.getFloat("ZSAFEDISTANCE");
             int locationId = results.getInt("LOCATION");
-            Coordinates location = coordinatesHandler.getCoordinatesById(0, locationId);
-            userFrame = new UserFrame(name, number, ZSAFEDISTANCE, location);
-            userFrame.setId(userFrameId);
+            Coordinates location = CoordinatesHandler.getCoordinatesById(0, locationId);
+            userFrame = new UserFrame(results.getString("NAME"), results.getInt("NUMBER"), results.getFloat("ZSAFEDISTANCE"), location);
+            userFrame.setId(results.getInt("ID"));
         }
         stmt.close();
-        DBHandler.getInstance().getUserFrameBuffer().put(userFrameId, userFrame);
+        DBHandler.getInstance().getUserFrameBuffer().put(number, userFrame);
         return userFrame;
     }
 
-    public UserFrame getUserFrameByName(final String userFrameName) throws SQLException {
+    public static UserFrame getUserFrameByName(final String userFrameName) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME WHERE NAME = ?");
         stmt.setString(1, userFrameName);
         ResultSet results = stmt.executeQuery();
@@ -119,7 +120,7 @@ public class UserFrameHander {
             float ZSAFEDISTANCE = results.getFloat("ZSAFEDISTANCE");
             int locationId = results.getInt("LOCATION");
             String name = results.getString("NAME");
-            Coordinates location = coordinatesHandler.getCoordinatesById(0, locationId);
+            Coordinates location = CoordinatesHandler.getCoordinatesById(0, locationId);
             uf = new UserFrame(name, number, ZSAFEDISTANCE, location);
             uf.setId(id);
         }

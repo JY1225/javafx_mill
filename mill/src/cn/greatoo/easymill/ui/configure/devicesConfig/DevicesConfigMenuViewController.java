@@ -44,7 +44,16 @@ public class DevicesConfigMenuViewController extends Controller {
 		bts.add(StackerBt);
 		bts.add(cncBt);
 		bts.add(cncGriperBt);
-		
+		setAllDisVisible(0, 2, gridPane);
+		if(coordinateBt.getStyleClass().contains("selected")) {
+			openCoordinateView();
+		}else if(StackerBt.getStyleClass().contains("selected")) {
+			openStackerView();
+		}else if(cncBt.getStyleClass().contains("selected")) {
+			openCNCConfigView();
+		}else if(cncGriperBt.getStyleClass().contains("selected")) {
+			openGriperView();
+		}
 		int i = 0;
 		addMenuItem(prosessVBox, coordinateBt, i, "用户坐标", true, new EventHandler<ActionEvent>() {
 			@Override

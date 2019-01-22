@@ -1,6 +1,16 @@
 package cn.greatoo.easymill.ui.configure.devicesConfig;
 
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
+import cn.greatoo.easymill.db.util.Stackerhandler;
+import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Stacker;
+import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.ui.main.Controller;
+import cn.greatoo.easymill.ui.main.MainViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -50,7 +60,7 @@ public class StackerViewController {
 	@FXML
 	private TextField overMaxField;
 	@FXML
-	private TextField studHightField;
+	private TextField studHight_StakckerField;
 	@FXML
 	private TextField paddingField;
 	@FXML
@@ -62,7 +72,8 @@ public class StackerViewController {
 	@FXML
 	private TextField maxUnderField;
 	@FXML
-	private TextField overMinField;
+	private TextField overMinField;	
+	
 
 	private static Stacker stacker;
 	@SuppressWarnings("unchecked")
@@ -73,20 +84,90 @@ public class StackerViewController {
 	
 	@FXML
 	public void saveBtAction(ActionEvent event) {
-//		stacker = new Stacker(Integer.parseInt(hField.getText()),
-//				Integer.parseInt(vField.getText()),
-//				Float.parseFloat(hDistanceField.getText()),
-//				Float.parseFloat(vDistanceField.getText()),
-//				Float.parseFloat(studField.getText()),
-//				Float.parseFloat(paddingField.getText()),
-//				Float.parseFloat(buttomField.getText()),
-//				
-//				Float.parseFloat(r0Field.getText()),
-//				Float.parseFloat(studHightField.getText()));
+		String name = nameField.getText();
+		int h = Integer.parseInt(hField.getText());
+		int v = Integer.parseInt(vField.getText());
+		float tX = Float.parseFloat(tXField.getText());
+		float tY = Float.parseFloat(tYField.getText());
+		float tZ = Float.parseFloat(tZField.getText());
+		float fX = Float.parseFloat(fXField.getText());
+		float fY = Float.parseFloat(fYField.getText());
+		float fZ = Float.parseFloat(fZField.getText());
+		float hold = Float.parseFloat(holdField.getText());
+		float stud = Float.parseFloat(studField.getText());		
+		float hDistance =Float.parseFloat(hDistanceField.getText());
+		float vDistance =Float.parseFloat(vDistanceField.getText());
+		float top = Float.parseFloat(topField.getText());
+		float safe = Float.parseFloat(safeField.getText());		
+		float r0 = Float.parseFloat(r0Field.getText());
+		float overMax = Float.parseFloat(overMaxField.getText());
+		float studHight_Stakcker =Float.parseFloat(studHight_StakckerField.getText());
+		float padding = Float.parseFloat(paddingField.getText());
+		float buttom = Float.parseFloat(buttomField.getText());		
+		float overPersent = Float.parseFloat(overPersentField.getText());
+		float r45 = Float.parseFloat(r45Field.getText());
+		float maxUnder = Float.parseFloat(maxUnderField.getText());
+		float overMin = Float.parseFloat(overMinField.getText());
+		float orientation = 0;		
+		int layers = 0;
+		int amount = 0;
+		float studHeight_Workpiece = 0;	
+		Smooth smoothto = new Smooth(tX, tY, tZ);
+		Smooth smoothfrom = new Smooth(fX, fY, fZ);
+
+		stacker =new Stacker(h, v, hold, stud, hDistance, vDistance, padding, top, buttom, safe, 
+				overPersent, r0, r45, overMax, maxUnder, overMin, studHight_Stakcker, tX, tY, tZ,
+				fX, fY, fZ, orientation, layers, amount, studHeight_Workpiece);
+		
+		stacker.setSmoothfrom(smoothfrom);
+		stacker.setSmoothto(smoothto);
+		validate();
+		
+		try {
+			Stackerhandler.SaveStacker(stacker);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Stacker getStacker() {
 		return stacker;
 	}
+
+	public void validate() {
+		if (!nameField.getText().equals("") 
+				&& !hField.getText().equals("") && (Integer.valueOf(hField.getText()) > 0) 
+				&& !tXField.getText().equals("") && (Float.parseFloat(tXField.getText()) > 0)
+				&& !tYField.getText().equals("") && (Float.parseFloat(tYField.getText()) > 0)
+				&& !tZField.getText().equals("") && (Float.parseFloat(tZField.getText()) > 0)
+				&& !fXField.getText().equals("") && (Float.parseFloat(fXField.getText()) > 0)
+				&& !fYField.getText().equals("") && (Float.parseFloat(fYField.getText()) > 0)
+				&& !fZField.getText().equals("") && (Float.parseFloat(fZField.getText()) > 0)
+				&& !vField.getText().equals("") && (Integer.parseInt(vField.getText()) > 0)
+				&& !holdField.getText().equals("") && (Float.parseFloat(holdField.getText()) > 0)
+				&& !studField.getText().equals("") && (Float.parseFloat(studField.getText()) > 0)
+				&& !"".equals(hDistanceField.getText()) && (Float.parseFloat(hDistanceField.getText()) > 0)
+				&& !vDistanceField.getText().equals("") && (Float.parseFloat(vDistanceField.getText()) > 0)
+				&& !topField.getText().equals("") && (Float.parseFloat(topField.getText()) > 0)
+				&& !safeField.getText().equals("") && (Float.parseFloat(safeField.getText()) > 0)
+				&& !r0Field.getText().equals("") && (Float.parseFloat(r0Field.getText()) > 0)
+				&& !overMaxField.getText().equals("") && (Float.parseFloat(overMaxField.getText()) > 0)
+				&& !studHight_StakckerField.getText().equals("") && (Float.parseFloat(studHight_StakckerField.getText()) > 0)
+				&& !paddingField.getText().equals("") && (Float.parseFloat(paddingField.getText()) > 0)
+				&& !buttomField.getText().equals("") && (Float.parseFloat(buttomField.getText()) > 0)
+				&& !overPersentField.getText().equals("") && (Float.parseFloat(overPersentField.getText()) > 0)
+				&& !r45Field.getText().equals("") && (Float.parseFloat(r45Field.getText()) > 0)
+				&& !maxUnderField.getText().equals("") && (Float.parseFloat(maxUnderField.getText()) > 0)
+				&& !overMinField.getText().equals("") && (Float.parseFloat(overMinField.getText()) > 0)
+				//&& (stacker.getOrientation() > 0)&& (stacker.getLayers() > 0)&& (stacker.getAmount() > 0) && (stacker.getStudHeight_Workpiece()> 0)
+				) {
+			saveBt.setDisable(false);
+		} else {
+			//saveBt.setDisable(true);
+			JOptionPane.showMessageDialog(null, "数据不全，请填写完整数据后保存", "Database Error", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	
 	
 }

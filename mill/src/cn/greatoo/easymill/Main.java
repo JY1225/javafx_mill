@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.util.CommonUtil;
 import cn.greatoo.easymill.util.ExceptionUtil;
 import javafx.application.Application;
@@ -50,6 +51,7 @@ public class Main extends Application {
 				DBHandler.getInstance();
 			}).start();
 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

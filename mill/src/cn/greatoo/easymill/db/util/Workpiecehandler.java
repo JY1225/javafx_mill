@@ -13,9 +13,9 @@ import cn.greatoo.easymill.entity.WorkPiece.Material;
 
 public class Workpiecehandler {
 	
-	Connection conn = DBHandler.getInstance().getConnection();
+	static Connection conn = DBHandler.getInstance().getConnection();
 
-	   public void saveWorkPiece(final WorkPiece workPiece) throws SQLException {
+	   public static void saveWorkPiece(final WorkPiece workPiece) throws SQLException {
 	        int type = workPiece.getType().getTypeId();
 	        int shape = workPiece.getShape().getShapeId();
 	        int material = workPiece.getMaterial().getId();
@@ -25,28 +25,27 @@ public class Workpiecehandler {
 	        float diameter = workPiece.getDiameter();
 	    	float weight = workPiece.getWeight();	      	        
 	        if (workPiece.getId() > 0) {
-	            PreparedStatement stmt = conn.prepareStatement("UPDATE WORKPIECE SET TYPE = ?, SHAPE = ?, MATERIAL = ?, HEIGTH = ?, LENGTH = ?, WIDTH = ?, DIAMETER = ?, WEIGHT = ? WHERE ID = ?");
+	            PreparedStatement stmt = conn.prepareStatement("UPDATE WORKPIECE SET TYPE = ?, SHAPE = ?, MATERIAL = ?, HEIGHT = ?, LENGTH = ?, WIDTH = ?, DIAMETER = ?, WEIGHT = ? WHERE ID = ?");
 	            stmt.setInt(1, type);
 	            stmt.setInt(2, shape);
 	            stmt.setFloat(3,material);
 	            stmt.setFloat(4, height);
-	            stmt.setFloat(5, width);
-	            stmt.setFloat(6, diameter);
-	            stmt.setFloat(7, weight);
-	            stmt.setFloat(8, material);
-	            stmt.setInt(10, workPiece.getId());
+	            stmt.setFloat(5, length);
+	            stmt.setFloat(6, width);
+	            stmt.setFloat(7, diameter);
+	            stmt.setFloat(8, weight);
+	            stmt.setInt(9, workPiece.getId());
 	            stmt.executeUpdate();
 	        } else {
-	            PreparedStatement stmt = conn.prepareStatement("INSERT INTO WORKPIECE (TYPE, SHAPE, MATERIAL, HEIGTH, LENGTH, WIDTH, DIAMETER, WEIGHT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+	            PreparedStatement stmt = conn.prepareStatement("INSERT INTO WORKPIECE (TYPE, SHAPE, MATERIAL, HEIGHT, LENGTH, WIDTH, DIAMETER, WEIGHT) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 	            stmt.setInt(1, type);
 	            stmt.setInt(2, shape);
 	            stmt.setFloat(3,material);
 	            stmt.setFloat(4, height);
-	            stmt.setFloat(5, width);
-	            stmt.setFloat(6, diameter);
-	            stmt.setFloat(7, weight);
-	            stmt.setFloat(8, material);
-	            stmt.setInt(10, workPiece.getId());            
+	            stmt.setFloat(5, length);
+	            stmt.setFloat(6, width);
+	            stmt.setFloat(7, diameter);
+	            stmt.setFloat(8, weight);          
 	            stmt.executeUpdate();
 	            ResultSet keys = stmt.getGeneratedKeys();
 	            if ((keys != null) && (keys.next())) {
@@ -55,20 +54,8 @@ public class Workpiecehandler {
 	        }
 	    }
 	  
-	    public WorkPiece getWorkPieceById(final int processFlowId, final int workPieceId) throws SQLException {
+	    public static WorkPiece getWorkPieceById(final int processFlowId, final int workPieceId) throws SQLException {
 	        WorkPiece workPiece = null;
-	        if (processFlowId != 0) {
-	            Map<Integer, WorkPiece> buffer = DBHandler.getInstance().getWorkPieceBuffer().get(processFlowId);
-	            if (buffer != null) {
-	                workPiece = buffer.get(workPieceId);
-	                if (workPiece != null) {
-	                    return workPiece;
-	                }
-	            } else {
-	                Map<Integer, WorkPiece> newBuffer = new HashMap<Integer, WorkPiece>();
-	                DBHandler.getInstance().getWorkPieceBuffer().put(processFlowId, newBuffer);
-	            }
-	        }
 	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM WORKPIECE WHERE ID = ?");
 	        stmt.setInt(1, workPieceId);
 	        ResultSet results = stmt.executeQuery();
@@ -87,9 +74,6 @@ public class Workpiecehandler {
 	            workPiece.setId(workPieceId);
 	        }
 	        stmt.close();
-	        if (processFlowId != 0) {
-	        	DBHandler.getInstance().getWorkPieceBuffer().get(processFlowId).put(workPieceId, workPiece);
-	        }
 	        return workPiece;
 	    }
 	

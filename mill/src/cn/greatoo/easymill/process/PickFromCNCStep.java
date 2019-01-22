@@ -2,60 +2,60 @@ package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.cnc.DeviceActionException;
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.Gripper.Type;
-import cn.greatoo.easymill.entity.GripperHead;
-import cn.greatoo.easymill.entity.WorkPiece;
-import cn.greatoo.easymill.entity.WorkPiece.Material;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.RobotConstants;
-import cn.greatoo.easymill.workpiece.IWorkPieceDimensions;
-import cn.greatoo.easymill.workpiece.RectangularDimensions;
+import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
 
-public class PickFromCNCStep {
+public class PickFromCNCStep extends AbstractStep{
 
-	public static void pickFromCNC(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
+	@SuppressWarnings("static-access")
+	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
-			Gripper gripper = new Gripper("name", Type.TWOPOINT, 190, "description", "");
-			final String headId = "A";
-			final GripperHead gHeadA = new GripperHead("jyA", null, gripper);
-			final GripperHead gHeadB = new GripperHead("jyB", null, gripper);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
 			boolean gripInner = false;
-			robot.writeServiceGripperSet(headId, gHeadA, gHeadB, serviceType, gripInner);
+			//75
+			robot.writeServiceGripperSet(program.getUnloadCNC().getGripperHead().getName(), 
+					program.getLoadCNC().getGripper(), program.getUnloadCNC().getGripper(), serviceType,
+					program.getUnloadCNC().getGripperHead().isGripperInner());
 			boolean freeAfterService = false;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
-			final IWorkPieceDimensions dimensions = new RectangularDimensions(200, 170, 21);
-			float weight2 = 16;
+			float weight2 = program.getUnloadCNC().getWorkPiece().getWeight();
 			int approachType = 1;
-			WorkPiece wp1 = new WorkPiece(WorkPiece.Type.FINISHED, dimensions, Material.AL, 2.4f);
-			WorkPiece wp2 = null;
-			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, dimensions,
-					weight2, approachType, wp1, wp2);
+			float payLoad1 = 0;
+			float payLoad2 = program.getUnloadCNC().getWorkPiece().getWeight();
+			//76
+			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,
+					program.getUnloadCNC().getWorkPiece(), approachType, payLoad1, payLoad2);
+			
+			//-----------------------------------------------------
 			int workArea = 3;
-			Coordinates location = new Coordinates(0f, 0f, 0, 0, 0, 90);
-			Coordinates smoothPoint = new Coordinates(0f, 0f, 0, 0, 0, 90);
-			String name = "A";
-			float defaultHeight = 0;
-			Coordinates relativePosition = new Coordinates(1, 1, 0, 1, 1, 1);
-			Coordinates smoothToPoint = null;
-			Coordinates smoothFromPoint = null;
-			String imageURL = "";
-			Clamping clamping = new Clamping(Clamping.Type.CENTRUM, name, defaultHeight, relativePosition,
-					smoothToPoint, smoothFromPoint, imageURL);
-			approachType = 1;
-			float zSafePlane = 21;
-			float smoothPointZ = 20.5f;
-			robot.writeServicePointSet(workArea, location, smoothPoint, smoothPointZ, dimensions, clamping,
-					approachType, zSafePlane);
+			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
+			Coordinates originalPosition = WorkPiecePositions.getPutLocation(clamping);
+			Coordinates position = new Coordinates(originalPosition);
+			if (getUnloadCNCRelativeTeachedOffset() == null) {
+				//初始化安全示教偏移
+				initSafeTeachedOffset(3,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+			}
+			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
+			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadCNCRelativeTeachedOffset());
+			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
+			position.offset(absoluteOffset);			
+			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
+			//77
+			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),
+					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 
+					clamping, approachType, zSafePlane);
+			//-------------------------------------------------
 			robot.startService();						
 			cncMachine.prepareForPick(false, 0, 1);
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
@@ -66,6 +66,8 @@ public class PickFromCNCStep {
 				robot.continuePickTillUnclampAck(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
+				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
+				setUnloadCNCRelativeTeachedOffset(relTeachedOffset);
 			} else {
 				robot.continuePickTillAtLocation(false);// 50,1
 				robot.continuePickTillUnclampAck(false);
@@ -85,4 +87,6 @@ public class PickFromCNCStep {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

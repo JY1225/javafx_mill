@@ -13,9 +13,11 @@ public class Program {
 	private cn.greatoo.easymill.entity.Step unloadCNC;
 	private cn.greatoo.easymill.entity.Step loadstacker;
 	private List<Step> Steps;
+	private RobotSetting robotSetting;
 	
 	public Program(String name,cn.greatoo.easymill.entity.Step unloadstacker,cn.greatoo.easymill.entity.Step loadCNC,
-			cn.greatoo.easymill.entity.Step unloadCNC,cn.greatoo.easymill.entity.Step loadstacker, Timestamp timeCreate, Timestamp timeLastOpen) {
+			cn.greatoo.easymill.entity.Step unloadCNC,cn.greatoo.easymill.entity.Step loadstacker,
+			Timestamp timeCreate, Timestamp timeLastOpen,RobotSetting robotSetting) {
 		this.name = name;
 		this.unloadstacker = unloadstacker;
 		this.loadCNC = loadCNC;
@@ -23,7 +25,12 @@ public class Program {
 		this.loadstacker = loadstacker;
 		this.timeCreate = timeCreate;
 		this.timeLastOpen = timeLastOpen;
+		this.robotSetting = robotSetting;
 	}	
+
+	public Program() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getId() {
 		return id;
@@ -92,5 +99,11 @@ public class Program {
 	public List<Step> getProgramSteps() {
 		return Steps;
 	}
-	
+	public RobotSetting getRobotSetting() {
+		return robotSetting;
+	}
+
+	public void setRobotSetting(RobotSetting robotSetting) {
+		this.robotSetting = robotSetting;
+	}
 }

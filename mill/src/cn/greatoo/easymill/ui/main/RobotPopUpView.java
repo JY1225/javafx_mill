@@ -1,7 +1,5 @@
 package cn.greatoo.easymill.ui.main;
 
-import com.sun.java.accessibility.util.Translator;
-
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.SocketDisconnectedException;
 import cn.greatoo.easymill.external.communication.socket.SocketResponseTimedOutException;

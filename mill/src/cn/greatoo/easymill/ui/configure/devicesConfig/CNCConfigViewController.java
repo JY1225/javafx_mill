@@ -129,7 +129,6 @@ public class CNCConfigViewController extends Controller {
 		if (comboBox.getValue() != null) {
 
 		} else {
-
 		}
 	}
 

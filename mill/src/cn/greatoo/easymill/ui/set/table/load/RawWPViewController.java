@@ -2,9 +2,13 @@ package cn.greatoo.easymill.ui.set.table.load;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -69,32 +73,98 @@ public class RawWPViewController extends Controller {
 		mBts.add(FeBt);
 		mBts.add(OBt);
 		
+		
+		String programName = DBHandler.getInstance().getProgramName();
+		if(programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			workPiece = program.getUnloadstacker().getWorkPiece();
+			fulltxtL.setText(String.valueOf(workPiece.getLength()));
+			fulltxtW.setText(String.valueOf(workPiece.getWidth()));
+			fulltxtH.setText(String.valueOf(workPiece.getHeight()));
+			fulltxtWei.setText(String.valueOf(workPiece.getWeight()));
+			Material material = workPiece.getMaterial();
+			switch (material) {
+			case AL:
+				isClicked(mBts, AlBt);
+				break;
+			case CU:
+				isClicked(mBts, CuBt);
+				break;
+			case FE:
+				isClicked(mBts, FeBt);
+				break;
+			case OTHER:
+				isClicked(mBts, OBt);
+				break;
+			default:
+				break;
+			}
+			
+		}
+		List<Stacker> list = DBHandler.getInstance().getStatckerBuffer();
+		for(Stacker s:list) {
+			stacker = s;
+			fulltxtBH.setText(String.valueOf(stacker.getStudHeight_Workpiece()));
+			fulltxtC.setText(String.valueOf(stacker.getLayers()));
+			fulltxtS.setText(String.valueOf(stacker.getAmount()));
+			int orientation = (int) stacker.getOrientation();
+			switch (orientation) {
+			case 0:
+				isClicked(bts, HBt);
+				break;
+			case 45:
+				isClicked(bts, tiltedBt);
+				break;
+			case 90:
+				isClicked(bts, VBt);
+				break;
+			default:
+				break;
+			}
+		}
 		workPiece.setType(WorkPiece.Type.RAW);
+		workPiece.setShape(WorkPiece.WorkPieceShape.CUBIC);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setLength(Float.parseFloat(fulltxtL.getText()));
+	        	if(!"".equals(fulltxtL.getText())){
+	        		workPiece.setLength(Float.parseFloat(fulltxtL.getText()));
+	        	}else {
+	        		workPiece.setLength(0);
+	        	}
 	        }
 		});	
 		
 		fulltxtW.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setWidth(Float.parseFloat(fulltxtW.getText()));
+	        	if(!"".equals(fulltxtW.getText())){
+	        		workPiece.setWidth(Float.parseFloat(fulltxtW.getText()));
+	        	}else {
+	        		workPiece.setWidth(0);
+	        	}
 	        }
 		});	
 		
 		fulltxtH.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setHeight(Float.parseFloat(fulltxtH.getText()));
+	        	if(!"".equals(fulltxtH.getText())){
+	        		workPiece.setHeight(Float.parseFloat(fulltxtH.getText()));
+	        	}else {
+	        		workPiece.setHeight(0);
+	        	}
 	        }
 		});	
 		
 		fulltxtWei.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setWeight(Float.parseFloat(fulltxtWei.getText()));
+	        	if(!"".equals(fulltxtWei.getText())){
+	        		workPiece.setWeight(Float.parseFloat(fulltxtWei.getText()));
+	        	}else {
+	        		workPiece.setWeight(0);
+	        	}
 	        }
 		});	
 		
@@ -102,14 +172,25 @@ public class RawWPViewController extends Controller {
 		fulltxtBH.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	stacker.setStudHeight(Float.parseFloat(fulltxtBH.getText()));
+	        
+	        	if(!"".equals(fulltxtBH.getText())){
+	        		stacker.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));
+	        	}else {
+	        		stacker.setStudHeight_Workpiece(0);
+	        	}
 	        }
 		});	
 		//图层
 		fulltxtC.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
+	        	
+	        	if(!"".equals(fulltxtC.getText())){
+
 	        	stacker.setLayers(Integer.parseInt(fulltxtC.getText()));
+	        	}else {
+	        		stacker.setLayers(0);
+	        	}
 	        }
 		});	
 		//数量
@@ -134,18 +215,21 @@ public class RawWPViewController extends Controller {
 	public void HBtAction(MouseEvent event) {
 		isClicked(bts, HBt);
 		stacker.setOrientation(0);
+		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(0);
 	}
 	
 	@FXML
 	public void tiltedAction(MouseEvent event) {
 		isClicked(bts, tiltedBt);
 		stacker.setOrientation(45);
+		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(45);
 	}
 	
 	@FXML
 	public void VBtAction(MouseEvent event) {
 		isClicked(bts, VBt);
 		stacker.setOrientation(90);
+		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(90);
 	}
 	
 	@FXML

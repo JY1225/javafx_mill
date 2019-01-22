@@ -5,13 +5,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.ui.main.Controller;
+
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.ComboBox;
@@ -52,9 +56,12 @@ public class CoordinateViewController extends Controller {
 
 	private boolean editMode;
 	List<Button> bts;
-	public static UserFrame stackerFrame = new UserFrame();	
-	public static UserFrame cncFrame = new UserFrame();
+	UserFrame userFrame =new UserFrame();
+	public static UserFrame stackerFrame =new UserFrame();
+	public static UserFrame cncFrame;
+	UserFrame cncrFrame =new UserFrame();
 	@SuppressWarnings("unchecked")
+	
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(editBt);
@@ -69,25 +76,34 @@ public class CoordinateViewController extends Controller {
 			editBt.setDisable(false);
 		}else {
 			editBt.setDisable(true);
-		}
-		
-		
+		}	
 	}
 	@FXML
 	public void editBtAction(ActionEvent event) {
-		if (editMode) {
+		if (editMode) {		
+			reset();
+			this.userFrame = null;
 			isDisSelect(bts, editBt);			
 			contentGridPane.setVisible(false);
 			addBt.setDisable(false);
 			comboBox.setDisable(false);
 			editMode = false;
-		} else {	
+		} else {				
+			String name = comboBox.getValue().toString();
+			try {
+			//通过名称读取坐标系
+				userFrame = UserFrameHander.getUserFrameByName(name);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			userFrameSelected(userFrame);
+			nameText.setText(name);
+			validate();			
 			isClicked(bts, editBt);
-			nameText.setText((String)comboBox.getValue());
 			contentGridPane.setVisible(true);
 			addBt.setDisable(true);
 			comboBox.setDisable(true);
-			saveBt.setDisable(false);
+			//saveBt.setDisable(false);
 			editMode = true;
 		}
 	}
@@ -99,7 +115,7 @@ public class CoordinateViewController extends Controller {
 			contentGridPane.setVisible(true);
 			editBt.setDisable(true);
 			comboBox.setDisable(true);
-			saveBt.setDisable(true);
+			//saveBt.setDisable(true);
 			editMode = true;
 		} else {
 			isDisSelect(bts, addBt);
@@ -124,30 +140,131 @@ public class CoordinateViewController extends Controller {
 	public void saveBtAction(ActionEvent event) {
 		String name = nameText.getText();
 		Coordinates location = new Coordinates();
+		float safeDistance = Float.parseFloat(ZSafeText.getText());
+		int Nr =Integer.parseInt(NrText.getText());
 		location.setX(Float.parseFloat(XText.getText()));
 		location.setY(Float.parseFloat(YText.getText()));
 		location.setZ(Float.parseFloat(ZText.getText()));
 		location.setW(Float.parseFloat(WText.getText()));
 		location.setP(Float.parseFloat(PText.getText()));
 		location.setR(Float.parseFloat(RText.getText()));
+		validate();
 		if(name.equals("STACKER")) {
-			stackerFrame.setName(name);
-			stackerFrame.setNumber(Integer.parseInt(NrText.getText()));
-			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
-			stackerFrame.setLocation(location);
+			stackerFrame =new UserFrame(name, Nr, safeDistance, location); 
+//			stackerFrame.setName(name);
+//			stackerFrame.setNumber(Integer.parseInt(NrText.getText()));
+//			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
+//			stackerFrame.setLocation(location);
+			try {
+				UserFrameHander.saveUserFrame(stackerFrame);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}else {
-			cncFrame.setName(name);
-			cncFrame.setNumber(Integer.parseInt(NrText.getText()));
-			cncFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
-			cncFrame.setLocation(location);
+			cncrFrame = new UserFrame(name, Nr, safeDistance, location);
+			try {
+				UserFrameHander.saveUserFrame(cncrFrame);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	@Override
 	public void setMessege(String mess) {
-		
-		
+				
 	}
 	
+	public void reset() {
+		nameText.setText("");
+		NrText.setText("");
+		ZSafeText.setText("");
+
+		if (comboBox.valueProperty().get() != null) {
+			editBt.setDisable(false);
+		} else {
+			editBt.setDisable(true);
+		}
+		comboBox.setDisable(false);
+		addBt.setDisable(false);
+		XText.setText("");
+		YText.setText("");
+		ZText.setText("");
+		WText.setText("");
+		PText.setText("");
+		RText.setText("");
+		validate();
+	}
+	public void validate() {
+		if (!nameText.getText().equals("") 
+				&& !NrText.getText().equals("") && (Integer.parseInt(NrText.getText()) > 0) 
+				&& !ZSafeText.getText().equals("")
+				&& !XText.getText().equals("")
+				&& !YText.getText().equals("")
+				&& !ZText.getText().equals("")
+				&& !WText.getText().equals("") 
+				&& !PText.getText().equals("")
+				&& !RText.getText().equals("")) {
+			saveBt.setDisable(false);
+		} else {
+			saveBt.setDisable(true);
+		}
+	}
+	
+	public void userFrameSelected(final UserFrame userFrame) {
+		if (userFrame !=null) {		
+		nameText.setText(userFrame.getName());
+		NrText.setText("" + userFrame.getNumber());
+		ZSafeText.setText("" + userFrame.getzSafeDistance());
+		XText.setText("" + userFrame.getLocation().getX());
+		YText.setText("" + userFrame.getLocation().getY());
+		ZText.setText("" + userFrame.getLocation().getZ());
+		WText.setText("" + userFrame.getLocation().getW());
+		PText.setText("" + userFrame.getLocation().getP());
+		RText.setText("" + userFrame.getLocation().getR());
+		}
+		else {
+			reset();
+		}
+	}
+	
+	
+	@FXML
+	public void nameChanged(MouseEvent event) {
+		validate();
+	}
+	
+	@FXML
+	public void NrTextChanged(MouseEvent event) {
+		validate();
+	}
+	
+	@FXML
+	public void ZSafeTextChanged(MouseEvent event) {
+		validate();
+	}
+	@FXML
+	public void XTextChanged(MouseEvent event) {
+		validate();
+	}
+	@FXML
+	public void YTextChanged(MouseEvent event) {
+		validate();
+	}
+	@FXML
+	public void ZTextChanged(MouseEvent event) {
+		validate();
+	}
+	@FXML
+	public void WTextChanged(MouseEvent event) {
+		validate();
+	}
+	@FXML
+	public void PTextChanged(MouseEvent event) {
+		validate();
+	}
+	@FXML
+	public void RTextChanged(MouseEvent event) {
+		validate();
+	}
 	
 }

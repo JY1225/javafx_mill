@@ -1,5 +1,7 @@
 package cn.greatoo.easymill.ui.set.table.unload;
 
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Smooth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,25 +23,32 @@ public class PlaceViewController {
 	@FXML
 	private Button resetBt;
 
-	public static Smooth smooth = new Smooth();
+	public static Smooth loadStackerSmooth = new Smooth();
 	public void init() {
-		
+		String programName = DBHandler.getInstance().getProgramName();
+		if(programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			loadStackerSmooth = program.getLoadstacker().getSmooth();
+			XField.setText(String.valueOf(loadStackerSmooth.getX()));
+			YField.setText(String.valueOf(loadStackerSmooth.getY()));
+			ZField.setText(String.valueOf(loadStackerSmooth.getZ()));
+		}
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	smooth.setX(Float.parseFloat(XField.getText()));  
+	        	loadStackerSmooth.setX(Float.parseFloat(XField.getText()));  
 	        }
 		});	
 		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	smooth.setY(Float.parseFloat(YField.getText()));  
+	        	loadStackerSmooth.setY(Float.parseFloat(YField.getText()));  
 	        }
 		});	
 		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	smooth.setZ(Float.parseFloat(ZField.getText()));  
+	        	loadStackerSmooth.setZ(Float.parseFloat(ZField.getText()));  
 	        }
 		});	
 		

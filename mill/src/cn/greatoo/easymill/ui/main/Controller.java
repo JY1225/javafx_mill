@@ -83,7 +83,7 @@ public abstract class Controller {
 				}
 			}
 		}
-		public void showNotificationOverlay(StackPane stackPane,final String title, final String message) {
+		public static void showNotificationOverlay(StackPane stackPane,final String title, final String message) {
 			ThreadManager.submit(new Thread() {
 				@Override
 				public void run() {
@@ -170,8 +170,24 @@ public abstract class Controller {
 		    }
 		    }
 		}
+
+		public void setAllDisVisible (final int row, final int column, GridPane gridPane) {
+		    ObservableList<Node> childrens = gridPane.getChildren();
+		    
+		    for (Node node : childrens) {
+		    	try {
+		    	int r = gridPane.getRowIndex(node);
+				int c = gridPane.getColumnIndex(node);
+		        if(r == row && c == column) {		        
+					node.setVisible(false);					
+		        }		   
+		    }catch (Exception e) {
+		    	
+		    }
+		    }
+		}
 		
-		public boolean askConfirmation(StackPane stackPane,final String title, final String message) {
+		public static boolean askConfirmation(StackPane stackPane,final String title, final String message) {
 			final ConfirmationDialogView view = new ConfirmationDialogView(title, message);
 			ConfirmationDialogPresenter confirmationDialogPresenter = new ConfirmationDialogPresenter(view);
 			Platform.runLater(new Thread() {
@@ -196,12 +212,12 @@ public abstract class Controller {
 			return returnValue;
 		}
 		
-		public void showDialog(StackPane stackPane,final AbstractDialogView<?> dialog) {
+		public static void showDialog(StackPane stackPane,final AbstractDialogView<?> dialog) {
 			stackPane.getChildren().add(dialog);
 			
 		}
 		
-		public void hideDialog(StackPane stackPane) {
+		public static void hideDialog(StackPane stackPane) {
 			List<Node> toRemove = new ArrayList<Node>();
 			for (Node node : stackPane.getChildren()) {
 				if (node instanceof AbstractDialogView<?>) {
