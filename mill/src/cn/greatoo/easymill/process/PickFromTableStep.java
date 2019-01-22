@@ -76,7 +76,7 @@ public class PickFromTableStep extends AbstractStep{
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition(); 
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
-				setUnloadStackerRelativeTeachedOffset(relTeachedOffset);				
+				setUnloadStackerRelativeTeachedOffset(relTeachedOffset);
 			} else {				
 				robot.continuePickTillAtLocation(false);
 				robot.continuePickTillUnclampAck(false);

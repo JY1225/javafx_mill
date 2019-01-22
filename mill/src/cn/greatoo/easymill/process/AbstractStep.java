@@ -2,15 +2,14 @@ package cn.greatoo.easymill.process;
 
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
 
 public abstract class AbstractStep {
-	private Coordinates unloadStackerRelativeTeachedOffset;
-	private Coordinates loadCNCRelativeTeachedOffset;
-	private Coordinates unloadCNCRelativeTeachedOffset;
-	private Coordinates loadStackerRelativeTeachedOffset;
+	private static Coordinates unloadStackerRelativeTeachedOffset;
+	private static Coordinates loadCNCRelativeTeachedOffset;
+	private static Coordinates unloadCNCRelativeTeachedOffset;
+	private static Coordinates loadStackerRelativeTeachedOffset;
 
 	public AbstractStep() {
 		unloadStackerRelativeTeachedOffset = null;
