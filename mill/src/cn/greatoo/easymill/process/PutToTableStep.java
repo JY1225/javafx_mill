@@ -69,6 +69,8 @@ public class PutToTableStep extends AbstractStep{
 				robot.continuePutTillClampAck(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
+				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
+				setRelativeTeachedOffset(relTeachedOffset);
 			}else {
 				robot.continuePutTillAtLocation(false);//50,2
 				robot.continuePutTillClampAck(false);

@@ -42,22 +42,16 @@ public class PickFromTableStep extends AbstractStep{
 					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//----------------------------------------------------
 			WorkPiecePositions.initializeRawWorkPiecePositionsDeg90(program.getUnloadstacker().getWorkPiece());
-			//(92.5, 107.5, 0.0, 0.0, 0.0, 90.0)
-			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);
-			
+			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);			
 			Coordinates position = new Coordinates(originalPosition);
 			if (getRelativeTeachedOffset() == null) {
-				//初始化安全示教偏移
 				initSafeTeachedOffset(program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
 			}
-			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getRelativeTeachedOffset());
-			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
 			position.offset(absoluteOffset);
 			
 			//-----------------------------------------------------------
 			int workArea = 1;
-			//Coordinates location = new Coordinates(90.94f, 109.42f, 2.45f, 0, 0, 90);//
 			approachType = 1;
 			float zSafePlane = 0;
 			float wh = program.getUnloadstacker().getWorkPiece().getHeight();
@@ -80,7 +74,9 @@ public class PickFromTableStep extends AbstractStep{
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED));
 				robot.continuePickTillUnclampAck(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
-				Coordinates robotPosition = robot.getPosition(); // 90.94f, 109.42f, 2.45f, 0, 0, 90
+				Coordinates robotPosition = robot.getPosition(); 
+				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
+				setRelativeTeachedOffset(relTeachedOffset);
 			} else {				
 				robot.continuePickTillAtLocation(false);
 				robot.continuePickTillUnclampAck(false);

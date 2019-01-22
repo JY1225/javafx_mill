@@ -127,28 +127,44 @@ public class RawWPViewController extends Controller {
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setLength(Float.parseFloat(fulltxtL.getText()));
+	        	if(!"".equals(fulltxtL.getText())){
+	        		workPiece.setLength(Float.parseFloat(fulltxtL.getText()));
+	        	}else {
+	        		workPiece.setLength(0);
+	        	}
 	        }
 		});	
 		
 		fulltxtW.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setWidth(Float.parseFloat(fulltxtW.getText()));
+	        	if(!"".equals(fulltxtW.getText())){
+	        		workPiece.setWidth(Float.parseFloat(fulltxtW.getText()));
+	        	}else {
+	        		workPiece.setWidth(0);
+	        	}
 	        }
 		});	
 		
 		fulltxtH.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setHeight(Float.parseFloat(fulltxtH.getText()));
+	        	if(!"".equals(fulltxtH.getText())){
+	        		workPiece.setHeight(Float.parseFloat(fulltxtH.getText()));
+	        	}else {
+	        		workPiece.setHeight(0);
+	        	}
 	        }
 		});	
 		
 		fulltxtWei.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	workPiece.setWeight(Float.parseFloat(fulltxtWei.getText()));
+	        	if(!"".equals(fulltxtWei.getText())){
+	        		workPiece.setWeight(Float.parseFloat(fulltxtWei.getText()));
+	        	}else {
+	        		workPiece.setWeight(0);
+	        	}
 	        }
 		});	
 		

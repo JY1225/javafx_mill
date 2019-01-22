@@ -80,7 +80,7 @@ public class UserFrameHander {
 	}
 	
     public static Set<UserFrame> getAllUserFrames() throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT ID FROM USERFRAME");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME");
         ResultSet results = stmt.executeQuery();
         Set<UserFrame> userFrames = new HashSet<UserFrame>();
         while (results.next()) {

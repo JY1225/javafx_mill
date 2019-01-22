@@ -66,6 +66,8 @@ public class PickFromCNCStep extends AbstractStep{
 				robot.continuePickTillUnclampAck(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
 				Coordinates robotPosition = robot.getPosition();
+				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
+				setRelativeTeachedOffset(relTeachedOffset);
 			} else {
 				robot.continuePickTillAtLocation(false);// 50,1
 				robot.continuePickTillUnclampAck(false);
