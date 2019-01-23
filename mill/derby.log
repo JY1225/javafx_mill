@@ -1,4 +1,4 @@
-Tue Jan 15 16:14:30 CST 2019 Thread[Thread-6,5,main] Cleanup action starting
+Tue Jan 22 11:52:45 CST 2019 Thread[Thread-6,5,main] Cleanup action starting
 ERROR XBM0A: The database directory 'E:\RJ软件自主开发\01 easymill\v1.0 new\v1.0\mill\database' exists. However, it does not contain the expected 'service.properties' file. Perhaps Derby was brought down in the middle of creating this database. You may want to delete this directory and try creating the database again.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
@@ -25,12 +25,12 @@ ERROR XBM0A: The database directory 'E:\RJ软件自主开发\01 easymill\v1.0 ne
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:182)
-	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:128)
-	at cn.greatoo.easymill.Main.lambda$0(Main.java:50)
+	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:156)
+	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:105)
+	at cn.greatoo.easymill.Main.lambda$0(Main.java:51)
 	at java.lang.Thread.run(Unknown Source)
 Cleanup action completed
-Tue Jan 15 16:14:30 CST 2019 Thread[Thread-6,5,main] Cleanup action starting
+Tue Jan 22 11:52:45 CST 2019 Thread[Thread-6,5,main] Cleanup action starting
 java.sql.SQLException: Failed to create database 'database', see the next exception for details.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -46,9 +46,9 @@ java.sql.SQLException: Failed to create database 'database', see the next except
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:182)
-	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:128)
-	at cn.greatoo.easymill.Main.lambda$0(Main.java:50)
+	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:156)
+	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:105)
+	at cn.greatoo.easymill.Main.lambda$0(Main.java:51)
 	at java.lang.Thread.run(Unknown Source)
 Caused by: ERROR XJ041: Failed to create database 'database', see the next exception for details.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
@@ -88,9 +88,9 @@ java.sql.SQLException: The database directory 'E:\RJ软件自主开发\01 easymi
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:182)
-	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:128)
-	at cn.greatoo.easymill.Main.lambda$0(Main.java:50)
+	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:156)
+	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:105)
+	at cn.greatoo.easymill.Main.lambda$0(Main.java:51)
 	at java.lang.Thread.run(Unknown Source)
 Caused by: ERROR XBM0A: The database directory 'E:\RJ软件自主开发\01 easymill\v1.0 new\v1.0\mill\database' exists. However, it does not contain the expected 'service.properties' file. Perhaps Derby was brought down in the middle of creating this database. You may want to delete this directory and try creating the database again.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
@@ -136,9 +136,9 @@ ERROR XBM0A: The database directory 'E:\RJ软件自主开发\01 easymill\v1.0 ne
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:182)
-	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:128)
-	at cn.greatoo.easymill.Main.lambda$0(Main.java:50)
+	at cn.greatoo.easymill.db.util.DBHandler.createConnection(DBHandler.java:156)
+	at cn.greatoo.easymill.db.util.DBHandler.<clinit>(DBHandler.java:105)
+	at cn.greatoo.easymill.Main.lambda$0(Main.java:51)
 	at java.lang.Thread.run(Unknown Source)
 ============= end nested exception, level (2) ===========
 Cleanup action completed
