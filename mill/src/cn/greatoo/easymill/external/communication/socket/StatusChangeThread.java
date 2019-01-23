@@ -37,17 +37,7 @@ public class StatusChangeThread implements Runnable {
 		this.alarmListenThread = new AlarmListenThread(AlarmButton, duration, changingThread);
 		this.previousStatus = new HashMap<Integer, Integer>();
 		this.previousActiveMCodes = new HashSet<Integer>();
-		this.alive = true;
-		//初始化数据，加载数据库
-		try {
-			Programhandler.getProgram();
-			Gripperhandler.getAllGripper();		
-			ClampingHandler.getClampings();
-			Stackerhandler.getStacker();
-			UserFrameHander.getAllUserFrames();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		this.alive = true;		
 		connCNC();
 		connRobo();
 		conn();
