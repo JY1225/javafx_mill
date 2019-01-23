@@ -29,11 +29,11 @@ public class CNCHandler {
 	 * JY renturn CNCMachine
 	 * 
 	 */
-	public static AbstractCNCMachine getCNCMillingMachine(final int id) {
+	public static AbstractCNCMachine getCNCMillingMachine() {
 		AbstractCNCMachine cncMillingMachine = null;
 		try {
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNCMILLINGMACHINE WHERE ID = ?");
-			stmt.setInt(1, id);// 1
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNCMILLINGMACHINE");
+			//stmt.setInt(1, id);// 1
 			ResultSet results = stmt.executeQuery();
 			if (results.next()) {
 				int socketConnectionId = results.getInt("SOCKETCONNECTION");
@@ -48,8 +48,8 @@ public class CNCHandler {
 				}
 				EWayOfOperating wayOfOperating = EWayOfOperating
 						.getWayOfOperatingById(results.getInt("WAYOFOPERATING"));// 2				
-				cncMillingMachine = CNCMachine.getInstance(socketConnection, getMCodeAdapter(id), wayOfOperating);
-				cncMillingMachine.setId(id);
+				cncMillingMachine = CNCMachine.getInstance(socketConnection, getMCodeAdapter(results.getInt("ID")), wayOfOperating);
+				cncMillingMachine.setId(results.getInt("ID"));
 
 			}
 		} catch (SQLException ex) {
