@@ -10,19 +10,19 @@ import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public abstract class AbstractRobot {
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractRobot.disconnectedWhileWaiting";
-	private static SocketConnection socketConnection;
-	private static Set<RobotAlarm> alarms;
-	private static double xrest, yrest, zrest;
-	private static RobotAlarm robotTimeout;
-	private static int speed;
-	private static boolean stopAction;
-	private static Object syncObject;
-	private static int currentStatus;
-	private static boolean statusChanged;
-	private static boolean teachingNeeded;
-	private static int id;
-	private static String name;
-	private static float payload; 
+	private  SocketConnection socketConnection;
+	private  Set<RobotAlarm> alarms;
+	private  double xrest, yrest, zrest;
+	private  RobotAlarm robotTimeout;
+	private  int speed;
+	private  boolean stopAction;
+	private  static Object syncObject;
+	private  int currentStatus;
+	private  boolean statusChanged;
+	private  boolean teachingNeeded;
+	private  int id;
+	private  String name;
+	private  float payload; 
 		
 	public AbstractRobot(String name,float payload,final SocketConnection socketConnection) {
 		this.socketConnection = socketConnection;
