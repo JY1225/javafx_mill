@@ -22,11 +22,11 @@ public class RobotHandler {
      * renturn AbstractRobot
      * 
      */
-    public static AbstractRobot getRobot(final int id){
+    public static AbstractRobot getRobot(){
     	AbstractRobot robot = null;
     	try {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ROBOT WHERE ID = ?");
-		stmt.setInt(1, id);//1
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ROBOT");
+		//stmt.setInt(1, id);//1
 		ResultSet results = stmt.executeQuery();		
 		if (results.next()) {			
 			int socketConnectionId = results.getInt("SOCKETCONNECTION");

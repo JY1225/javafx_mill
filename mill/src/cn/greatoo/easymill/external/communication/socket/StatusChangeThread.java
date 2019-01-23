@@ -135,7 +135,7 @@ public class StatusChangeThread implements Runnable {
 
 	protected boolean connCNC() {
 		try {
-			cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine(1);
+			cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine();
 			if(cncMachine != null) {
 				cncMachine.indicateOperatorRequested(false);
 				cncMachine.indicateOperatorRequested(false);
@@ -149,7 +149,7 @@ public class StatusChangeThread implements Runnable {
 
 	protected boolean connRobo() {
 		try {
-			robot = (FanucRobot)RobotHandler.getRobot(1);
+			robot = (FanucRobot)RobotHandler.getRobot();
 			if(robot != null) {
 				robot.restartProgram();
 			}
