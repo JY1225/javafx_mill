@@ -37,17 +37,7 @@ public class StatusChangeThread implements Runnable {
 		this.alarmListenThread = new AlarmListenThread(AlarmButton, duration, changingThread);
 		this.previousStatus = new HashMap<Integer, Integer>();
 		this.previousActiveMCodes = new HashSet<Integer>();
-		this.alive = true;
-		//初始化数据，加载数据库
-		try {
-			Programhandler.getProgram();
-			Gripperhandler.getAllGripper();		
-			ClampingHandler.getClampings();
-			Stackerhandler.getStacker();
-			UserFrameHander.getAllUserFrames();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		this.alive = true;		
 		connCNC();
 		connRobo();
 		conn();
@@ -145,7 +135,7 @@ public class StatusChangeThread implements Runnable {
 
 	protected boolean connCNC() {
 		try {
-			cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine(1);
+			cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine();
 			if(cncMachine != null) {
 				cncMachine.indicateOperatorRequested(false);
 				cncMachine.indicateOperatorRequested(false);
@@ -159,7 +149,7 @@ public class StatusChangeThread implements Runnable {
 
 	protected boolean connRobo() {
 		try {
-			robot = (FanucRobot)RobotHandler.getRobot(1);
+			robot = (FanucRobot)RobotHandler.getRobot();
 			if(robot != null) {
 				robot.restartProgram();
 			}
