@@ -44,6 +44,20 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 		putToCNCStep = new PutToCNCStep();
 		pickFromCNCStep = new PickFromCNCStep();
 		putToTableStep = new PutToTableStep();
+		try {
+			cncMachine.indicateOperatorRequested(false);
+			cncMachine.indicateOperatorRequested(false);
+			robot.restartProgram();
+		} catch (SocketResponseTimedOutException e) {
+			e.printStackTrace();
+		} catch (SocketDisconnectedException e) {
+			e.printStackTrace();
+		} catch (SocketWrongResponseException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		initOffset();
 	}
 
