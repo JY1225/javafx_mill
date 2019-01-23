@@ -25,7 +25,10 @@ public class Stackerhandler {
 	public static void SaveStacker(Stacker stacker) throws SQLException {
 		if (stacker.getId()<=0) {
 		conn.setAutoCommit(false);
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE, HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAX_UNDERFLOW, VERTICALHOLEDISTANCE,"
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, "
+				+ "HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, "
+				+ "VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE,"
+				+ " HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAX_UNDERFLOW, VERTICALHOLEDISTANCE,"
 				+ " ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
@@ -35,14 +38,14 @@ public class Stackerhandler {
 		stmt.setFloat(6, stacker.getVerticalPaddingTop());
 		stmt.setFloat(7, stacker.getVerticalPaddingBottom());
 		stmt.setFloat(8, stacker.getHorizontalHoleDistance());
-        stmt.setFloat(9, stacker.getVerticalHoleDistance());
-		stmt.setFloat(10, stacker.getInterferenceDistance());
-		stmt.setFloat(11, stacker.getOverflowPercentage());
-		stmt.setFloat(12, stacker.getHorizontalR());
-		stmt.setFloat(13, stacker.getTiltedR());
-		stmt.setFloat(14, stacker.getMaxOverflow());
-		stmt.setFloat(15, stacker.getMinOverlap());
-		stmt.setFloat(16, stacker.getMaxUnderflow());
+        stmt.setFloat(9, stacker.getInterferenceDistance());
+		stmt.setFloat(10, stacker.getOverflowPercentage());
+		stmt.setFloat(11, stacker.getHorizontalR());
+		stmt.setFloat(12, stacker.getTiltedR());
+		stmt.setFloat(13, stacker.getMaxOverflow());
+		stmt.setFloat(14, stacker.getMinOverlap());
+		stmt.setFloat(15, stacker.getMaxUnderflow());
+		stmt.setFloat(16, stacker.getVerticalHoleDistance());
 		stmt.setFloat(17, stacker.getOrientation());
 		stmt.setFloat(18, stacker.getLayers());
 		stmt.setFloat(19, stacker.getAmount());
@@ -96,18 +99,18 @@ public class Stackerhandler {
 		stmt.setFloat(6, stacker.getVerticalPaddingTop());
 		stmt.setFloat(7, stacker.getVerticalPaddingBottom());
 		stmt.setFloat(8, stacker.getHorizontalHoleDistance());
-        stmt.setFloat(9, stacker.getVerticalHoleDistance());
-		stmt.setFloat(10, stacker.getInterferenceDistance());
-		stmt.setFloat(11, stacker.getOverflowPercentage());
-		stmt.setFloat(12, stacker.getHorizontalR());
-		stmt.setFloat(13, stacker.getTiltedR());
-		stmt.setFloat(14, stacker.getMaxOverflow());
-		stmt.setFloat(15, stacker.getMinOverlap());
-		stmt.setFloat(16, stacker.getMaxUnderflow());
+        stmt.setFloat(9, stacker.getInterferenceDistance());
+		stmt.setFloat(10, stacker.getOverflowPercentage());
+		stmt.setFloat(11, stacker.getHorizontalR());
+		stmt.setFloat(12, stacker.getTiltedR());
+		stmt.setFloat(13, stacker.getMaxOverflow());
+		stmt.setFloat(14, stacker.getMinOverlap());
+		stmt.setFloat(15, stacker.getMaxUnderflow());
+		stmt.setFloat(16, stacker.getVerticalHoleDistance());
 		stmt.setFloat(17, stacker.getOrientation());
 		stmt.setFloat(18, stacker.getLayers());
 		stmt.setFloat(19, stacker.getAmount());
-		stmt.setFloat(20, stacker.getStudHeight_Workpiece());
+		stmt.setFloat(20, stacker.getStudHeight_Workpiece());	
 		stmt.setInt(21, stacker.getId());
 		stmt.execute();
 

@@ -19,7 +19,7 @@ public class WorkPiecePositions {
 	public static List<Coordinates> initializeRawWorkPiecePositionsDeg90(final WorkPiece dimensions) {		
 		
 		Stacker stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
-		//工件宽占多少行
+		//工件宽占多少行50/35
 		int amountOfStudsWorkPiece = (int) Math.ceil((dimensions.getWidth()/stacker.getHorizontalHoleDistance())+1);
 		//工件长占多少行
 		int amountOfStudsWorkPieceVertical = (int) Math.ceil((dimensions.getLength()/ stacker.getVerticalHoleDistance())+1);
