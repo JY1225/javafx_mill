@@ -1,8 +1,12 @@
 package cn.greatoo.easymill.ui.teach;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.db.util.CoordinatesHandler;
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.StatusChangeThread;
@@ -67,8 +71,18 @@ public class TeachMainContentViewController extends Controller{
 	}
 	
 	@FXML
-	public void saveAction(ActionEvent event) {
-		
+	public void saveAction(ActionEvent event) {		
+		Program program = DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName());
+		if(program != null) {
+		try {
+			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
+			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
+			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
+			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		}
 	}
 	@FXML
 	public void stopBtAction(ActionEvent event) {

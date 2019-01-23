@@ -29,8 +29,6 @@ public class StatusChangeThread implements Runnable {
 	private int rpreviousStatus;
 	private boolean alive;
 	private AlarmListenThread alarmListenThread;
-	private static SocketConnection robotSocket;
-	private static SocketConnection cncSocket;
 	private boolean isRunning = true;
 	private Map<Integer, Integer> previousStatus;
 	private Set<Integer> previousActiveMCodes;
@@ -63,7 +61,6 @@ public class StatusChangeThread implements Runnable {
 				if (robot != null) {
 					robot.updateStatusRestAndAlarms();
 					int statu = robot.getStatus();
-					// System.out.println("statu = "+ statu);
 					if (statu != rpreviousStatus) {
 						rpreviousStatus = statu;
 						robot.statusChanged();
@@ -119,13 +116,13 @@ public class StatusChangeThread implements Runnable {
 			@Override
 			public void run() {
 				while (isRunning) {
-					if (alarmListenThread != null && robotSocket != null && cncSocket != null) {
-						boolean isRobotConn = robotSocket.isConnected();
+					if (alarmListenThread != null && robot != null && cncMachine != null) {
+						boolean isRobotConn = robot.isConnected();
 						alarmListenThread.setIsRobotConn(isRobotConn);
 						if (!isRobotConn) {
 							connRobo();
 						}
-						boolean isCNCConn = cncSocket.isConnected();
+						boolean isCNCConn = cncMachine.isConnected();
 						alarmListenThread.setIsCNCConn(isCNCConn);
 						if (!isCNCConn) {
 							isCNCConn = connCNC();

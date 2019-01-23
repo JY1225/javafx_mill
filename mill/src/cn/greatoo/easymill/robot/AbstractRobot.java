@@ -10,8 +10,8 @@ import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public abstract class AbstractRobot {
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractRobot.disconnectedWhileWaiting";
-	private SocketConnection socketConnection;
-	private Set<RobotAlarm> alarms;
+	private static SocketConnection socketConnection;
+	private static Set<RobotAlarm> alarms;
 	private static double xrest, yrest, zrest;
 	private static RobotAlarm robotTimeout;
 	private static int speed;
@@ -20,9 +20,9 @@ public abstract class AbstractRobot {
 	private static int currentStatus;
 	private static boolean statusChanged;
 	private static boolean teachingNeeded;
-	private int id;
-	private String name;
-	private float payload; 
+	private static int id;
+	private static String name;
+	private static float payload; 
 		
 	public AbstractRobot(String name,float payload,final SocketConnection socketConnection) {
 		this.socketConnection = socketConnection;
@@ -60,22 +60,15 @@ public abstract class AbstractRobot {
 	public abstract void moveToChangePoint() throws AbstractCommunicationException,  InterruptedException;
 	public abstract void moveToCustomPosition() throws AbstractCommunicationException,  InterruptedException;
 	public abstract void enableMovement(boolean flag) throws AbstractCommunicationException,  InterruptedException;
-	
-	//public abstract void initiatePut(RobotPutSettings putSettings, Clamping clamping) throws AbstractCommunicationException,  InterruptedException;
 	public abstract void continuePutTillAtLocation(boolean isTeachingNeeded) throws AbstractCommunicationException,  InterruptedException, RobotActionException;
 	public abstract void continuePutTillClampAck(boolean isTeachingNeeded) throws AbstractCommunicationException,  InterruptedException, RobotActionException;
 	public abstract void continuePutTillIPPoint() throws AbstractCommunicationException,  InterruptedException, RobotActionException;
 	public abstract void finalizePut() throws AbstractCommunicationException,  InterruptedException;
 	
-	//public abstract void initiatePick(RobotPickSettings pickSettings, Clamping clamping) throws AbstractCommunicationException,  InterruptedException;
 	public abstract void continuePickTillAtLocation(boolean isTeachingNeeded) throws AbstractCommunicationException,  InterruptedException, RobotActionException;
 	public abstract void continuePickTillUnclampAck(boolean isTeachingNeeded) throws AbstractCommunicationException,  InterruptedException, RobotActionException;
 	public abstract void continuePickTillIPPoint() throws AbstractCommunicationException,  InterruptedException, RobotActionException;
-	public abstract void finalizePick() throws AbstractCommunicationException,  InterruptedException;
-	
-	//public abstract void initiateMoveWithPiece(RobotPutSettings putSettings) throws AbstractCommunicationException,  InterruptedException;
-	//public abstract void initiateMoveWithPieceNoAction(RobotPutSettings putSettings) throws AbstractCommunicationException,  InterruptedException;
-	//public abstract void initiateMoveWithoutPieceNoAction(final RobotPutSettings putSettings) throws AbstractCommunicationException,  InterruptedException;
+	public abstract void finalizePick() throws AbstractCommunicationException,  InterruptedException;	
 	public abstract void continueMoveTillAtLocation() throws AbstractCommunicationException,  InterruptedException;
 	public abstract void continueMoveTillWait() throws AbstractCommunicationException,  InterruptedException;
 	public abstract void performIOAction() throws AbstractCommunicationException,  InterruptedException;
@@ -83,18 +76,6 @@ public abstract class AbstractRobot {
 	public abstract void continueMoveWithoutPieceTillIPPoint() throws AbstractCommunicationException,  InterruptedException;
 	public abstract void finalizeMovePiece() throws AbstractCommunicationException,  InterruptedException;
 	
-//	public abstract void writeUserFrame(final RobotUserFrame userframe, final RobotPosition position) throws AbstractCommunicationException,  InterruptedException;
-//	public abstract void readUserFrame(final RobotUserFrame userframe) throws AbstractCommunicationException,  InterruptedException;
-//	public abstract void writeIPPoint(final RobotIPPoint ipPoint, final RobotPosition position) throws  AbstractCommunicationException,  InterruptedException;
-//	public abstract void readIPPoint(final RobotIPPoint ipPoint) throws AbstractCommunicationException,  InterruptedException;
-//	public abstract void writeRPPoint(final RobotRefPoint rpPoint, final RobotPosition position) throws  AbstractCommunicationException,  InterruptedException;
-//	public abstract void readRPPoint(final RobotRefPoint rpPoint) throws AbstractCommunicationException,  InterruptedException;
-//	public abstract void writeSpecialPoint(final RobotSpecialPoint specialPoint, final RobotPosition position) throws  AbstractCommunicationException,  InterruptedException;
-//	public abstract void readSpecialPoint(final RobotSpecialPoint specialPoint) throws AbstractCommunicationException,  InterruptedException;
-//	public abstract void writeToolFrame(final RobotToolFrame toolFrame, final RobotPosition position) throws AbstractCommunicationException,  InterruptedException;
-//    public abstract void readToolFrame(final RobotToolFrame toolFrame) throws AbstractCommunicationException,  InterruptedException;
-//    public abstract void readRegister(final RobotRegister register) throws AbstractCommunicationException,  InterruptedException;
-
 	public void interruptCurrentAction() {
 		setRobotTimeout(null);
 		stopAction = true;

@@ -4,7 +4,9 @@ import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.cnc.EWayOfOperating;
 import cn.greatoo.easymill.db.util.CNCHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
+import cn.greatoo.easymill.process.AbstractStep;
 import cn.greatoo.easymill.process.FinishStep;
 import cn.greatoo.easymill.process.PickFromCNCStep;
 import cn.greatoo.easymill.process.PickFromTableStep;
@@ -19,7 +21,7 @@ import cn.greatoo.easymill.ui.main.Controller;
  * 示教线程
  *
  */
-public class TeachAndAutoThread implements Runnable {
+public class TeachAndAutoThread extends AbstractStep implements Runnable {
 
 	private boolean teached;
 	private FanucRobot robot;
@@ -42,11 +44,12 @@ public class TeachAndAutoThread implements Runnable {
 		putToCNCStep = new PutToCNCStep();
 		pickFromCNCStep = new PickFromCNCStep();
 		putToTableStep = new PutToTableStep();
+		initOffset();
 	}
 
 	@Override
 	public void run() {
-		int wSize = 1;
+		int wSize = DBHandler.getInstance().getStatckerBuffer().get(0).getAmount();
 		int wIndex = 0;
 		while (wIndex < wSize) {
 			
@@ -71,6 +74,31 @@ public class TeachAndAutoThread implements Runnable {
 			wIndex++;
 		}
 	}
+	
+
+	private void initOffset() {
+		Coordinates  unLoadStackerOffset = program.getUnloadstacker().getOffset();
+		Coordinates  loadCNCOffset = program.getUnloadstacker().getOffset();
+		Coordinates  unLoadCNCOffset = program.getUnloadstacker().getOffset();
+		Coordinates  loadStackerOffset = program.getUnloadstacker().getOffset();
+		if(unLoadStackerOffset.getX() != 0 || unLoadStackerOffset.getY() != 0 || unLoadStackerOffset.getZ() != 0 
+				|| unLoadStackerOffset.getW() != 0 || unLoadStackerOffset.getP() != 0 || unLoadStackerOffset.getR() != 0) {
+			setUnloadStackerRelativeTeachedOffset(unLoadStackerOffset);
+		}
+		if(loadCNCOffset.getX() != 0 || loadCNCOffset.getY() != 0 || loadCNCOffset.getZ() != 0 
+				|| loadCNCOffset.getW() != 0 || loadCNCOffset.getP() != 0 || loadCNCOffset.getR() != 0) {
+			setLoadCNCRelativeTeachedOffset(loadCNCOffset);
+		}
+		if(unLoadCNCOffset.getX() != 0 || unLoadCNCOffset.getY() != 0 || unLoadCNCOffset.getZ() != 0 
+				|| unLoadCNCOffset.getW() != 0 || unLoadCNCOffset.getP() != 0 || unLoadCNCOffset.getR() != 0) {
+			setUnloadCNCRelativeTeachedOffset(unLoadCNCOffset);
+		}
+		if(loadStackerOffset.getX() != 0 || loadStackerOffset.getY() != 0 || loadStackerOffset.getZ() != 0 
+				|| loadStackerOffset.getW() != 0 || loadStackerOffset.getP() != 0 || loadStackerOffset.getR() != 0) {
+			setLoadStackerRelativeTeachedOffset(loadStackerOffset);
+		}		
+	}
+	
 	public static Controller getView() {
 		return view;
 	}

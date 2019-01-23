@@ -12,9 +12,11 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.entity.Clamping.ClampingType;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
@@ -153,8 +155,8 @@ public class FanucRobot extends AbstractRobot{
     public void moveToHome(int speed) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
        
         fanucRobotCommunication.writeValue(RobotConstants.COMMAND_TO_HOME, RobotConstants.RESPONSE_TO_HOME, WRITE_VALUES_TIMEOUT, "" + speed);
-    }
-    
+    }  
+
     public void writeServiceGripperSet(final String headId, final Gripper gA, final Gripper gB, final int serviceType,
             final boolean gripInner) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
