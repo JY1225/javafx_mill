@@ -41,6 +41,8 @@ public class Coordinates {
 		this(0f, 0f, 0f, 0f, 0f, 0f);
 	}
 
+
+
 	public float getX() {
 		return x;
 	}
