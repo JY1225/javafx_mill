@@ -69,12 +69,31 @@ public class Stacker {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Stacker(int horizontalHoleAmount2, int verticalHoleAmount2, float holeDiameter2, float studDiameter2,
-			float horizontalPadding2, float verticalPaddingTop2, float verticalPaddingBottom2,
-			float horizontalHoleDistance2, float verticalHoleDistance2, float interferenceDistance2,
-			float overflowPercentage2, float horizontalR2, float tiltedR2, float maxOverflow2, float maxUnderflow2,
-			float minOverlap2, float orientation2, int layers2, int amount2, float studHeight_Workpiece2) {
-		// TODO Auto-generated constructor stub
+	public Stacker(int horizontalHoleAmount, int verticalHoleAmount, float holeDiameter, float studDiameter,
+			float horizontalPadding, float verticalPaddingTop, float verticalPaddingBottom,
+			float horizontalHoleDistance, float verticalHoleDistance, float interferenceDistance,
+			float overflowPercentage, float horizontalR, float tiltedR, float maxOverflow, float maxUnderflow,
+			float minOverlap, float orientation, int layers, int amount, float studHeight_Workpiece) {
+		this.horizontalPadding = horizontalPadding;
+		this.verticalPaddingBottom = verticalPaddingBottom;
+		this.verticalPaddingTop = verticalPaddingTop;
+		this.horizontalHoleAmount = horizontalHoleAmount;
+		this.verticalHoleAmount = verticalHoleAmount;
+		this.holeDiameter = holeDiameter;
+		this.studDiameter = studDiameter;
+		this.horizontalHoleDistance = horizontalHoleDistance;
+		this.verticalHoleDistance = verticalHoleDistance;
+		this.interferenceDistance = interferenceDistance;
+		this.overflowPercentage = overflowPercentage;
+		this.maxOverflow = maxOverflow;
+		this.maxUnderflow = maxUnderflow;
+		this.minOverlap = minOverlap;
+		this.tiltedR = tiltedR;
+		this.horizontalR = horizontalR;
+		this.orientation = orientation;
+		this.layers = layers;
+		this.amount = amount;
+		this.studHeight_Workpiece = studHeight_Workpiece;
 	}
 
 	public String getUserFrameName() {
