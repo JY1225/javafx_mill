@@ -224,40 +224,25 @@ public class CNCHandler {
 			stmt7.setInt(7, cncMillingMachine.getId());
 			stmt7.executeUpdate();
 
-			List<GenericMCode> mCodes = cncMillingMachine.getMCodeAdapter().getGenericMCodes();
+			
+			PreparedStatement stmt8 = conn.prepareStatement(
+					"delete from MCODE where MCODEADAPTER = ?");
+			stmt8.setInt(1, cncMillingMachine.getId());
+			stmt8.executeUpdate();
+			List<GenericMCode> mCodes = cncMillingMachine.getMCodeAdapter().getGenericMCodes();			
 			for (int i = 0; i < mCodes.size(); i++) {
-				PreparedStatement stmt9 = conn.prepareStatement("select NAME from MCODE WHERE MCODEADAPTER = ? AND INDEX = ?");
-				stmt9.setInt(1, cncMillingMachine.getId());
-				stmt9.setInt(2, i);
-				ResultSet rs = stmt9.executeQuery();
-				if (!rs.next()) {
-					PreparedStatement stmt10 = conn.prepareStatement(
-							"INSERT INTO MCODE(INDEX, MCODEADAPTER,NAME,RSI1,RSI2,RSI3,RSI4,RSI5,RSACTIVE) VALUES (?,?,?,?,?,?,?,?,?)");
-					stmt10.setInt(1, i);
-					stmt10.setInt(2, cncMillingMachine.getId());
-					stmt10.setString(3, mCodes.get(i).getName());
-					stmt10.setBoolean(4, mCodes.get(i).getRobotServiceInputsRequired().contains(0));
-					stmt10.setBoolean(5, mCodes.get(i).getRobotServiceInputsRequired().contains(1));
-					stmt10.setBoolean(6, mCodes.get(i).getRobotServiceInputsRequired().contains(2));
-					stmt10.setBoolean(7, mCodes.get(i).getRobotServiceInputsRequired().contains(3));
-					stmt10.setBoolean(8, mCodes.get(i).getRobotServiceInputsRequired().contains(4));
-					stmt10.setBoolean(9, mCodes.get(i).getRobotServiceOutputsUsed().contains(0));
-					stmt10.executeUpdate();
-				} else {
-
-					PreparedStatement stmt8 = conn.prepareStatement(
-							"UPDATE MCODE SET NAME=?,RSI1=?,RSI2=?,RSI3=?,RSI4=?,RSI5=?,RSACTIVE=? WHERE MCODEADAPTER = ? AND INDEX=?");
-					stmt8.setString(1, mCodes.get(i).getName());
-					stmt8.setBoolean(2, mCodes.get(i).getRobotServiceInputsRequired().contains(0));
-					stmt8.setBoolean(3, mCodes.get(i).getRobotServiceInputsRequired().contains(1));
-					stmt8.setBoolean(4, mCodes.get(i).getRobotServiceInputsRequired().contains(2));
-					stmt8.setBoolean(5, mCodes.get(i).getRobotServiceInputsRequired().contains(3));
-					stmt8.setBoolean(6, mCodes.get(i).getRobotServiceInputsRequired().contains(4));
-					stmt8.setBoolean(7, mCodes.get(i).getRobotServiceOutputsUsed().contains(0));
-					stmt8.setInt(8, cncMillingMachine.getId());
-					stmt8.setInt(9, i);
-					stmt8.executeUpdate();
-				}
+				PreparedStatement stmt9 = conn.prepareStatement(
+						"INSERT INTO MCODE(INDEX, MCODEADAPTER,NAME,RSI1,RSI2,RSI3,RSI4,RSI5,RSACTIVE) VALUES (?,?,?,?,?,?,?,?,?)");
+				stmt9.setInt(1, i);
+				stmt9.setInt(2, cncMillingMachine.getId());
+				stmt9.setString(3, mCodes.get(i).getName());
+				stmt9.setBoolean(4, mCodes.get(i).getRobotServiceInputsRequired().contains(0));
+				stmt9.setBoolean(5, mCodes.get(i).getRobotServiceInputsRequired().contains(1));
+				stmt9.setBoolean(6, mCodes.get(i).getRobotServiceInputsRequired().contains(2));
+				stmt9.setBoolean(7, mCodes.get(i).getRobotServiceInputsRequired().contains(3));
+				stmt9.setBoolean(8, mCodes.get(i).getRobotServiceInputsRequired().contains(4));
+				stmt9.setBoolean(9, mCodes.get(i).getRobotServiceOutputsUsed().contains(0));
+				stmt9.executeUpdate();
 			}
 
 		}
