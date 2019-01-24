@@ -141,26 +141,10 @@ public class MainViewController extends Controller {
 	private void startThrad() {
 		// 报警监听
 		changingThread = new ButtonStyleChangingThread(alarm, "", CSS_CLASS_ALARMS_PRESENT, 500);
-		ThreadManager.submit(changingThread);
-		
-		// 监听机器人状态
-		new Thread(new Runnable() {			
-			@Override
-			public void run() {
-				while(running) {
-					if(changingThread != null) {
-						robotStatusChangeThread = new StatusChangeThread(alarm, 250, changingThread);
-						ThreadManager.submit(robotStatusChangeThread);
-						running = false;
-						try {
-							Thread.sleep(500);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}).start();		
+		//ThreadManager.submit(changingThread);
+		new Thread(changingThread).start();
+		robotStatusChangeThread = new StatusChangeThread(alarm, 250, changingThread);
+		new Thread(robotStatusChangeThread).start();
 	}
 
 	@FXML
