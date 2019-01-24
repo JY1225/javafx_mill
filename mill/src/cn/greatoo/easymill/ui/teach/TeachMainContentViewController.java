@@ -95,7 +95,12 @@ public class TeachMainContentViewController extends Controller{
 		save.setDisable(true);
 		btnStartAll.setDisable(false);
 		for(int i = 0;i < bts.size(); i++) {
-			bts.get(i).setDisable(false);
+			if(TeachAndAutoThread.isFinishTeach) {
+				bts.get(i).setDisable(false);
+			}
+			else if(bts.get(i) != auto) {
+				bts.get(i).setDisable(false);
+			}
 		}
 		FanucRobot.getInstance(null,0,null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();

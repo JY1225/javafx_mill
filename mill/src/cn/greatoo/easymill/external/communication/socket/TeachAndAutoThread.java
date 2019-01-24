@@ -22,7 +22,7 @@ import cn.greatoo.easymill.ui.main.Controller;
  *
  */
 public class TeachAndAutoThread extends AbstractStep implements Runnable {
-
+	public static boolean isFinishTeach = false;
 	private boolean teached;
 	private FanucRobot robot;
 	private CNCMachine cncMachine; 
@@ -87,6 +87,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 			FinishStep.finish(robot, cncMachine, teached, view);
 			wIndex++;
 		}
+		isFinishTeach = true;
 	}
 	
 
