@@ -49,7 +49,7 @@ public class PickFromTableStep extends AbstractStep{
 			}
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadStackerRelativeTeachedOffset());
 			position.offset(absoluteOffset);
-			 position = new Coordinates(32.5f,17.5f,0.0f,0.0f,0.0f,90.0f);
+			// position = new Coordinates(32.5f,17.5f,0.0f,0.0f,0.0f,90.0f);
 			
 			//-----------------------------------------------------------
 			int workArea = 1;
