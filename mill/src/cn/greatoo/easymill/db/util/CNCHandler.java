@@ -226,8 +226,9 @@ public class CNCHandler {
 
 			List<GenericMCode> mCodes = cncMillingMachine.getMCodeAdapter().getGenericMCodes();
 			for (int i = 0; i < mCodes.size(); i++) {
-				PreparedStatement stmt9 = conn.prepareStatement("select from MCODE WHERE MCODEADAPTER = ?");
+				PreparedStatement stmt9 = conn.prepareStatement("select NAME from MCODE WHERE MCODEADAPTER = ? AND INDEX = ?");
 				stmt9.setInt(1, cncMillingMachine.getId());
+				stmt9.setInt(2, i);
 				ResultSet rs = stmt9.executeQuery();
 				if (!rs.next()) {
 					PreparedStatement stmt10 = conn.prepareStatement(
