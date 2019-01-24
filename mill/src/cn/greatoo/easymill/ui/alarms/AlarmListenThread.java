@@ -27,7 +27,7 @@ public class AlarmListenThread {
 
 				AlarmView.getInstance().isRoboConn(isRobotConn);
 				AlarmView.getInstance().isCNCConn(isCNCConn);
-				if (isCNCConn && isRobotConn) {
+				if (getIsCNCConn() && getIsRobotConn()) {
 					changingThread.setRunning(false);
 					alarm.getStyleClass().clear();
 					alarm.getStyleClass().add(CSS_CLASS_HEADER_BUTTON);
