@@ -104,8 +104,9 @@ public class StatusChangeThread implements Runnable {
 	private void conn() {
 		new Thread(new Runnable() {
 			@Override
-			public void run() {
+			public void run() {				
 				while (isRunning) {
+					System.out.println("4444444555555555555==============================");
 					if (alarmListenThread != null && robot != null && cncMachine != null) {
 						boolean isRobotConn = robot.isConnected();
 						alarmListenThread.setIsRobotConn(isRobotConn);

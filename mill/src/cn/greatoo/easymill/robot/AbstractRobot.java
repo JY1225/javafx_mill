@@ -17,7 +17,7 @@ public abstract class AbstractRobot {
 	private  int speed;
 	private  boolean stopAction;
 	private  static Object syncObject;
-	private  int currentStatus;
+	private  static int currentStatus;
 	private  boolean statusChanged;
 	private  boolean teachingNeeded;
 	private  int id;
