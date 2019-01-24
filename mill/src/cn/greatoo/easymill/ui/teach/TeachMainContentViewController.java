@@ -49,7 +49,7 @@ public class TeachMainContentViewController extends Controller{
 	public void btnStartAllAction(ActionEvent event) {
 		FanucRobot robot = FanucRobot.getInstance(null,0,null);
 		CNCMachine cncMachine = CNCMachine.getInstance(null, null, null);
-		if(robot != null && cncMachine != null) {
+		if((robot != null && robot.isConnected()) && (cncMachine != null && cncMachine.isConnected())) {
 			btnStartAll.setDisable(true);
 			stopBt.setDisable(false);
 			reset.setDisable(false);
