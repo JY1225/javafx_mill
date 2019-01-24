@@ -62,6 +62,7 @@ public class TeachGriperAMenuViewController extends Controller{
 		isClicked(bts,put);
 	}
 	
+	TeachPickViewController teachPickViewController;
 	private void openPickView(){
 		isClicked(bts,pick);	
 		if (!gridPane.getChildren().contains(teachPickParent)) {
@@ -72,7 +73,7 @@ public class TeachGriperAMenuViewController extends Controller{
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				teachPickParent = fxmlLoader.load();
-				TeachPickViewController teachPickViewController = fxmlLoader.getController(); 
+				teachPickViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
 				teachPickViewController.init();
 				gridPane.add(teachPickParent, 1, 2);
@@ -80,9 +81,11 @@ public class TeachGriperAMenuViewController extends Controller{
 				e.printStackTrace();
 			}
 		} else {
+			teachPickViewController.init();
 			setDisVisible(2, 1, gridPane, teachPickParent);
 		}
 	}
+	TeachPutViewController teachPutViewController;
 	private void openPutView(){
 		isClicked(bts,put);	
 		if (!gridPane.getChildren().contains(teachPutParent)) {
@@ -93,7 +96,7 @@ public class TeachGriperAMenuViewController extends Controller{
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				teachPutParent = fxmlLoader.load();
-				TeachPutViewController teachPutViewController = fxmlLoader.getController(); 
+				teachPutViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
 				teachPutViewController.init();
 				gridPane.add(teachPutParent, 1, 2);
@@ -101,6 +104,7 @@ public class TeachGriperAMenuViewController extends Controller{
 				e.printStackTrace();
 			}
 		} else {
+			teachPutViewController.init();
 			setDisVisible(2, 1, gridPane, teachPutParent);
 		}
 	}

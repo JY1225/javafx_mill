@@ -1,8 +1,5 @@
 package cn.greatoo.easymill.ui.alarms;
 
-import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
-import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
-import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -12,14 +9,10 @@ public class AlarmListenThread {
 	private static final String CSS_CLASS_ALARMS_PRESENT = "alarms-present";
 	public ButtonStyleChangingThread changingThread;
 
-	private Object syncObject;
-
-	public static boolean isCNCConn = false;
-	public static boolean isRobotConn = false;
+	public  boolean isCNCConn = false;
+	public  boolean isRobotConn = false;
 	private Button alarm;
-	public static CNCSocketCommunication cncSocketConnection;
-	public static RobotSocketCommunication roboSocketConnection;
-	SocketConnection cncSocket;
+
 
 	public AlarmListenThread(final Button AlarmButton, final int duration, ButtonStyleChangingThread changingThread) {
 		this.alarm = AlarmButton;

@@ -62,7 +62,9 @@ public class TeachMainViewController extends Controller {
 	private Parent teachGriperAMenuParent;
 	private Parent teachGriperBMenuParent;
 	private FXMLLoader fxmlLoader;
-	public void init(List<Button> bts) {
+	private Button auto;
+	public void init(List<Button> bts, Button auto) {
+		this.auto = auto;
 		openContent(bts);
 		// 给流程按钮set css
 		List<Button> buttons = new ArrayList<>();
@@ -183,13 +185,13 @@ public class TeachMainViewController extends Controller {
 				teachMainContentParent = fxmlLoader.load();
 				teachMainContentViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				teachMainContentViewController.init(bts);
+				teachMainContentViewController.init(bts,auto);
 				gridPane.add(teachMainContentParent, 0, 2,2,1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			teachMainContentViewController.init(bts);
+			teachMainContentViewController.init(bts,auto);
 			setDisVisible(2,gridPane, teachMainContentParent);
 		}
 	}

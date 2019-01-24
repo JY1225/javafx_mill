@@ -54,18 +54,8 @@ public class Main extends Application {
 			new Thread(() -> {
 				ExceptionUtil.init();
 				DBHandler.getInstance();
-				//初始化数据，加载数据库
-				try {
-					Programhandler.getProgram();
-					Gripperhandler.getAllGripper();		
-					ClampingHandler.getClampings();
-					Stackerhandler.getStacker();
-					UserFrameHander.getAllUserFrames();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				
 			}).start();
-
 			
 		} catch (Exception e) {
 			e.printStackTrace();

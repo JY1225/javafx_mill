@@ -14,10 +14,11 @@ public class Program {
 	private cn.greatoo.easymill.entity.Step loadstacker;
 	private List<Step> Steps;
 	private RobotSetting robotSetting;
+	private boolean isHasTeach;
 	
 	public Program(String name,cn.greatoo.easymill.entity.Step unloadstacker,cn.greatoo.easymill.entity.Step loadCNC,
 			cn.greatoo.easymill.entity.Step unloadCNC,cn.greatoo.easymill.entity.Step loadstacker,
-			Timestamp timeCreate, Timestamp timeLastOpen,RobotSetting robotSetting) {
+			Timestamp timeCreate, Timestamp timeLastOpen,RobotSetting robotSetting,boolean isHasTeach) {
 		this.name = name;
 		this.unloadstacker = unloadstacker;
 		this.loadCNC = loadCNC;
@@ -26,6 +27,7 @@ public class Program {
 		this.timeCreate = timeCreate;
 		this.timeLastOpen = timeLastOpen;
 		this.robotSetting = robotSetting;
+		this.isHasTeach = isHasTeach;
 	}	
 
 	public Program() {
@@ -106,4 +108,13 @@ public class Program {
 	public void setRobotSetting(RobotSetting robotSetting) {
 		this.robotSetting = robotSetting;
 	}
+
+	public boolean isHasTeach() {
+		return isHasTeach;
+	}
+
+	public void setHasTeach(boolean isHasTeach) {
+		this.isHasTeach = isHasTeach;
+	}
+	
 }

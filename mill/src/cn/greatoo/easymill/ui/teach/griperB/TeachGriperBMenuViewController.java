@@ -64,7 +64,7 @@ public class TeachGriperBMenuViewController extends Controller{
 	public void openPutV(MouseEvent event) {
 		isClicked(bts,put);
 	}
-	
+	TeachGriperBPickViewController teachGriperBPickViewController;
 	private void openPickView(){
 		isClicked(bts,pick);	
 		if (!gridPane.getChildren().contains(teachPickParent)) {
@@ -75,7 +75,7 @@ public class TeachGriperBMenuViewController extends Controller{
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				teachPickParent = fxmlLoader.load();
-				TeachGriperBPickViewController teachGriperBPickViewController = fxmlLoader.getController(); 
+				teachGriperBPickViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
 				teachGriperBPickViewController.init();
 				gridPane.add(teachPickParent, 1, 2);
@@ -83,9 +83,11 @@ public class TeachGriperBMenuViewController extends Controller{
 				e.printStackTrace();
 			}
 		} else {
+			teachGriperBPickViewController.init();
 			setDisVisible(2, 1, gridPane, teachPickParent);
 		}
 	}
+	TeachGriperBPutViewController teachGriperBPutViewController;
 	private void openPutView(){
 		isClicked(bts,put);	
 		if (!gridPane.getChildren().contains(teachPutParent)) {
@@ -96,7 +98,7 @@ public class TeachGriperBMenuViewController extends Controller{
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				teachPutParent = fxmlLoader.load();
-				TeachGriperBPutViewController teachGriperBPutViewController = fxmlLoader.getController(); 
+				teachGriperBPutViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
 				teachGriperBPutViewController.init();
 				gridPane.add(teachPutParent, 1, 2);
@@ -104,6 +106,7 @@ public class TeachGriperBMenuViewController extends Controller{
 				e.printStackTrace();
 			}
 		} else {
+			teachGriperBPutViewController.init();
 			setDisVisible(2, 1, gridPane, teachPutParent);
 		}
 	}

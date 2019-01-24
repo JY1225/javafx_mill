@@ -6,6 +6,7 @@ import java.util.List;
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.CoordinatesHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.CNCSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
@@ -35,10 +36,11 @@ public class TeachMainContentViewController extends Controller{
 	@FXML
 	private Button stopBt;
 	private List<Button> bts;
-	
-	public void init(List<Button> bts) {	
+	private Button auto;
+	public void init(List<Button> bts, Button auto) {	
 		this.bts = bts;
 		stopBt.setDisable(true);
+		this.auto = auto;
 	}
 	@FXML
 	public void btnStartAction(ActionEvent event) {
@@ -79,6 +81,8 @@ public class TeachMainContentViewController extends Controller{
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
+			Programhandler.updateProgramTeachStatu();
+			auto.setDisable(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

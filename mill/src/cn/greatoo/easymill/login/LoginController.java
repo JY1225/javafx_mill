@@ -1,6 +1,7 @@
 package cn.greatoo.easymill.login;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -11,6 +12,11 @@ import org.apache.logging.log4j.Logger;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
+import cn.greatoo.easymill.db.util.ClampingHandler;
+import cn.greatoo.easymill.db.util.Gripperhandler;
+import cn.greatoo.easymill.db.util.Programhandler;
+import cn.greatoo.easymill.db.util.Stackerhandler;
+import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.CommonUtil;
 import javafx.event.ActionEvent;
@@ -48,6 +54,16 @@ public class LoginController implements Initializable {
         String pword = DigestUtils.shaHex(password.getText());
 
         if (true/*uname.equals(preference.getUsername()) && pword.equals(preference.getPassword())*/) {
+        	//初始化数据，加载数据库
+			try {
+				Programhandler.getProgram();
+				Gripperhandler.getAllGripper();		
+				ClampingHandler.getClampings();
+				Stackerhandler.getStacker();
+				UserFrameHander.getAllUserFrames();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
             closeStage();
             loadMain();
             LOGGER.log(Level.INFO, "User successfully logged in {}", uname);

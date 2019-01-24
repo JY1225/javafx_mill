@@ -57,7 +57,7 @@ public class TeachPickViewController {
 		String programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
 			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
-			unloadStacherOffset = program.getUnloadstacker().getOffset();
+			unloadStacherOffset = program.getUnloadstacker().getOffset();			
 			xTextField.setText(String.valueOf(unloadStacherOffset.getX()));
 			yTextField.setText(String.valueOf(unloadStacherOffset.getY()));
 			zTextField.setText(String.valueOf(unloadStacherOffset.getZ()));
