@@ -22,7 +22,7 @@ import cn.greatoo.easymill.ui.main.Controller;
  *
  */
 public class TeachAndAutoThread extends AbstractStep implements Runnable {
-
+	public static boolean isFinishTeach = false;
 	private boolean teached;
 	private FanucRobot robot;
 	private CNCMachine cncMachine; 
@@ -87,6 +87,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 			FinishStep.finish(robot, cncMachine, teached, view);
 			wIndex++;
 		}
+		isFinishTeach = true;
 	}
 	
 
@@ -95,26 +96,12 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 		Coordinates  loadCNCOffset = program.getUnloadstacker().getOffset();
 		Coordinates  unLoadCNCOffset = program.getUnloadstacker().getOffset();
 		Coordinates  loadStackerOffset = program.getUnloadstacker().getOffset();
-		setUnloadStackerRelativeTeachedOffset(unLoadStackerOffset);
-		setLoadCNCRelativeTeachedOffset(loadCNCOffset);
-		setUnloadCNCRelativeTeachedOffset(unLoadCNCOffset);
-		setLoadStackerRelativeTeachedOffset(loadStackerOffset);
-//		if(unLoadStackerOffset.getX() != 0 || unLoadStackerOffset.getY() != 0 || unLoadStackerOffset.getZ() != 0 
-//				|| unLoadStackerOffset.getW() != 0 || unLoadStackerOffset.getP() != 0 || unLoadStackerOffset.getR() != 0) {
-//			setUnloadStackerRelativeTeachedOffset(unLoadStackerOffset);
-//		}
-//		if(loadCNCOffset.getX() != 0 || loadCNCOffset.getY() != 0 || loadCNCOffset.getZ() != 0 
-//				|| loadCNCOffset.getW() != 0 || loadCNCOffset.getP() != 0 || loadCNCOffset.getR() != 0) {
-//			setLoadCNCRelativeTeachedOffset(loadCNCOffset);
-//		}
-//		if(unLoadCNCOffset.getX() != 0 || unLoadCNCOffset.getY() != 0 || unLoadCNCOffset.getZ() != 0 
-//				|| unLoadCNCOffset.getW() != 0 || unLoadCNCOffset.getP() != 0 || unLoadCNCOffset.getR() != 0) {
-//			setUnloadCNCRelativeTeachedOffset(unLoadCNCOffset);
-//		}
-//		if(loadStackerOffset.getX() != 0 || loadStackerOffset.getY() != 0 || loadStackerOffset.getZ() != 0 
-//				|| loadStackerOffset.getW() != 0 || loadStackerOffset.getP() != 0 || loadStackerOffset.getR() != 0) {
-//			setLoadStackerRelativeTeachedOffset(loadStackerOffset);
-//		}		
+		if(program.isHasTeach()) {
+			setUnloadStackerRelativeTeachedOffset(unLoadStackerOffset);
+			setLoadCNCRelativeTeachedOffset(loadCNCOffset);
+			setUnloadCNCRelativeTeachedOffset(unLoadCNCOffset);
+			setLoadStackerRelativeTeachedOffset(loadStackerOffset);
+		}
 	}
 	
 	public static Controller getView() {

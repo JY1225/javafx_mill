@@ -99,7 +99,7 @@ public class SaveViewController {
 		//step4
 		Step loadstacker = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,1,loadStackerSmooth,TeachGriperBPutViewController.loadStackerOffset);
 				
-		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting);
+		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting,false);
 		
 		try {
 			Stackerhandler.updateStacker(stacker);

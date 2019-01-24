@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.StatusChangeThread;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.alarms.AlarmView;
@@ -80,13 +82,17 @@ public class MainViewController extends Controller {
 	private Parent configureParent;
 	FXMLLoader fxmlLoader;
 	SetViewController setViewController;
-
+	Program program = null;
 
 
 	public static boolean isCNCConn = false;
 	public static boolean isRobotConn = false;
 
-	public void Init() {		
+	public void Init() {
+		String programName = DBHandler.getInstance().getProgramName();
+		if (programName != null) {
+			program = DBHandler.getInstance().getProgramBuffer().get(programName);
+		}
 		stackPane.getChildren().add(RobotPopUpView.getInstance());
 		stackPane.getChildren().add(AlarmView.getInstance());
 		
@@ -126,7 +132,9 @@ public class MainViewController extends Controller {
 		openSet();
 
 		startThrad();
-		
+		if(program != null && !program.isHasTeach()) {
+			auto.setDisable(true);
+		}
 	}
 
 	boolean running = true;
@@ -202,14 +210,14 @@ public class MainViewController extends Controller {
 				teachParent = fxmlLoader.load();
 				teachMainViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				teachMainViewController.init(bts);
+				teachMainViewController.init(bts,auto);
 				gridPane.add(teachParent, 0, 1, 2, 1);
 				setDisVisible(1, gridPane, teachParent);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			teachMainViewController.init(bts);
+			teachMainViewController.init(bts,auto);
 			setDisVisible(1, gridPane, teachParent);
 		}
 

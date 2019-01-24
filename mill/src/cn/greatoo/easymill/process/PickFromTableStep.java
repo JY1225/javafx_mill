@@ -56,11 +56,11 @@ public class PickFromTableStep extends AbstractStep{
 			approachType = 1;
 			float zSafePlane = 0;
 			float wh = program.getUnloadstacker().getWorkPiece().getHeight();
-			float sh = DBHandler.getInstance().getStatckerBuffer().get(0).getStudHeight_Stacker();
+			float sh = DBHandler.getInstance().getStatckerBuffer().get(0).getStudHeight_Workpiece();
 			if(wh >= sh) {
-				zSafePlane = 2*wh;
+				zSafePlane = 2*wh;	
 			}else {
-				zSafePlane = wh + sh;
+				zSafePlane = wh + sh;							
 			}
 			System.out.println(position.getX()+","+position.getY()+","+position.getZ()+","+position.getW()+","+position.getP()+","+position.getR());
 			//77

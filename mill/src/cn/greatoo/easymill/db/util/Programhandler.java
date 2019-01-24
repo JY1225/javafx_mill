@@ -129,7 +129,7 @@ public class Programhandler {
 			
 			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING) VALUES (?,?,?,?,?,?,?,?)",
+					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,ISHASTEACH) VALUES (?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, program.getName());
 			stmt.setTimestamp(2, program.getTimeCreate());
@@ -139,6 +139,7 @@ public class Programhandler {
 			stmt.setInt(6, program.getUnloadCNC().getId());
 			stmt.setInt(7, program.getLoadstacker().getId());
 			stmt.setInt(8, program.getRobotSetting().getId());
+			stmt.setBoolean(9, program.isHasTeach());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {
@@ -150,4 +151,16 @@ public class Programhandler {
 		}
 	}
 
+	public static void updateProgramTeachStatu() {
+		 try {
+			 PreparedStatement stmt = conn.prepareStatement("UPDATE PROGRAM SET ishasteach = ? WHERE name = ?");   
+			 stmt.setBoolean(1, true);
+			 stmt.setString(2, DBHandler.getInstance().getProgramName());
+			 stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         
+	}
 }
