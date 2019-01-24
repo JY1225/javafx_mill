@@ -24,13 +24,14 @@ public class AlarmListenThread {
 		Platform.runLater(new Thread() {
 			@Override
 			public void run() {
-
-				AlarmView.getInstance().isRoboConn(isRobotConn);
-				AlarmView.getInstance().isCNCConn(isCNCConn);
+				AlarmView.getInstance().isRoboConn(getIsRobotConn());
+				AlarmView.getInstance().isCNCConn(getIsCNCConn());
 				if (getIsCNCConn() && getIsRobotConn()) {
 					changingThread.setRunning(false);
 					alarm.getStyleClass().clear();
 					alarm.getStyleClass().add(CSS_CLASS_HEADER_BUTTON);
+				}else {
+					changingThread.setRunning(true);
 				}
 			}
 

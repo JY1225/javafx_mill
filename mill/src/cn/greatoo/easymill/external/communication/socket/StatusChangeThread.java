@@ -1,6 +1,5 @@
 package cn.greatoo.easymill.external.communication.socket;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,16 +7,12 @@ import java.util.Set;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.CNCHandler;
-import cn.greatoo.easymill.db.util.ClampingHandler;
-import cn.greatoo.easymill.db.util.Gripperhandler;
-import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.db.util.RobotHandler;
-import cn.greatoo.easymill.db.util.Stackerhandler;
-import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
+import cn.greatoo.easymill.util.ThreadManager;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 
@@ -34,7 +29,8 @@ public class StatusChangeThread implements Runnable {
 	private Set<Integer> previousActiveMCodes;
 
 	public StatusChangeThread(final Button AlarmButton, final int duration, ButtonStyleChangingThread changingThread) {
-		this.alarmListenThread = new AlarmListenThread(AlarmButton, duration, changingThread);
+		this.alarmListenThread = new AlarmListenThread(AlarmButton, duration, changingThread);	
+		alarmListenThread.run();
 		this.previousStatus = new HashMap<Integer, Integer>();
 		this.previousActiveMCodes = new HashSet<Integer>();
 		this.alive = true;		
@@ -46,7 +42,7 @@ public class StatusChangeThread implements Runnable {
 	@Override
 	public void run() {
 		while (alive) {
-			try {
+			try {	
 				alarmListenThread.run();
 				if (robot != null) {
 					robot.updateStatusRestAndAlarms();
