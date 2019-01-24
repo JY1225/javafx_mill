@@ -35,7 +35,7 @@ public class PutToCNCStep extends AbstractStep{
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
 			int approachType = 1;
-			float payLoad1 = program.getLoadCNC().getWorkPiece().getWeight();
+			float payLoad1 = program.getLoadCNC().getWorkPiece().getWeight() * 10;
 			float payLoad2 = 0;
 			//76
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, 

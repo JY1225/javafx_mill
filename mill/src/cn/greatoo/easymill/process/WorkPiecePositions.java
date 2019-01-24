@@ -30,8 +30,8 @@ public class WorkPiecePositions {
 		
 		for (int i = 0; i < amountVertical; i++) {// 2
 			for (int j = 0; j < amountHorizontal; j++) {// 4
-				int amountOfStudsLeft = j * amountOfStudsWorkPiece;// 6
-				int amountOfStudsBottom = 1 + i * amountOfStudsWorkPieceVertical;// 4
+				int amountOfStudsLeft = j * amountOfStudsWorkPiece;// 0
+				int amountOfStudsBottom = 1 + i * amountOfStudsWorkPieceVertical;// 1
 				// horizontalHoleDistance=35 verticalHoleDistance = 70 studDiameter=15
 				// getHorizontalPadding()=45 getVerticalPaddingBottom()=26
 				double xBottomLeft = stacker.getHorizontalPadding()
@@ -49,12 +49,15 @@ public class WorkPiecePositions {
 
 	public static Coordinates getPickLocation(int index) {
 
-		// c(137.5, 133.5, 0.0, 0.0, 0.0, 90.0)
+		// c(137.5, 133.5, 0.0, 0.0, 0.0, 90.0)(120.0, 131.0, 0.0, 0.0, 0.0, 90.0)
 		Coordinates c = new Coordinates(coordinatesList.get(index));
 //		if (amount > 0) {
 //			c.setZ((amount - 1) * getWorkPiece().getDimensions().getZSafe());
 //		} 
-		c.offset(DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition());
+		//c.offset(DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition());???????????
+		float x = DBHandler.getInstance().getStatckerBuffer().get(0).getHorizontalPadding();
+		float y = DBHandler.getInstance().getStatckerBuffer().get(0).getVerticalPaddingBottom();
+		c.offset(new Coordinates(-x,-y,0,0,0,0));
 		// (92.5, 107.5, 0.0, 0.0, 0.0, 90.0)
 		return c;
 
