@@ -32,7 +32,7 @@ public class PickFromCNCStep extends AbstractStep{
 			float weight2 = program.getUnloadCNC().getWorkPiece().getWeight();
 			int approachType = 1;
 			float payLoad1 = 0;
-			float payLoad2 = program.getUnloadCNC().getWorkPiece().getWeight();
+			float payLoad2 = program.getUnloadCNC().getWorkPiece().getWeight() * 10;
 			//76
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,
 					program.getUnloadCNC().getWorkPiece(), approachType, payLoad1, payLoad2);

@@ -31,7 +31,7 @@ public class PutToTableStep extends AbstractStep{
 
 			float weight2 = -program.getLoadstacker().getWorkPiece().getWeight();
 			int approachType = 1;
-			float payLoad1 = program.getLoadstacker().getWorkPiece().getWeight();
+			float payLoad1 = program.getLoadstacker().getWorkPiece().getWeight() * 10;
 			float payLoad2 = 0;
 			//76
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,

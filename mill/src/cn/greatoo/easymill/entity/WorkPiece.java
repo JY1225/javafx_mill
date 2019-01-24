@@ -125,7 +125,7 @@ public class WorkPiece {
 	}
 	
 	private void setShape() {
-		if (diameter == 0 || diameter < 0) {
+		if (diameter > 0) {
 			this.shape = WorkPieceShape.CYLINDRICAL;
 		} else{
 			this.shape = WorkPieceShape.CUBIC;			

@@ -36,7 +36,7 @@ public class PickFromTableStep extends AbstractStep{
 			
 			int approachType = 1;
 			float payLoad1 = 0;
-			float payLoad2 = program.getUnloadstacker().getWorkPiece().getWeight();
+			float payLoad2 = program.getUnloadstacker().getWorkPiece().getWeight() * 10;
 			//76
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, 
 					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
@@ -44,7 +44,7 @@ public class PickFromTableStep extends AbstractStep{
 			WorkPiecePositions.initializeRawWorkPiecePositionsDeg90(program.getUnloadstacker().getWorkPiece());
 			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);			
 			Coordinates position = new Coordinates(originalPosition);			
-			if (getUnloadStackerRelativeTeachedOffset() == null) {
+			if (getUnloadStackerRelativeTeachedOffset() == null) {///?????
 				initSafeTeachedOffset(1,program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
 			}
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadStackerRelativeTeachedOffset());
