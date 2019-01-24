@@ -33,7 +33,7 @@ public class CNCHandler {
 		AbstractCNCMachine cncMillingMachine = null;
 		try {
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM CNCMILLINGMACHINE");
-			//stmt.setInt(1, id);// 1
+			// stmt.setInt(1, id);// 1
 			ResultSet results = stmt.executeQuery();
 			if (results.next()) {
 				int socketConnectionId = results.getInt("SOCKETCONNECTION");
@@ -47,8 +47,9 @@ public class CNCHandler {
 					socketConnection.setId(results2.getInt("ID"));
 				}
 				EWayOfOperating wayOfOperating = EWayOfOperating
-						.getWayOfOperatingById(results.getInt("WAYOFOPERATING"));// 2				
-				cncMillingMachine = CNCMachine.getInstance(socketConnection, getMCodeAdapter(results.getInt("ID")), wayOfOperating);
+						.getWayOfOperatingById(results.getInt("WAYOFOPERATING"));// 2
+				cncMillingMachine = CNCMachine.getInstance(socketConnection, getMCodeAdapter(results.getInt("ID")),
+						wayOfOperating);
 				cncMillingMachine.setId(results.getInt("ID"));
 
 			}
@@ -158,12 +159,11 @@ public class CNCHandler {
 				socketConnectionId = keys.getInt(1);
 			}
 
-			PreparedStatement stmt2 = conn.prepareStatement(
-					"INSERT INTO CNCMILLINGMACHINE(WAYOFOPERATING, SOCKETCONNECTION) VALUES (?, ?)");
+			PreparedStatement stmt2 = conn
+					.prepareStatement("INSERT INTO CNCMILLINGMACHINE(WAYOFOPERATING, SOCKETCONNECTION) VALUES (?, ?)");
 			stmt2.setInt(1, cncMillingMachine.getWayOfOperating().getId());
 			stmt2.setInt(2, socketConnectionId);
 			stmt2.executeUpdate();
-
 
 			PreparedStatement stmt3 = conn.prepareStatement(
 					"INSERT INTO MCODEADAPTER(RSI1, RSI2,RSI3,RSI4,RSI5,RSA) VALUES (?, ?,?,?,?,?)",
@@ -180,7 +180,7 @@ public class CNCHandler {
 			if ((keys3 != null) && (keys3.next())) {
 				mcodeId = keys3.getInt(1);
 			}
-			
+
 			List<GenericMCode> mCodes = cncMillingMachine.getMCodeAdapter().getGenericMCodes();
 			for (int i = 0; i < mCodes.size(); i++) {
 				PreparedStatement stmt4 = conn.prepareStatement(
@@ -194,7 +194,7 @@ public class CNCHandler {
 				stmt4.setBoolean(7, mCodes.get(i).getRobotServiceInputsRequired().contains(3));
 				stmt4.setBoolean(8, mCodes.get(i).getRobotServiceInputsRequired().contains(4));
 				stmt4.setBoolean(9, mCodes.get(i).getRobotServiceOutputsUsed().contains(0));
-				stmt4.executeUpdate();				
+				stmt4.executeUpdate();
 			}
 
 		} else {
@@ -205,14 +205,16 @@ public class CNCHandler {
 			stmt5.setFloat(3, cncMillingMachine.getSocketConnection().getPortNumber());
 			stmt5.setInt(4, cncMillingMachine.getSocketConnection().getId());
 			stmt5.executeUpdate();
-			
-			PreparedStatement stmt6 = conn.prepareStatement("UPDATE CNCMILLINGMACHINE SET WAYOFOPERATING = ?, SOCKETCONNECTION = ? WHERE ID = ?");
+
+			PreparedStatement stmt6 = conn.prepareStatement(
+					"UPDATE CNCMILLINGMACHINE SET WAYOFOPERATING = ?, SOCKETCONNECTION = ? WHERE ID = ?");
 			stmt6.setInt(1, cncMillingMachine.getWayOfOperating().getId());
 			stmt6.setFloat(2, cncMillingMachine.getSocketConnection().getId());
 			stmt6.setInt(3, cncMillingMachine.getId());
 			stmt6.executeUpdate();
-			
-			PreparedStatement stmt7 = conn.prepareStatement("UPDATE MCODEADAPTER SET RSI1 = ?, RSI2 = ?,RSI3=?,RSI4=?,RSI5=?,RSA=? WHERE ID = ?");
+
+			PreparedStatement stmt7 = conn.prepareStatement(
+					"UPDATE MCODEADAPTER SET RSI1 = ?, RSI2 = ?,RSI3=?,RSI4=?,RSI5=?,RSA=? WHERE ID = ?");
 			stmt7.setString(1, cncMillingMachine.getMCodeAdapter().getRobotServiceInputNames().get(0));
 			stmt7.setString(2, cncMillingMachine.getMCodeAdapter().getRobotServiceInputNames().get(1));
 			stmt7.setString(3, cncMillingMachine.getMCodeAdapter().getRobotServiceInputNames().get(2));
@@ -221,21 +223,41 @@ public class CNCHandler {
 			stmt7.setString(6, cncMillingMachine.getMCodeAdapter().getRobotServiceOutputNames().get(0));
 			stmt7.setInt(7, cncMillingMachine.getId());
 			stmt7.executeUpdate();
-			
+
 			List<GenericMCode> mCodes = cncMillingMachine.getMCodeAdapter().getGenericMCodes();
 			for (int i = 0; i < mCodes.size(); i++) {
-				PreparedStatement stmt8 = conn.prepareStatement(
-						"UPDATE MCODE SET NAME=?,RSI1=?,RSI2=?,RSI3=?,RSI4=?,RSI5=?,RSACTIVE=? WHERE MCODEADAPTER = ? AND INDEX=?");							
-				stmt8.setString(1, mCodes.get(i).getName());
-				stmt8.setBoolean(2, mCodes.get(i).getRobotServiceInputsRequired().contains(0));
-				stmt8.setBoolean(3, mCodes.get(i).getRobotServiceInputsRequired().contains(1));
-				stmt8.setBoolean(4, mCodes.get(i).getRobotServiceInputsRequired().contains(2));
-				stmt8.setBoolean(5, mCodes.get(i).getRobotServiceInputsRequired().contains(3));
-				stmt8.setBoolean(6, mCodes.get(i).getRobotServiceInputsRequired().contains(4));
-				stmt8.setBoolean(7, mCodes.get(i).getRobotServiceOutputsUsed().contains(0));				
-				stmt8.setInt(8, cncMillingMachine.getId());
-				stmt8.setInt(9, i);	
-				stmt8.executeUpdate();				
+				PreparedStatement stmt9 = conn.prepareStatement("select NAME from MCODE WHERE MCODEADAPTER = ? AND INDEX = ?");
+				stmt9.setInt(1, cncMillingMachine.getId());
+				stmt9.setInt(2, i);
+				ResultSet rs = stmt9.executeQuery();
+				if (!rs.next()) {
+					PreparedStatement stmt10 = conn.prepareStatement(
+							"INSERT INTO MCODE(INDEX, MCODEADAPTER,NAME,RSI1,RSI2,RSI3,RSI4,RSI5,RSACTIVE) VALUES (?,?,?,?,?,?,?,?,?)");
+					stmt10.setInt(1, i);
+					stmt10.setInt(2, cncMillingMachine.getId());
+					stmt10.setString(3, mCodes.get(i).getName());
+					stmt10.setBoolean(4, mCodes.get(i).getRobotServiceInputsRequired().contains(0));
+					stmt10.setBoolean(5, mCodes.get(i).getRobotServiceInputsRequired().contains(1));
+					stmt10.setBoolean(6, mCodes.get(i).getRobotServiceInputsRequired().contains(2));
+					stmt10.setBoolean(7, mCodes.get(i).getRobotServiceInputsRequired().contains(3));
+					stmt10.setBoolean(8, mCodes.get(i).getRobotServiceInputsRequired().contains(4));
+					stmt10.setBoolean(9, mCodes.get(i).getRobotServiceOutputsUsed().contains(0));
+					stmt10.executeUpdate();
+				} else {
+
+					PreparedStatement stmt8 = conn.prepareStatement(
+							"UPDATE MCODE SET NAME=?,RSI1=?,RSI2=?,RSI3=?,RSI4=?,RSI5=?,RSACTIVE=? WHERE MCODEADAPTER = ? AND INDEX=?");
+					stmt8.setString(1, mCodes.get(i).getName());
+					stmt8.setBoolean(2, mCodes.get(i).getRobotServiceInputsRequired().contains(0));
+					stmt8.setBoolean(3, mCodes.get(i).getRobotServiceInputsRequired().contains(1));
+					stmt8.setBoolean(4, mCodes.get(i).getRobotServiceInputsRequired().contains(2));
+					stmt8.setBoolean(5, mCodes.get(i).getRobotServiceInputsRequired().contains(3));
+					stmt8.setBoolean(6, mCodes.get(i).getRobotServiceInputsRequired().contains(4));
+					stmt8.setBoolean(7, mCodes.get(i).getRobotServiceOutputsUsed().contains(0));
+					stmt8.setInt(8, cncMillingMachine.getId());
+					stmt8.setInt(9, i);
+					stmt8.executeUpdate();
+				}
 			}
 
 		}

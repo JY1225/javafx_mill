@@ -92,6 +92,7 @@ public class CNCConfigViewController extends Controller {
 		// 更新
 		if (cnc != null && cnc.getId() > 0) {
 			if(mCodeAdapter != null) {
+				mCodeAdapter.setId(cnc.getMCodeAdapter().getId());
 				cnc.setMCodeAdapter(mCodeAdapter);
 				CNCMachine.getInstance(null, null, null).setMCodeAdapter(mCodeAdapter);
 			}
