@@ -67,7 +67,7 @@ public class Clamping implements Cloneable {
 	} 
 	
 
-	private static int id;
+	private int id;
 	private String name;
 	private Coordinates relativePosition;	
 	private static Smooth smoothToPoint;
@@ -156,7 +156,7 @@ public class Clamping implements Cloneable {
 		this.relatedClampings = tobeRelatedClampings;
 	}
 
-	public static int getId() {
+	public int getId() {
 		return id;
 	}
 

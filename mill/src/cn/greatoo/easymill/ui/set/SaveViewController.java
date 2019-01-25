@@ -58,6 +58,7 @@ public class SaveViewController {
 		
 	}
 
+	@SuppressWarnings("static-access")
 	@FXML
 	public void save(MouseEvent event) throws DuplicateProcessFlowNameException  {
 		String programName = fulltxtName.getText();
@@ -99,14 +100,17 @@ public class SaveViewController {
 		//step4
 		Step loadstacker = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,1,loadStackerSmooth,new Coordinates());
 		Program program  = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting,false);
-		if(programName == DBHandler.getInstance().getProgramName()) {
+		if(programName.equals(DBHandler.getInstance().getProgramName())) {
 			 program.setId(DBHandler.getInstance().getProgramBuffer().get(programName).getId());
-			
 		}
 		
 		try {
-			Stackerhandler.updateStacker(stacker);
-			ClampingHandler.updateClamping(clamping);
+			if(stacker.getId() > 0) {
+				Stackerhandler.updateStacker(stacker);
+			}
+			if(clamping.getId() > 0) {
+				ClampingHandler.updateClamping(clamping);
+			}
 			Programhandler.saveProgram(program);
 		} catch (SQLException e) {
 			e.printStackTrace();

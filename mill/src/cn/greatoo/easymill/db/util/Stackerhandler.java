@@ -20,7 +20,6 @@ import cn.greatoo.easymill.entity.Smooth;
 public class Stackerhandler {
 	
 	static Connection conn = DBHandler.getInstance().getConnection();
-	private final static Logger LOGGER = LogManager.getLogger(Stackerhandler.class.getName());
 
 	public static void SaveStacker(Stacker stacker) throws SQLException {
 		if (stacker.getId()<=0) {
@@ -76,11 +75,11 @@ public class Stackerhandler {
 		conn.commit();
 		conn.setAutoCommit(true);
 		
-		PreparedStatement stmt2 = conn.prepareStatement("UPDATE CLAMPING SET HEIGHT = ? WHERE ID = ?");
-		stmt2.setFloat(1, stacker.getStudHeight_Stacker());
-		stmt2.setInt(2, Clamping.getId());
-		stmt2.execute();
-		//Clamping.setDefaultHeight(stacker.getStudHeight_Stacker());
+//		PreparedStatement stmt2 = conn.prepareStatement("UPDATE CLAMPING SET HEIGHT = ? WHERE ID = ?");
+//		stmt2.setFloat(1, stacker.getStudHeight_Stacker());
+//		stmt2.setInt(2, Clamping.getId());
+//		stmt2.execute();
+//		//Clamping.setDefaultHeight(stacker.getStudHeight_Stacker());
 	}
 	
 	
@@ -114,25 +113,21 @@ public class Stackerhandler {
 		stmt.setInt(21, stacker.getId());
 		stmt.execute();
 
-//		Smooth smoothTo = Clamping.getSmoothToPoint();
-//		Smooth smoothFrom = Clamping.getSmoothFromPoint();
-//		smoothTo.setX(stacker.getSmoothto().getX());
-//		smoothTo.setY(stacker.getSmoothto().getY());
-//		smoothTo.setZ(stacker.getSmoothto().getZ());
-//		smoothFrom.setX(stacker.getSmoothfrom().getX());
-//		smoothFrom.setY(stacker.getSmoothfrom().getY());
-//		smoothFrom.setZ(stacker.getSmoothfrom().getZ());
-//		SmoothHandler.saveSmooth(smoothTo);
-//		SmoothHandler.saveSmooth(smoothFrom);
+		if(stacker.getSmoothto() != null) {
+			SmoothHandler.saveSmooth(stacker.getSmoothto());
+		}
+		if(stacker.getSmoothfrom() != null) {
+			SmoothHandler.saveSmooth(stacker.getSmoothfrom());
+		}
 		conn.commit();
 		conn.setAutoCommit(true);
 		
-		
-		PreparedStatement stmt2 = conn.prepareStatement("UPDATE CLAMPING SET HEIGHT = ? WHERE ID = ?");
-		stmt2.setFloat(1, stacker.getStudHeight_Stacker());
-		stmt2.setInt(2, Clamping.getId());
-		stmt2.execute();
-		//Clamping.setDefaultHeight(stacker.getStudHeight_Stacker());
+//		
+//		PreparedStatement stmt2 = conn.prepareStatement("UPDATE CLAMPING SET HEIGHT = ? WHERE ID = ?");
+//		stmt2.setFloat(1, stacker.getStudHeight_Stacker());
+//		stmt2.setInt(2, Clamping.getId());
+//		stmt2.execute();
+//		//Clamping.setDefaultHeight(stacker.getStudHeight_Stacker());
 	}
 	
 	private Stacker getStacker(final int id, final String name) throws SQLException {

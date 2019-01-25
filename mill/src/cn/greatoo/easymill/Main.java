@@ -69,9 +69,9 @@ public class Main extends Application {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				Long exitTime = System.currentTimeMillis();
-				LOGGER.log(Level.INFO, "Library Assistant is closing on {}. Used for {} ms",
-						CommonUtil.formatDateTimeString(startTime), exitTime);
+//				Long exitTime = System.currentTimeMillis();
+//				LOGGER.log(Level.INFO, "Library Assistant is closing on {}. Used for {} ms",
+//						CommonUtil.formatDateTimeString(startTime), exitTime);
 			}
 		});
 	}
