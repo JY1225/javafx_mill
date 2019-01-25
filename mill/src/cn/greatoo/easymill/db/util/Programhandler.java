@@ -46,13 +46,14 @@ public class Programhandler {
 				program.setUnloadCNC(unloadCNC);
 				Step loadstacker = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadstacker"));
 				program.setLoadstacker(loadstacker);
-	            RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ID"), results.getInt("ROBOTSETTING"));
-	            program.setRobotSetting(robotSetting);
-			}			
-            
+				RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ID"),
+						results.getInt("ROBOTSETTING"));
+				program.setRobotSetting(robotSetting);
+			}
+
 			if (program != null) {
 				DBHandler.getInstance().setProgramName(program.getName());
-				DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);				
+				DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);
 			}
 		} catch (SQLException ex) {
 			LOGGER.log(Level.ERROR, "{}", ex);
@@ -61,7 +62,7 @@ public class Programhandler {
 	}
 
 	public static Program getProgramByName(String name) {
-		
+
 		Program program = DBHandler.getInstance().getProgramBuffer().get(name);
 		if (program != null) {
 			DBHandler.getInstance().setProgramName(program.getName());
@@ -97,37 +98,42 @@ public class Programhandler {
 	}
 
 	public static void saveProgram(Program program) throws SQLException {
-		if (program.getId() <= 0) {// insert
+		
 			// unloadstacker
-			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());	
-			Gripperhandler.getGripperIdByName(program.getUnloadstacker().getGripper().getName(),program.getUnloadstacker().getGripper());
+			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());
+			Gripperhandler.getGripperIdByName(program.getUnloadstacker().getGripper().getName(),
+					program.getUnloadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadstacker().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getUnloadstacker().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadstacker());
-			//loadCNC
-			GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());	
-			Gripperhandler.getGripperIdByName(program.getLoadCNC().getGripper().getName(),program.getLoadCNC().getGripper());
+			// loadCNC
+			GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());
+			Gripperhandler.getGripperIdByName(program.getLoadCNC().getGripper().getName(),
+					program.getLoadCNC().getGripper());
 			SmoothHandler.saveSmooth(program.getLoadCNC().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getLoadCNC().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getLoadCNC());
-			//unloadCNC
+			// unloadCNC
 			GripperHeadHandle.saveGripperHead(program.getUnloadCNC().getGripperHead());
-			Gripperhandler.getGripperIdByName(program.getUnloadCNC().getGripper().getName(),program.getUnloadCNC().getGripper());
+			Gripperhandler.getGripperIdByName(program.getUnloadCNC().getGripper().getName(),
+					program.getUnloadCNC().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadCNC().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getUnloadCNC().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadCNC());
-			//loadstacker
+			// loadstacker
 			GripperHeadHandle.saveGripperHead(program.getLoadstacker().getGripperHead());
-			Gripperhandler.getGripperIdByName(program.getLoadstacker().getGripper().getName(),program.getLoadstacker().getGripper());
+			Gripperhandler.getGripperIdByName(program.getLoadstacker().getGripper().getName(),
+					program.getLoadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getLoadstacker().getSmooth());
 			Workpiecehandler.saveWorkPiece(program.getLoadstacker().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
 			Stephandler.saveProgramStep(program.getLoadstacker());
-			
+
 			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
+			if (program.getId() <= 0) {// insert
 			PreparedStatement stmt = conn.prepareStatement(
 					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,ISHASTEACH) VALUES (?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
@@ -146,21 +152,32 @@ public class Programhandler {
 				program.setId(keys.getInt(1));
 			}
 
-		} else {// update
-
+		} else {
+			PreparedStatement stmt = conn.prepareStatement(
+					"UPDATE PROGRAM SET NAME=?, CREATION=?, LASTOPENED=?,UNLOADSTACKER=?,LOADCNC=?,UNLOADCNC=?,LOADSTACKER=?,ROBOTSETTING=?,ISHASTEACH=? WHERE ID = ?");			
+			stmt.setString(1, program.getName());
+			stmt.setTimestamp(2, program.getTimeCreate());
+			stmt.setTimestamp(3, program.getTimeLastOpen());
+			stmt.setInt(4, program.getUnloadstacker().getId());
+			stmt.setInt(5, program.getLoadCNC().getId());
+			stmt.setInt(6, program.getUnloadCNC().getId());
+			stmt.setInt(7, program.getLoadstacker().getId());
+			stmt.setInt(8, program.getRobotSetting().getId());
+			stmt.setBoolean(9, program.isHasTeach());
+			stmt.setInt(10, program.getId());
+			stmt.executeUpdate();
 		}
 	}
 
 	public static void updateProgramTeachStatu() {
-		 try {
-			 PreparedStatement stmt = conn.prepareStatement("UPDATE PROGRAM SET ishasteach = ? WHERE name = ?");   
-			 stmt.setBoolean(1, true);
-			 stmt.setString(2, DBHandler.getInstance().getProgramName());
-			 stmt.executeUpdate();
+		try {
+			PreparedStatement stmt = conn.prepareStatement("UPDATE PROGRAM SET ishasteach = ? WHERE name = ?");
+			stmt.setBoolean(1, true);
+			stmt.setString(2, DBHandler.getInstance().getProgramName());
+			stmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         
+
 	}
 }

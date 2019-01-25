@@ -88,18 +88,21 @@ public class SaveViewController {
 		Smooth loadStackerSmooth = PlaceViewController.loadStackerSmooth;
 		
 		//step1
-		Step unloadStacker = new Step(loadGripperhead,loadGripper,rawWorkPiece,1,unloadStackerSmooth,TeachPickViewController.unloadStacherOffset);		
+		Step unloadStacker = new Step(loadGripperhead,loadGripper,rawWorkPiece,1,unloadStackerSmooth,new Coordinates());		
 	
 		//step2
-		Step loadCNC = new Step(loadGripperhead,loadGripper,rawWorkPiece,3,loadCNCSmooth,TeachPutViewController.loadCNCOffset);
+		Step loadCNC = new Step(loadGripperhead,loadGripper,rawWorkPiece,3,loadCNCSmooth,new Coordinates());
 		
 		//step3
-		Step unloadCNC = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,3,unloadCNCSmooth,TeachGriperBPickViewController.unloadCNCOffset);
+		Step unloadCNC = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,3,unloadCNCSmooth,new Coordinates());
 		
 		//step4
-		Step loadstacker = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,1,loadStackerSmooth,TeachGriperBPutViewController.loadStackerOffset);
-				
-		Program program = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting,false);
+		Step loadstacker = new Step(unloadGripperhead,unloadGripper,finishWorkPiece,1,loadStackerSmooth,new Coordinates());
+		Program program  = new Program(programName,unloadStacker,loadCNC,unloadCNC,loadstacker,creatTime,lastOpenTime,RobotSetting,false);
+		if(programName == DBHandler.getInstance().getProgramName()) {
+			 program.setId(DBHandler.getInstance().getProgramBuffer().get(programName).getId());
+			
+		}
 		
 		try {
 			Stackerhandler.updateStacker(stacker);
