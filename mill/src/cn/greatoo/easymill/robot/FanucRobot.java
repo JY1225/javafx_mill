@@ -240,7 +240,7 @@ public class FanucRobot extends AbstractRobot{
     }
     
     public void writeServicePointSet(final int workArea, final Coordinates location, final Smooth smoothPoint,final float smoothPointZ, final WorkPiece dimensions,
-            final Clamping clamping, final int approachType,final float zSafePlane) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
+            final float clampHeight, final int approachType,final float zSafePlane) throws SocketDisconnectedException, SocketResponseTimedOutException, InterruptedException, SocketWrongResponseException {
         List<String> values = new ArrayList<String>();
         // user frame id ; x destination ; y destination ; z destination ; w destination, p destination, r destination ; z-safe plane ; safety add z ; smooth x ; smooth y ; smooth z ;
         // approachStrategy ; clamp height
@@ -268,7 +268,7 @@ public class FanucRobot extends AbstractRobot{
         
         values.add("" + approachType/*RobotConstants.SERVICE_POINT_XYZ_ALLOWED_XYZ*/);	// APPRCH_STRAT
         
-        values.add("" + df.format((clamping.getHeight() + clamping.getRelativePosition().getZ())));	// clamp height (we need to include the relative position, height is measured from z = 0)
+        values.add("" + df.format(clampHeight));	// clamp height (we need to include the relative position, height is measured from z = 0)
         logger.debug("Writing service point: " + values);
         fanucRobotCommunication.writeValues(RobotConstants.COMMAND_WRITE_SERVICE_POINT, RobotConstants.RESPONSE_WRITE_SERVICE_POINT, WRITE_VALUES_TIMEOUT, values);
     }

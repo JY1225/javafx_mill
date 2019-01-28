@@ -15,11 +15,11 @@ import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public abstract class AbstractCNCMachine  {	
 	private SocketConnection socketConnection;
-	private  int currentStatus;
-	private  boolean statusChanged;
+	private int currentStatus;
+	private boolean statusChanged;
 	private static Object syncObject;
-	private  boolean stopAction;
-	private static Map<Integer, Integer> statusMap;
+	private boolean stopAction;
+	private Map<Integer, Integer> statusMap;
 	private boolean timAllowed;
 	private CNCMachineAlarm cncMachineTimeout;
 	private Set<CNCMachineAlarm> alarms;

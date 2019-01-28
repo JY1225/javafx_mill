@@ -25,11 +25,10 @@ public class PutToCNCStep extends AbstractStep{
 			Clamping Clampping =DBHandler.getInstance().getClampBuffer().get(0);
 			//===put工件到机床=========================================================================================================			
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PUT;//13;	
-			boolean gripInner = true;
 			//75
 			robot.writeServiceGripperSet(program.getLoadCNC().getGripperHead().getName(), program.getLoadCNC().getGripper(),
 					program.getUnloadCNC().getGripper(), serviceType, program.getLoadCNC().getGripperHead().isGripperInner());
-			boolean freeAfterService = false;
+			boolean freeAfterService = true;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
@@ -54,10 +53,11 @@ public class PutToCNCStep extends AbstractStep{
 			int workArea = DBHandler.getInstance().getUserFrameBuffer().get(3).getNumber();	
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			float zSafePlane = clamping.getHeight() + program.getLoadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
+			float clampHeight = clamping.getHeight()  + clamping.getRelativePosition().getZ();
 			//77
 			robot.writeServicePointSet(workArea, position, program.getLoadCNC().getSmooth(),
 					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getLoadCNC().getWorkPiece(),
-					clamping, approachType, zSafePlane);	
+					clampHeight, approachType, zSafePlane);	
 			//------------------------------------------------------
 			robot.startService();
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PUT_TO_CNC));

@@ -20,9 +20,9 @@ public class WorkPiecePositions {
 		
 		Stacker stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
 		//工件宽占多少行50/35
-		int amountOfStudsWorkPiece = (int) Math.ceil((dimensions.getWidth()/stacker.getHorizontalHoleDistance())+1);
+		int amountOfStudsWorkPiece = getNumberOfStudsPerWorkPiece(dimensions.getWidth(), true);//4
 		//工件长占多少行
-		int amountOfStudsWorkPieceVertical = (int) Math.ceil((dimensions.getLength()/ stacker.getVerticalHoleDistance())+1);
+		int amountOfStudsWorkPieceVertical = getNumberOfStudsPerWorkPiece(dimensions.getLength(), false);//3
 		//横向可以放的工件数
 		int amountHorizontal = Math.round((stacker.getHorizontalHoleAmount()-1)/(float)amountOfStudsWorkPiece);
 		//纵向可以放的工件数
@@ -89,26 +89,65 @@ public class WorkPiecePositions {
 		}
         return coordinates;
     }
-	private static Clamping.ClampingType type = DBHandler.getInstance().getClampBuffer().get(0).getClampingType();
+	
 	public static Coordinates getPutLocation(Clamping clamp) {		
 		Coordinates c = new Coordinates(DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition());
 		if (clamp.getClampingType() == Clamping.ClampingType.LENGTH) {
-			if (type != clamp.getClampingType()) {
-				c.setR(c.getR() + DBHandler.getInstance().getStatckerBuffer().get(0).getOrientation());
+			if (DBHandler.getInstance().getStatckerBuffer().get(0).getOrientation() == 90) {
+				c.setR(c.getR() + 90);
 			} else {
 				c.setR(c.getR());
 			}
 		}else {
-			if (type != clamp.getClampingType()) {
+			if (DBHandler.getInstance().getStatckerBuffer().get(0).getOrientation() == 90) {
 				c.setR(c.getR());
 			} else {
-				c.setR(c.getR() + DBHandler.getInstance().getStatckerBuffer().get(0).getOrientation());
+				c.setR(c.getR() + 90);
 			}
 		}
-		type = clamp.getClampingType();
 		return c;
 	}
 		
+	private static int getNumberOfStudsPerWorkPiece(final double dimension, final boolean isHorizontal) {
+		Stacker stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
+		float holeDistance;
+		int amountOfStudsWorkPiece;
+		
+		// The workpiece is aligned to its left-most (or lower) stud, so it is in fact shifted with studDiameter/2 to the right (or up). 
+		double remainingWorkPieceDimension = dimension + (stacker.getStudDiameter() /2);
+		
+		if(isHorizontal) {
+			//Initial value - 2 studs needed
+			amountOfStudsWorkPiece = 2;
+			holeDistance = stacker.getHorizontalHoleDistance();
+			// The first 2 studs are default. This means we can subtract the length of the horizontalHoleDistance already from the initial
+			// length of the workpiece since this distance is already covered by studs.
+			remainingWorkPieceDimension -= holeDistance;
+		} else {
+			//Initial value - 1 stud needed
+			amountOfStudsWorkPiece = 1;
+			holeDistance = stacker.getVerticalHoleDistance();
+		}		
+		// for real small work-pieces - smaller than the distance between 2 studs
+		if (remainingWorkPieceDimension < 0) {
+			remainingWorkPieceDimension = 0;
+		}		
+		// for each time the horizontal hole distance fits in the remaining length, the amount of horizontal studs is incremented
+		while (remainingWorkPieceDimension > holeDistance) {
+			remainingWorkPieceDimension -= holeDistance;
+			amountOfStudsWorkPiece++;
+		}		
+		// When the remainingLength is less than the distance between 2 studs, we still have a small piece of the workpiece 
+		// that we did not take into account. The remaining distance is the space between the next stud and the end of the piece
+		// (the distance to the nextWorkpiece - including the first left-most stud of the next workpiece)
+		double distanceToNextWorkPiece = holeDistance - (stacker.getStudDiameter() / 2) - remainingWorkPieceDimension;
+		// If the distance between 2 successive workpieces becomes too small (safe distance - interferenceDistance), we include 1 more stud
+		if (distanceToNextWorkPiece < 5) {
+			remainingWorkPieceDimension = 0;
+			amountOfStudsWorkPiece++;
+		}
+		return amountOfStudsWorkPiece;
+	}
 	public List<Coordinates> getCoordinatesList() {
 		return coordinatesList;
 	}

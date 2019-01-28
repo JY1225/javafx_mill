@@ -22,7 +22,7 @@ public class PickFromTableStep extends AbstractStep{
 	public void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {
 		
 		try {			
-			Clamping Clampping =DBHandler.getInstance().getClampBuffer().get(0);
+			Clamping clamping =DBHandler.getInstance().getClampBuffer().get(0);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;			
 			boolean gripInner = true;
 			//75
@@ -42,10 +42,10 @@ public class PickFromTableStep extends AbstractStep{
 					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//----------------------------------------------------
 			WorkPiecePositions.initializeRawWorkPiecePositionsDeg90(program.getUnloadstacker().getWorkPiece());
-			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);			
+			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);//(75.0, 105.0, 0.0, 0.0, 0.0, 90.0)			
 			Coordinates position = new Coordinates(originalPosition);			
 			if (getUnloadStackerRelativeTeachedOffset() == null) {///?????
-				initSafeTeachedOffset(1,program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
+				initSafeTeachedOffset(1,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
 			}
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadStackerRelativeTeachedOffset());
 			position.offset(absoluteOffset);
@@ -61,10 +61,11 @@ public class PickFromTableStep extends AbstractStep{
 			}else {
 				zSafePlane = wh + sh;							
 			}
+			float clampHeight = sh;
 			//77
 			robot.writeServicePointSet(workArea, position, program.getUnloadstacker().getSmooth(), 
 					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getUnloadstacker().getWorkPiece(), 
-					Clampping,
+					clampHeight,
 					approachType, zSafePlane);
 			robot.startService();
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_TABLE));

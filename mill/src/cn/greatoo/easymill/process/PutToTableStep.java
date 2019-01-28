@@ -54,10 +54,11 @@ public class PutToTableStep extends AbstractStep{
 			}else {
 				zSafePlane = wh + sh;							
 			}
+			float clampHeight = sh;
 			//77
 			robot.writeServicePointSet(workArea, position, program.getLoadstacker().getSmooth(), 
 					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getLoadstacker().getWorkPiece(), 
-					DBHandler.getInstance().getClampBuffer().get(0),
+					clampHeight,
 					approachType, zSafePlane);
 			//--------------------------------------------------
 			robot.startService();

@@ -51,10 +51,11 @@ public class PickFromCNCStep extends AbstractStep{
 			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
 			position.offset(absoluteOffset);			
 			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
+			float clampHeight = clamping.getHeight()  + clamping.getRelativePosition().getZ();
 			//77
 			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),
 					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 
-					clamping, approachType, zSafePlane);
+					clampHeight, approachType, zSafePlane);
 			//-------------------------------------------------
 			robot.startService();						
 			cncMachine.prepareForPick(false, 0, 1);
