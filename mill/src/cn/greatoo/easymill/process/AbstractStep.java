@@ -1,11 +1,16 @@
 package cn.greatoo.easymill.process;
 
+import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
+import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
+import cn.greatoo.easymill.robot.FanucRobot;
+import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
+import javafx.application.Platform;
 
 public abstract class AbstractStep {
 	private Coordinates unloadStackerRelativeTeachedOffset;
@@ -75,6 +80,10 @@ public abstract class AbstractStep {
 		original.setR(offset.getR());
 	}
 
+	public void checkProcessExecutorStatus(FanucRobot robot,CNCMachine cncMachine) throws InterruptedException{
+		robot.checkProcessExecutorStatus();
+		cncMachine.checkProcessExecutorStatus();				
+	}
 	public Coordinates getUnloadStackerRelativeTeachedOffset() {
 		return unloadStackerRelativeTeachedOffset;
 	}

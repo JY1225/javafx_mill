@@ -6,11 +6,13 @@ import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
+import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
+import javafx.application.Platform;
 
 /**
  * ===从table抓取工件===机器人抓取工件，回到原点
@@ -24,8 +26,8 @@ public class PickFromTableStep extends AbstractStep{
 		try {			
 			Clamping clamping =DBHandler.getInstance().getClampBuffer().get(0);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;			
-			boolean gripInner = true;
 			//75
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceGripperSet(program.getUnloadstacker().getGripperHead().getName(), program.getUnloadstacker().getGripper(),
 					program.getUnloadCNC().getGripper(), serviceType, program.getUnloadstacker().getGripperHead().isGripperInner());
 			boolean freeAfterService = false;
@@ -38,9 +40,11 @@ public class PickFromTableStep extends AbstractStep{
 			float payLoad1 = 0;
 			float payLoad2 = program.getUnloadstacker().getWorkPiece().getWeight() * 10;
 			//76
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, 
 					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//----------------------------------------------------
+			checkProcessExecutorStatus(robot,cncMachine);
 			WorkPiecePositions.initializeRawWorkPiecePositionsDeg90(program.getUnloadstacker().getWorkPiece());
 			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);//(75.0, 105.0, 0.0, 0.0, 0.0, 90.0)			
 			Coordinates position = new Coordinates(originalPosition);			
@@ -63,31 +67,43 @@ public class PickFromTableStep extends AbstractStep{
 			}
 			float clampHeight = sh;
 			//77
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getUnloadstacker().getSmooth(), 
 					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getUnloadstacker().getWorkPiece(), 
 					clampHeight,
 					approachType, zSafePlane);
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.startService();
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_TABLE));
 			if (teached) {
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillAtLocation(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED));
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillUnclampAck(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
+				checkProcessExecutorStatus(robot,cncMachine);
 				Coordinates robotPosition = robot.getPosition(); 
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
 				setUnloadStackerRelativeTeachedOffset(relTeachedOffset);
 				updateProgramOffset(program.getUnloadstacker().getOffset(), relTeachedOffset);
 				
-			} else {				
+			} else {		
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillAtLocation(false);
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillUnclampAck(false);
 			}
-
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.continuePickTillIPPoint();
 		} catch (InterruptedException | AbstractCommunicationException | RobotActionException e) {
-			e.printStackTrace();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					TeachAndAutoThread.getView().setMessege("程序未启动！");
+				}
+			});
 		}
 	}
 	

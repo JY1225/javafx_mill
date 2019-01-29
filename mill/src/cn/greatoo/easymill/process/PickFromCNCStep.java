@@ -7,11 +7,13 @@ import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
+import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
+import javafx.application.Platform;
 
 public class PickFromCNCStep extends AbstractStep{
 
@@ -21,6 +23,7 @@ public class PickFromCNCStep extends AbstractStep{
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
 			boolean gripInner = false;
 			//75
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceGripperSet(program.getUnloadCNC().getGripperHead().getName(), 
 					program.getLoadCNC().getGripper(), program.getUnloadCNC().getGripper(), serviceType,
 					program.getUnloadCNC().getGripperHead().isGripperInner());
@@ -34,12 +37,14 @@ public class PickFromCNCStep extends AbstractStep{
 			float payLoad1 = 0;
 			float payLoad2 = program.getUnloadCNC().getWorkPiece().getWeight() * 10;
 			//76
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,
 					program.getUnloadCNC().getWorkPiece(), approachType, payLoad1, payLoad2);
 			
 			//-----------------------------------------------------
 			int workArea = 3;
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
+			checkProcessExecutorStatus(robot,cncMachine);
 			Coordinates originalPosition = WorkPiecePositions.getPutLocation(clamping);
 			Coordinates position = new Coordinates(originalPosition);
 			if (getUnloadCNCRelativeTeachedOffset() == null) {
@@ -53,40 +58,50 @@ public class PickFromCNCStep extends AbstractStep{
 			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
 			float clampHeight = clamping.getHeight()  + clamping.getRelativePosition().getZ();
 			//77
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),
 					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 
 					clampHeight, approachType, zSafePlane);
 			//-------------------------------------------------
-			robot.startService();						
+			checkProcessExecutorStatus(robot,cncMachine);
+			robot.startService();		
+			checkProcessExecutorStatus(robot,cncMachine);
 			cncMachine.prepareForPick(false, 0, 1);
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
 			if (teached) {
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillAtLocation(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_NEEDED));
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillUnclampAck(true);
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.TEACHING_FINISHED));
+				checkProcessExecutorStatus(robot,cncMachine);
 				Coordinates robotPosition = robot.getPosition();
 				Coordinates relTeachedOffset = TeachedCoordinatesCalculator.calculateRelativeTeachedOffset(originalPosition, robotPosition.calculateOffset(originalPosition));
 				setUnloadCNCRelativeTeachedOffset(relTeachedOffset);
 				updateProgramOffset(program.getUnloadCNC().getOffset(), relTeachedOffset);
 			} else {
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillAtLocation(false);// 50,1
+				checkProcessExecutorStatus(robot,cncMachine);
 				robot.continuePickTillUnclampAck(false);
 			}
-
+			checkProcessExecutorStatus(robot,cncMachine);
 			cncMachine.releasePiece();// 22;18
+			checkProcessExecutorStatus(robot,cncMachine);
 			robot.continuePickTillIPPoint();// 50,4
-			// view.statusChanged(new StatusChangedEvent(StatusChangedEvent.ENDED,
-			// 0,Mode.TEACH));
-
-			// cncMachine.prepareForIntervention();
+			checkProcessExecutorStatus(robot,cncMachine);
 			cncMachine.pickFinished(0, true);// 22;53;19
-			// cncMachine.clearIndications();
 
 		} catch (InterruptedException | AbstractCommunicationException | RobotActionException
 				| DeviceActionException e) {
-			e.printStackTrace();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					TeachAndAutoThread.getView().setMessege("程序未启动！");
+				}
+			});
 		}
 	}
 	
