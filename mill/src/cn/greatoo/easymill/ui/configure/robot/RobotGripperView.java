@@ -2,7 +2,9 @@ package cn.greatoo.easymill.ui.configure.robot;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.entity.Gripper;
@@ -188,6 +190,10 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		cbB = new CheckBox("B");
 		cbC = new CheckBox("C");
 		cbD = new CheckBox("D");
+		cbA.setDisable(true);
+		cbB.setDisable(true);
+		cbC.setDisable(true);
+		cbD.setDisable(true);
 		gpEditor.setAlignment(Pos.CENTER);
 		int column2 = 0;
 		int row2 = 0;
@@ -231,12 +237,10 @@ public class RobotGripperView extends Controller implements TextInputControlList
 				} else {
 					throw new IllegalStateException("No type radio button selected");
 				}				
-				selectedGripper = new Gripper(fulltxtName.getText(), type, Float.parseFloat(numtxtHeight.getText()), imagePath);
+				Gripper gripper = new Gripper(fulltxtName.getText(), type, Float.parseFloat(numtxtHeight.getText()), imagePath);
+				gripper.setId(selectedGripper.getId());
 					try {
-						RobotGriperViewController.saveData (selectedGripper);
-						setFormVisible(false);
-						editMode = true;
-						
+						saveData (gripper);						
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -263,10 +267,10 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		VBox.setMargin(vboxForm, new Insets(0, 0, 0, 0));
 		vboxForm.setVisible(false);
 		GridPane.setHalignment(vboxForm, HPos.CENTER);
+		refresh();
 	}
 
-	public void gripperSelected(final Gripper gripper) {
-		if (gripper !=null) {	
+	public void gripperSelected(final Gripper gripper) {	
 		ifsGrippers.setSelected(gripper.getName());
 		btnEdit.setDisable(false);
 		fulltxtName.setText(gripper.getName());
@@ -290,18 +294,38 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		}
 		imagePath = gripper.getImageUrl();
 		//cbA.setSelected((gripper.getSelectGripper() != null) );
-		}		
-		else {
-			reset();
-		}	
+		
+	}
+	public void saveData(Gripper gripper) throws SQLException {
+		List<Gripper> Grippers= DBHandler.getInstance().getGriperBuffer();
+		for(int i = 0; i < Grippers.size(); i++) {
+			if(Grippers.get(i).getId() == gripper.getId()) {
+				DBHandler.getInstance().getGriperBuffer().set(i, gripper);
+			}
+		}
+		if (selectedGripper != null) {
+			Gripperhandler.updateGripper(gripper);
+		} else {
+			Gripperhandler.saveGripper(gripper);
+		}
+		selectedGripper = null;
+		editMode = false;
+		refresh();
 	}
 	
-	public void clickedEdit(String grippername) {
+	public void selectedGripper(final Gripper gripper) {
+		if (!editMode) {
+			selectedGripper = gripper;
+			gripperSelected(gripper);
+		}
+	}
+	
+	public void clickedEdit() {
 		if (editMode) {
 			reset();
 			editMode = false;
 		} else {
-			showFormEdit(grippername);
+			showFormEdit();
 			editMode = true;
 		}
 	}
@@ -313,7 +337,6 @@ public class RobotGripperView extends Controller implements TextInputControlList
 			showFormNew();
 			editMode = true;
 		} else {
-			btnEdit.setDisable(false);
 			editMode = false;
 		}
 	}
@@ -324,7 +347,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		btnEdit.getStyleClass().remove(CSS_CLASS_FORM_BUTTON_ACTIVE);
 		btnCreateNew.setDisable(false);
 		cbFixedHeight.setSelected(false);
-		//btnEdit.setDisable(true);
+		btnEdit.setDisable(true);
 		fulltxtName.setText("");
 		numtxtHeight.setText("");
 		cbA.setSelected(true);
@@ -345,15 +368,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		validate();
 	}
 	
-	public void showFormEdit(String grippername) {
-		try {
-			//通过名称获得Gripper
-			selectedGripper = Gripperhandler.getGripperByName(grippername);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		gripperSelected(selectedGripper);
-		fulltxtName.setText(grippername);
+	public void showFormEdit() {
 		setFormVisible(true);
 		btnCreateNew.setDisable(true);
 		btnDelete.setVisible(true);
@@ -373,6 +388,23 @@ public class RobotGripperView extends Controller implements TextInputControlList
 			btnSave.setDisable(true);
 		}
 	}
+	
+	public void refresh() {
+		ifsGrippers.clearItems();
+		List<Gripper> grippers = DBHandler.getInstance().getGriperBuffer();
+		int itemIndex = 0;
+		for (final Gripper gripper : grippers) {
+			ifsGrippers.addItem(itemIndex, gripper.getName(), gripper.getImageUrl(), new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(final MouseEvent event) {
+					selectedGripper(gripper);
+				}
+			});
+			itemIndex++;
+		}
+		reset();
+	}
+	
 	@Override
 	public void closeKeyboard() {
 		// TODO Auto-generated method stub

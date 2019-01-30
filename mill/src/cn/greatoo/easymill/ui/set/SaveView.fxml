@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.SaveViewController">
    <children>
-      <GridPane fx:id="saveGridPane" alignment="CENTER" hgap="15.0" layoutX="153.0" layoutY="82.0" prefHeight="283.0" prefWidth="299.0" vgap="15.0" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="82.0">
+      <GridPane fx:id="saveGridPane" alignment="CENTER" hgap="15.0" prefHeight="517.0" prefWidth="582.0" vgap="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="176.0" />
             <ColumnConstraints />
@@ -29,8 +29,9 @@
                         <String fx:value="save-btn" />
                      </styleClass>
                   </SVGPath>
-               </graphic></Button>
-            <VBox prefHeight="133.0" prefWidth="228.0" spacing="7.5" GridPane.columnSpan="2">
+               </graphic>
+            </Button>
+            <VBox alignment="BOTTOM_LEFT" prefHeight="133.0" prefWidth="228.0" spacing="7.5" GridPane.columnSpan="2">
                <children>
                   <Label prefHeight="31.0" prefWidth="48.0" text="名称" textFill="#fcfcfc">
                      <styleClass>

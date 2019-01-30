@@ -1,14 +1,17 @@
 package cn.greatoo.easymill.util;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import cn.greatoo.easymill.entity.Gripper;
+import cn.greatoo.easymill.entity.GripperHead;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 
 public class IconFlowSelector extends ScrollPane {
 
@@ -131,5 +134,6 @@ public class IconFlowSelector extends ScrollPane {
             setDefault(index, isDefault);
         }
     }
+
 }
 

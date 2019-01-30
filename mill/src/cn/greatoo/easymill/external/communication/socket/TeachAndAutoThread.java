@@ -23,7 +23,7 @@ import javafx.application.Platform;
  *
  */
 public class TeachAndAutoThread extends AbstractStep implements Runnable {
-	public static boolean isFinishTeach = false;
+	public static boolean isFinishTeach;
 	private boolean teached;
 	private FanucRobot robot;
 	private CNCMachine cncMachine;
@@ -38,6 +38,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 	private FinishStep finishStep;
 
 	public TeachAndAutoThread(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
+		isFinishTeach = false;
 		this.programName = DBHandler.getInstance().getProgramName();
 		this.program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		this.robot = robot;

@@ -2,6 +2,7 @@ package cn.greatoo.easymill.ui.configure.devicesConfig;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
@@ -36,6 +37,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import cn.greatoo.easymill.db.util.ClampingHandler;
+import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.db.util.Gripperhandler;
 
 public class CNCClampingsView extends Controller implements TextInputControlListener{
 	private boolean editMode;
@@ -385,12 +388,10 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 				Smooth smoothToPoint = new Smooth(Float.parseFloat(numtxtSmoothToX.getText()),Float.parseFloat(numtxtSmoothToY.getText()),Float.parseFloat(numtxtSmoothToZ.getText()));
 				Smooth smoothFromPoint = new Smooth(Float.parseFloat(numtxtSmoothFromX.getText()),Float.parseFloat(numtxtSmoothFromY.getText()),Float.parseFloat(numtxtSmoothFromZ.getText()));
 				String imageURL = imagePath;
-				selectedClamping = new Clamping(type, clampingType, clampingName, defaultHeight,relativePosition, smoothToPoint, smoothFromPoint, imagePath);
+				Clamping clamping = new Clamping(type, clampingType, clampingName, defaultHeight,relativePosition, smoothToPoint, smoothFromPoint, imagePath);
 				try {
-					ConfigGriperViewController.saveData(selectedClamping);
-					//spDetails.setVisible(false);
-					spControls.setVisible(false);
-					editMode = true;
+					clamping.setId(selectedClamping.getId());
+					saveData(clamping);
 					
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -399,36 +400,7 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 		});
 		btnCopy = createButton(ADD_PATH, CSS_CLASS_FORM_BUTTON, "另存为", BTN_WIDTH + 40, BTN_HEIGHT, new EventHandler<ActionEvent>() {	
 			@Override
-			public void handle(final ActionEvent arg0) {
-//				Clamping.Type type = null;
-//				String selectedType = cbbType.getValue();
-//				if (selectedType == CLAMPING_TYPE_CENTRUM) {
-//					type = Type.CENTRUM;
-//				} else if (selectedType == CLAMPING_TYPE_FIXED_XP) {
-//					type = Type.FIXED_XP;
-//				} else if (selectedType == CLAMPING_TYPE_FIXED_XM) {
-//					type = Type.FIXED_XM;
-//				} else if (selectedType == CLAMPING_TYPE_FIXED_YP) {
-//					type = Type.FIXED_YP;
-//				} else if (selectedType == CLAMPING_TYPE_FIXED_YM) {
-//					type = Type.FIXED_YM;
-//				}
-//				int waNr = 1;
-//				if (cbWa1.isSelected()) {
-//					waNr = 1;
-//				} else if (cbWa2.isSelected()) {
-//					waNr = 2;
-//				}
-				//EFixtureType fixtureType = EFixtureType.getFixtureTypeFromStringValue(cbbFixtureType.getValue());
-//				copyClamping(Float.parseFloat(numtxtHeight.getText()), imagePath,
-//						Float.parseFloat(numtxtX.getText()), Float.parseFloat(numtxtY.getText()), 
-//						Float.parseFloat(numtxtZ.getText()), Float.parseFloat(numtxtW.getText()), 
-//						Float.parseFloat(numtxtP.getText()), Float.parseFloat(numtxtR.getText()),
-//						Float.parseFloat(numtxtSmoothToX.getText()), Float.parseFloat(numtxtSmoothToY.getText()),
-//						Float.parseFloat(numtxtSmoothToZ.getText()), Float.parseFloat(numtxtSmoothFromX.getText()), 
-//						Float.parseFloat(numtxtSmoothFromY.getText()), Float.parseFloat(numtxtSmoothFromZ.getText()),
-//						type),
-//						waNr);	
+			public void handle(final ActionEvent arg0) {	
 			}
 		});
 		btnDelete = createButton(DELETE_ICON_PATH, CSS_CLASS_FORM_BUTTON, "删除", BTN_WIDTH, BTN_HEIGHT, new EventHandler<ActionEvent>() {
@@ -509,6 +481,7 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 		spControls.setPadding(new Insets(0, 0, 10, 0));
 		gridPane.setAlignment(Pos.CENTER);
 		GridPane.setValignment(spImage, VPos.TOP);
+		refresh();
 	}
 	
 	public void setTextFieldListener(final TextInputControlListener listener) {
@@ -556,12 +529,12 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 				&& !numtxtP.getText().equals("")
 				&& !numtxtR.getText().equals(""));
 	}
-	public void clickedEdit(String clampingName) {
+	public void clickedEdit() {
 		if (editMode) {
 			reset();
 			editMode = false;
 		} else {
-			showFormEdit(clampingName);
+			showFormEdit();
 			editMode = true;
 		}
 	}
@@ -576,15 +549,7 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 			editMode = false;
 		}
 	}
-	public void showFormEdit(String clampingName) {
-		try {
-			//通过名称获得Clamping
-			selectedClamping = ClampingHandler.getClampingByName(clampingName);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		clampingSelected(selectedClamping);
-		fullTxtName.setText(clampingName);
+	public void showFormEdit() {
 		gpDetails.setVisible(true);
 		spControls.setVisible(true);
 		btnNew.setDisable(true);
@@ -669,6 +634,50 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 		}
 		imagePath = clamping.getImageUrl();
 		}
+	}
+	
+	public void saveData(Clamping clamping) throws SQLException {
+		List<Clamping> clampings= DBHandler.getInstance().getClampBuffer();
+		for(int i = 0; i < clampings.size(); i++) {
+			if(clampings.get(i).getId() == clamping.getId()) {
+				DBHandler.getInstance().getClampBuffer().set(i, clamping);
+			}
+		}
+		if (selectedClamping != null) {
+			ClampingHandler.updateClamping(clamping);
+		} else {
+			ClampingHandler.saveClamping(clamping);
+		}
+		selectedClamping = null;
+		editMode = false;
+		refresh();
+	}
+	
+	public void refresh() {
+		ifsClampings.clearItems();
+		List<Clamping> clampings = DBHandler.getInstance().getClampBuffer();
+		int itemIndex = 0;
+		for (final Clamping clamping : clampings) {
+			ifsClampings.addItem(itemIndex, clamping.getName(), clamping.getImageUrl(), new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(final MouseEvent event) {
+					selectedClamping(clamping);
+				}
+			});
+			itemIndex++;
+		}
+		disableEditMode();
+		reset();
+	}
+	public void selectedClamping(final Clamping clamping) {
+		if (!editMode) {
+			selectedClamping = clamping;
+			clampingSelected(clamping);
+		}
+	}
+	public void disableEditMode() {
+		this.selectedClamping = null;
+		this.editMode = false;
 	}
 	@Override
 	public void closeKeyboard() {
