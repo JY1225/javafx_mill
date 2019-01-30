@@ -62,11 +62,11 @@ public class PickFromCNCStep extends AbstractStep{
 			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),
 					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 
 					clampHeight, approachType, zSafePlane);
-			//-------------------------------------------------
-			checkProcessExecutorStatus(robot,cncMachine);
-			robot.startService();		
+			//-------------------------------------------------				
 			checkProcessExecutorStatus(robot,cncMachine);
 			cncMachine.prepareForPick(false, 0, 1);
+			checkProcessExecutorStatus(robot,cncMachine);
+			robot.startService();	
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
 			if (teached) {
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));

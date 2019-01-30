@@ -4,26 +4,16 @@ import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
-import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
-import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
-import javafx.application.Platform;
 
 public abstract class AbstractStep {
-	private Coordinates unloadStackerRelativeTeachedOffset;
-	private Coordinates loadCNCRelativeTeachedOffset;
-	private Coordinates unloadCNCRelativeTeachedOffset;
-	private Coordinates loadStackerRelativeTeachedOffset;
+	private static Coordinates unloadStackerRelativeTeachedOffset;
+	private static Coordinates loadCNCRelativeTeachedOffset;
+	private static Coordinates unloadCNCRelativeTeachedOffset;
+	private static Coordinates loadStackerRelativeTeachedOffset;
 
-	public AbstractStep() {
-		unloadStackerRelativeTeachedOffset = null;
-		loadCNCRelativeTeachedOffset = null;
-		unloadCNCRelativeTeachedOffset = null;
-		loadStackerRelativeTeachedOffset = null;
-	}
 
 	protected void initSafeTeachedOffset(int step, WorkPiece workPiece, Clamping clampping,
 			final Coordinates originalPosition) {
