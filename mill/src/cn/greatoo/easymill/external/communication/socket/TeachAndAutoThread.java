@@ -99,10 +99,14 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 				putToTableStep.putToTable(program, robot, cncMachine, teached, wIndex, view);
 
 				// ===示教、自动化结束===重置设备
-				checkProcessExecutorStatus(robot, cncMachine);
-				finishStep.finish(robot, cncMachine, teached, view);
+				if(!teached && wIndex == wSize -1) {
+					checkProcessExecutorStatus(robot, cncMachine);
+					finishStep.finish(robot, cncMachine, teached, view);
+				}
 				wIndex++;
 				if (teached) {
+					checkProcessExecutorStatus(robot, cncMachine);
+					finishStep.finish(robot, cncMachine, teached, view);
 					wSize = 0;
 				}
 				isFinishTeach = true;
