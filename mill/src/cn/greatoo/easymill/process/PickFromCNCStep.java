@@ -15,7 +15,7 @@ import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
 
 public class PickFromCNCStep extends AbstractStep{
 
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "unused" })
 	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
@@ -51,6 +51,7 @@ public class PickFromCNCStep extends AbstractStep{
 			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
 			position.offset(absoluteOffset);			
 			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
+			System.out.println("zSafePlane======================="+ zSafePlane);
 			//77
 			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),
 					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 

@@ -119,30 +119,30 @@ public class StatusChangeThread implements Runnable {
 		}
 	}
 
-	protected boolean connCNC() {
+	protected void connCNC() {
 		try {
 			cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine();
 			if (cncMachine != null && cncMachine.isConnected()) {
 				cncMachine.indicateOperatorRequested(false);
 				cncMachine.indicateOperatorRequested(false);
 			}
-			return cncMachine.isConnected();
+
 		} catch (SocketResponseTimedOutException | SocketDisconnectedException | SocketWrongResponseException
 				| InterruptedException e) {
-			return false;
+
 		}
 	}
 
-	protected boolean connRobo() {
+	protected void connRobo() {
 		try {
 			robot = (FanucRobot) RobotHandler.getRobot();
 			if (robot != null && robot.isConnected()) {
 				robot.restartProgram();
 			}
-			return robot.isConnected();
+
 		} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
 				| InterruptedException e) {
-			return false;
+
 		}
 	}
 
