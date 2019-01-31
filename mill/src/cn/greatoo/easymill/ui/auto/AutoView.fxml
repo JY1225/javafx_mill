@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.auto.AutoViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.auto.AutoViewController">
    <children>
       <StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -54,10 +54,10 @@
                                                     </elements>
                                                 </Path>
                                                 <Circle fx:id="circleFront" centerX="80.0" centerY="80.0" fill="DODGERBLUE" layoutX="10.0" layoutY="29.0" radius="74.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle-front" />
+                                                <Label fx:id="lblFinishedAmount" alignment="CENTER" layoutX="16.0" layoutY="32.0" maxHeight="160.0" maxWidth="160.0" minHeight="160.0" minWidth="160.0" prefHeight="160.0" prefWidth="160.0" styleClass="finished-amount" textFill="WHITE" />
                                              </children>
                                           </Pane>
-                                          <Label fx:id="lblFinishedAmount" maxHeight="160.0" maxWidth="160.0" minHeight="160.0" minWidth="160.0" prefHeight="160.0" prefWidth="160.0" styleClass="finished-amount" />
-                                          <Label fx:id="lblTotalAmount" layoutX="100.0" layoutY="121.0" styleClass="total-amount" />
+                                          <Label fx:id="lblTotalAmount" layoutX="100.0" layoutY="121.0" styleClass="total-amount" textFill="WHITE" />
                                        </children>
                                     </StackPane>
                                  </children>

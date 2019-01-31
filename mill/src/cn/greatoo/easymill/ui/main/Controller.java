@@ -408,14 +408,22 @@ public abstract class Controller {
 							case StatusChangedEvent.FINISHED:
 								mes = "加工完成。";
 								setMessege("加工完成。");
-								break;								
+								break;	
+							
 							default:
 								throw new IllegalArgumentException("Unknown status id: " + e.getStatusId());
 						}				
 				}
 			});
 		}
-		
+		public void statusChanged(String wIndex) {
+			Platform.runLater(new Runnable() {
+				@Override public void run() {
+					mes = wIndex;
+					setMessege(wIndex);	
+				}
+			});
+		}
 		public abstract void setMessege(String mess);
 		
 		public static String getMessege() {

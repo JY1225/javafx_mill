@@ -16,7 +16,8 @@ public class StatusChangedEvent {
 	public static final int EXECUTE_TEACHED = 7;	
 	public static final int TEACHING_NEEDED = 8;
 	public static final int TEACHING_FINISHED = 9;
-	public static final int FINISHED = 10;	
+	public static final int FINISHED = 10;
+	public static final int FINISHED_WORKPIECE_ACOUNT = 11;
 	private int statusId;
 	
 	public StatusChangedEvent(final int statusId) {

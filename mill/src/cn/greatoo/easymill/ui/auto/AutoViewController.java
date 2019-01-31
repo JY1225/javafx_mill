@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -46,6 +47,7 @@ public class AutoViewController extends Controller{
 	public static final int PROGRESS_RADIUS_INNER = 1;
 	public static final int PROGRESS_RADIUS_INNER_CIRCLE = 74;
 	private int totalAmount;
+	private int finishedAmount;
 	private boolean continuousEnabled;
 	private static final String CSS_CLASS_CIRCLE_FRONT_DARK = "circle-front-dark";
 	protected SVGPath imagePath;
@@ -120,7 +122,9 @@ public class AutoViewController extends Controller{
 		StackPane.setAlignment(lblFinishedAmount, Pos.TOP_RIGHT);
 		StackPane.setAlignment(lblTotalAmount, Pos.CENTER);
 		StackPane.setMargin(lblTotalAmount, new Insets(95, 0, 0, 30));
-
+		setTotalAmount(DBHandler.getInstance().getStatckerBuffer().get(0).getAmount());
+		setFinishedAmount(0);
+		
 		setPercentage(0);
 		enableContinuousAnimation(false);
 
@@ -278,6 +282,21 @@ public class AutoViewController extends Controller{
 		piePiecePath.getTransforms().add(new Translate(PROGRESS_RADIUS, PROGRESS_RADIUS));
 	}
 
+	public void setTotalAmount(final int amount) {
+        if (amount == -1) {
+            totalAmount = -1;
+            lblTotalAmount.setText("");
+            setPercentage(0);
+        } else {
+            totalAmount = amount;
+            lblTotalAmount.setText("/" + amount);
+            if ((totalAmount >= 0) && (finishedAmount >= 0)) {
+                setPercentage((int) Math.floor(((double) finishedAmount / (double) totalAmount) * 100));
+            }
+        }
+        enableContinuousAnimation(continuousEnabled);
+    }
+	
 	public synchronized void enableContinuousAnimation(final boolean enable) {
 		this.continuousEnabled = enable;
 		circleFront.getStyleClass().remove(CSS_CLASS_CIRCLE_FRONT_DARK);
@@ -292,10 +311,25 @@ public class AutoViewController extends Controller{
 			rtContinuous.pause();
 		}
 	}
+	 public void setFinishedAmount(final int amount) {
+	        finishedAmount = amount;
+	        lblFinishedAmount.setText("" + amount);
+	        if ((totalAmount >= 0) && (finishedAmount >= 0)) {
+	            setPercentage((int) Math.floor(((double) finishedAmount / (double) totalAmount) * 100));
+	        } else {
+	            setPercentage(0);
+	        }
+	    }
+	 
 	public void setMessege(String messege) {
 		if(messegeText != null) {
-			messegeText.setText(messege);
-			messegeText.setTextFill(Color.WHITE);
+			if(!messege.contains("FINISHED_WORKPIECE_ACOUNT")) {
+				messegeText.setText(messege);
+				messegeText.setTextFill(Color.WHITE);
+			}else {
+				setFinishedAmount(Integer.valueOf(messege.split(";")[1]));
+				//lblFinishedAmount.setText(messege.split(";")[1]);
+			}
 		}
 	}
 }

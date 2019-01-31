@@ -101,15 +101,17 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 				// ===示教、自动化结束===重置设备
 				if(!teached && wIndex == wSize -1) {
 					checkProcessExecutorStatus(robot, cncMachine);
-					finishStep.finish(robot, cncMachine, teached, view);
+					finishStep.finish(robot, cncMachine, teached, view);					
 				}
 				wIndex++;
 				if (teached) {
 					checkProcessExecutorStatus(robot, cncMachine);
 					finishStep.finish(robot, cncMachine, teached, view);
+					isFinishTeach = true;
 					wSize = 0;
-				}
-				isFinishTeach = true;
+				}else {
+					view.statusChanged("FINISHED_WORKPIECE_ACOUNT;"+String.valueOf(wIndex));
+				}				
 				
 			} catch (InterruptedException e) {
 				wSize = 0;

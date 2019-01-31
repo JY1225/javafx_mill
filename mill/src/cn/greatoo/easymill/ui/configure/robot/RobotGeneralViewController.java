@@ -55,11 +55,13 @@ public class RobotGeneralViewController {
 				fanucRobot.getSocketConnection().setIpAddress(ipText.getText());
 				fanucRobot.getSocketConnection().setPortNumber(Integer.valueOf(portText.getText()));
 				fanucRobot.setPayload(Float.parseFloat(payload.getText()));
+				
 				FanucRobot.getInstance(null, 0f, null).setName(nameText.getText());
 				FanucRobot.getInstance(null, 0f, null).getSocketConnection().setName(nameText.getText());
 				FanucRobot.getInstance(null, 0f, null).getSocketConnection().setIpAddress(ipText.getText());
 				FanucRobot.getInstance(null, 0f, null).getSocketConnection().setPortNumber(Integer.valueOf(portText.getText()));
 				FanucRobot.getInstance(null, 0f, null).setPayload(Float.parseFloat(payload.getText()));
+				
 			}else {
 				SocketConnection socketConnection = new SocketConnection(SocketConnection.Type.CLIENT,nameText.getText(),ipText.getText(),Integer.valueOf(portText.getText()));
 				fanucRobot = (FanucRobot) FanucRobot.getInstance(nameText.getText(), Float.parseFloat(payload.getText()), socketConnection);
