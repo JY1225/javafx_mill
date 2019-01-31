@@ -4,22 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import cn.greatoo.easymill.db.util.ClampingHandler;
-import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.entity.Clamping;
-import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 
 public class ConfigGriperViewController  extends Controller{
 	@FXML
 	private GridPane gridPane;
-	@FXML
-	private ComboBox<String> combox;
 	@FXML
 	private Button editBt;
 	@FXML
@@ -41,24 +36,12 @@ public class ConfigGriperViewController  extends Controller{
 		// 编辑，新增
 		robotGripperView = new CNCClampingsView();
 		robotGripperView.init(gridPane, editBt, newBt, ifsClamping);
-		
-        combox.getItems().add("Clamping1");
-        combox.getItems().add("Clamping2");
-		
-		if(combox.getValue() != null) {
-		editBt.setDisable(false);
-		}else {
-			editBt.setDisable(true);
-		}
+		       
 	}
 
 	@FXML
 	public void editBtAction(ActionEvent event) {
-		isDisSelect(bts, editBt);			
-		newBt.setDisable(false);
-		combox.setDisable(false);
-		String clampingName = combox.getValue().toString();
-		robotGripperView.clickedEdit(clampingName);
+		robotGripperView.clickedEdit();
 	}
 		
 	
@@ -67,26 +50,10 @@ public class ConfigGriperViewController  extends Controller{
 		robotGripperView.clickedNew();
 	}
 
-	@FXML
-	public void comboBoxAction(ActionEvent event) {		
-		if(combox.getValue() != null) {
-			editBt.setDisable(false);
-		}else {
-			editBt.setDisable(true);
-		}
-		
-	}
 	@Override
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	public static void saveData(Clamping clamping) throws SQLException {
-		if (clamping.getId()>0) {
-			ClampingHandler.updateClamping(clamping);;
-		} else {
-			ClampingHandler.saveClamping(clamping);
-		}
-	}
+
 }

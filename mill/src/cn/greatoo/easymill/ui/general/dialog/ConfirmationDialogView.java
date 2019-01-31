@@ -8,10 +8,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class ConfirmationDialogView extends AbstractDialogView<ConfirmationDialogPresenter> {
@@ -24,8 +27,6 @@ public class ConfirmationDialogView extends AbstractDialogView<ConfirmationDialo
 	
 	private String message;
 	
-	private static final String OK = "ConfirmationDialogView.ok";
-	private static final String CANCEL = "ConfirmationDialogView.cancel";
 	private static final String CSS_BUTTON_LEFT = "left";
 	private static final String CSS_BUTTON_RIGHT = "right";
 	private static final String CSS_BUTTON = "dialog-btn";
@@ -45,6 +46,7 @@ public class ConfirmationDialogView extends AbstractDialogView<ConfirmationDialo
 	protected Node getContents(double height) {
 		vboxContents = new VBox();
 		vboxContents.setPrefWidth(WIDTH);
+		//vboxContents.setBackground(new Background(new BackgroundFill(Color.valueOf("#636468"),null,null)));
 		StackPane spMessage = new StackPane();
 		lblMessage = new Label();
 		lblMessage.setText(message);

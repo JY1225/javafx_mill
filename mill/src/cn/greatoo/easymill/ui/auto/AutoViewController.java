@@ -178,7 +178,7 @@ public class AutoViewController extends Controller{
 	public void startAction(ActionEvent event) {	
 		FanucRobot robot = FanucRobot.getInstance(null,0,null);
 		CNCMachine cncMachine = CNCMachine.getInstance(null, null, null);
-		if(robot != null && cncMachine != null)  {
+		if((robot != null && robot.isConnected()) && (cncMachine != null && cncMachine.isConnected()))  {
 			for(int i = 0;i < bts.size(); i++) {
 				bts.get(i).setDisable(true);
 			}

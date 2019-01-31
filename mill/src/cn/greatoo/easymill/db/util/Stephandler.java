@@ -42,6 +42,16 @@ public class Stephandler {
 				step.setId(keys.getInt(1));
 			}
 
+		}else {
+			PreparedStatement stmt = conn.prepareStatement("UPDATE STEP SET GRIPPERHEAD = ?, GRIPPER = ?, WORKPIECE = ?, USERFRAME = ?, SMOOTH = ?, OFFSET = ? WHERE ID = ?");
+			stmt.setInt(1, step.getGripperHead().getId());
+			stmt.setInt(2, step.getGripper().getId());
+			stmt.setInt(3, step.getWorkPiece().getId());
+			stmt.setInt(4, step.getUserFrame());
+			stmt.setInt(5, step.getSmooth().getId());			
+			stmt.setInt(6, step.getOffset().getId());
+            stmt.setInt(7, step.getId());
+            stmt.executeUpdate();
 		}
 	}
 		

@@ -94,6 +94,7 @@ public abstract class Controller {
 		
 		//private ProcessFlow activeProcessFlow;
 		
+		@SuppressWarnings("unused")
 		public void newProcess(StackPane stackPane) {		
 			if(false/*activeProcessFlow.hasChangesSinceLastSave()*/) {
 				ThreadManager.submit(new Thread() {
@@ -116,6 +117,17 @@ public abstract class Controller {
 			}
 		}
 		
+		boolean isConfirm = false;
+		public boolean askConfirm(StackPane stackPane,String title, String mess) {	
+			ThreadManager.submit(new Thread() {
+				@Override
+				public void run() {
+					isConfirm =  askConfirmation(stackPane,title,mess);
+				}
+			});
+			return isConfirm;
+			
+		}
 		public void createNewProcess() {
 			Platform.runLater(new Thread() {
 				@Override
@@ -125,12 +137,7 @@ public abstract class Controller {
 				}
 			});
 		}
-//		
-//		public void setDisVisible(Node node) {
-//			if(node != null) {
-//				node.setVisible(false);
-//			}
-//		}
+
 		
 		@SuppressWarnings("static-access")
 		public void setDisVisible (final int row, GridPane gridPane,Node parent) {
@@ -365,8 +372,8 @@ public abstract class Controller {
 								setMessege("启动程序。");								
 								break;
 							case StatusChangedEvent.PICK_FROM_TABLE:
-								mes = "从卡盘下料。";
-								setMessege("从卡盘下料。");								
+								mes = "从料架下料。";
+								setMessege("从料架下料。");								
 								break;
 							case StatusChangedEvent.PUT_TO_CNC:
 								mes = "给机床上料。";
@@ -383,8 +390,8 @@ public abstract class Controller {
 								setMessege("从机床下料。");
 								break;
 							case StatusChangedEvent.PUT_TO_TABLE:
-								mes = "给卡盘上料。";
-								setMessege("给卡盘上料。");
+								mes = "给料架上料。";
+								setMessege("给料架上料。");
 								break;
 							case StatusChangedEvent.ENDED:
 								mes = "成功示教。";

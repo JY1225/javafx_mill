@@ -7,6 +7,7 @@ import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.RobotSocketCommunication;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
+import cn.greatoo.easymill.process.ProcessExecutor;
 
 public abstract class AbstractRobot {
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractRobot.disconnectedWhileWaiting";
@@ -23,6 +24,7 @@ public abstract class AbstractRobot {
 	private  int id;
 	private  String name;
 	private  float payload; 
+	private boolean running;
 		
 	public AbstractRobot(String name,float payload,final SocketConnection socketConnection) {
 		this.socketConnection = socketConnection;
@@ -38,6 +40,7 @@ public abstract class AbstractRobot {
 		statusChanged = false;
 		teachingNeeded = false;
 		syncObject = new Object();
+		running = true;
 	}
 //	public GripperBody getGripperBody() {
 //		final Set<GripperHead> gripperHeads = new HashSet<GripperHead>();
@@ -89,7 +92,24 @@ public abstract class AbstractRobot {
 		synchronized (syncObject) {
 			syncObject.notifyAll();
 		}
+		setRunning(false);
 	}
+	public void checkProcessExecutorStatus() throws InterruptedException {
+		if (isRunning()) {
+			return;
+		} else {
+			throw new InterruptedException("Executor stopped running.");
+		}
+	}
+	
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
 	public int getStatus() {
 		return currentStatus;
 	}

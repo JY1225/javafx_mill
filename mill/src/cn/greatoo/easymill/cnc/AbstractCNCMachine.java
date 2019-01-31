@@ -15,11 +15,11 @@ import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public abstract class AbstractCNCMachine  {	
 	private SocketConnection socketConnection;
-	private  int currentStatus;
-	private  boolean statusChanged;
+	private int currentStatus;
+	private boolean statusChanged;
 	private static Object syncObject;
-	private  boolean stopAction;
-	private static Map<Integer, Integer> statusMap;
+	private boolean stopAction;
+	private Map<Integer, Integer> statusMap;
 	private boolean timAllowed;
 	private CNCMachineAlarm cncMachineTimeout;
 	private Set<CNCMachineAlarm> alarms;
@@ -27,12 +27,12 @@ public abstract class AbstractCNCMachine  {
 	private EWayOfOperating wayOfOperating;
 	private MCodeAdapter mCodeAdapter;
 	private int id;
+	private boolean running;
 	private static Logger logger = LogManager.getLogger(AbstractCNCMachine.class.getName());
 	
 	private static final String EXCEPTION_DISCONNECTED_WHILE_WAITING = "AbstractCNCMachine.disconnectedWhileWaiting";
 	private static final String EXCEPTION_WHILE_WAITING = "AbstractCNCMachine.exceptionWhileWaiting";
 	
-	@SuppressWarnings("static-access")
 	public AbstractCNCMachine(SocketConnection socketConnection,MCodeAdapter mCodeAdapter, final EWayOfOperating wayOfOperating) {
 		this.socketConnection = socketConnection;
 		this.statusChanged = false;
@@ -45,6 +45,7 @@ public abstract class AbstractCNCMachine  {
 		this.timAllowed = false;
 		this.statusMap = new HashMap<Integer, Integer>();
 		this.wayOfOperating = wayOfOperating;
+		running = true;
 	}
 	
 	public int getId() {
@@ -80,12 +81,27 @@ public abstract class AbstractCNCMachine  {
 	public void interruptCurrentAction() {
 		setCncMachineTimeout(null);
 		stopAction = true;
+		setRunning(false);
 		synchronized (syncObject) {
 			syncObject.notifyAll();
 		}
 	}
 
+	public void checkProcessExecutorStatus() throws InterruptedException {
+		if (isRunning()) {
+			return;
+		} else {
+			throw new InterruptedException("Executor stopped running.");
+		}
+	}
 	
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
 	public int getStatus() {
 		return currentStatus;
 	}

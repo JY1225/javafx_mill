@@ -16,16 +16,17 @@ import cn.greatoo.easymill.process.PutToTableStep;
 import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
+import javafx.application.Platform;
 
 /**
  * 示教线程
  *
  */
 public class TeachAndAutoThread extends AbstractStep implements Runnable {
-	public static boolean isFinishTeach = false;
+	public static boolean isFinishTeach;
 	private boolean teached;
 	private FanucRobot robot;
-	private CNCMachine cncMachine; 
+	private CNCMachine cncMachine;
 	private static Controller view;
 	private String programName;
 	private Program program;
@@ -33,17 +34,25 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 	private PutToCNCStep putToCNCStep;
 	private PickFromCNCStep pickFromCNCStep;
 	private PutToTableStep putToTableStep;
-	public TeachAndAutoThread(FanucRobot robot,CNCMachine cncMachine,boolean teached, Controller view) {
+	private PrepareStep prepareStep;
+	private FinishStep finishStep;
+
+	public TeachAndAutoThread(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
+		isFinishTeach = false;
 		this.programName = DBHandler.getInstance().getProgramName();
 		this.program = DBHandler.getInstance().getProgramBuffer().get(programName);
-		this.robot = robot;		 		
-		this.cncMachine = cncMachine;				
+		this.robot = robot;
+		this.cncMachine = cncMachine;
 		this.teached = teached;
 		this.view = view;
+		prepareStep = new PrepareStep();
 		pickFromTableStep = new PickFromTableStep();
 		putToCNCStep = new PutToCNCStep();
 		pickFromCNCStep = new PickFromCNCStep();
 		putToTableStep = new PutToTableStep();
+		finishStep = new FinishStep();
+		robot.setRunning(true);
+		cncMachine.setRunning(true);
 		try {
 			cncMachine.indicateOperatorRequested(false);
 			cncMachine.indicateOperatorRequested(false);
@@ -57,53 +66,76 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		initOffset();
 	}
 
 	@Override
-	public void run() {
+	public void run() {		
 		int wSize = DBHandler.getInstance().getStatckerBuffer().get(0).getAmount();
 		int wIndex = 0;
 		while (wIndex < wSize) {
-			
-			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.STARTED));
-			//机器人回到原点，打开机床的门
-			PrepareStep.prepareStep(program, robot, teached, cncMachine);
-			
-			//===从table抓取工件===机器人抓取工件，回到原点
-			pickFromTableStep.pickFromTable(program, robot, cncMachine, teached, wIndex, view);
-			
-			//===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
-			putToCNCStep.putToCNC(program, robot, cncMachine, teached, view);
+			try {
+				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.STARTED));
 
-			//===从机床pick工件出来===机器人抓取工件回到原点
-			pickFromCNCStep.pickFromCNC(program, robot, cncMachine, teached, view);
-			
-			//====把工件put到table===机器人put工件到卡盘，回到原点
-			putToTableStep.putToTable(program, robot, cncMachine, teached, wIndex, view);
-			
-			//===示教、自动化结束===重置设备
-			FinishStep.finish(robot, cncMachine, teached, view);
-			wIndex++;
-		}
-		isFinishTeach = true;
+				// 机器人回到原点，打开机床的门
+				checkProcessExecutorStatus(robot, cncMachine);
+				prepareStep.prepareStep(program, robot, teached, cncMachine);
+
+				// ===从table抓取工件===机器人抓取工件，回到原点
+				checkProcessExecutorStatus(robot, cncMachine);
+				pickFromTableStep.pickFromTable(program, robot, cncMachine, teached, wIndex, view);
+
+				// ===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
+				checkProcessExecutorStatus(robot, cncMachine);
+				putToCNCStep.putToCNC(program, robot, cncMachine, teached, view);
+
+				// ===从机床pick工件出来===机器人抓取工件回到原点
+				checkProcessExecutorStatus(robot, cncMachine);
+				pickFromCNCStep.pickFromCNC(program, robot, cncMachine, teached, view);
+
+				// ====把工件put到table===机器人put工件到卡盘，回到原点
+				checkProcessExecutorStatus(robot, cncMachine);
+				putToTableStep.putToTable(program, robot, cncMachine, teached, wIndex, view);
+
+				// ===示教、自动化结束===重置设备
+				if(!teached && wIndex == wSize -1) {
+					checkProcessExecutorStatus(robot, cncMachine);
+					finishStep.finish(robot, cncMachine, teached, view);
+				}
+				wIndex++;
+				if (teached) {
+					checkProcessExecutorStatus(robot, cncMachine);
+					finishStep.finish(robot, cncMachine, teached, view);
+					wSize = 0;
+				}
+				isFinishTeach = true;
+				
+			} catch (InterruptedException e) {
+				wSize = 0;
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						TeachAndAutoThread.getView().setMessege("程序未启动！");
+					}
+				});
+			}
+		}		
 	}
-	
 
 	private void initOffset() {
-		Coordinates  unLoadStackerOffset = program.getUnloadstacker().getOffset();
-		Coordinates  loadCNCOffset = program.getUnloadstacker().getOffset();
-		Coordinates  unLoadCNCOffset = program.getUnloadstacker().getOffset();
-		Coordinates  loadStackerOffset = program.getUnloadstacker().getOffset();
-		if(program.isHasTeach()) {
+		Coordinates unLoadStackerOffset = program.getUnloadstacker().getOffset();
+		Coordinates loadCNCOffset = program.getUnloadstacker().getOffset();
+		Coordinates unLoadCNCOffset = program.getUnloadstacker().getOffset();
+		Coordinates loadStackerOffset = program.getUnloadstacker().getOffset();
+		if (program.isHasTeach()) {
 			setUnloadStackerRelativeTeachedOffset(unLoadStackerOffset);
 			setLoadCNCRelativeTeachedOffset(loadCNCOffset);
 			setUnloadCNCRelativeTeachedOffset(unLoadCNCOffset);
 			setLoadStackerRelativeTeachedOffset(loadStackerOffset);
 		}
 	}
-	
+
 	public static Controller getView() {
 		return view;
 	}

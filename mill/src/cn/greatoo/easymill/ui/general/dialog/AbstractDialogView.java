@@ -5,6 +5,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -53,6 +55,7 @@ public abstract  class AbstractDialogView<T extends AbstractDialogPresenter<?, ?
 			lblTitle.setPrefWidth(Double.MAX_VALUE - 2*PADDING);
 			lblTitle.setTextAlignment(TextAlignment.CENTER);
 			hBoxTitle = new HBox();
+			//hBoxTitle.setBackground(new Background(new BackgroundFill(Color.valueOf("#636468"),null,null)));
 			hBoxTitle.setSpacing(PADDING);
 			hBoxTitle.getChildren().addAll(lblTitle);
 			hBoxTitle.getStyleClass().add(CSS_CLASS_TITLE);
@@ -74,7 +77,8 @@ public abstract  class AbstractDialogView<T extends AbstractDialogPresenter<?, ?
 		spOverlay.getStyleClass().add(CSS_CLASS_OVERLAY);
 		spOverlay.setPrefSize(SizeManager.WIDTH, SizeManager.HEIGHT);
 		spOverlay.setMaxSize(SizeManager.WIDTH, SizeManager.HEIGHT);
-		spOverlay.setMinSize(SizeManager.WIDTH, SizeManager.HEIGHT);
+		spOverlay.setMinSize(SizeManager.WIDTH, SizeManager.HEIGHT);		
+		this.setBackground(new Background(new BackgroundFill(Color.rgb(42, 45, 49, 0.7),null,null)));
 		getChildren().addAll(spOverlay, vBoxDialog);
 		StackPane.setAlignment(vBoxDialog, Pos.CENTER);
 		setAlignment(Pos.CENTER);
