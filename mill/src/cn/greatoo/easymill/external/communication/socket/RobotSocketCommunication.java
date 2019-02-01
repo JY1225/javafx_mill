@@ -88,7 +88,7 @@ public class RobotSocketCommunication extends ExternalSocketCommunication {
 			float w = Float.parseFloat(positionValues.get(3));
 			float p = Float.parseFloat(positionValues.get(4));
 			float r = Float.parseFloat(positionValues.get(5));
-			return new Coordinates();
+			return new Coordinates(x, y, z, w, p, r);
 		}
 		return null;
 	}

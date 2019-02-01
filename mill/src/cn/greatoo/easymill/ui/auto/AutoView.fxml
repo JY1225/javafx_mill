@@ -44,7 +44,7 @@
                                              <children>
                                                 <Circle fx:id="circleBack" centerX="80.0" centerY="80.0" fill="DODGERBLUE" layoutX="10.0" layoutY="29.0" radius="80.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle-back" />
                                                 <Circle fx:id="circleBackContinuous" centerX="80.0" centerY="80.0" fill="DODGERBLUE" layoutX="10.0" layoutY="29.0" radius="80.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle-back-continuous" />
-                                                <Path fx:id="piePiecePath" fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" styleClass="progress">
+                                                <Path fx:id="piePiecePath" fill="DODGERBLUE" layoutX="10.0" layoutY="29.0" stroke="BLACK" strokeType="INSIDE" styleClass="progress">
                                                     <elements>
                                                         <MoveTo x="100.0" />
                                                         <LineTo x="150.0" y="50.0" />
@@ -54,7 +54,7 @@
                                                     </elements>
                                                 </Path>
                                                 <Circle fx:id="circleFront" centerX="80.0" centerY="80.0" fill="DODGERBLUE" layoutX="10.0" layoutY="29.0" radius="74.0" stroke="BLACK" strokeType="INSIDE" styleClass="circle-front" />
-                                                <Label fx:id="lblFinishedAmount" alignment="CENTER" layoutX="16.0" layoutY="32.0" maxHeight="160.0" maxWidth="160.0" minHeight="160.0" minWidth="160.0" prefHeight="160.0" prefWidth="160.0" styleClass="finished-amount" textFill="WHITE" />
+                                                <Label fx:id="lblFinishedAmount" alignment="CENTER" layoutX="10.0" layoutY="29.0" maxHeight="160.0" maxWidth="160.0" minHeight="160.0" minWidth="160.0" prefHeight="160.0" prefWidth="160.0" styleClass="finished-amount" textFill="WHITE" />
                                              </children>
                                           </Pane>
                                           <Label fx:id="lblTotalAmount" layoutX="100.0" layoutY="121.0" styleClass="total-amount" textFill="WHITE" />

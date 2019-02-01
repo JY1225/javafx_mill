@@ -49,6 +49,7 @@ public class Programhandler {
 				RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ID"),
 						results.getInt("ROBOTSETTING"));
 				program.setRobotSetting(robotSetting);
+				program.setHasTeach(results.getBoolean("isHasTeach"));
 			}
 
 			if (program != null) {

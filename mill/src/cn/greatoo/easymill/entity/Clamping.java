@@ -70,8 +70,8 @@ public class Clamping implements Cloneable {
 	private int id;
 	private String name;
 	private Coordinates relativePosition;	
-	private static Smooth smoothToPoint;
-	private static Smooth smoothFromPoint;
+	private Smooth smoothToPoint;
+	private Smooth smoothFromPoint;
 	private float height;
 	private float defaultHeight;
 	private String imageURL;
@@ -180,7 +180,7 @@ public class Clamping implements Cloneable {
 		this.imageURL = imageURL;
 	}
 
-	public static Smooth getSmoothToPoint() {
+	public Smooth getSmoothToPoint() {
 		
 		return smoothToPoint;
 	}
@@ -189,7 +189,7 @@ public class Clamping implements Cloneable {
 		this.smoothToPoint = smoothToPoint;
 	}
 
-	public static Smooth getSmoothFromPoint() {
+	public Smooth getSmoothFromPoint() {
 		return smoothFromPoint;
 	}
 

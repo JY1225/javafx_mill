@@ -77,8 +77,9 @@ public class TeachMainContentViewController extends Controller{
 			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
-			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
+			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());			
 			Programhandler.updateProgramTeachStatu();
+			program.setHasTeach(true);
 			auto.setDisable(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
