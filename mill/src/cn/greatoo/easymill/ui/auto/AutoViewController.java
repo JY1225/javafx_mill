@@ -15,6 +15,7 @@ import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -110,7 +111,7 @@ public class AutoViewController extends Controller{
 	private Button deviceProcess3;
 	@FXML
 	private Label messegeText;
-	private RotateTransition rtContinuous;
+	private RotateTransition rtContinuous,rotateTransition;
 	List<Button> bts;
 	public void init(List<Button> bts) {
 		this.bts = bts;
@@ -145,6 +146,12 @@ public class AutoViewController extends Controller{
 				imagePath.setContent(cncMachinePath);
 				imagePath.getStyleClass().add(CSS_CLASS_CNCMACHINE);
 				buttons.get(i).getStyleClass().add(CSS_CLASS_BTN_CNCMACHINE);
+				rotateTransition = new RotateTransition(Duration.millis(5000), imagePath);
+		        rotateTransition.setFromAngle(0);
+		        rotateTransition.setToAngle(360);
+		        rotateTransition.setInterpolator(Interpolator.LINEAR);
+	            rotateTransition.setCycleCount(Timeline.INDEFINITE);
+		        animate(false);
 			} else if (i == buttons.size() - 1) {
 				imagePath.setContent(postStackingPath);
 				imagePath.getStyleClass().add(CSS_CLASS_POSTPROCESS);
@@ -174,7 +181,7 @@ public class AutoViewController extends Controller{
 			regions.get(i).setPrefWidth(70);
 			regions.get(i).setMinWidth(70);
 		}		
-		
+		 
 	}
 
 	//开始
@@ -321,14 +328,29 @@ public class AutoViewController extends Controller{
 	        }
 	    }
 	 
+	 public void animate(final boolean animate) {
+	        if (animate) {
+	            if (rotateTransition != null) {
+	                rotateTransition.play();
+	            }
+	        } else {
+	            if (rotateTransition != null) {
+	                rotateTransition.stop();
+	            }
+	        }
+	    }
 	public void setMessege(String messege) {
 		if(messegeText != null) {
 			if(!messege.contains("FINISHED_WORKPIECE_ACOUNT")) {
 				messegeText.setText(messege);
 				messegeText.setTextFill(Color.WHITE);
+				if(messege.contains("机床加工中")) {
+					animate(true);
+				}else if(messege.contains("从机床下料")) {
+					animate(false);
+				}
 			}else {
 				setFinishedAmount(Integer.valueOf(messege.split(";")[1]));
-				//lblFinishedAmount.setText(messege.split(";")[1]);
 			}
 		}
 	}
