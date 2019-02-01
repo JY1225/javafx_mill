@@ -29,6 +29,7 @@ public class TeachMainViewController extends Controller {
 	protected SVGPath svgPauseLeft;
 	private Region shapeRegion, clickableRegion;
 	private RotateTransition rotateTransition;
+	private static final String CSS_CLASS_UNCLICKABLE = "unclickable";
 	private static final String CSS_CLASS_BTN_PREPROCESS = "btn-pre";
 	private static final String CSS_CLASS_BTN_POSTPROCESS = "btn-post";
 	private static final String CSS_CLASS_BUTTON_SHAPE = "button-shape";
@@ -68,21 +69,23 @@ public class TeachMainViewController extends Controller {
 	private Parent teachGriperBMenuParent;
 	private FXMLLoader fxmlLoader;
 	private Button auto;
+	List<Button> buttons;
 	public void init(List<Button> bts, Button auto) {
 		this.auto = auto;		
 		// 给流程按钮set css
-		List<Button> buttons = new ArrayList<>();
+		buttons = new ArrayList<>();
 		buttons.add(deviceProcess1);
 		buttons.add(deviceProcess2);
 		buttons.add(deviceProcess3);
 		for (int i = 0; i < buttons.size(); i++) {
-			//buttons.get(i).setDisable(true);
+			buttons.get(i).setDisable(false);
+			buttons.get(i).getStyleClass().add(CSS_CLASS_UNCLICKABLE);
 			imagePath = new SVGPath();
 			imagePath.getStyleClass().add(CSS_CLASS_BUTTON_SHAPE);
 			if (i == 0) {
 				imagePath.setContent(preStackingPath);
 				imagePath.getStyleClass().add(CSS_CLASS_PREPROCESS);
-				buttons.get(i).getStyleClass().add(CSS_CLASS_BTN_PREPROCESS);
+				buttons.get(i).getStyleClass().add(CSS_CLASS_BTN_PREPROCESS);				
 			} else if (i == 1) {
 				imagePath.setContent(cncMachinePath);
 				imagePath.getStyleClass().add(CSS_CLASS_CNCMACHINE);
@@ -138,6 +141,9 @@ public class TeachMainViewController extends Controller {
 	TeachGriperAMenuViewController teachGriperAMenuViewController;
 	@FXML
 	public void setLableProcess1(MouseEvent event) {
+		for (int i = 0; i < buttons.size(); i++) {
+			buttons.get(i).setDisable(true);
+		}
 		if (!gridPane.getChildren().contains(teachGriperAMenuParent)) {
 			try {
 				URL location = getClass()
@@ -162,6 +168,9 @@ public class TeachMainViewController extends Controller {
 	TeachGriperBMenuViewController teachGriperBMenuViewController;
 	@FXML
 	public void setLableProcess2(MouseEvent event) {
+		for (int i = 0; i < buttons.size(); i++) {
+			buttons.get(i).setDisable(true);
+		}
 		if (!gridPane.getChildren().contains(teachGriperBMenuParent)) {
 			try {
 				URL location = getClass()
