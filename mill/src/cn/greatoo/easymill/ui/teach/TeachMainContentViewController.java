@@ -13,13 +13,14 @@ import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.ThreadManager;
+import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class TeachMainContentViewController extends Controller{
-
+	private RotateTransition rotateTransition;
 	@FXML
 	private Button btnStart;
 	@FXML
@@ -34,10 +35,12 @@ public class TeachMainContentViewController extends Controller{
 	private Button stopBt;
 	private List<Button> bts;
 	private Button auto;
-	public void init(List<Button> bts, Button auto) {	
+	public void init(List<Button> bts, Button auto, RotateTransition rotateTransition) {	
 		this.bts = bts;
 		stopBt.setDisable(true);
 		this.auto = auto;
+		this.rotateTransition = rotateTransition;
+		animate(false);
 	}
 	@FXML
 	public void btnStartAction(ActionEvent event) {
@@ -77,8 +80,9 @@ public class TeachMainContentViewController extends Controller{
 			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
-			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
+			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());			
 			Programhandler.updateProgramTeachStatu();
+			program.setHasTeach(true);
 			auto.setDisable(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,10 +106,25 @@ public class TeachMainContentViewController extends Controller{
 		FanucRobot.getInstance(null,0,null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
-	
+	public void animate(final boolean animate) {
+        if (animate) {
+            if (rotateTransition != null) {
+                rotateTransition.play();
+            }
+        } else {
+            if (rotateTransition != null) {
+                rotateTransition.stop();
+            }
+        }
+    }
 	public void setMessege(String messege) {
 		if(messegeText != null) {
 			messegeText.setText(messege);
+			if(messege.contains("机床加工中")) {
+				animate(true);
+			}else if(messege.contains("从机床下料")) {
+				animate(false);
+			}
 		}
 	}
 	

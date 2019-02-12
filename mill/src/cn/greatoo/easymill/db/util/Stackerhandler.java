@@ -23,7 +23,6 @@ public class Stackerhandler {
 
 	public static void SaveStacker(Stacker stacker) throws SQLException {
 		if (stacker.getId()<=0) {
-		conn.setAutoCommit(false);
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, "
 				+ "HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, "
 				+ "VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE,"
@@ -54,39 +53,24 @@ public class Stackerhandler {
 		if (resultSet.next()) {
 			stacker.setId(resultSet.getInt(1));
 		}
-		conn.commit();
-		conn.setAutoCommit(true);
 		}
 		else {
 			updateStacker(stacker);			
 		}
-		Coordinates smoothTo = new Coordinates();
-		Coordinates smoothFrom = new Coordinates();
-		//Coordinates smoothTo = Clamping.getSmoothToPoint();
-		//Coordinates smoothFrom = Clamping.getSmoothFromPoint();
-		smoothTo.setX(stacker.getSmoothto().getX());
-		smoothTo.setY(stacker.getSmoothto().getY());
-		smoothTo.setZ(stacker.getSmoothto().getZ());
-		smoothFrom.setX(stacker.getSmoothfrom().getX());
-		smoothFrom.setY(stacker.getSmoothfrom().getY());
-		smoothFrom.setZ(stacker.getSmoothfrom().getZ());
-		CoordinatesHandler.saveCoordinates(smoothTo);
-		CoordinatesHandler.saveCoordinates(smoothFrom);
-		conn.commit();
-		conn.setAutoCommit(true);
-		
-//		PreparedStatement stmt2 = conn.prepareStatement("UPDATE CLAMPING SET HEIGHT = ? WHERE ID = ?");
-//		stmt2.setFloat(1, stacker.getStudHeight_Stacker());
-//		stmt2.setInt(2, Clamping.getId());
-//		stmt2.execute();
-//		//Clamping.setDefaultHeight(stacker.getStudHeight_Stacker());
+		if (stacker.getSmoothto() != null) {
+			SmoothHandler.saveSmooth(stacker.getSmoothto());
+		}
+		if (stacker.getSmoothfrom() != null) {
+			SmoothHandler.saveSmooth(stacker.getSmoothfrom());
+		}
+
 	}
 	
 	
 	public static void updateStacker(Stacker stacker) throws SQLException {
-		conn.setAutoCommit(false);
 		PreparedStatement stmt = conn.prepareStatement("UPDATE STACKER SET HORIZONTALHOLEAMOUNT = ?, VERTICALHOLEAMOUNT = ?, HOLEDIAMETER = ?, " +
-				"STUDDIAMETER = ?, HORIZONTALPADDING = ?, VERTICALPADDINGTOP = ?, VERTICALPADDINGBOTTOM = ?, HORIZONTALHOLEDISTANCE = ?, VERTICALHOLEDISTANCE = ?, INTERFERENCEDISTANCE = ?, " +
+				"STUDDIAMETER = ?, HORIZONTALPADDING = ?, VERTICALPADDINGTOP = ?, VERTICALPADDINGBOTTOM = ?, HORIZONTALHOLEDISTANCE = ?, VERTICALHOLEDISTANCE = ?,"
+				+ " INTERFERENCEDISTANCE = ?, " +
 				" OVERFLOWPERCENTAGE = ?, HORIZONTAL_R = ?, TILTED_R = ?, MAX_OVERFLOW = ?, MIN_OVERLAP = ?, MAX_UNDERFLOW = ?, "
 				+ "ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ? "
 				+ "WHERE ID = ?");
@@ -98,20 +82,20 @@ public class Stackerhandler {
 		stmt.setFloat(6, stacker.getVerticalPaddingTop());
 		stmt.setFloat(7, stacker.getVerticalPaddingBottom());
 		stmt.setFloat(8, stacker.getHorizontalHoleDistance());
-        stmt.setFloat(9, stacker.getInterferenceDistance());
-		stmt.setFloat(10, stacker.getOverflowPercentage());
-		stmt.setFloat(11, stacker.getHorizontalR());
-		stmt.setFloat(12, stacker.getTiltedR());
-		stmt.setFloat(13, stacker.getMaxOverflow());
-		stmt.setFloat(14, stacker.getMinOverlap());
-		stmt.setFloat(15, stacker.getMaxUnderflow());
-		stmt.setFloat(16, stacker.getVerticalHoleDistance());
+		stmt.setFloat(9, stacker.getVerticalHoleDistance());
+        stmt.setFloat(10, stacker.getInterferenceDistance());
+		stmt.setFloat(11, stacker.getOverflowPercentage());
+		stmt.setFloat(12, stacker.getHorizontalR());
+		stmt.setFloat(13, stacker.getTiltedR());
+		stmt.setFloat(14, stacker.getMaxOverflow());
+		stmt.setFloat(15, stacker.getMinOverlap());
+		stmt.setFloat(16, stacker.getMaxUnderflow());		
 		stmt.setFloat(17, stacker.getOrientation());
 		stmt.setFloat(18, stacker.getLayers());
 		stmt.setFloat(19, stacker.getAmount());
 		stmt.setFloat(20, stacker.getStudHeight_Workpiece());	
 		stmt.setInt(21, stacker.getId());
-		stmt.execute();
+		stmt.executeUpdate();
 
 		if(stacker.getSmoothto() != null) {
 			SmoothHandler.saveSmooth(stacker.getSmoothto());
@@ -119,15 +103,7 @@ public class Stackerhandler {
 		if(stacker.getSmoothfrom() != null) {
 			SmoothHandler.saveSmooth(stacker.getSmoothfrom());
 		}
-		conn.commit();
-		conn.setAutoCommit(true);
-		
-//		
-//		PreparedStatement stmt2 = conn.prepareStatement("UPDATE CLAMPING SET HEIGHT = ? WHERE ID = ?");
-//		stmt2.setFloat(1, stacker.getStudHeight_Stacker());
-//		stmt2.setInt(2, Clamping.getId());
-//		stmt2.execute();
-//		//Clamping.setDefaultHeight(stacker.getStudHeight_Stacker());
+
 	}
 	
 	private Stacker getStacker(final int id, final String name) throws SQLException {

@@ -36,6 +36,7 @@ public class RobotHandler {
 			SocketConnection socketConnection = null;
 			if (results2.next()) {
 				socketConnection = new SocketConnection(SocketConnection.Type.CLIENT,results2.getString("NAME"),results2.getString("IPADDRESS"),results2.getInt("PORTNUMBER"));				
+				socketConnection.setId(socketConnectionId);
 			}			
 			robot = FanucRobot.getInstance(results.getString("NAME"), results.getShort("PAYLOAD"), socketConnection);	
 			robot.setId(results.getInt("ID"));

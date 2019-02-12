@@ -21,9 +21,9 @@ import javafx.application.Platform;
 public class PickFromTableStep extends AbstractStep{
 
 	@SuppressWarnings("static-access")
-	public void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {
-		
-		try {			
+	public void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {		
+		try {	
+			WorkPiecePositions workPiecePositions = new WorkPiecePositions(DBHandler.getInstance().getStatckerBuffer().get(0));
 			Clamping clamping =DBHandler.getInstance().getClampBuffer().get(0);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;			
 			//75
@@ -45,10 +45,11 @@ public class PickFromTableStep extends AbstractStep{
 					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//----------------------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
-			WorkPiecePositions.initializeRawWorkPiecePositionsDeg90(program.getUnloadstacker().getWorkPiece());
+			workPiecePositions.initStackingPositions(program.getUnloadstacker().getWorkPiece());
 			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);//(75.0, 105.0, 0.0, 0.0, 0.0, 90.0)			
 			Coordinates position = new Coordinates(originalPosition);			
 			if (getUnloadStackerRelativeTeachedOffset() == null) {///?????
+				Coordinates c = getUnloadStackerRelativeTeachedOffset();
 				initSafeTeachedOffset(1,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
 			}
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadStackerRelativeTeachedOffset());

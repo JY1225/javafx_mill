@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -14,6 +15,7 @@ import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +48,7 @@ public class AutoViewController extends Controller{
 	public static final int PROGRESS_RADIUS_INNER = 1;
 	public static final int PROGRESS_RADIUS_INNER_CIRCLE = 74;
 	private int totalAmount;
+	private int finishedAmount;
 	private boolean continuousEnabled;
 	private static final String CSS_CLASS_CIRCLE_FRONT_DARK = "circle-front-dark";
 	protected SVGPath imagePath;
@@ -108,7 +111,7 @@ public class AutoViewController extends Controller{
 	private Button deviceProcess3;
 	@FXML
 	private Label messegeText;
-	private RotateTransition rtContinuous;
+	private RotateTransition rtContinuous,rotateTransition;
 	List<Button> bts;
 	public void init(List<Button> bts) {
 		this.bts = bts;
@@ -120,7 +123,9 @@ public class AutoViewController extends Controller{
 		StackPane.setAlignment(lblFinishedAmount, Pos.TOP_RIGHT);
 		StackPane.setAlignment(lblTotalAmount, Pos.CENTER);
 		StackPane.setMargin(lblTotalAmount, new Insets(95, 0, 0, 30));
-
+		setTotalAmount(DBHandler.getInstance().getStatckerBuffer().get(0).getAmount());
+		setFinishedAmount(0);
+		
 		setPercentage(0);
 		enableContinuousAnimation(false);
 
@@ -141,6 +146,12 @@ public class AutoViewController extends Controller{
 				imagePath.setContent(cncMachinePath);
 				imagePath.getStyleClass().add(CSS_CLASS_CNCMACHINE);
 				buttons.get(i).getStyleClass().add(CSS_CLASS_BTN_CNCMACHINE);
+				rotateTransition = new RotateTransition(Duration.millis(5000), imagePath);
+		        rotateTransition.setFromAngle(0);
+		        rotateTransition.setToAngle(360);
+		        rotateTransition.setInterpolator(Interpolator.LINEAR);
+	            rotateTransition.setCycleCount(Timeline.INDEFINITE);
+		        animate(false);
 			} else if (i == buttons.size() - 1) {
 				imagePath.setContent(postStackingPath);
 				imagePath.getStyleClass().add(CSS_CLASS_POSTPROCESS);
@@ -170,7 +181,7 @@ public class AutoViewController extends Controller{
 			regions.get(i).setPrefWidth(70);
 			regions.get(i).setMinWidth(70);
 		}		
-		
+		 
 	}
 
 	//开始
@@ -278,6 +289,21 @@ public class AutoViewController extends Controller{
 		piePiecePath.getTransforms().add(new Translate(PROGRESS_RADIUS, PROGRESS_RADIUS));
 	}
 
+	public void setTotalAmount(final int amount) {
+        if (amount == -1) {
+            totalAmount = -1;
+            lblTotalAmount.setText("");
+            setPercentage(0);
+        } else {
+            totalAmount = amount;
+            lblTotalAmount.setText("/" + amount);
+            if ((totalAmount >= 0) && (finishedAmount >= 0)) {
+                setPercentage((int) Math.floor(((double) finishedAmount / (double) totalAmount) * 100));
+            }
+        }
+        enableContinuousAnimation(continuousEnabled);
+    }
+	
 	public synchronized void enableContinuousAnimation(final boolean enable) {
 		this.continuousEnabled = enable;
 		circleFront.getStyleClass().remove(CSS_CLASS_CIRCLE_FRONT_DARK);
@@ -292,10 +318,40 @@ public class AutoViewController extends Controller{
 			rtContinuous.pause();
 		}
 	}
+	 public void setFinishedAmount(final int amount) {
+	        finishedAmount = amount;
+	        lblFinishedAmount.setText("" + amount);
+	        if ((totalAmount >= 0) && (finishedAmount >= 0)) {
+	            setPercentage((int) Math.floor(((double) finishedAmount / (double) totalAmount) * 100));
+	        } else {
+	            setPercentage(0);
+	        }
+	    }
+	 
+	 public void animate(final boolean animate) {
+	        if (animate) {
+	            if (rotateTransition != null) {
+	                rotateTransition.play();
+	            }
+	        } else {
+	            if (rotateTransition != null) {
+	                rotateTransition.stop();
+	            }
+	        }
+	    }
 	public void setMessege(String messege) {
 		if(messegeText != null) {
-			messegeText.setText(messege);
-			messegeText.setTextFill(Color.WHITE);
+			if(!messege.contains("FINISHED_WORKPIECE_ACOUNT")) {
+				messegeText.setText(messege);
+				messegeText.setTextFill(Color.WHITE);
+				if(messege.contains("机床加工中")) {
+					animate(true);
+				}else if(messege.contains("从机床下料")) {
+					animate(false);
+				}
+			}else {
+				setFinishedAmount(Integer.valueOf(messege.split(";")[1]));
+			}
 		}
 	}
 }

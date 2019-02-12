@@ -377,7 +377,7 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 		btnSave = createButton(SAVE_PATH, CSS_CLASS_FORM_BUTTON, "保存", BTN_WIDTH, BTN_HEIGHT, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				
+				Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 				 Clamping.Type type = Clamping.Type.CENTRUM;
 					ClampingType clampingType =ClampingType.LENGTH;
 				String clampingName = fullTxtName.getText();
@@ -385,10 +385,13 @@ public class CNCClampingsView extends Controller implements TextInputControlList
 				float defaultHeight = Float.parseFloat(numtxtHeight.getText());
 				Coordinates	relativePosition = new Coordinates(Float.parseFloat(numtxtX.getText()),Float.parseFloat(numtxtY.getText()),Float.parseFloat(numtxtZ.getText()),
 						Float.parseFloat(numtxtW.getText()),Float.parseFloat(numtxtP.getText()),Float.parseFloat(numtxtR.getText()));
+				relativePosition.setId(clamping.getRelativePosition().getId());
 				Smooth smoothToPoint = new Smooth(Float.parseFloat(numtxtSmoothToX.getText()),Float.parseFloat(numtxtSmoothToY.getText()),Float.parseFloat(numtxtSmoothToZ.getText()));
+				smoothToPoint.setId(clamping.getSmoothToPoint().getId());
 				Smooth smoothFromPoint = new Smooth(Float.parseFloat(numtxtSmoothFromX.getText()),Float.parseFloat(numtxtSmoothFromY.getText()),Float.parseFloat(numtxtSmoothFromZ.getText()));
+				smoothFromPoint.setId(clamping.getSmoothFromPoint().getId());
 				String imageURL = imagePath;
-				Clamping clamping = new Clamping(type, clampingType, clampingName, defaultHeight,relativePosition, smoothToPoint, smoothFromPoint, imagePath);
+				clamping = new Clamping(type, clampingType, clampingName, defaultHeight,relativePosition, smoothToPoint, smoothFromPoint, imagePath);
 				try {
 					clamping.setId(selectedClamping.getId());
 					saveData(clamping);

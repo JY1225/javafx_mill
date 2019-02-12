@@ -101,15 +101,18 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 				// ===示教、自动化结束===重置设备
 				if(!teached && wIndex == wSize -1) {
 					checkProcessExecutorStatus(robot, cncMachine);
-					finishStep.finish(robot, cncMachine, teached, view);
+					finishStep.finish(robot, cncMachine, teached, view);					
 				}
 				wIndex++;
 				if (teached) {
 					checkProcessExecutorStatus(robot, cncMachine);
 					finishStep.finish(robot, cncMachine, teached, view);
+					program.setHasTeach(true);
+					isFinishTeach = true;
 					wSize = 0;
-				}
-				isFinishTeach = true;
+				}else {
+					view.statusChanged("FINISHED_WORKPIECE_ACOUNT;"+String.valueOf(wIndex));
+				}				
 				
 			} catch (InterruptedException e) {
 				wSize = 0;
@@ -125,9 +128,9 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 
 	private void initOffset() {
 		Coordinates unLoadStackerOffset = program.getUnloadstacker().getOffset();
-		Coordinates loadCNCOffset = program.getUnloadstacker().getOffset();
-		Coordinates unLoadCNCOffset = program.getUnloadstacker().getOffset();
-		Coordinates loadStackerOffset = program.getUnloadstacker().getOffset();
+		Coordinates loadCNCOffset = program.getLoadCNC().getOffset();
+		Coordinates unLoadCNCOffset = program.getUnloadCNC().getOffset();
+		Coordinates loadStackerOffset = program.getLoadstacker().getOffset();
 		if (program.isHasTeach()) {
 			setUnloadStackerRelativeTeachedOffset(unLoadStackerOffset);
 			setLoadCNCRelativeTeachedOffset(loadCNCOffset);
