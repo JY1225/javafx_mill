@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -51,7 +52,8 @@ public class SetMenuViewController extends Controller {
 	private Parent saveParent;
 	private Parent openParent;
 	private GridPane gridPane;
-	public void init(GridPane gridPane) {
+
+	public void init(GridPane gridPane, Label newProsessLable) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
 		bts.add(configuer);
@@ -111,7 +113,7 @@ public class SetMenuViewController extends Controller {
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						openParent = fxmlLoader.load();
 						OpenViewController openViewController = fxmlLoader.getController(); // 获取Controller的实例对?
-						openViewController.init();
+						openViewController.init(newProsessLable);
 						gridPane.add(openParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
