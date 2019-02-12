@@ -68,7 +68,7 @@ public class DeviceMenuViewController extends Controller {
 	public void init(GridPane setProsessPane) {
 		this.setProsessPane = setProsessPane;
 		bts = new ArrayList<Button>();
-		bts.add(device);
+//		bts.add(device);
 		bts.add(workPiece);
 		bts.add(pick);
 		bts.add(layout);
@@ -77,29 +77,29 @@ public class DeviceMenuViewController extends Controller {
 		isClicked(bts, workPiece);
 		openRawWPView();
 
-		addMenuItem(prosessVBox,device, 0, FROM_ICON, "设备", true, new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(final ActionEvent event) {
-				isClicked(bts, device);
-				if (!setProsessPane.getChildren().contains(deviceParent)) {
-					try {
-						URL location = getClass()
-								.getResource("/cn/greatoo/easymill/ui/set/table/load/DeviceView.fxml");
-						fxmlLoader = new FXMLLoader();
-						fxmlLoader.setLocation(location);
-						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-						deviceParent = fxmlLoader.load();
-						DeviceViewController deviceViewController = fxmlLoader.getController();
-						// 中写的初始化方法
-						deviceViewController.init();
-						setProsessPane.add(deviceParent, 1, 2);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else
-					setDisVisible(2, 1, setProsessPane,deviceParent);
-			}
-		});
+//		addMenuItem(prosessVBox,device, 0, FROM_ICON, "设备", true, new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(final ActionEvent event) {
+//				isClicked(bts, device);
+//				if (!setProsessPane.getChildren().contains(deviceParent)) {
+//					try {
+//						URL location = getClass()
+//								.getResource("/cn/greatoo/easymill/ui/set/table/load/DeviceView.fxml");
+//						fxmlLoader = new FXMLLoader();
+//						fxmlLoader.setLocation(location);
+//						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+//						deviceParent = fxmlLoader.load();
+//						DeviceViewController deviceViewController = fxmlLoader.getController();
+//						// 中写的初始化方法
+//						deviceViewController.init();
+//						setProsessPane.add(deviceParent, 1, 2);
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				} else
+//					setDisVisible(2, 1, setProsessPane,deviceParent);
+//			}
+//		});
 		addMenuItem(prosessVBox,workPiece, 1, WORKPIECE_ICON, "工件", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
