@@ -53,7 +53,7 @@ public class SetMenuViewController extends Controller {
 	private Parent openParent;
 	private GridPane gridPane;
 
-	public void init(GridPane gridPane, Label newProsessLable) {
+	public void init(GridPane gridPane, SetViewController setViewController) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
 		bts.add(configuer);
@@ -113,7 +113,7 @@ public class SetMenuViewController extends Controller {
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						openParent = fxmlLoader.load();
 						OpenViewController openViewController = fxmlLoader.getController(); // 获取Controller的实例对?
-						openViewController.init(newProsessLable);
+						openViewController.init(setViewController);
 						gridPane.add(openParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();

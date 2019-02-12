@@ -48,16 +48,17 @@ public class OpenViewController extends Controller {
 	private TextField fulltxtName;
 	
 	private ObservableList<Program> Programs;
-	private Label newProsessLable;
+	private SetViewController setViewController;
 	@FXML
 	public void load(MouseEvent event) {
 		fulltxtName.setText(table.getSelectionModel().selectedItemProperty().getValue().getName());
 		DBHandler.getInstance().setProgramName(fulltxtName.getText());
-		newProsessLable.setText(fulltxtName.getText());
+		setViewController.setActiveProgramName(fulltxtName.getText());
+		setViewController.openSetMenuView();
 	}
 
-	public void init(Label newProsessLable) {
-		this.newProsessLable = newProsessLable;
+	public void init(SetViewController setViewController) {
+		this.setViewController = setViewController;
 		Programs = FXCollections.observableArrayList();
 		Programs.addAll(DBHandler.getInstance().getProgramBuffer().values());
 		table.setEditable(false);

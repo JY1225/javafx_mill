@@ -140,7 +140,7 @@ public class SetViewController extends Controller {
 		}				
 	}
 	SetMenuViewController setMenuViewController;
-	private void openSetMenuView() {
+	public void openSetMenuView() {
 		if (!gridPane.getChildren().contains(setParent)) {
 			try {
 				URL location = getClass()
@@ -151,13 +151,13 @@ public class SetViewController extends Controller {
 				setParent = fxmlLoader.load();
 				setMenuViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				setMenuViewController.init(gridPane,newProsessLable);
+				setMenuViewController.init(gridPane,this);
 				gridPane.add(setParent, 0, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			setMenuViewController.init(gridPane,newProsessLable);
+			setMenuViewController.init(gridPane,this);
 			setDisVisible(2, 0, gridPane, setParent);
 		}
 	}
@@ -295,6 +295,9 @@ public class SetViewController extends Controller {
 		}
 	}
 	
+	public void setActiveProgramName(String programName) {
+		newProsessLable.setText(programName);
+	}
 	@Override
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
