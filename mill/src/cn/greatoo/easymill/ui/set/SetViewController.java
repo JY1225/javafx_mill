@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.set.cnc.CNCMenuViewController;
 import cn.greatoo.easymill.ui.set.robot.griperA.ClampMenuViewController;
@@ -86,12 +87,12 @@ public class SetViewController extends Controller {
 	private Parent CNCMenuParent;
 	private Parent PickClampMenuParent;
 	private Parent pickConfigMenuParent;
-	FXMLLoader fxmlLoader;
+	private FXMLLoader fxmlLoader;
 
 	public void init() {
 		// 默认选择通用按钮
 		openSetMenuView();
-		
+		newProsessLable.setText(DBHandler.getInstance().getProgramName());
 		// 给流程按钮set css
 		List<Button> buttons = new ArrayList<>();
 		buttons.add(deviceProcess1);
@@ -139,7 +140,7 @@ public class SetViewController extends Controller {
 		}				
 	}
 	SetMenuViewController setMenuViewController;
-	private void openSetMenuView() {
+	public void openSetMenuView() {
 		if (!gridPane.getChildren().contains(setParent)) {
 			try {
 				URL location = getClass()
@@ -150,13 +151,13 @@ public class SetViewController extends Controller {
 				setParent = fxmlLoader.load();
 				setMenuViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				setMenuViewController.init(gridPane);
+				setMenuViewController.init(gridPane,this);
 				gridPane.add(setParent, 0, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			setMenuViewController.init(gridPane);
+			setMenuViewController.init(gridPane,this);
 			setDisVisible(2, 0, gridPane, setParent);
 		}
 	}
@@ -293,7 +294,10 @@ public class SetViewController extends Controller {
 			setDisVisible(2, 0, gridPane, PickClampMenuParent);
 		}
 	}
-
+	
+	public void setActiveProgramName(String programName) {
+		newProsessLable.setText(programName);
+	}
 	@Override
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub

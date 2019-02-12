@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -47,12 +48,17 @@ public class OpenViewController extends Controller {
 	private TextField fulltxtName;
 	
 	private ObservableList<Program> Programs;
+	private SetViewController setViewController;
 	@FXML
 	public void load(MouseEvent event) {
 		fulltxtName.setText(table.getSelectionModel().selectedItemProperty().getValue().getName());
+		DBHandler.getInstance().setProgramName(fulltxtName.getText());
+		setViewController.setActiveProgramName(fulltxtName.getText());
+		setViewController.openSetMenuView();
 	}
 
-	public void init() {
+	public void init(SetViewController setViewController) {
+		this.setViewController = setViewController;
 		Programs = FXCollections.observableArrayList();
 		Programs.addAll(DBHandler.getInstance().getProgramBuffer().values());
 		table.setEditable(false);
