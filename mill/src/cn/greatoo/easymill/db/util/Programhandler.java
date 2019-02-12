@@ -254,10 +254,10 @@ public class Programhandler {
 		}
 	}
 
-	public static void updateProgramTeachStatu() {
+	public static void updateProgramTeachStatu(boolean statu) {
 		try {
 			PreparedStatement stmt = conn.prepareStatement("UPDATE PROGRAM SET ishasteach = ? WHERE name = ?");
-			stmt.setBoolean(1, true);
+			stmt.setBoolean(1, statu);
 			stmt.setString(2, DBHandler.getInstance().getProgramName());
 			stmt.executeUpdate();
 		} catch (SQLException e) {

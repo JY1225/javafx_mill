@@ -69,7 +69,16 @@ public class TeachMainContentViewController extends Controller{
 	
 	@FXML
 	public void resetAction(ActionEvent event) {
-		
+		Program program = DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName());
+		if(program != null) {
+		try {			
+			Programhandler.updateProgramTeachStatu(false);
+			DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName()).setHasTeach(false);
+			auto.setDisable(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		}
 	}
 	
 	@FXML
@@ -81,8 +90,8 @@ public class TeachMainContentViewController extends Controller{
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
 			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());			
-			Programhandler.updateProgramTeachStatu();
-			program.setHasTeach(true);
+			Programhandler.updateProgramTeachStatu(true);
+			DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName()).setHasTeach(true);
 			auto.setDisable(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
