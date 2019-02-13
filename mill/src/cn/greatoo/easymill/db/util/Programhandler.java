@@ -23,15 +23,16 @@ public class Programhandler {
 		Program program = null;
 		Timestamp lastOpened = null;
 		try {
-			PreparedStatement stmt = conn.prepareStatement("SELECT MAX(LASTOPENED) FROM PROGRAM");
-			ResultSet result = stmt.executeQuery();
-			if (result.next()) {
-				lastOpened = result.getTimestamp("1");
-			}
-			PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM PROGRAM WHERE LASTOPENED = ?");
-			stmt2.setTimestamp(1, lastOpened);
+//			PreparedStatement stmt = conn.prepareStatement("SELECT MAX(LASTOPENED) FROM PROGRAM");
+//			ResultSet result = stmt.executeQuery();
+//			if (result.next()) {
+//				lastOpened = result.getTimestamp("1");
+//			}
+//			PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM PROGRAM WHERE LASTOPENED = ?");
+			PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM PROGRAM Order By PROGRAM.LASTOPENED ASC");
+//			stmt2.setTimestamp(1, lastOpened);
 			ResultSet results = stmt2.executeQuery();
-			if (results.next()) {
+			while (results.next()) {
 				program = new Program();
 				program.setId(results.getInt("ID"));
 				program.setName(results.getString("NAME"));
@@ -54,12 +55,12 @@ public class Programhandler {
 				program.setAmount(results.getInt("AMOUNT"));
 				program.setLayers(results.getInt("LAYERS"));
 				program.setStudHeight_Workpiece(results.getFloat("STUDHEIGHT_WORKPIECE"));
+				if (program != null) {
+					DBHandler.getInstance().setProgramName(program.getName());
+					DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);
+				}
 			}
-
-			if (program != null) {
-				DBHandler.getInstance().setProgramName(program.getName());
-				DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);
-			}
+			
 		} catch (SQLException ex) {
 			LOGGER.log(Level.ERROR, "{}", ex);
 		}

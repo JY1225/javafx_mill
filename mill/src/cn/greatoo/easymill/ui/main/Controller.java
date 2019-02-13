@@ -134,7 +134,6 @@ public abstract class Controller {
 				@Override
 				public void run() {
 					DBHandler.getInstance().setProgramName(null);
-					//DBHandler.getInstance().setStatckerBuffer(null);
 				}
 			});
 		}

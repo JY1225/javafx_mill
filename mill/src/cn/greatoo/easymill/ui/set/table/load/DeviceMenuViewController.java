@@ -61,10 +61,13 @@ public class DeviceMenuViewController extends Controller {
 	private Parent rawWPParent;
 	private Parent pickParent;
 	private Parent layoutParent;
-	List<Button> bts;
-	List<String> parents = new ArrayList<String>();
-	FXMLLoader fxmlLoader;
-
+	private List<Button> bts;
+	private List<String> parents = new ArrayList<String>();
+	private FXMLLoader fxmlLoader;
+	private PickViewController pickViewController;
+	private LayoutViewController layoutViewController;
+	private RawWPViewController rawWPViewController;
+	
 	public void init(GridPane setProsessPane) {
 		this.setProsessPane = setProsessPane;
 		bts = new ArrayList<Button>();
@@ -107,9 +110,10 @@ public class DeviceMenuViewController extends Controller {
 				openRawWPView();
 			}
 		});
+		
 		addMenuItem(prosessVBox,pick, 2, PICK_ICON, "夹取", true, new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(final ActionEvent event) {
+			public void handle(final ActionEvent event) {				
 				isClicked(bts, pick);
 				if (!setProsessPane.getChildren().contains(pickParent)) {
 					try {
@@ -119,15 +123,17 @@ public class DeviceMenuViewController extends Controller {
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						pickParent = fxmlLoader.load();
-						PickViewController pickViewController = fxmlLoader.getController();
+						pickViewController = fxmlLoader.getController();
 						// 中写的初始化方法
 						pickViewController.init();
 						setProsessPane.add(pickParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
+				} else {
+					pickViewController.init();
 					setDisVisible(2, 1, setProsessPane,pickParent);
+				}
 			}
 		});
 		addMenuItem(prosessVBox,layout, 3, LAYOUT_ICON, "布局", true, new EventHandler<ActionEvent>() {
@@ -142,15 +148,17 @@ public class DeviceMenuViewController extends Controller {
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						layoutParent = fxmlLoader.load();
-						LayoutViewController layoutViewController = fxmlLoader.getController();
+						layoutViewController = fxmlLoader.getController();
 						// 中写的初始化方法
 						layoutViewController.init(setProsessPane);
 						setProsessPane.add(layoutParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
+				} else {
+					layoutViewController.init(setProsessPane);
 					setDisVisible(2, 1, setProsessPane,layoutParent);
+				}
 					
 			}
 		});
@@ -165,15 +173,17 @@ public class DeviceMenuViewController extends Controller {
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				rawWPParent = fxmlLoader.load();
-				RawWPViewController rawWPViewController = fxmlLoader.getController();
+				rawWPViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				rawWPViewController.init();
 				setProsessPane.add(rawWPParent, 1, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
+			rawWPViewController.init();
 			setDisVisible(2, 1, setProsessPane,rawWPParent);
+		}
 	}
 
 	@FXML
