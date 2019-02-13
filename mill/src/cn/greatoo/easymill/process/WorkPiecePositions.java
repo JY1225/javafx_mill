@@ -9,6 +9,7 @@ import java.util.List;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
 
@@ -17,16 +18,17 @@ public class WorkPiecePositions {
 	private static List<Coordinates> coordinatesList = new ArrayList<>();
 	private boolean isCornerLength = false;
 	private boolean isCornerWidth = false;
-	private Stacker stacker;
-	public WorkPiecePositions(Stacker stacker) {
-		this.stacker = stacker;
+	private Stacker stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
+	private Program program;
+	public WorkPiecePositions(Program program) {
+		this.program = program;
 	}
 	public  void initStackingPositions(final WorkPiece dimensions) {
 		//横向可以放的工件数
-		int amountHorizontal = getMaxHorizontalAmount(dimensions, stacker.getOrientation());//7
+		int amountHorizontal = getMaxHorizontalAmount(dimensions, program.getOrientation());//7
 		//纵向可以放的工件数
-		int amountVertical = getMaxVerticalAmount(dimensions, stacker.getOrientation());// 2
-		int orientation = (int) stacker.getOrientation();
+		int amountVertical = getMaxVerticalAmount(dimensions, program.getOrientation());// 2
+		int orientation = (int) program.getOrientation();
 		switch (orientation) {
 		case 0:
 			initializeRawWorkPiecePositionsHorizontal(dimensions, amountHorizontal,amountVertical);
@@ -60,7 +62,7 @@ public class WorkPiecePositions {
 						+ (amountOfStudsBottom - 1) * stacker.getVerticalHoleDistance() + stacker.getStudDiameter() / 2;
 				float x = (float) xBottomLeft + dimensions.getLength() / 2;
 				float y = (float) yBottomLeft + dimensions.getWidth() / 2;
-				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, stacker.getOrientation());
+				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, program.getOrientation());
 				coordinatesList.add(stPos);
 			}
 		}
@@ -73,7 +75,7 @@ public class WorkPiecePositions {
 		double a = stacker.getHorizontalHoleDistance()/(Math.sqrt(2)) - stacker.getStudDiameter()/2;
 		double b = stacker.getHorizontalHoleDistance()/(Math.sqrt(2));
 		int amountOfStudsLeftOther = getNbStudsLeftOther(dimensions.getLength(), dimensions.getWidth(), a, b);
-		int amountOfStudsVertical = getVerticalIndex(dimensions.getLength(), dimensions.getWidth(), stacker.getOrientation());
+		int amountOfStudsVertical = getVerticalIndex(dimensions.getLength(), dimensions.getWidth(), program.getOrientation());
 		
 		for (int i = 0; i < amountVertical; i++) {
 			for (int j = 0; j < amountHorizontal; j++) {
@@ -86,7 +88,7 @@ public class WorkPiecePositions {
 				double extraY = (dimensions.getLength()/Math.sqrt(2) + dimensions.getWidth()/Math.sqrt(2))/2;
 				float x = (float) (xBottom + extraX);
 				float y = (float) (yBottom + extraY);
-				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, stacker.getOrientation());
+				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, program.getOrientation());
 				coordinatesList.add(stPos);
 			}
 		}
@@ -114,7 +116,7 @@ public class WorkPiecePositions {
 				float x = (float) xBottomLeft + dimensions.getWidth() / 2;
 				float y = (float) yBottomLeft + dimensions.getLength() / 2;
 				//(112.5, 123.5, 0.0, 0.0, 0.0, 90.0)(252.5, 123.5, 0.0, 0.0, 0.0, 90.0)(392.5, 123.5, 0.0, 0.0, 0.0, 90.0)(532.5, 123.5, 0.0, 0.0, 0.0, 90.0)(672.5, 123.5, 0.0, 0.0, 0.0, 90.0)
-				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, stacker.getOrientation());
+				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, program.getOrientation());
 				coordinatesList.add(stPos);
 			}
 		}
@@ -162,16 +164,16 @@ public class WorkPiecePositions {
         return coordinates;
     }
 	
-	public static  Coordinates getPutLocation(Clamping clamp) {		
+	public  Coordinates getPutLocation(Clamping clamp) {		
 		Coordinates c = new Coordinates(DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition());
 		if (clamp.getClampingType() == Clamping.ClampingType.LENGTH) {
-			if (DBHandler.getInstance().getStatckerBuffer().get(0).getOrientation() == 90) {
+			if (program.getOrientation() == 90) {
 				c.setR(c.getR() + 90);
 			} else {
 				c.setR(c.getR());
 			}
 		}else {
-			if (DBHandler.getInstance().getStatckerBuffer().get(0).getOrientation() == 90) {
+			if (program.getOrientation() == 90) {
 				c.setR(c.getR());
 			} else {
 				c.setR(c.getR() + 90);

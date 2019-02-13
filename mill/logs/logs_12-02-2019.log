@@ -1,6 +1,0 @@
-2019-02-12 17:19:06.177 [main] INFO  cn.greatoo.easymill.Main - mill launched on 12-02-2019 05:19:06 下午
-2019-02-12 17:19:28.785 [Thread-6] INFO   - Already loaded tables [clamping, coordinates, program, gripper, robot, stacker, gripperhead, robotsetting, mcode, workpiece, cncmillingmachine, step, userframe, mcodeadapter, smooth, socketconnection]
-2019-02-12 17:19:28.790 [Thread-6] INFO   - Tables are already loaded
-2019-02-12 17:19:31.293 [pool-3-thread-1] INFO  cn.greatoo.easymill.external.communication.socket.ExternalCommunicationThread - Connected to cnc [type=CLIENT - ip=127.0.0.1 - port=2010].
-2019-02-12 17:19:31.312 [pool-3-thread-2] INFO  cn.greatoo.easymill.external.communication.socket.ExternalCommunicationThread - Connected to ROBOT [type=CLIENT - ip=127.0.0.1 - port=2001].
-2019-02-12 17:19:31.685 [JavaFX Application Thread] INFO  cn.greatoo.easymill.login.LoginController - User successfully logged in 

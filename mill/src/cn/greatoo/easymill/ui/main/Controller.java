@@ -3,6 +3,7 @@ package cn.greatoo.easymill.ui.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
@@ -134,8 +135,7 @@ public abstract class Controller {
 			Platform.runLater(new Thread() {
 				@Override
 				public void run() {
-//					activeProcessFlow.loadFromOtherProcessFlow(processFlowManager.createNewProcessFlow());
-//					refreshParent();
+					DBHandler.getInstance().setProgramName(null);
 				}
 			});
 		}

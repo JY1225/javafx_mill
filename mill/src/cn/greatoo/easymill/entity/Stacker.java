@@ -31,16 +31,13 @@ public class Stacker {
 	private Smooth smoothto;
 	private Smooth smoothfrom;
 	
-	private float orientation;
-	private int layers;
-	private int amount;
-	private float studHeight_Workpiece;
+
 	
 	public Stacker(final int horizontalHoleAmount, final int verticalHoleAmount, final float holeDiameter, final float studDiameter, final float horizontalHoleDistance, final float verticalHoleDistance, final float horizontalPadding, 
 			final float verticalPaddingTop, final float verticalPaddingBottom, final float interferenceDistance, final float overflowPercentage,
 				final float horizontalR, final float tiltedR, final float maxOverflow, final float maxUnderflow, final float minOverlap, final float studHeight_Stacker,
 					final float smoothToX, final float smoothToY, final float smoothToZ, final float smoothFromX, final float smoothFromY, 
-					final float smoothFromZ, float orientation, int layers,int amount,float studHeight_Workpiece) {
+					final float smoothFromZ) {
 		this.userFrameName =userFrameName;
 		this.horizontalPadding = horizontalPadding;
 		this.verticalPaddingBottom = verticalPaddingBottom;
@@ -59,10 +56,7 @@ public class Stacker {
 		this.tiltedR = tiltedR;
 		this.horizontalR = horizontalR;
 		this.studHeight_Stacker = studHeight_Stacker;
-		this.orientation = orientation;
-		this.layers = layers;
-		this.amount = amount;
-		this.studHeight_Workpiece = studHeight_Workpiece;
+		
 	}	
 
 	public Stacker() {
@@ -73,7 +67,7 @@ public class Stacker {
 			float horizontalPadding, float verticalPaddingTop, float verticalPaddingBottom,
 			float horizontalHoleDistance, float verticalHoleDistance, float interferenceDistance,
 			float overflowPercentage, float horizontalR, float tiltedR, float maxOverflow, float maxUnderflow,
-			float minOverlap, float orientation, int layers, int amount, float studHeight_Workpiece) {
+			float minOverlap) {
 		this.horizontalPadding = horizontalPadding;
 		this.verticalPaddingBottom = verticalPaddingBottom;
 		this.verticalPaddingTop = verticalPaddingTop;
@@ -90,10 +84,7 @@ public class Stacker {
 		this.minOverlap = minOverlap;
 		this.tiltedR = tiltedR;
 		this.horizontalR = horizontalR;
-		this.orientation = orientation;
-		this.layers = layers;
-		this.amount = amount;
-		this.studHeight_Workpiece = studHeight_Workpiece;
+
 	}
 
 	public String getUserFrameName() {
@@ -293,46 +284,6 @@ public class Stacker {
 
 	public void setSmoothfrom(Smooth smoothfrom) {
 		this.smoothfrom = smoothfrom;
-	}
-
-
-	public float getOrientation() {
-		return orientation;
-	}
-
-
-	public void setOrientation(float orientation) {
-		this.orientation = orientation;
-	}
-
-
-	public int getLayers() {
-		return layers;
-	}
-
-
-	public void setLayers(int layers) {
-		this.layers = layers;
-	}
-
-
-	public int getAmount() {
-		return amount;
-	}
-
-
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-
-
-	public float getStudHeight_Workpiece() {
-		return studHeight_Workpiece;
-	}
-
-
-	public void setStudHeight_Workpiece(float studHeight_Workpiece) {
-		this.studHeight_Workpiece = studHeight_Workpiece;
 	}
 
 	public int getId() {

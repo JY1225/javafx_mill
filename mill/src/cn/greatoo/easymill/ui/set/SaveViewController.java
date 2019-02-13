@@ -80,7 +80,7 @@ public class SaveViewController extends Controller {
 		Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
 
 		// 设置
-		Stacker stacker = RawWPViewController.stacker;
+		Program program = RawWPViewController.program;
 		WorkPiece rawWorkPiece = RawWPViewController.workPiece;
 
 		Smooth unloadStackerSmooth = PickViewController.unloadStackerSmooth;
@@ -116,16 +116,24 @@ public class SaveViewController extends Controller {
 		// step4
 		Step loadstacker = new Step(unloadGripperhead, unloadGripper, finishWorkPiece, 1, loadStackerSmooth,
 				new Coordinates());
-		Program program = new Program(programName, unloadStacker, loadCNC, unloadCNC, loadstacker, creatTime,
-				lastOpenTime, RobotSetting, false);
+
+		program.setName(programName);
+		program.setUnloadstacker(unloadStacker);
+		program.setLoadCNC(loadCNC);
+		program.setUnloadCNC(unloadCNC);
+		program.setLoadstacker(loadstacker);
+		program.setTimeCreate(creatTime);
+		program.setTimeLastOpen(lastOpenTime);
+		program.setRobotSetting(RobotSetting);
+		program.setHasTeach(false);
 		if (programName.equals(DBHandler.getInstance().getProgramName())) {
 			program.setId(DBHandler.getInstance().getProgramBuffer().get(programName).getId());
 		}
 
 		try {
-			if (stacker.getId() > 0) {
-				Stackerhandler.updateStacker(stacker);
-			}
+//			if (stacker.getId() > 0) {
+//				Stackerhandler.updateStacker(stacker);
+//			}
 			if (clamping.getId() > 0) {
 				ClampingHandler.updateClamping(clamping);
 			}

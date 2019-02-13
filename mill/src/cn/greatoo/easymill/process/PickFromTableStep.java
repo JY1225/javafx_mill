@@ -23,7 +23,7 @@ public class PickFromTableStep extends AbstractStep{
 	@SuppressWarnings("static-access")
 	public void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {		
 		try {	
-			WorkPiecePositions workPiecePositions = new WorkPiecePositions(DBHandler.getInstance().getStatckerBuffer().get(0));
+			WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
 			Clamping clamping =DBHandler.getInstance().getClampBuffer().get(0);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;			
 			//75
@@ -50,7 +50,7 @@ public class PickFromTableStep extends AbstractStep{
 			Coordinates position = new Coordinates(originalPosition);			
 			if (getUnloadStackerRelativeTeachedOffset() == null) {///?????
 				Coordinates c = getUnloadStackerRelativeTeachedOffset();
-				initSafeTeachedOffset(1,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+				initSafeTeachedOffset(1,program,clamping,originalPosition);
 			}
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadStackerRelativeTeachedOffset());
 			position.offset(absoluteOffset);
@@ -61,7 +61,7 @@ public class PickFromTableStep extends AbstractStep{
 			approachType = 1;
 			float zSafePlane = 0;
 			float wh = program.getUnloadstacker().getWorkPiece().getHeight();
-			float sh = DBHandler.getInstance().getStatckerBuffer().get(0).getStudHeight_Workpiece();
+			float sh = program.getStudHeight_Workpiece();
 			if(wh >= sh) {
 				zSafePlane = 2*wh;	
 			}else {

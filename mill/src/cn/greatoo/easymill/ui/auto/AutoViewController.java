@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
@@ -123,7 +124,11 @@ public class AutoViewController extends Controller{
 		StackPane.setAlignment(lblFinishedAmount, Pos.TOP_RIGHT);
 		StackPane.setAlignment(lblTotalAmount, Pos.CENTER);
 		StackPane.setMargin(lblTotalAmount, new Insets(95, 0, 0, 30));
-		setTotalAmount(DBHandler.getInstance().getStatckerBuffer().get(0).getAmount());
+		String programName = DBHandler.getInstance().getProgramName();
+		if(programName != null) {
+			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			setTotalAmount(program.getAmount());
+		}
 		setFinishedAmount(0);
 		
 		setPercentage(0);
