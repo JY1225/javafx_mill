@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<data-sources>
-	<data-source id="derby-1678740e88a-5625fbb005479faa" provider="generic" driver="derby" name="Derby - database" save-password="true" show-system-objects="true" show-util-objects="true" read-only="false">
-		<connection server="" database="E:\RJ软件自主开发\01 easymill\v1.0 new\v1.0\mill\database" url="jdbc:derby:E:\RJ软件自主开发\01 easymill\v1.0 new\v1.0\mill\database" type="dev"/>
-	</data-source>
-	<filters/>
-</data-sources>
