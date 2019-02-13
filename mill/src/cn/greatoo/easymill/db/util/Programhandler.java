@@ -50,6 +50,10 @@ public class Programhandler {
 						results.getInt("ROBOTSETTING"));
 				program.setRobotSetting(robotSetting);
 				program.setHasTeach(results.getBoolean("isHasTeach"));
+				program.setOrientation(results.getFloat("ORIENTATION"));
+				program.setAmount(results.getInt("AMOUNT"));
+				program.setLayers(results.getInt("LAYERS"));
+				program.setStudHeight_Workpiece(results.getFloat("STUDHEIGHT_WORKPIECE"));
 			}
 
 			if (program != null) {
@@ -88,6 +92,14 @@ public class Programhandler {
 				program.setUnloadCNC(unloadCNC);
 				Step loadstacker = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadstacker"));
 				program.setLoadstacker(loadstacker);
+				RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ID"),
+						results.getInt("ROBOTSETTING"));
+				program.setRobotSetting(robotSetting);
+				program.setHasTeach(results.getBoolean("isHasTeach"));
+				program.setOrientation(results.getFloat("ORIENTATION"));
+				program.setAmount(results.getInt("AMOUNT"));
+				program.setLayers(results.getInt("LAYERS"));
+				program.setStudHeight_Workpiece(results.getFloat("STUDHEIGHT_WORKPIECE"));
 				DBHandler.getInstance().setProgramName(program.getName());
 				DBHandler.getInstance().getProgramBuffer().put(name, program);
 			}
@@ -138,7 +150,7 @@ public class Programhandler {
 			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
 			
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,ISHASTEACH) VALUES (?,?,?,?,?,?,?,?,?)",
+					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,ISHASTEACH,ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, program.getName());
 			stmt.setTimestamp(2, program.getTimeCreate());
@@ -149,6 +161,10 @@ public class Programhandler {
 			stmt.setInt(7, program.getLoadstacker().getId());
 			stmt.setInt(8, program.getRobotSetting().getId());
 			stmt.setBoolean(9, program.isHasTeach());
+			stmt.setFloat(10, program.getOrientation());
+			stmt.setFloat(11, program.getLayers());
+			stmt.setFloat(12, program.getAmount());
+			stmt.setFloat(13, program.getStudHeight_Workpiece());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {
@@ -238,19 +254,14 @@ public class Programhandler {
 			if(program.getRobotSetting().getId() > 0) {
 				RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
 			}
-//			PreparedStatement stmt = conn.prepareStatement(
-//					"UPDATE PROGRAM SET NAME=?, CREATION=?, LASTOPENED=?,UNLOADSTACKER=?,LOADCNC=?,UNLOADCNC=?,LOADSTACKER=?,ROBOTSETTING=?,ISHASTEACH=? WHERE ID = ?");			
-//			stmt.setString(1, program.getName());
-//			stmt.setTimestamp(2, program.getTimeCreate());
-//			stmt.setTimestamp(3, program.getTimeLastOpen());
-//			stmt.setInt(4, program.getUnloadstacker().getId());
-//			stmt.setInt(5, program.getLoadCNC().getId());
-//			stmt.setInt(6, program.getUnloadCNC().getId());
-//			stmt.setInt(7, program.getLoadstacker().getId());
-//			stmt.setInt(8, program.getRobotSetting().getId());
-//			stmt.setBoolean(9, program.isHasTeach());
-//			stmt.setInt(10, program.getId());
-//			stmt.executeUpdate();
+			PreparedStatement stmt = conn.prepareStatement(
+					"UPDATE PROGRAM SET ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ? WHERE ID = ?");			
+			stmt.setFloat(1, program.getOrientation());
+			stmt.setFloat(2, program.getLayers());
+			stmt.setFloat(3, program.getAmount());
+			stmt.setFloat(4, program.getStudHeight_Workpiece());	
+			stmt.setInt(5, program.getId());
+			stmt.executeUpdate();
 		}
 	}
 

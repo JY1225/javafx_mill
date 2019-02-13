@@ -48,12 +48,12 @@ public class PutToTableStep extends AbstractStep{
 			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);;
 			Coordinates position = new Coordinates(originalPosition);
 			if (getLoadStackerRelativeTeachedOffset() == null) {
-				initSafeTeachedOffset(4,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+				initSafeTeachedOffset(4,program,clamping,originalPosition);
 			}			
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getLoadStackerRelativeTeachedOffset());			
 			position.offset(absoluteOffset);		
 			float wh = program.getUnloadstacker().getWorkPiece().getHeight();
-			float sh = DBHandler.getInstance().getStatckerBuffer().get(0).getStudHeight_Workpiece();
+			float sh = program.getStudHeight_Workpiece();
 			if(wh >= sh) {
 				zSafePlane = 2*wh;	
 			}else {

@@ -16,9 +16,15 @@ public class Program {
 	private RobotSetting robotSetting;
 	private boolean isHasTeach;
 	
+	private float orientation;
+	private int layers;
+	private int amount;
+	private float studHeight_Workpiece;
+	
 	public Program(String name,cn.greatoo.easymill.entity.Step unloadstacker,cn.greatoo.easymill.entity.Step loadCNC,
 			cn.greatoo.easymill.entity.Step unloadCNC,cn.greatoo.easymill.entity.Step loadstacker,
-			Timestamp timeCreate, Timestamp timeLastOpen,RobotSetting robotSetting,boolean isHasTeach) {
+			Timestamp timeCreate, Timestamp timeLastOpen,RobotSetting robotSetting,boolean isHasTeach,
+			float orientation, int layers,int amount,float studHeight_Workpiece) {
 		this.name = name;
 		this.unloadstacker = unloadstacker;
 		this.loadCNC = loadCNC;
@@ -28,6 +34,10 @@ public class Program {
 		this.timeLastOpen = timeLastOpen;
 		this.robotSetting = robotSetting;
 		this.isHasTeach = isHasTeach;
+		this.orientation = orientation;
+		this.layers = layers;
+		this.amount = amount;
+		this.studHeight_Workpiece = studHeight_Workpiece;
 	}	
 
 	public Program() {
@@ -116,5 +126,43 @@ public class Program {
 	public void setHasTeach(boolean isHasTeach) {
 		this.isHasTeach = isHasTeach;
 	}
-	
+
+	public float getOrientation() {
+		return orientation;
+	}
+
+
+	public void setOrientation(float orientation) {
+		this.orientation = orientation;
+	}
+
+
+	public int getLayers() {
+		return layers;
+	}
+
+
+	public void setLayers(int layers) {
+		this.layers = layers;
+	}
+
+
+	public int getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+
+	public float getStudHeight_Workpiece() {
+		return studHeight_Workpiece;
+	}
+
+
+	public void setStudHeight_Workpiece(float studHeight_Workpiece) {
+		this.studHeight_Workpiece = studHeight_Workpiece;
+	}
 }

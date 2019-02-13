@@ -45,11 +45,11 @@ public class PickFromCNCStep extends AbstractStep{
 			int workArea = 3;
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = WorkPiecePositions.getPutLocation(clamping);
+			Coordinates originalPosition = new WorkPiecePositions(program).getPutLocation(clamping);
 			Coordinates position = new Coordinates(originalPosition);
 			if (getUnloadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移
-				initSafeTeachedOffset(3,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+				initSafeTeachedOffset(3,program,clamping,originalPosition);
 			}
 			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadCNCRelativeTeachedOffset());

@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Tue Feb 12 17:05:47 CST 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0168-e0f4-81fc-0000034c7550 
-on database directory E:\RJ软件自主开发\01 easymill\v1.0 new\v1.0\mill\database with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
-Loaded from file:/E:/RJ%e8%bd%af%e4%bb%b6%e8%87%aa%e4%b8%bb%e5%bc%80%e5%8f%91/01%20easymill/v1.0%20new/v1.0/mill/libs/derby.jar
+Wed Feb 13 10:36:13 CST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0168-e4b6-363c-00000935b3d0 
+on database directory F:\repository\mill\database with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/F:/repository/mill/libs/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_131-b11
-user.dir=E:\RJ软件自主开发\01 easymill\v1.0 new\v1.0\mill
+java.runtime.version=1.8.0_191-b12
+user.dir=F:\repository\mill
 os.name=Windows 7
 os.arch=amd64
 os.version=6.1
