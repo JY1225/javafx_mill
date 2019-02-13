@@ -3,6 +3,7 @@ package cn.greatoo.easymill.ui.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
@@ -49,7 +50,7 @@ public abstract class Controller {
 	protected static final String CSS_CLASS_SAVE_BUTTON = "save-btn";
 	protected static final String CSS_CLASS_DELETE_BUTTON = "delete-btn";
 	static final String NEW_ICON = "M 2.5 0 L 2.5 20 L 17.5 20 L 17.5 6.25 L 11.25 0 L 2.5 0 z M 5 2.5 L 10 2.5 L 10 7.5 L 15 7.5 L 15 17.5 L 5 17.5 L 5 2.5 z";
-	
+	 
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
 
 	// 按钮被选中，背景变颜色
@@ -58,7 +59,9 @@ public abstract class Controller {
 				if (bts.get(i) == button ) {
 					if(!button.getStyleClass().contains(CSS_CLASS_BTN_SELECTED)) {
 						button.getStyleClass().add(CSS_CLASS_BTN_SELECTED);
+						
 					}
+					
 				} else {
 					if (bts.get(i).getStyleClass().contains(CSS_CLASS_BTN_SELECTED)) {
 						bts.get(i).getStyleClass().remove(CSS_CLASS_BTN_SELECTED);
@@ -132,8 +135,7 @@ public abstract class Controller {
 			Platform.runLater(new Thread() {
 				@Override
 				public void run() {
-//					activeProcessFlow.loadFromOtherProcessFlow(processFlowManager.createNewProcessFlow());
-//					refreshParent();
+					DBHandler.getInstance().setProgramName(null);
 				}
 			});
 		}

@@ -26,8 +26,8 @@ public class Stackerhandler {
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, "
 				+ "HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, "
 				+ "VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE,"
-				+ " HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAX_UNDERFLOW, VERTICALHOLEDISTANCE,"
-				+ " ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				+ " HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAX_UNDERFLOW, VERTICALHOLEDISTANCE"
+				+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
 		stmt.setFloat(3, stacker.getHoleDiameter());
@@ -43,11 +43,7 @@ public class Stackerhandler {
 		stmt.setFloat(13, stacker.getMaxOverflow());
 		stmt.setFloat(14, stacker.getMinOverlap());
 		stmt.setFloat(15, stacker.getMaxUnderflow());
-		stmt.setFloat(16, stacker.getVerticalHoleDistance());
-		stmt.setFloat(17, stacker.getOrientation());
-		stmt.setFloat(18, stacker.getLayers());
-		stmt.setFloat(19, stacker.getAmount());
-		stmt.setFloat(20, stacker.getStudHeight_Workpiece());	
+		stmt.setFloat(16, stacker.getVerticalHoleDistance());	
 		stmt.executeUpdate();
 		ResultSet resultSet = stmt.getGeneratedKeys();
 		if (resultSet.next()) {
@@ -71,8 +67,7 @@ public class Stackerhandler {
 		PreparedStatement stmt = conn.prepareStatement("UPDATE STACKER SET HORIZONTALHOLEAMOUNT = ?, VERTICALHOLEAMOUNT = ?, HOLEDIAMETER = ?, " +
 				"STUDDIAMETER = ?, HORIZONTALPADDING = ?, VERTICALPADDINGTOP = ?, VERTICALPADDINGBOTTOM = ?, HORIZONTALHOLEDISTANCE = ?, VERTICALHOLEDISTANCE = ?,"
 				+ " INTERFERENCEDISTANCE = ?, " +
-				" OVERFLOWPERCENTAGE = ?, HORIZONTAL_R = ?, TILTED_R = ?, MAX_OVERFLOW = ?, MIN_OVERLAP = ?, MAX_UNDERFLOW = ?, "
-				+ "ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ? "
+				" OVERFLOWPERCENTAGE = ?, HORIZONTAL_R = ?, TILTED_R = ?, MAX_OVERFLOW = ?, MIN_OVERLAP = ?, MAX_UNDERFLOW = ?"
 				+ "WHERE ID = ?");
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
@@ -89,12 +84,8 @@ public class Stackerhandler {
 		stmt.setFloat(13, stacker.getTiltedR());
 		stmt.setFloat(14, stacker.getMaxOverflow());
 		stmt.setFloat(15, stacker.getMinOverlap());
-		stmt.setFloat(16, stacker.getMaxUnderflow());		
-		stmt.setFloat(17, stacker.getOrientation());
-		stmt.setFloat(18, stacker.getLayers());
-		stmt.setFloat(19, stacker.getAmount());
-		stmt.setFloat(20, stacker.getStudHeight_Workpiece());	
-		stmt.setInt(21, stacker.getId());
+		stmt.setFloat(16, stacker.getMaxUnderflow());				
+		stmt.setInt(17, stacker.getId());
 		stmt.executeUpdate();
 
 		if(stacker.getSmoothto() != null) {
@@ -127,16 +118,12 @@ public class Stackerhandler {
 			float tiltedR = results.getFloat("TILTED_R");
 			float maxOverflow = results.getFloat("MAX_OVERFLOW");
 			float maxUnderflow = results.getFloat("MAX_UNDERFLOW");
-			float minOverlap = results.getFloat("MIN_OVERLAP");
-			float orientation = results.getFloat("ORIENTATION");		
-			int layers = results.getInt("LAYERS");
-			int amount = results.getInt("AMOUNT");
-			float studHeight_Workpiece = results.getFloat("STUDHEIGHT_WORKPIECE");
+			float minOverlap = results.getFloat("MIN_OVERLAP");			
 
 			
 			stacker = new Stacker(horizontalHoleAmount, verticalHoleAmount, holeDiameter, studDiameter, horizontalPadding, verticalPaddingTop, 
-					verticalPaddingBottom, horizontalHoleDistance, verticalHoleDistance, interferenceDistance, overflowPercentage, horizontalR, tiltedR, maxOverflow, maxUnderflow, minOverlap,
-					orientation,layers,amount,studHeight_Workpiece);
+					verticalPaddingBottom, horizontalHoleDistance, verticalHoleDistance, interferenceDistance, overflowPercentage, horizontalR,
+					tiltedR, maxOverflow, maxUnderflow, minOverlap);
 			stacker.setId(id);
 		}
 		return stacker;
@@ -162,19 +149,14 @@ public class Stackerhandler {
 			float tiltedR = results.getFloat("TILTED_R");
 			float maxOverflow = results.getFloat("MAX_OVERFLOW");
 			float maxUnderflow = results.getFloat("MAX_UNDERFLOW");
-			float minOverlap = results.getFloat("MIN_OVERLAP");
-			float orientation = results.getFloat("ORIENTATION");		
-			int layers = results.getInt("LAYERS");
-			int amount = results.getInt("AMOUNT");
-			float studHeight_Workpiece = results.getFloat("STUDHEIGHT_WORKPIECE");
+			float minOverlap = results.getFloat("MIN_OVERLAP");			
 
 			
 			stacker = new Stacker(horizontalHoleAmount, verticalHoleAmount, holeDiameter, studDiameter, horizontalPadding, verticalPaddingTop, 
-					verticalPaddingBottom, horizontalHoleDistance, verticalHoleDistance, interferenceDistance, overflowPercentage, horizontalR, tiltedR, maxOverflow, maxUnderflow, minOverlap,
-					orientation,layers,amount,studHeight_Workpiece);
+					verticalPaddingBottom, horizontalHoleDistance, verticalHoleDistance, interferenceDistance, overflowPercentage, horizontalR,
+					tiltedR, maxOverflow, maxUnderflow, minOverlap);
 			stacker.setId(results.getInt("ID"));
 			DBHandler.getInstance().getStatckerBuffer().add(stacker);
-			List<Stacker> s=DBHandler.getInstance().getStatckerBuffer();
 		}
 		return stacker;
 	}

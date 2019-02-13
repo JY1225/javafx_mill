@@ -17,7 +17,7 @@ import javafx.application.Platform;
 
 public class PickFromCNCStep extends AbstractStep{
 
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "unused" })
 	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
@@ -45,11 +45,11 @@ public class PickFromCNCStep extends AbstractStep{
 			int workArea = 3;
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = WorkPiecePositions.getPutLocation(clamping);
+			Coordinates originalPosition = new WorkPiecePositions(program).getPutLocation(clamping);
 			Coordinates position = new Coordinates(originalPosition);
 			if (getUnloadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移
-				initSafeTeachedOffset(3,program.getUnloadstacker().getWorkPiece(),clamping,originalPosition);
+				initSafeTeachedOffset(3,program,clamping,originalPosition);
 			}
 			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadCNCRelativeTeachedOffset());
@@ -57,6 +57,7 @@ public class PickFromCNCStep extends AbstractStep{
 			position.offset(absoluteOffset);			
 			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
 			float clampHeight = clamping.getHeight()  + clamping.getRelativePosition().getZ();
+
 			//77
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),

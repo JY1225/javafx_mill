@@ -45,11 +45,11 @@ public class PutToCNCStep extends AbstractStep{
 					program.getLoadCNC().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//-----------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = WorkPiecePositions.getPutLocation(Clampping);
+			Coordinates originalPosition = new WorkPiecePositions(program).getPutLocation(Clampping);
 			Coordinates position = new Coordinates(originalPosition);
 			if (getLoadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移
-				initSafeTeachedOffset(2,program.getUnloadstacker().getWorkPiece(),Clampping,originalPosition);
+				initSafeTeachedOffset(2,program,Clampping,originalPosition);
 			}
 			//计算绝对偏移(-1.5599976, 1.9199982, 2.45, 0.0, 0.0, 0.0)
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getLoadCNCRelativeTeachedOffset());

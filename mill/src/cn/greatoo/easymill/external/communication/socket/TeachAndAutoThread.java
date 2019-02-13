@@ -72,7 +72,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 
 	@Override
 	public void run() {		
-		int wSize = DBHandler.getInstance().getStatckerBuffer().get(0).getAmount();
+		int wSize = program.getAmount();
 		int wIndex = 0;
 		while (wIndex < wSize) {
 			try {

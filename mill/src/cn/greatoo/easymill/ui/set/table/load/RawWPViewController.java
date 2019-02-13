@@ -2,14 +2,13 @@ package cn.greatoo.easymill.ui.set.table.load;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Program;
-import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.ui.main.Controller;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -59,13 +58,15 @@ public class RawWPViewController extends Controller {
 	List<Button> bts;
 	List<Button> mBts;
 	public static WorkPiece workPiece = new WorkPiece();
-	public static Stacker stacker = new Stacker();
-	
+	public static Program program = new Program();
+	private static String programName;
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
 		bts.add(tiltedBt);
 		bts.add(VBt);
+		bts.add(calculateBt);
+		
 
 		mBts = new ArrayList<Button>();
 		mBts.add(AlBt);
@@ -74,9 +75,10 @@ public class RawWPViewController extends Controller {
 		mBts.add(OBt);
 		
 		
-		String programName = DBHandler.getInstance().getProgramName();
+		
+		programName = DBHandler.getInstance().getProgramName();
 		if(programName != null) {
-			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+			program = DBHandler.getInstance().getProgramBuffer().get(programName);
 			workPiece = program.getUnloadstacker().getWorkPiece();
 			fulltxtL.setText(String.valueOf(workPiece.getLength()));
 			fulltxtW.setText(String.valueOf(workPiece.getWidth()));
@@ -99,15 +101,10 @@ public class RawWPViewController extends Controller {
 			default:
 				break;
 			}
-			
-		}
-		List<Stacker> list = DBHandler.getInstance().getStatckerBuffer();
-		for(Stacker s:list) {
-			stacker = s;
-			fulltxtBH.setText(String.valueOf(stacker.getStudHeight_Workpiece()));
-			fulltxtC.setText(String.valueOf(stacker.getLayers()));
-			fulltxtS.setText(String.valueOf(stacker.getAmount()));
-			int orientation = (int) stacker.getOrientation();
+			fulltxtBH.setText(String.valueOf(program.getStudHeight_Workpiece()));
+			fulltxtC.setText(String.valueOf(program.getLayers()));
+			fulltxtS.setText(String.valueOf(program.getAmount()));
+			int orientation = (int) program.getOrientation();
 			switch (orientation) {
 			case 0:
 				isClicked(bts, HBt);
@@ -122,6 +119,7 @@ public class RawWPViewController extends Controller {
 				break;
 			}
 		}
+		
 		workPiece.setType(WorkPiece.Type.RAW);
 		workPiece.setShape(WorkPiece.WorkPieceShape.CUBIC);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -174,9 +172,9 @@ public class RawWPViewController extends Controller {
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
 	        
 	        	if(!"".equals(fulltxtBH.getText())){
-	        		stacker.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));
+	        		program.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));
 	        	}else {
-	        		stacker.setStudHeight_Workpiece(0);
+	        		program.setStudHeight_Workpiece(0);
 	        	}
 	        }
 		});	
@@ -187,9 +185,9 @@ public class RawWPViewController extends Controller {
 	        	
 	        	if(!"".equals(fulltxtC.getText())){
 
-	        	stacker.setLayers(Integer.parseInt(fulltxtC.getText()));
+	        		program.setLayers(Integer.parseInt(fulltxtC.getText()));
 	        	}else {
-	        		stacker.setLayers(0);
+	        		program.setLayers(0);
 	        	}
 	        }
 		});	
@@ -198,9 +196,9 @@ public class RawWPViewController extends Controller {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
 	        	if(!"".equals(fulltxtS.getText())) {	        		
-	        		stacker.setAmount(Integer.parseInt(fulltxtS.getText()));
+	        		program.setAmount(Integer.parseInt(fulltxtS.getText()));
 	        	}else {
-	        		stacker.setAmount(0);
+	        		program.setAmount(0);
 	        	}
 	        }
 		});	
@@ -214,27 +212,27 @@ public class RawWPViewController extends Controller {
 	@FXML
 	public void HBtAction(MouseEvent event) {
 		isClicked(bts, HBt);
-		stacker.setOrientation(0);
-		if(DBHandler.getInstance().getStatckerBuffer().size() != 0) {
-		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(0);
+		program.setOrientation(0);
+		if(DBHandler.getInstance().getProgramBuffer().get(programName) != null) {
+			DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(0);
 		}
 	}
 	
 	@FXML
 	public void tiltedAction(MouseEvent event) {
 		isClicked(bts, tiltedBt);
-		stacker.setOrientation(45);
-		if(DBHandler.getInstance().getStatckerBuffer().size() != 0) {
-		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(45);
+		program.setOrientation(45);
+		if(DBHandler.getInstance().getProgramBuffer().get(programName) != null) {
+			DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(45);
 		}
 	}
 	
 	@FXML
 	public void VBtAction(MouseEvent event) {
 		isClicked(bts, VBt);
-		stacker.setOrientation(90);
-		if(DBHandler.getInstance().getStatckerBuffer().size() != 0) {
-		DBHandler.getInstance().getStatckerBuffer().get(0).setOrientation(90);
+		program.setOrientation(90);
+		if(DBHandler.getInstance().getProgramBuffer().get(programName) != null) {
+			DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(90);
 		}
 	}
 	
@@ -271,24 +269,28 @@ public class RawWPViewController extends Controller {
 	@FXML
 	public void AlBtAction(MouseEvent event) {
 		isClicked(mBts, AlBt);
+		calculateBt.setDisable(false);
 		workPiece.setMaterial(WorkPiece.Material.AL);
 	}
 	
 	@FXML
 	public void CuBtAction(MouseEvent event) {
 		isClicked(mBts, CuBt);
+		calculateBt.setDisable(false);
 		workPiece.setMaterial(WorkPiece.Material.CU);
 	}
 	
 	@FXML
 	public void FeBtAction(MouseEvent event) {
 		isClicked(mBts, FeBt);
+		calculateBt.setDisable(false);
 		workPiece.setMaterial(WorkPiece.Material.FE);
 	}
 	
 	@FXML
 	public void OBtAction(MouseEvent event) {
 		isClicked(mBts, OBt);
+		calculateBt.setDisable(true);
 		workPiece.setMaterial(WorkPiece.Material.OTHER);
 	}
 	

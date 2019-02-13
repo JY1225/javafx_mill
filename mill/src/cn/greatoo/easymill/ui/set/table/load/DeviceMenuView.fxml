@@ -14,7 +14,7 @@
          <children>            
              <VBox fx:id="prosessVBox" prefHeight="423.0" prefWidth="186.0" styleClass="left-menu">
                  <children>
-                     <Button fx:id="device" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openDevice" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="设备" textFill="#ffff8d" />
+                    <!--  <Button fx:id="device" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openDevice" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="设备" textFill="#ffff8d" /> -->
                       <Button fx:id="workPiece" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openWorkPiece" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="工件" textFill="#ffff8d" />
                       <Button fx:id="pick" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openPick" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="夹取" textFill="#ffff8d" />
                       <Button fx:id="layout" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openLayout" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="布局" textFill="#ffff8d" />

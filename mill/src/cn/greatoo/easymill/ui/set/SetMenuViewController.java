@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -51,7 +52,10 @@ public class SetMenuViewController extends Controller {
 	private Parent saveParent;
 	private Parent openParent;
 	private GridPane gridPane;
-	public void init(GridPane gridPane) {
+	private OpenViewController openViewController;
+	private SaveViewController saveViewController;
+	
+	public void init(GridPane gridPane, SetViewController setViewController) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
 		bts.add(configuer);
@@ -83,7 +87,7 @@ public class SetMenuViewController extends Controller {
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						saveParent = fxmlLoader.load();
-						SaveViewController saveViewController = fxmlLoader.getController(); 
+						saveViewController = fxmlLoader.getController(); 
 						// 中写的初始化方法
 						saveViewController.init();
 						gridPane.add(saveParent, 1, 2);
@@ -92,8 +96,10 @@ public class SetMenuViewController extends Controller {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
+				} else {
+					saveViewController.init();
 					setDisVisible(2, 1, gridPane, saveParent);
+				}
 
 			}
 		});
@@ -110,14 +116,16 @@ public class SetMenuViewController extends Controller {
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						openParent = fxmlLoader.load();
-						OpenViewController openViewController = fxmlLoader.getController(); // 获取Controller的实例对?
-						openViewController.init();
+						openViewController = fxmlLoader.getController(); // 获取Controller的实例对?
+						openViewController.init(setViewController);
 						gridPane.add(openParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
+				} else {
+					openViewController.init(setViewController);
 					setDisVisible(2, 1, gridPane, openParent);
+				}
 			}
 		});
 		addMenuItem(prosessVBox,new_pro, 3, NEW_ICON, "新程序", true, new EventHandler<ActionEvent>() {
@@ -128,6 +136,8 @@ public class SetMenuViewController extends Controller {
 			}
 		});
 	}
+	
+	GeneralViewController generalViewController;
 	private void openGeneralView() {
 		if (!gridPane.getChildren().contains(generalParent)) {
 			try {
@@ -136,7 +146,7 @@ public class SetMenuViewController extends Controller {
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				generalParent = fxmlLoader.load();
-				GeneralViewController generalViewController = fxmlLoader.getController(); 
+				generalViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
 				generalViewController.init();
 				gridPane.add(generalParent, 1, 2);
@@ -144,8 +154,10 @@ public class SetMenuViewController extends Controller {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
+			generalViewController.init();
 			setDisVisible(2, 1, gridPane, generalParent);
+		}
 	}
 	@FXML
 	public void openConfig(MouseEvent event) {

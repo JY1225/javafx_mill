@@ -164,8 +164,6 @@ public class MainViewController extends Controller {
 				setViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				setViewController.init();
-				//saveViewController.init();
-				//generalViewController.init();
 				gridPane.add(setParent, 0, 1, 2, 1);
 			} catch (IOException e) {
 				e.printStackTrace();
