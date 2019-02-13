@@ -1,4 +1,0 @@
-2019-02-13 10:36:11.896 [main] INFO  cn.greatoo.easymill.Main - mill launched on 13-02-2019 10:36:11 上午
-2019-02-13 10:36:14.166 [Thread-6] INFO   - Already loaded tables [clamping, coordinates, program, gripper, robot, stacker, gripperhead, robotsetting, mcode, workpiece, cncmillingmachine, step, userframe, mcodeadapter, smooth, socketconnection]
-2019-02-13 10:36:14.171 [Thread-6] INFO   - Tables are already loaded
-2019-02-13 10:36:15.284 [JavaFX Application Thread] INFO  cn.greatoo.easymill.login.LoginController - User successfully logged in 
