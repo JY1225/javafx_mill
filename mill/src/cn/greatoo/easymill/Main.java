@@ -34,8 +34,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {
-	            
+		try {	            
 			Parent root = FXMLLoader.load(getClass().getResource("/cn/greatoo/easymill/login/login.fxml"));
 
 			Scene scene = new Scene(root);

@@ -10,6 +10,7 @@ import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.ui.main.Controller;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -66,12 +67,15 @@ public class RawWPViewController extends Controller {
 		bts.add(HBt);
 		bts.add(tiltedBt);
 		bts.add(VBt);
+		bts.add(calculateBt);
+		
 
 		mBts = new ArrayList<Button>();
 		mBts.add(AlBt);
 		mBts.add(CuBt);
 		mBts.add(FeBt);
 		mBts.add(OBt);
+		
 		
 		
 		String programName = DBHandler.getInstance().getProgramName();
@@ -271,24 +275,28 @@ public class RawWPViewController extends Controller {
 	@FXML
 	public void AlBtAction(MouseEvent event) {
 		isClicked(mBts, AlBt);
+		calculateBt.setDisable(false);
 		workPiece.setMaterial(WorkPiece.Material.AL);
 	}
 	
 	@FXML
 	public void CuBtAction(MouseEvent event) {
 		isClicked(mBts, CuBt);
+		calculateBt.setDisable(false);
 		workPiece.setMaterial(WorkPiece.Material.CU);
 	}
 	
 	@FXML
 	public void FeBtAction(MouseEvent event) {
 		isClicked(mBts, FeBt);
+		calculateBt.setDisable(false);
 		workPiece.setMaterial(WorkPiece.Material.FE);
 	}
 	
 	@FXML
 	public void OBtAction(MouseEvent event) {
 		isClicked(mBts, OBt);
+		calculateBt.setDisable(true);
 		workPiece.setMaterial(WorkPiece.Material.OTHER);
 	}
 	
