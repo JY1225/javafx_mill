@@ -57,8 +57,9 @@ public class CoordinateViewController extends Controller {
 	private boolean editMode;
 	List<Button> bts;
 	UserFrame userFrame =new UserFrame();
-	public static UserFrame stackerFrame =new UserFrame();
-	public static UserFrame cncFrame;
+	private UserFrame selectedUserFrame;
+//	public static UserFrame stackerFrame =new UserFrame();
+//	public static UserFrame cncFrame;
 	UserFrame cncrFrame =new UserFrame();
 	@SuppressWarnings("unchecked")
 	
@@ -149,25 +150,40 @@ public class CoordinateViewController extends Controller {
 		location.setP(Float.parseFloat(PText.getText()));
 		location.setR(Float.parseFloat(RText.getText()));
 		validate();
-		if(name.equals("STACKER")) {
-			stackerFrame =new UserFrame(name, Nr, safeDistance, location); 
-//			stackerFrame.setName(name);
-//			stackerFrame.setNumber(Integer.parseInt(NrText.getText()));
-//			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
-//			stackerFrame.setLocation(location);
+		selectedUserFrame =new UserFrame(name, Nr, safeDistance, location); 
+		selectedUserFrame.setId(userFrame.getId());	
 			try {
-				UserFrameHander.saveUserFrame(stackerFrame);
+				if (userFrame!=null) {
+					UserFrameHander.updateuserframe(selectedUserFrame);
+				}
+				else {
+					UserFrameHander.saveUserFrame(selectedUserFrame);
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
-		}else {
-			cncrFrame = new UserFrame(name, Nr, safeDistance, location);
-			try {
-				UserFrameHander.saveUserFrame(cncrFrame);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+				}				
+//			if(name.equals("STACKER")) {
+//			stackerFrame =new UserFrame(name, Nr, safeDistance, location); 
+//			stackerFrame.setId(userFrame.getId());
+////			stackerFrame.setName(name);
+////			stackerFrame.setNumber(Integer.parseInt(NrText.getText()));
+////			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
+////			stackerFrame.setLocation(location);
+//			try {
+//				UserFrameHander.updateuserframe(stackerFrame);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//				}	
+//			}
+//			
+//			else {
+//			cncrFrame = new UserFrame(name, Nr, safeDistance, location);
+//			try {
+//				UserFrameHander.updateuserframe(cncrFrame);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			 	}
+//			}	
 	}
 	@Override
 	public void setMessege(String mess) {

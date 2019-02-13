@@ -37,7 +37,7 @@ public class RobotGriperViewController extends Controller {
 		bts = new ArrayList<Button>();
 		bts.add(editBt);
 		bts.add(newBt);
-		ifsGrippers = new IconFlowSelector(false);
+		ifsGrippers = new IconFlowSelector(true);
         ifsGrippers.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
         gridPane.add(ifsGrippers, 0, 0, 2, 1);
 

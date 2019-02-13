@@ -251,13 +251,19 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		btnDelete = createButton(DELETE_ICON_PATH, CSS_CLASS_FORM_BUTTON, "删除", BTN_WIDTH, BTN_HEIGHT, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
-				//getPresenter().deleteGripper();
+				try {
+					deleteGripper();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnDelete.getStyleClass().add("delete-btn");
 		
 		vboxForm = new VBox();
 		vboxForm.getChildren().addAll(hbox, btnSave, btnDelete);
+
 		vboxForm.setAlignment(Pos.CENTER);
 		vboxForm.setSpacing(VGAP);
 		
@@ -312,6 +318,14 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		editMode = false;
 		refresh();
 	}
+	
+	public void deleteGripper() throws SQLException {
+		Gripperhandler.deleteGripper(selectedGripper);
+		selectedGripper = null;
+		editMode = false;
+		refresh();
+	}
+
 	
 	public void selectedGripper(final Gripper gripper) {
 		if (!editMode) {
@@ -371,7 +385,7 @@ public class RobotGripperView extends Controller implements TextInputControlList
 	public void showFormEdit() {
 		setFormVisible(true);
 		btnCreateNew.setDisable(true);
-		btnDelete.setVisible(true);
+		btnDelete.setVisible(false);
 		btnEdit.getStyleClass().add(CSS_CLASS_FORM_BUTTON_ACTIVE);
 		validate();
 	}
