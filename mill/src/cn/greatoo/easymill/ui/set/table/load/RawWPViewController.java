@@ -57,6 +57,7 @@ public class RawWPViewController extends Controller {
 	private Button calculateBt;
 	List<Button> bts;
 	List<Button> mBts;
+	List<Button> calc;
 	public static WorkPiece workPiece = new WorkPiece();
 	public static Program program = new Program();
 	private static String programName;
@@ -65,7 +66,7 @@ public class RawWPViewController extends Controller {
 		bts.add(HBt);
 		bts.add(tiltedBt);
 		bts.add(VBt);
-		bts.add(calculateBt);
+		
 		
 
 		mBts = new ArrayList<Button>();
@@ -74,7 +75,8 @@ public class RawWPViewController extends Controller {
 		mBts.add(FeBt);
 		mBts.add(OBt);
 		
-		
+		calc = new ArrayList<Button>();
+		calc.add(calculateBt);
 		
 		programName = DBHandler.getInstance().getProgramName();
 		if(programName != null) {
@@ -268,9 +270,10 @@ public class RawWPViewController extends Controller {
 	
 	@FXML
 	public void AlBtAction(MouseEvent event) {
-		isClicked(mBts, AlBt);
-		calculateBt.setDisable(false);
+		isClicked(mBts, AlBt);		
+		calculateBt.setDisable(false);		
 		workPiece.setMaterial(WorkPiece.Material.AL);
+		recalcWeight();
 	}
 	
 	@FXML
@@ -278,13 +281,15 @@ public class RawWPViewController extends Controller {
 		isClicked(mBts, CuBt);
 		calculateBt.setDisable(false);
 		workPiece.setMaterial(WorkPiece.Material.CU);
+		recalcWeight();
 	}
 	
 	@FXML
 	public void FeBtAction(MouseEvent event) {
 		isClicked(mBts, FeBt);
-		calculateBt.setDisable(false);
+		calculateBt.setDisable(false);		
 		workPiece.setMaterial(WorkPiece.Material.FE);
+		recalcWeight();
 	}
 	
 	@FXML
@@ -306,7 +311,8 @@ public class RawWPViewController extends Controller {
 	
 	@FXML
 	public void calculateBtAction(MouseEvent event) {
-
+		recalcWeight();
+		
 	}
 
 	@Override
@@ -314,5 +320,11 @@ public class RawWPViewController extends Controller {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void recalcWeight() {
+    	workPiece.calculateWeight();
+    	fulltxtWei.setText(String.valueOf(workPiece.getWeight()));
+    	
+    }
 	
 }
