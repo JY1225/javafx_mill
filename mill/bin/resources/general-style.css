@@ -1,0 +1,339 @@
+
+.bottompane { }
+
+.bottom-left, .left-menu, .content-bottom {
+	-fx-background-color: #52555c;
+	-fx-background-insets: 0;
+}
+
+.left-menu, .admin-menu {
+	-fx-background-color: #3d4046, #52555c;
+	-fx-background-insets: 0, 1 1 0 0;
+}
+
+.nav-area {
+	-fx-background-color: #46494f, #5a5c62;
+	-fx-background-insets: 0, 0 0 1 0;
+}
+
+.admin-menu {
+	-fx-background-insets: 0, 0 1 0 0;
+}
+
+.content-bottom {
+	/* #6c707e, #585b64); */
+	-fx-background-color: #3d4046, #777a81, #585b64;
+	-fx-background-insets: 0 0 0 0, 1 0 0 0, 2 0 0 0;	
+}
+
+.bottom-right {
+	-fx-background-color: #3d4046, #777a81, linear-gradient(#67696f 0%, #616369 100%);
+	-fx-background-insets: 0 0 0 0, 1 0 0 0, 2 0 0 0;
+}
+
+.admin-bottom-right {
+	-fx-background-color: linear-gradient(#67696f 0%, #616369 100%);
+	-fx-background-insets: 0;
+}
+
+.left-menu-button {
+	-fx-padding: 0;
+	-fx-background-radius: 0;
+	-fx-background-color: #5b6068, #3b3f46, #5b6068, linear-gradient(#52555c 0%, #4f5158 100%);
+	-fx-background-insets: 0, 0, 1 0 0 0, 2 0 0 0;
+}
+
+.left-menu-top {
+	-fx-background-insets: 0, 0, 0 0 0 0, 0 0 0 0;
+}
+
+.left-menu-top:pressed {
+}
+
+.left-menu-button:pressed, .menu-item-selected {
+	-fx-background-color: #3c4147, #2a2d31;
+}
+
+.left-menu-button .left-menu-item-label {
+	-fx-padding: 0 0 0 5;
+	-fx-text-fill: white;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-font-size: 13px;
+	-fx-alignment: center-left;
+}
+
+.left-menu-button:disabled .left-menu-item-label{
+	-fx-opacity: 0.5;
+}
+
+.left-menu-button .left-menu-item-label:disabled, .menu-icon:disabled {
+}
+
+.menu-icon {
+	-fx-fill: white;
+}
+
+.left-menu-top {
+}
+
+.left-menu-bottom {
+	-fx-background-insets: 0 0 0 0, 0 0 1 0, 1 0 2 0, 2 0 2 0;
+}
+
+.left-menu-both {
+		-fx-background-insets: 0, 0, 1 0 0 1, 2 0 0 1;
+}
+
+.popup {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 8, 0, 0, 1);
+	-fx-background-color: #3b3f46, #383a40, #52555c;
+	-fx-background-insets: 0, 0 1 1 1, 0 2 2 2;
+	-fx-background-radius: 0 0 3 3, 0 0 2 2, 0 0 1 1;
+}
+
+.alarms-popup {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.9), 8, 0, 0, 1);
+	-fx-background-color: rgba(49, 51, 56, 1), rgba(66, 68, 74, 1);
+	-fx-background-insets: 0,  0 1 1 0;
+	-fx-background-radius: 0 0 3 0, 0 0 2 0;
+}
+
+.scroll-pane-alarms {
+	-fx-background-color: rgba(66, 68, 74, 1);
+	-fx-border-width: 0px;
+	-fx-effect: null;
+}
+
+
+.scroll-pane-alarms .scroll-bar {
+	-fx-font-size: 8px;
+	-fx-effect: null;
+}
+
+/* The main scrollbar **track** CSS class  */
+.scroll-pane-alarms .scroll-bar .track {
+	-fx-background-color: rgba(66, 68, 74, 1);
+	-fx-border-color: null;
+	-fx-border-width: 0px;
+	-fx-background-insets: 0;
+	-fx-background-radius: 0em;
+	-fx-stroke: transparent;
+	-fx-padding: 0px;
+	-fx-effect: null;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.scroll-pane-alarms .scroll-bar:horizontal .increment-button ,.scroll-pane-alarms .scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	 -fx-padding:0 0 10 0;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+
+.scroll-pane-alarms .scroll-bar:vertical .increment-button , .scroll-pane-alarms .scroll-bar:vertical .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0;
+}
+
+.scroll-pane-alarms .scroll-bar .increment-arrow, .scroll-pane-alarms .scroll-bar .decrement-arrow {
+	-fx-shape: " ";	
+	-fx-padding:0;
+}
+
+.scroll-pane-alarms .scroll-bar:horizontal .thumb, .scroll-pane-alarms .scroll-bar:vertical .thumb {
+    -fx-background-color: #636468;
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 1em;
+	-fx-font-size: 4px;
+	-fx-padding: 0px;
+}
+
+.pop-up-btn {
+	-fx-background-color: #5b6068, #3b3f46, #5b6068, linear-gradient(#52555c 0%, #4f5158 100%);
+	-fx-background-insets: 0, 0 0 0 0, 1 1 0 1, 2 1 0 1;
+	-fx-background-radius: 0;
+}
+
+.pop-up-first {
+	-fx-background-insets: 0, 0 0 0 0, 0 1 0 1, 0 1 0 1;
+}
+
+.pop-up-btn Text {
+	-fx-fill: white;
+	-fx-text-alignment: center;
+	-fx-font-family: 'Open Sans Semibold';
+	-fx-font-size: 13px;
+	-fx-font-smoothing-type: lcd;
+	-fx-padding: 0 0 0 5;
+}
+
+.pop-up-btn-bottom {
+	-fx-background-radius: 0 0 3 3, 0 0 2 2, 0 0 1 1;
+	-fx-background-insets: 0, 0 0 0 0, 1 1 1 1, 2 1 1 1;
+}
+
+.pop-up-btn-pressed, .pop-up-btn:pressed {	
+	-fx-background-color: #292d32, #292d32, #292d32, #2a2d31;
+}
+
+.pop-up-btn:disabled {
+	-fx-opacity: 1;
+}
+
+.pop-up-btn:disabled Text {
+	-fx-opacity: 0.5;
+}
+
+.warning-bg-icon {
+	-fx-fill: #ecd037;
+}
+
+.error-bg-icon {
+	-fx-fill: #eb3333;
+}
+
+.info-bg-icon {
+	-fx-fill: #1084d6;
+}
+
+.info-icon {
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+.warning-icon {
+	-fx-fill: #333435;
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+.error-icon {
+	-fx-fill: #ffffff;
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+.info-icon {
+	-fx-fill: #ffffff;
+}
+
+.content-msg {
+	-fx-text-alignment: left;
+	-fx-alignment: top-left;
+	-fx-text-wrap: true;
+	-fx-text-fill: white;
+	-fx-font-size: 15px;
+	-fx-font-family: "Open Sans";
+	-fx-font-smoothing-type: lcd;
+	-fx-background-color: transparent;
+	-fx-padding: 0;
+} 
+
+.content-btn {
+	-fx-background-color: #8c8888, #222222, #807878, #353333, linear-gradient(#656161 0%, #4e4a4a 100%);
+	-fx-background-insets: 0 0 0 0, 0 0 1 0, 1 1 2 1, 2 1 2 1, 2 1 3 1;
+	-fx-background-radius: 3, 3, 2, 2, 2;
+}
+
+.content-btn:pressed {
+	-fx-background-color: #8c8888, #222222, #6696e7, #1d355d, linear-gradient(#5078bc 0%, #3e6099 100%);
+}
+
+.content-btn-text {
+	-fx-text-fill: white;
+	-fx-fill: white;
+	-fx-font-family: "Open Sans Semibold";
+	-fx-font-size: 13px;
+	-fx-font-smoothing-type: lcd;	
+	-fx-text-alignment: center;
+	-fx-alignment: center;
+}
+
+.content-msg-title {
+	-fx-font-family: "Open Sans Bold";
+	-fx-font-size: 18px;
+}
+
+.context-menu {
+	visibility: hidden;
+	-fx-opacity: 0;
+}
+
+.icon-ok {
+	-fx-fill: #1eda09;
+}
+
+.delete-open {
+	-fx-fill: #f72225;
+	-fx-alignment: CENTER-LEFT;
+}
+
+.overlay {
+	-fx-background-color: rgba(42, 45, 49, 0.7);
+}
+
+.dialog {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
+	-fx-background-color: #3d4046, #777a81, linear-gradient(#67696f 0%, #616369 100%);
+	-fx-background-insets: 0, 1, 2 1 1 1;
+	-fx-background-radius: 3, 2, 1;
+}
+
+.dialog-btn {
+	-fx-background-color: #3b3f46, #5b6068, linear-gradient(#52555c 0%, #4f5158 100%);
+	-fx-background-insets: 0, 1 1 1 1, 2 1 1 1;
+	-fx-background-radius: 0;
+}
+
+.dialog-btn.left {
+	-fx-background-radius: 0 0 0 3, 0 0 0 2, 0 0 0 1;
+}
+
+.dialog-btn.right {
+	-fx-background-radius: 0 0 3 0, 0 0 2 0, 0 0 1 0;
+}
+
+.dialog-btn Text {
+	-fx-fill: white;
+	-fx-text-alignment: center;
+	-fx-font-family: "Open Sans Semiold";
+	-fx-font-size: 13px;
+	-fx-font-smoothing-type: lcd;
+	-fx-padding: 0 0 0 5;
+}
+
+.dialog-title-label {
+	-fx-alignment: bottom-center ;
+	-fx-font-family: "Open Sans Bold";
+	-fx-font-size: 16px;
+	-fx-font-smoothing-type: lcd;
+	-fx-text-alignment: center;
+}
+
+.dialog-msg {
+	-fx-padding: 20;
+	-fx-text-alignment: center;
+	-fx-alignment: center;
+	-fx-text-wrap: true;
+	-fx-text-fill: white;
+	-fx-font-size: 14px;
+	-fx-font-family: "Open Sans";
+	-fx-font-smoothing-type: lcd;
+	-fx-fill: white;
+	-fx-text-fill: white;
+}
+
+.dialog-btn:pressed {	
+	-fx-background-color: #292d32, #292d32, #292d32, #2a2d31;
+}
+
+.dialog-btn:disabled {
+	-fx-opacity: 1;
+}
+
+.dialog-btn:disabled Text {
+	-fx-opacity: 0.5;
+}
+

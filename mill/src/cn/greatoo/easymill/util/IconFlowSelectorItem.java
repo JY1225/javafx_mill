@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.util;
 
+import java.awt.Button;
 import java.io.File;
 
 import cn.greatoo.easymill.util.UIConstants;
@@ -24,7 +25,7 @@ public class IconFlowSelectorItem extends VBox {
 	private static final double IMG_HEIGHT = 90;
 	private static final double WIDTH = 120;
 	private static final double HEIGHT = 120;
-	
+
 	//TODO improve css names (just item, ...)
 	private static final String CSS_CLASS_ICONFLOW_ITEM = "iconflow-item";
 	private static final String CSS_CLASS_ICONFLOW_ITEM_SELECTED = "iconflow-item-selected";

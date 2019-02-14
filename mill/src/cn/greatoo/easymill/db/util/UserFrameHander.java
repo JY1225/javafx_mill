@@ -23,7 +23,6 @@ public class UserFrameHander {
 	private final static Logger LOGGER = LogManager.getLogger(UserFrameHander.class.getName());
 
 	public static void saveUserFrame(final UserFrame userFrame) throws SQLException {
-		if (userFrame.getId()<=0) {
 		conn.setAutoCommit(false);
 		CoordinatesHandler.saveCoordinates(userFrame.getLocation());
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO USERFRAME (NAME,NUMBER, ZSAFEDISTANCE, LOCATION) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -39,34 +38,31 @@ public class UserFrameHander {
 		}
 		conn.commit();
 		conn.setAutoCommit(true);
-		}
-		else {
-		updateUserFrame(userFrame);			
-		}
 	}
 	
-	public static void updateUserFrame(final UserFrame userFrame) throws SQLException {
-		conn.setAutoCommit(false);
-		try{
-			PreparedStatement stmt = conn.prepareStatement("UPDATE USERFRAME SET NAME = ?, NUMBER = ?, ZSAFEDISTANCE = ? WHERE ID = ?");
-			String name =userFrame.getName();
-			stmt.setString(1,name);
-			int number = userFrame.getNumber();
-			stmt.setInt(2, number);
-			float zSafeDistance =userFrame.getzSafeDistance();
-			stmt.setFloat(3, zSafeDistance);
-			int locationId = userFrame.getLocation().getId();
-			stmt.setInt(4, locationId);
-			CoordinatesHandler.saveCoordinates(userFrame.getLocation());
-		conn.commit();
-		conn.setAutoCommit(true);
-		}catch (SQLException ex) {
-			LOGGER.log(Level.ERROR, "{}", ex);
-		}
+//	public static void updateUserFrame(final UserFrame userFrame) throws SQLException {
+//		conn.setAutoCommit(false);
+//		try{
+//			PreparedStatement stmt = conn.prepareStatement("UPDATE USERFRAME SET NAME = ?, NUMBER = ?, ZSAFEDISTANCE = ? WHERE ID = ?");
+//			String name =userFrame.getName();
+//			stmt.setString(1,name);
+//			int number = userFrame.getNumber();
+//			stmt.setInt(2, number);
+//			float zSafeDistance =userFrame.getzSafeDistance();
+//			stmt.setFloat(3, zSafeDistance);
+//			int locationId = userFrame.getLocation().getId();
+//			stmt.setInt(4, locationId);
+//			stmt.executeUpdate();
+//			CoordinatesHandler.saveCoordinates(userFrame.getLocation());
+//		conn.commit();
+//		conn.setAutoCommit(true);
+//		}catch (SQLException ex) {
+//			LOGGER.log(Level.ERROR, "{}", ex);
+//		}
+//	
+//	}
 	
-	}
-	
-	public void updateuserframe(final UserFrame userFrame) throws SQLException {
+	public static void updateuserframe(final UserFrame userFrame) throws SQLException {
 		conn.setAutoCommit(false);
 		PreparedStatement stmt = conn.prepareStatement("UPDATE USERFRAME SET NAME = ?, NUMBER = ?, ZSAFEDISTANCE = ? WHERE ID = ?");
 		stmt.setString(1, userFrame.getName());

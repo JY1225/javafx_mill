@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="561.0" prefWidth="607.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.configure.devicesConfig.CoordinateViewController">
+   <children>
+      <GridPane fx:id="gridPane" alignment="CENTER" layoutX="38.0" layoutY="40.0" prefHeight="409.0" prefWidth="543.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="78.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="234.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.0" minWidth="0.0" prefWidth="243.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.0" minWidth="10.0" prefWidth="52.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="452.0" minHeight="10.0" prefHeight="510.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="400.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <Button fx:id="editBt" mnemonicParsing="false" onAction="#editBtAction" prefHeight="45.0" prefWidth="134.0" text="编辑" textFill="#f7f7f7">
+                     <graphic>
+                        <SVGPath content="M 15.71875,0 3.28125,12.53125 0,20 7.46875,16.71875 20,4.28125 C 20,4.28105 19.7362,2.486 18.625,1.375 17.5134,0.2634 15.71875,0 15.71875,0 z M 3.53125,12.78125 c 0,0 0.3421,-0.0195 1.0625,0.3125 C 4.85495,13.21295 5.1112,13.41 5.375,13.625 l 0.96875,0.96875 c 0.2258,0.2728 0.4471,0.5395 0.5625,0.8125 C 7.01625,15.66565 7.25,16.5 7.25,16.5 L 3,18.34375 C 2.5602,17.44355 2.55565,17.44 1.65625,17 l 1.875,-4.21875 z">
+                           <styleClass>
+                              <String fx:value="form-button-icon" />
+                              <String fx:value="btn-clamping" />
+                           </styleClass>
+                        </SVGPath>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="form-button" />
+                        <String fx:value="form-button-bar-left" />
+                     </styleClass></Button>
+                  <Button fx:id="addBt" mnemonicParsing="false" onAction="#addBtAction" prefHeight="45.0" prefWidth="135.0" text="新增" textFill="#f7f7f7">
+                     <graphic>
+                        <SVGPath content="M 10 0 C 4.4775 0 0 4.4775 0 10 C 0 15.5225 4.4775 20 10 20 C 15.5225 20 20 15.5225 20 10 C 20 4.4775 15.5225 0 10 0 z M 8.75 5 L 11.25 5 L 11.25 8.75 L 15 8.75 L 15 11.25 L 11.25 11.25 L 11.25 15 L 8.75 15 L 8.75 11.25 L 5 11.25 L 5 8.75 L 8.75 8.75 L 8.75 5 z">
+                           <styleClass>
+                              <String fx:value="form-button-icon" />
+                              <String fx:value="btn-clamping" />
+                           </styleClass>
+                        </SVGPath>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="form-button" />
+                        <String fx:value="form-button-bar-left" />
+                     </styleClass></Button>
+               </children>
+            </HBox>
+            <ComboBox fx:id="comboBox" onAction="#comboBoxAction" prefHeight="45.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <GridPane fx:id="contentGridPane" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="164.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="61.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="206.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="144.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="218.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="374.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="374.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="374.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="374.0" minHeight="10.0" prefHeight="202.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                     <children>
+                        <Label prefHeight="39.0" prefWidth="60.0" text="名称">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nameText" onMouseClicked="#nameChanged" prefHeight="39.0" prefWidth="326.0" styleClass="form-full-textfield" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="272.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                     <children>
+                        <Label prefHeight="47.0" prefWidth="60.0" text="Nr">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="NrText"  onMouseClicked="#NrTextChanged" prefHeight="39.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="288.0" spacing="20.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="70.0" text="Z safe">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="ZSafeText" onMouseClicked="#ZSafeTextChanged" prefHeight="39.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="288.0" spacing="20.0" GridPane.columnSpan="3" GridPane.rowIndex="3">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="125.0">
+                           <children>
+                              <Label prefHeight="37.0" prefWidth="30.0" text="X">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="XText" onMouseClicked="#XTextChanged" prefHeight="39.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="136.0">
+                           <children>
+                              <Label prefHeight="37.0" prefWidth="30.0" text="Y">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="YText"  onMouseClicked="#YTextChanged" prefHeight="39.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="126.0">
+                           <children>
+                              <Label prefHeight="37.0" prefWidth="30.0" text="Z">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="ZText"  onMouseClicked="#ZTextChanged" prefHeight="37.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="288.0" spacing="20.0" GridPane.columnSpan="3" GridPane.rowIndex="4">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="125.0">
+                           <children>
+                              <Label prefHeight="37.0" prefWidth="30.0" text="W">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="WText" onMouseClicked="#WTextChanged" prefHeight="39.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="136.0">
+                           <children>
+                              <Label prefHeight="37.0" prefWidth="30.0" text="P">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="PText"  onMouseClicked="#PTextChanged" prefHeight="39.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="126.0">
+                           <children>
+                              <Label prefHeight="37.0" prefWidth="30.0" text="R">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="RText"  onMouseClicked="#RTextChanged" prefHeight="37.0" prefWidth="78.0" styleClass="form-full-textfield" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="117.0" prefWidth="146.0" GridPane.columnSpan="3" GridPane.rowIndex="5">
+                     <children>
+                        <Button fx:id="saveBt" mnemonicParsing="false" onAction="#saveBtAction" prefHeight="44.0" prefWidth="99.0" styleClass="form-button" text="保存" textFill="WHITE">
+                           <graphic>
+                              <SVGPath content="M 5.40625 0 L 5.40625 7.25 L 0 7.25 L 7.1875 14.40625 L 14.3125 7.25 L 9 7.25 L 9 0 L 5.40625 0 z M 7.1875 14.40625 L 0 14.40625 L 0 18 L 14.3125 18 L 14.3125 14.40625 L 7.1875 14.40625 z" fill="WHITE" />
+                           </graphic>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <GridPane.margin>
+                  <Insets left="50.0" right="50.0" />
+               </GridPane.margin>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="423.0" prefWidth="186.0" stylesheets="@/resources/processflow-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.SetMenuViewController">
+   <children>
+      <StackPane fx:id="stackPane" prefHeight="423.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>            
+             <VBox fx:id="prosessVBox" prefHeight="423.0" prefWidth="186.0" styleClass="left-menu">
+                 <children>
+                     <Button fx:id="configuer" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openConfig" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="通用" />
+                     <Button fx:id="save" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openSave" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="保存" />
+                     <Button fx:id="open" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openProcess" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="打开程序" textFill="#B2B2B2" />
+                     <Button fx:id="new_pro" alignment="BASELINE_LEFT" mnemonicParsing="false" onMouseClicked="#openNew" prefHeight="50.0" prefWidth="204.0" styleClass="left-menu-button" text="新程序" textFill="#fcfafa" />
+                 </children>
+             </VBox>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

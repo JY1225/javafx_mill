@@ -8,6 +8,7 @@ import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.ui.main.Controller;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -57,19 +58,24 @@ public class RawWPViewController extends Controller {
 	List<Button> bts;
 	List<Button> mBts;
 	private String programName;
-
+	List<Button> calc;
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
 		bts.add(tiltedBt);
-		bts.add(VBt);
+		bts.add(VBt);		
 
 		mBts = new ArrayList<Button>();
 		mBts.add(AlBt);
 		mBts.add(CuBt);
 		mBts.add(FeBt);
 		mBts.add(OBt);
+
 		refresh();
+		
+		calc = new ArrayList<Button>();
+		calc.add(calculateBt);
+
 		programName = DBHandler.getInstance().getProgramName();
 		Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		if (programName != null) {
@@ -234,6 +240,8 @@ public class RawWPViewController extends Controller {
 		isClicked(mBts, AlBt);
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
 				.setMaterial(WorkPiece.Material.AL);
+		calculateBt.setDisable(false);	
+		recalcWeight();
 	}
 
 	@FXML
@@ -241,6 +249,8 @@ public class RawWPViewController extends Controller {
 		isClicked(mBts, CuBt);
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
 				.setMaterial(WorkPiece.Material.CU);
+		calculateBt.setDisable(false);	
+		recalcWeight();
 	}
 
 	@FXML
@@ -248,6 +258,8 @@ public class RawWPViewController extends Controller {
 		isClicked(mBts, FeBt);
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
 				.setMaterial(WorkPiece.Material.FE);
+		calculateBt.setDisable(false);	
+		recalcWeight();
 	}
 
 	@FXML
@@ -255,6 +267,7 @@ public class RawWPViewController extends Controller {
 		isClicked(mBts, OBt);
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
 				.setMaterial(WorkPiece.Material.OTHER);
+		calculateBt.setDisable(false);	
 	}
 
 	private void refresh() {
@@ -316,7 +329,8 @@ public class RawWPViewController extends Controller {
 
 	@FXML
 	public void calculateBtAction(MouseEvent event) {
-
+		recalcWeight();
+		
 	}
 
 	@Override
@@ -324,5 +338,11 @@ public class RawWPViewController extends Controller {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	public void recalcWeight() {
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().calculateWeight();
+    	fulltxtWei.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()));
+    	
+    }
+	
 }

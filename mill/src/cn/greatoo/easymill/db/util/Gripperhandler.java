@@ -163,10 +163,10 @@ public class Gripperhandler {
 		return list;
 	}
 	
-	public void deleteGripper(final Gripper gripper) throws SQLException {
+	public static void deleteGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
 		try {
-			PreparedStatement stmt = conn.prepareStatement("DELETE FROM GRIPPERHEAD_GRIPPER WHERE GRIPPER = ?");
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM STEP WHERE GRIPPER = ?");
 			stmt.setInt(1, gripper.getId());
 			stmt.executeUpdate();
 			PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM GRIPPER WHERE ID = ?");
