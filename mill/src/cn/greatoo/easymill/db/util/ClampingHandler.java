@@ -207,8 +207,7 @@ public class ClampingHandler {
 					throw new IllegalStateException("Unknown clamping type: [" + type + "].");
 			}
 			clamping.setId(id);
-        }
-        stmt.close();
+        }       
 		return clamping;
     }
 	
@@ -254,8 +253,7 @@ public class ClampingHandler {
 			}
 			clamping.setId(id);
 			DBHandler.getInstance().getClampBuffer().add(clamping);
-        }
-        stmt.close();
+        }       
 		return clamping;
     }
     

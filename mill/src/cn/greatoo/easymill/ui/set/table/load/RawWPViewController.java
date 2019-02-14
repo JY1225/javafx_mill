@@ -56,9 +56,8 @@ public class RawWPViewController extends Controller {
 	private Button calculateBt;
 	List<Button> bts;
 	List<Button> mBts;
-	public static WorkPiece workPiece = new WorkPiece();
-	public static Program program = new Program();
-	private static String programName;
+	private String programName;
+
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
@@ -70,17 +69,15 @@ public class RawWPViewController extends Controller {
 		mBts.add(CuBt);
 		mBts.add(FeBt);
 		mBts.add(OBt);
-		
-		
+		refresh();
 		programName = DBHandler.getInstance().getProgramName();
-		if(programName != null) {
-			program = DBHandler.getInstance().getProgramBuffer().get(programName);
-			workPiece = program.getUnloadstacker().getWorkPiece();
-			fulltxtL.setText(String.valueOf(workPiece.getLength()));
-			fulltxtW.setText(String.valueOf(workPiece.getWidth()));
-			fulltxtH.setText(String.valueOf(workPiece.getHeight()));
-			fulltxtWei.setText(String.valueOf(workPiece.getWeight()));
-			Material material = workPiece.getMaterial();
+		Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+		if (programName != null) {
+			fulltxtL.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getLength()));
+			fulltxtW.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getWidth()));
+			fulltxtH.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getHeight()));
+			fulltxtWei.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getWeight()));
+			Material material = program.getUnloadstacker().getWorkPiece().getMaterial();
 			switch (material) {
 			case AL:
 				isClicked(mBts, AlBt);
@@ -115,187 +112,208 @@ public class RawWPViewController extends Controller {
 				break;
 			}
 		}
-		
-		workPiece.setType(WorkPiece.Type.RAW);
-		workPiece.setShape(WorkPiece.WorkPieceShape.CUBIC);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setType(WorkPiece.Type.RAW);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setShape(WorkPiece.WorkPieceShape.CUBIC);
 		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	if(!"".equals(fulltxtL.getText())){
-	        		workPiece.setLength(Float.parseFloat(fulltxtL.getText()));
-	        	}else {
-	        		workPiece.setLength(0);
-	        	}
-	        }
-		});	
-		
-		fulltxtW.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	if(!"".equals(fulltxtW.getText())){
-	        		workPiece.setWidth(Float.parseFloat(fulltxtW.getText()));
-	        	}else {
-	        		workPiece.setWidth(0);
-	        	}
-	        }
-		});	
-		
-		fulltxtH.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	if(!"".equals(fulltxtH.getText())){
-	        		workPiece.setHeight(Float.parseFloat(fulltxtH.getText()));
-	        	}else {
-	        		workPiece.setHeight(0);
-	        	}
-	        }
-		});	
-		
-		fulltxtWei.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	if(!"".equals(fulltxtWei.getText())){
-	        		workPiece.setWeight(Float.parseFloat(fulltxtWei.getText()));
-	        	}else {
-	        		workPiece.setWeight(0);
-	        	}
-	        }
-		});	
-		
-		//螺柱高度
-		fulltxtBH.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        
-	        	if(!"".equals(fulltxtBH.getText())){
-	        		program.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));
-	        	}else {
-	        		program.setStudHeight_Workpiece(0);
-	        	}
-	        }
-		});	
-		//图层
-		fulltxtC.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	
-	        	if(!"".equals(fulltxtC.getText())){
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				if (!"".equals(fulltxtL.getText())) {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setLength(Float.parseFloat(fulltxtL.getText()));
+				} else {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setLength(0);
+				}
+			}
+		});
 
-	        		program.setLayers(Integer.parseInt(fulltxtC.getText()));
-	        	}else {
-	        		program.setLayers(0);
-	        	}
-	        }
-		});	
-		//数量
+		fulltxtW.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				if (!"".equals(fulltxtW.getText())) {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setWidth(Float.parseFloat(fulltxtW.getText()));
+				} else {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setWidth(0);
+				}
+			}
+		});
+
+		fulltxtH.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				if (!"".equals(fulltxtH.getText())) {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setHeight(Float.parseFloat(fulltxtH.getText()));
+				} else {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setHeight(0);
+				}
+			}
+		});
+
+		fulltxtWei.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				if (!"".equals(fulltxtWei.getText())) {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setWeight(Float.parseFloat(fulltxtWei.getText()));
+				} else {
+					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+							.setWeight(0);
+				}
+			}
+		});
+
+		// 螺柱高度
+		fulltxtBH.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+
+				if (!"".equals(fulltxtBH.getText())) {
+					DBHandler.getInstance().getProgramBuffer().get(programName)
+							.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));
+				} else {
+					DBHandler.getInstance().getProgramBuffer().get(programName).setStudHeight_Workpiece(0);
+				}
+			}
+		});
+		// 图层
+		fulltxtC.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+
+				if (!"".equals(fulltxtC.getText())) {
+					DBHandler.getInstance().getProgramBuffer().get(programName)
+							.setLayers(Integer.parseInt(fulltxtC.getText()));
+				} else {
+					DBHandler.getInstance().getProgramBuffer().get(programName).setLayers(0);
+				}
+			}
+		});
+		// 数量
 		fulltxtS.focusedProperty().addListener(new ChangeListener<Boolean>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	if(!"".equals(fulltxtS.getText())) {	        		
-	        		program.setAmount(Integer.parseInt(fulltxtS.getText()));
-	        	}else {
-	        		program.setAmount(0);
-	        	}
-	        }
-		});	
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				if (!"".equals(fulltxtS.getText())) {
+					DBHandler.getInstance().getProgramBuffer().get(programName)
+							.setAmount(Integer.parseInt(fulltxtS.getText()));
+				} else {
+					DBHandler.getInstance().getProgramBuffer().get(programName).setAmount(0);
+				}
+			}
+		});
+	}
+
+	
+	@FXML
+	public void HBtAction(MouseEvent event) {
+		isClicked(bts, HBt);
+		DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(0);
+
+	}
+
+	@FXML
+	public void tiltedAction(MouseEvent event) {
+		isClicked(bts, tiltedBt);
+		DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(45);
+	}
+
+	@FXML
+	public void VBtAction(MouseEvent event) {
+		isClicked(bts, VBt);
+		DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(90);
+
+	}
+
+	@FXML
+	public void AlBtAction(MouseEvent event) {
+		isClicked(mBts, AlBt);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setMaterial(WorkPiece.Material.AL);
+	}
+
+	@FXML
+	public void CuBtAction(MouseEvent event) {
+		isClicked(mBts, CuBt);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setMaterial(WorkPiece.Material.CU);
+	}
+
+	@FXML
+	public void FeBtAction(MouseEvent event) {
+		isClicked(mBts, FeBt);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setMaterial(WorkPiece.Material.FE);
+	}
+
+	@FXML
+	public void OBtAction(MouseEvent event) {
+		isClicked(mBts, OBt);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setMaterial(WorkPiece.Material.OTHER);
+	}
+
+	private void refresh() {
+		isClicked(bts, null);
+		isClicked(mBts, null);
+		fulltxtL.setText("");
+		fulltxtW.setText("");
+		fulltxtH.setText("");
+		fulltxtWei.setText("");
+		fulltxtBH.setText("");
+		fulltxtC.setText("");
+		fulltxtS.setText("");
 	}
 	
 	@FXML
 	public void LChanged(MouseEvent event) {
 
 	}
-	
-	@FXML
-	public void HBtAction(MouseEvent event) {
-		isClicked(bts, HBt);
-		program.setOrientation(0);
-		if(DBHandler.getInstance().getProgramBuffer().get(programName) != null) {
-			DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(0);
-		}
-	}
-	
-	@FXML
-	public void tiltedAction(MouseEvent event) {
-		isClicked(bts, tiltedBt);
-		program.setOrientation(45);
-		if(DBHandler.getInstance().getProgramBuffer().get(programName) != null) {
-			DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(45);
-		}
-	}
-	
-	@FXML
-	public void VBtAction(MouseEvent event) {
-		isClicked(bts, VBt);
-		program.setOrientation(90);
-		if(DBHandler.getInstance().getProgramBuffer().get(programName) != null) {
-			DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(90);
-		}
-	}
-	
+
 	@FXML
 	public void TBtAction(MouseEvent event) {
-		
-	}	
-	
+
+	}
+
 	@FXML
 	public void WChanged(MouseEvent event) {
-		
+
 	}
-	
+
 	@FXML
 	public void HChanged(MouseEvent event) {
-		
+
 	}
-	
+
 	@FXML
 	public void SChanged(MouseEvent event) {
-		
+
 	}
-	
+
 	@FXML
 	public void MaxBtAction(MouseEvent event) {
-		
+
 	}
-	
+
 	@FXML
 	public void CChanged(MouseEvent event) {
-		
+
 	}
-	
-	@FXML
-	public void AlBtAction(MouseEvent event) {
-		isClicked(mBts, AlBt);
-		workPiece.setMaterial(WorkPiece.Material.AL);
-	}
-	
-	@FXML
-	public void CuBtAction(MouseEvent event) {
-		isClicked(mBts, CuBt);
-		workPiece.setMaterial(WorkPiece.Material.CU);
-	}
-	
-	@FXML
-	public void FeBtAction(MouseEvent event) {
-		isClicked(mBts, FeBt);
-		workPiece.setMaterial(WorkPiece.Material.FE);
-	}
-	
-	@FXML
-	public void OBtAction(MouseEvent event) {
-		isClicked(mBts, OBt);
-		workPiece.setMaterial(WorkPiece.Material.OTHER);
-	}
-	
+
 	@FXML
 	public void BHChanged(MouseEvent event) {
-		
+
 	}
-	
+
 	@FXML
 	public void WeiChanged(MouseEvent event) {
-		
+
 	}
-	
+
 	@FXML
 	public void calculateBtAction(MouseEvent event) {
 
@@ -304,7 +322,7 @@ public class RawWPViewController extends Controller {
 	@Override
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

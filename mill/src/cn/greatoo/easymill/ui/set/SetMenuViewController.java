@@ -89,7 +89,7 @@ public class SetMenuViewController extends Controller {
 						saveParent = fxmlLoader.load();
 						saveViewController = fxmlLoader.getController(); 
 						// 中写的初始化方法
-						saveViewController.init();
+						saveViewController.init(generalViewController);
 						gridPane.add(saveParent, 1, 2);
 						notificationBox = new NotificationBox();
 						gridPane.getChildren().add(notificationBox);
@@ -97,7 +97,7 @@ public class SetMenuViewController extends Controller {
 						e.printStackTrace();
 					}
 				} else {
-					saveViewController.init();
+					saveViewController.init(generalViewController);
 					setDisVisible(2, 1, gridPane, saveParent);
 				}
 

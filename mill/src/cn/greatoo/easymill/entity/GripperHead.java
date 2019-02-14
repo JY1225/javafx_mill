@@ -3,7 +3,7 @@ package cn.greatoo.easymill.entity;
 public class GripperHead {
 	private int id;
 	private String name;
-	private static boolean gripperInner;
+	private boolean gripperInner;
 	
 	public GripperHead(String name, boolean gripperInner) {
 		this.name = name;
@@ -30,12 +30,12 @@ public class GripperHead {
 		this.name = name;
 	}
 
-	public static boolean isGripperInner() {
+	public boolean isGripperInner() {
 		return gripperInner;
 	}
 
-	public static void setGripperInner(boolean gripperInner) {
-		GripperHead.gripperInner = gripperInner;
+	public void setGripperInner(boolean gripperInner) {
+		this.gripperInner = gripperInner;
 	}
 	
 }

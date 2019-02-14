@@ -1,9 +1,14 @@
 package cn.greatoo.easymill.ui.set;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -51,8 +56,13 @@ public class OpenViewController extends Controller {
 	private SetViewController setViewController;
 	@FXML
 	public void load(MouseEvent event) {
+		Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
 		fulltxtName.setText(table.getSelectionModel().selectedItemProperty().getValue().getName());
-		DBHandler.getInstance().setProgramName(fulltxtName.getText());
+		String name = fulltxtName.getText();
+		DBHandler.getInstance().setProgramName(name);
+		DBHandler.getInstance().getProgramBuffer().get(name).setTimeLastOpen(lastOpenTime);
+		Program program = DBHandler.getInstance().getProgramBuffer().get(name);
+		Programhandler.updateLastOpenProgram(program);
 		setViewController.setActiveProgramName(fulltxtName.getText());
 		setViewController.openSetMenuView();
 	}
@@ -60,7 +70,12 @@ public class OpenViewController extends Controller {
 	public void init(SetViewController setViewController) {
 		this.setViewController = setViewController;
 		Programs = FXCollections.observableArrayList();
-		Programs.addAll(DBHandler.getInstance().getProgramBuffer().values());
+		Collection<Program> items = DBHandler.getInstance().getProgramBuffer().values();
+		for (Program program : items) {
+			if(program.getName() != null) {
+				Programs.add(program);
+			}
+		}
 		table.setEditable(false);
 		table.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			@Override
@@ -135,7 +150,15 @@ private class DeleteButton extends TableCell<Program, Program> {
 		DeleteButton() {
 			deleteButton = createButton(deleteIconPath, CSS_CLASS_DELETE_OPEN_BTN, "", 32, 0, new EventHandler<ActionEvent>() {
 				 @Override public void handle(ActionEvent actionEvent) {
-					 //getPresenter().deleteProcess(p.getId());
+					 Programhandler.deleProgram(p);
+					 Programs = FXCollections.observableArrayList();
+						Collection<Program> items = DBHandler.getInstance().getProgramBuffer().values();
+						for (Program program : items) {
+							if(program.getName() != null) {
+								Programs.add(program);
+							}
+						}
+						setPrograms(Programs);
 				 }
 			});
 		}

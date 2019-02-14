@@ -32,50 +32,57 @@ public class CNCPutViewController extends Controller {
 	@FXML
 	private Button aftBt;
 	List<Button> bts;
-	public static Smooth loadCNCSmooth = new Smooth();
-	public static RobotSetting RobotPutSetting = new RobotSetting();
 
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(beBt);
 		bts.add(aftBt);
-		isClicked(bts, beBt);
-
+		refresh();
 		String programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
-			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
-			loadCNCSmooth = program.getLoadCNC().getSmooth();
-			XField.setText(String.valueOf(loadCNCSmooth.getX()));
-			YField.setText(String.valueOf(loadCNCSmooth.getY()));
-			ZField.setText(String.valueOf(loadCNCSmooth.getZ()));
-			RobotPutSetting = program.getRobotSetting();
-			if (RobotPutSetting.isReleaseBeforeMachine()) {
-				isClicked(bts, beBt);
-			} else {
-				isClicked(bts, aftBt);
-			}
+			XField.setText(String
+				.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getX()));
+			YField.setText(String
+				.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getY()));
+			ZField.setText(String
+				.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getZ()));
+		
+		if (DBHandler.getInstance().getProgramBuffer().get(programName).getRobotSetting().isReleaseBeforeMachine()) {
+			isClicked(bts, beBt);
+		} else {
+			isClicked(bts, aftBt);
+		}
 		}
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				loadCNCSmooth.setX(Float.parseFloat(XField.getText()));
+				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
+						.setX(Float.parseFloat(XField.getText()));
 			}
 		});
 		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				loadCNCSmooth.setY(Float.parseFloat(YField.getText()));
+				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
+						.setY(Float.parseFloat(YField.getText()));
 			}
 		});
 		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				loadCNCSmooth.setZ(Float.parseFloat(ZField.getText()));
+				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
+						.setZ(Float.parseFloat(ZField.getText()));
 			}
 		});
 
 	}
 
+	private void refresh() {
+		XField.setText("");
+		YField.setText("");
+		ZField.setText("");
+		isClicked(bts, null);
+	}
 	@FXML
 	public void resetBtAction(ActionEvent event) {
 
@@ -84,13 +91,15 @@ public class CNCPutViewController extends Controller {
 	@FXML
 	public void beBtAction(ActionEvent event) {
 		isClicked(bts, beBt);
-		RobotPutSetting.setReleaseBeforeMachine(true);
+		DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName()).getRobotSetting()
+				.setReleaseBeforeMachine(true);
 	}
 
 	@FXML
 	public void aftBtAction(ActionEvent event) {
 		isClicked(bts, aftBt);
-		RobotPutSetting.setReleaseBeforeMachine(false);
+		DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName()).getRobotSetting()
+				.setReleaseBeforeMachine(false);
 	}
 
 	@Override

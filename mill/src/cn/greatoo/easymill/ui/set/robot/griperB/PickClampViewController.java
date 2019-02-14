@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.db.util.Gripperhandler;
 import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.GripperHead;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
@@ -24,81 +22,82 @@ public class PickClampViewController extends Controller {
 	@FXML
 	private GridPane gridPane;
 	@FXML
-	private ComboBox comboBox;
+	private ComboBox<String> comboBox;
 	@FXML
 	private Button outBt;
 	@FXML
 	private Button inBt;
 	List<Button> bts;
-   // private TransportInformation transportInfo;
-    private IconFlowSelector ifsGrippers;
+	private IconFlowSelector ifsGrippers;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
-	
-	public static Gripper gripper = new Gripper();
-	public static GripperHead gripperhead = new GripperHead();
-	@SuppressWarnings("unchecked")
+	private String programName;
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void init() {
+		programName = DBHandler.getInstance().getProgramName();
 		bts = new ArrayList<Button>();
 		bts.add(outBt);
 		bts.add(inBt);
-		isClicked(bts, outBt);
-		
-		comboBox.getItems().add("A");
-		comboBox.getItems().add("B");
-		
+		isClicked(bts, null);
+		if (comboBox.getItems().size() == 0) {
+			comboBox.getItems().add("A");
+			comboBox.getItems().add("B");
+			comboBox.getItems().add("C");
+		}
 		ifsGrippers = new IconFlowSelector(false);
-        ifsGrippers.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
-        gridPane.add(ifsGrippers, 0, 2, 2, 1);	
-        
-        gripperhead.setGripperInner(false);
-        comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-            	gripperhead.setName((String) newValue);
-            }
-        });
-  
-        String programName = DBHandler.getInstance().getProgramName();
-		if(programName != null) {
-			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
-			gripper = program.getUnloadCNC().getGripper();
-			gripperhead = program.getUnloadCNC().getGripperHead();
-			comboBox.getSelectionModel().select(gripperhead.getName());
-			if(gripperhead.isGripperInner()) {
+		ifsGrippers.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
+		gridPane.add(ifsGrippers, 0, 2, 2, 1);
+
+		comboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+			@Override
+			public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+				DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getGripperHead()
+						.setName((String) newValue);
+			}
+		});
+
+		Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+		String name = program.getUnloadCNC().getGripperHead().getName();
+		comboBox.getSelectionModel().select(name);
+		if (DBHandler.getInstance().getProgramName() != null) {
+			if (program.getUnloadCNC().getGripperHead().isGripperInner()) {
 				isClicked(bts, inBt);
-			}else {
+			} else {
 				isClicked(bts, outBt);
 			}
 		}
 		refresh();
 	}
+
 	@FXML
 	public void comboBoxAction(ActionEvent event) {
 
 	}
-	
+
 	@FXML
 	public void outBtAction(ActionEvent event) {
 		isClicked(bts, outBt);
-		gripperhead.setGripperInner(false);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getGripperHead()
+				.setGripperInner(false);
 	}
-	
+
 	@FXML
 	public void inBtAction(ActionEvent event) {
 		isClicked(bts, inBt);
-		gripperhead.setGripperInner(true);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getGripperHead()
+				.setGripperInner(true);
 	}
-	
-    
-    public void refresh() {
+
+	public void refresh() {
 		refreshGrippers();
 	}
+
 	@Override
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void refreshGrippers() {
 		ifsGrippers.clearItems();
 		ifsGrippers.clearItems();
@@ -119,13 +118,15 @@ public class PickClampViewController extends Controller {
 
 	public void setSelectedGripper() {
 		ifsGrippers.deselectAll();
-		ifsGrippers.setSelected(gripper.getName());		
+		ifsGrippers.setSelected(
+				DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getGripper().getName());
 	}
-	
+
 	public void changedGripper(final Gripper gripper) {
 		ifsGrippers.deselectAll();
-		ifsGrippers.setSelected(gripper.getName());		
-		this.gripper.setName(gripper.getName());
+		ifsGrippers.setSelected(gripper.getName());
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getGripper()
+				.setName(gripper.getName());
 		System.out.println(gripper.getName());
 	}
 }

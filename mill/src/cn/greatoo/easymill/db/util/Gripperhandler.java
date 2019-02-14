@@ -8,11 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.FinalizablePhantomReference;
-
-import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.entity.Gripper.Type;
 
 public class Gripperhandler {
@@ -20,7 +16,6 @@ public class Gripperhandler {
 	private static final int GRIPPER_TYPE_TWOPOINT = 1;
 	private static final int GRIPPER_TYPE_VACUUM = 2;
 	static Connection conn = DBHandler.getInstance().getConnection();
-	private CoordinatesHandler coordinatesHandler;
 
 	public static void saveGripper(final Gripper gripper) throws SQLException {
 		conn.setAutoCommit(false);
@@ -52,7 +47,6 @@ public class Gripperhandler {
 		}
 	}
 	public static void updateGripper(final Gripper gripper) throws SQLException {
-		conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement("UPDATE GRIPPER SET NAME = ?, HEIGHT = ?, FIXEDHEIGHT = ?, IMAGEURL = ?, TYPE = ? WHERE ID = ?");
 			stmt.setString(1, gripper.getName());
 			stmt.setFloat(2, gripper.getHeight());
@@ -69,9 +63,6 @@ public class Gripperhandler {
 			stmt.setInt(5, typeInt);
 			stmt.setInt(6, gripper.getId());
 			stmt.executeUpdate();
-		conn.commit();
-		conn.setAutoCommit(true);
-		// TODO updating of gripper head compatibility
 	}
 		
 	
@@ -126,8 +117,7 @@ public class Gripperhandler {
 			gripper = new Gripper(name, type, height, imageUrl);
 			gripper.setFixedHeight(fixedHeight);
 			gripper.setId(id);
-        }
-        stmt.close();
+        }        
         return gripper;
     }
 	public static int getGripperIdByName(String name, Gripper gripper) throws SQLException {

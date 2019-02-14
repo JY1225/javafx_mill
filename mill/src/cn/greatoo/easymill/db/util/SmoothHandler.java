@@ -63,7 +63,6 @@ public class SmoothHandler {
             smooth = new Smooth(x, y, z);
             smooth.setId(smoothId);
         }
-        stmt.close();
         return smooth;
     }
 }

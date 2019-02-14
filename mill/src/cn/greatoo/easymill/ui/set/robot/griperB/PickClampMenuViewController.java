@@ -28,9 +28,11 @@ public class PickClampMenuViewController extends Controller {
 	@FXML
 	private Button clampBt;
 	private GridPane setProsessPane;
-	List<Button> bts;
-	FXMLLoader fxmlLoader;
+	private List<Button> bts;
+	private FXMLLoader fxmlLoader;
 	private Parent clampParent;
+	private PickClampViewController pickclampViewController;
+	
 	public void init(GridPane setProsessPane) {
 		this.setProsessPane = setProsessPane;
 		bts = new ArrayList<Button>();
@@ -47,6 +49,7 @@ public class PickClampMenuViewController extends Controller {
 			}
 		});
 	}
+		
 	private void openClampView() {
 		if (!setProsessPane.getChildren().contains(clampParent)) {
 			try {
@@ -55,15 +58,17 @@ public class PickClampMenuViewController extends Controller {
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				clampParent = fxmlLoader.load();
-				PickClampViewController pickclampViewController = fxmlLoader.getController();
+				pickclampViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				pickclampViewController.init();
 				setProsessPane.add(clampParent, 1, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
+			pickclampViewController.init();
 			setDisVisible(2, 1, setProsessPane, clampParent);
+		}
 	}
 	@Override
 	public void setMessege(String mess) {

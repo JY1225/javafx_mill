@@ -5,24 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.GripperHead;
-import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Step;
 import cn.greatoo.easymill.entity.WorkPiece;
 
 public class Stephandler {
 	
-	
-	private static final int STEP_TYPE_UNLOADSTACKER = 1;
-	private static final int STEP_TYPE_LOADCNC = 2;
-	private static final int STEP_TYPE_UNLOADCNC= 3;
-	private static final int STEP_TYPE_LOADSTACKER = 4;
 	static Connection conn = DBHandler.getInstance().getConnection();
 	
 	public static void saveProgramStep(Step step) throws SQLException {
@@ -83,7 +75,6 @@ public class Stephandler {
             step = new Step(gripperHead,gripper, workpice, UserFrameId, smooth, offSet);
             step.setId(stepId);
         }
-        stmt.close();
         return step;          
 	}
      

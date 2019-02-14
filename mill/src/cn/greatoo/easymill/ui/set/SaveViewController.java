@@ -57,8 +57,8 @@ public class SaveViewController extends Controller {
 	private static Logger logger = LogManager.getLogger(SaveViewController.class.getName());
 	private static NotificationBox notificationBox;
 
-	public void init() {
-		fulltxtName.setText(DBHandler.getInstance().getProgramName());
+	public void init(GeneralViewController generalViewController) {
+		fulltxtName.setText(generalViewController.getFulltxtName().getText());
 
 	}
 
@@ -80,64 +80,23 @@ public class SaveViewController extends Controller {
 		Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
 
 		// 设置
-		Program program = RawWPViewController.program;
-		WorkPiece rawWorkPiece = RawWPViewController.workPiece;
-
-		Smooth unloadStackerSmooth = PickViewController.unloadStackerSmooth;
-
-		Gripper loadGripper = ClampViewController.gripper;
-		GripperHead loadGripperhead = ClampViewController.gripperhead;
-
-		Clamping clamping = CNCDeviceViewController.clamping;
-
-		Smooth loadCNCSmooth = CNCPutViewController.loadCNCSmooth;
-		RobotSetting RobotSetting = CNCPutViewController.RobotPutSetting;
-
-		Smooth unloadCNCSmooth = CNCPickViewController.unloadCNCSmooth;
-
-		Gripper unloadGripper = PickClampViewController.gripper;
-		GripperHead unloadGripperhead = PickClampViewController.gripperhead;
-
-		WorkPiece finishWorkPiece = CNCFinishedWPViewController.workPiece;
-
-		Smooth loadStackerSmooth = PlaceViewController.loadStackerSmooth;
-
-		// step1
-		Step unloadStacker = new Step(loadGripperhead, loadGripper, rawWorkPiece, 1, unloadStackerSmooth,
-				new Coordinates());
-
-		// step2
-		Step loadCNC = new Step(loadGripperhead, loadGripper, rawWorkPiece, 3, loadCNCSmooth, new Coordinates());
-
-		// step3
-		Step unloadCNC = new Step(unloadGripperhead, unloadGripper, finishWorkPiece, 3, unloadCNCSmooth,
-				new Coordinates());
-
-		// step4
-		Step loadstacker = new Step(unloadGripperhead, unloadGripper, finishWorkPiece, 1, loadStackerSmooth,
-				new Coordinates());
-
+		Program program = DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName());
 		program.setName(programName);
-		program.setUnloadstacker(unloadStacker);
-		program.setLoadCNC(loadCNC);
-		program.setUnloadCNC(unloadCNC);
-		program.setLoadstacker(loadstacker);
 		program.setTimeCreate(creatTime);
-		program.setTimeLastOpen(lastOpenTime);
-		program.setRobotSetting(RobotSetting);
+		program.setTimeLastOpen(new Timestamp(0));
 		program.setHasTeach(false);
 		if (programName.equals(DBHandler.getInstance().getProgramName())) {
 			program.setId(DBHandler.getInstance().getProgramBuffer().get(programName).getId());
+		}else {
+			program.setId(0);			
 		}
 
 		try {
-//			if (stacker.getId() > 0) {
-//				Stackerhandler.updateStacker(stacker);
-//			}
-			if (clamping.getId() > 0) {
-				ClampingHandler.updateClamping(clamping);
+			if (DBHandler.getInstance().getClampBuffer().get(0).getId() > 0) {
+				ClampingHandler.updateClamping(DBHandler.getInstance().getClampBuffer().get(0));
 			}
 			Programhandler.saveProgram(program);
+			Programhandler.getProgram();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -1,12 +1,6 @@
 package cn.greatoo.easymill.ui.set.table.load;
 
-import java.util.Map;
-
 import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.entity.Program;
-import cn.greatoo.easymill.entity.Smooth;
-import cn.greatoo.easymill.entity.WorkPiece;
-import cn.greatoo.easymill.entity.WorkPiece.Material;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -27,37 +21,40 @@ public class PickViewController {
 	@FXML
 	private Button resetBt;
 
-	public static Smooth unloadStackerSmooth = new Smooth();
 	public void init() {
-		String programName = DBHandler.getInstance().getProgramName();
-		if(programName != null) {
-			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
-			unloadStackerSmooth = program.getUnloadstacker().getSmooth();			
-			XField.setText(String.valueOf(unloadStackerSmooth.getX()));
-			YField.setText(String.valueOf(unloadStackerSmooth.getY()));
-			ZField.setText(String.valueOf(unloadStackerSmooth.getZ()));
+		refresh();
+		String programName = DBHandler.getInstance().getProgramName();	
+		if (programName != null) {
+			XField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getX()));
+			YField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getY()));
+			ZField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getZ()));
 		}
 		
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	unloadStackerSmooth.setX(Float.parseFloat(XField.getText()));  
+	        	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().setX(Float.parseFloat(XField.getText()));
 	        }
 		});	
 		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	unloadStackerSmooth.setY(Float.parseFloat(YField.getText()));  
+	        	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().setY(Float.parseFloat(YField.getText()));  
 	        }
 		});	
 		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
-	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	unloadStackerSmooth.setZ(Float.parseFloat(ZField.getText()));  
+	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) { 
+	        	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().setZ(Float.parseFloat(ZField.getText())); 
 	        }
 		});	
 	}
 	
+	private void refresh() {
+		XField.setText("");
+		YField.setText("");
+		ZField.setText("");
+	}
 	@FXML
 	public void XFieldAction(ActionEvent event) {
 		
