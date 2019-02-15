@@ -37,8 +37,9 @@ public class ClampMenuViewController extends Controller {
 	List<Button> bts;
 	private Parent clampParent;
 	private Parent interveneParent;
-	FXMLLoader fxmlLoader;
-
+	private FXMLLoader fxmlLoader;
+	private InterveneViewController interveneViewController;
+	
 	public void init(GridPane setProsessPane) {
 		this.setProsessPane = setProsessPane;
 		bts = new ArrayList<Button>();
@@ -67,20 +68,22 @@ public class ClampMenuViewController extends Controller {
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						interveneParent = fxmlLoader.load();
-						InterveneViewController interveneViewController = fxmlLoader.getController();
+						interveneViewController = fxmlLoader.getController();
 						// 中写的初始化方法
 						interveneViewController.init();
 						setProsessPane.add(interveneParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
+				} else {
+					interveneViewController.init();
 					setDisVisible(2, 1, setProsessPane, interveneParent);
+				}
 			}
 		});
 	}
 
-
+	ClampViewController clampViewController;
 	private void openClampView() {
 		if (!setProsessPane.getChildren().contains(clampParent)) {
 			try {
@@ -89,15 +92,17 @@ public class ClampMenuViewController extends Controller {
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				clampParent = fxmlLoader.load();
-				ClampViewController clampViewController = fxmlLoader.getController();
+				clampViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				clampViewController.init();
 				setProsessPane.add(clampParent, 1, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
+			clampViewController.init();
 			setDisVisible(2, 1, setProsessPane, clampParent);
+		}
 	}
 
 

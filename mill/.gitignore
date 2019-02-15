@@ -1,0 +1,15 @@
+
+/bin/
+*.log
+*.class
+*.lck
+*.DS_Store
+*./logs/
+*.classpath
+*.txt
+*.ctrl
+*.rar
+*.dat
+*.properties
+*.gitignore
+*.xml

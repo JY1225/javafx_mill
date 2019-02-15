@@ -69,5 +69,10 @@ public class GeneralViewController {
 	public void isCelect(MouseEvent event) {
 		
 	}
-
+	public TextField getFulltxtName() {
+		return fulltxtName;
+	}
+	public void setFulltxtName(TextField fulltxtName) {
+		this.fulltxtName = fulltxtName;
+	}
 }

@@ -69,7 +69,6 @@ public class CoordinatesHandler {
             coordinates = new Coordinates(x, y, z, w, p, r);
             coordinates.setId(coordinatesId);
         }
-        stmt.close();
         return coordinates;
     }
 

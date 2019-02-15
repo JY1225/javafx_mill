@@ -21,7 +21,6 @@ import javafx.application.Platform;
  */
 public class PutToCNCStep extends AbstractStep{
 
-	@SuppressWarnings("static-access")
 	public void putToCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
 			Clamping Clampping =DBHandler.getInstance().getClampBuffer().get(0);
@@ -29,20 +28,20 @@ public class PutToCNCStep extends AbstractStep{
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PUT;//13;	
 			//75
 			checkProcessExecutorStatus(robot,cncMachine);
-			robot.writeServiceGripperSet(program.getLoadCNC().getGripperHead().getName(), program.getLoadCNC().getGripper(),
-					program.getUnloadCNC().getGripper(), serviceType, program.getLoadCNC().getGripperHead().isGripperInner());
+			robot.writeServiceGripperSet(program.getUnloadstacker().getGripperHead().getName(), program.getUnloadstacker().getGripper(),
+					program.getUnloadstacker().getGripper(), serviceType, program.getUnloadstacker().getGripperHead().isGripperInner());
 			boolean freeAfterService = true;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
 			int approachType = 1;
-			float payLoad1 = program.getLoadCNC().getWorkPiece().getWeight() * 10;
+			float payLoad1 = program.getUnloadstacker().getWorkPiece().getWeight() * 10;
 			float payLoad2 = 0;
 			//76
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, 
-					program.getLoadCNC().getWorkPiece(), approachType, payLoad1, payLoad2);
+					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//-----------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
 			Coordinates originalPosition = new WorkPiecePositions(program).getPutLocation(Clampping);
@@ -57,12 +56,12 @@ public class PutToCNCStep extends AbstractStep{
 			position.offset(absoluteOffset);
 			int workArea = DBHandler.getInstance().getUserFrameBuffer().get(3).getNumber();	
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
-			float zSafePlane = clamping.getHeight() + program.getLoadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
+			float zSafePlane = clamping.getHeight() + program.getUnloadstacker().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
 			float clampHeight = clamping.getHeight()  + clamping.getRelativePosition().getZ();
 			//77
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getLoadCNC().getSmooth(),
-					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getLoadCNC().getWorkPiece(),
+					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadstacker().getWorkPiece(),
 					clampHeight, approachType, zSafePlane);	
 			//------------------------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);

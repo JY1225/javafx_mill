@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
@@ -73,7 +71,6 @@ public class Workpiecehandler {
 	            workPiece = new WorkPiece(WorkPiece.Type.getTypeById(typeId), length, width, height, diameter, material, weight);
 	            workPiece.setId(workPieceId);
 	        }
-	        stmt.close();
 	        return workPiece;
 	    }
 	

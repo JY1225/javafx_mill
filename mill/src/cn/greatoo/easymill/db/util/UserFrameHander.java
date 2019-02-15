@@ -100,7 +100,6 @@ public class UserFrameHander {
             userFrame = new UserFrame(results.getString("NAME"), results.getInt("NUMBER"), results.getFloat("ZSAFEDISTANCE"), location);
             userFrame.setId(results.getInt("ID"));
         }
-        stmt.close();
         DBHandler.getInstance().getUserFrameBuffer().put(number, userFrame);
         return userFrame;
     }
@@ -120,7 +119,6 @@ public class UserFrameHander {
             uf = new UserFrame(name, number, ZSAFEDISTANCE, location);
             uf.setId(id);
         }
-        stmt.close();
         return uf;
     }
 }

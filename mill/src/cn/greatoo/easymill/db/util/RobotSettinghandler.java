@@ -64,7 +64,6 @@ public class RobotSettinghandler {
 			robotSetting = new RobotSetting(ReleaseBeforeMachine);
 			robotSetting.setId(robotSettingId);
 		}
-		stmt.close();
 		return robotSetting;
 	}
 

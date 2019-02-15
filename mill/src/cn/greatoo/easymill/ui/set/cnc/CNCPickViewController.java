@@ -23,38 +23,40 @@ public class CNCPickViewController {
 	private TextField ZField;
 	@FXML
 	private Button resetBt;
-	public static Smooth unloadCNCSmooth = new Smooth();
 	
 	public void init() {
+		refresh();
 		String programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
-			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
-			unloadCNCSmooth = program.getUnloadCNC().getSmooth();
-			XField.setText(String.valueOf(unloadCNCSmooth.getX()));
-			YField.setText(String.valueOf(unloadCNCSmooth.getY()));
-			ZField.setText(String.valueOf(unloadCNCSmooth.getZ()));
+			XField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getSmooth().getX()));
+			YField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getSmooth().getY()));
+			ZField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getSmooth().getZ()));
 		}
 		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	unloadCNCSmooth.setX(Float.parseFloat(XField.getText()));  
+	        	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getSmooth().setX(Float.parseFloat(XField.getText()));  
 	        }
 		});	
 		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	unloadCNCSmooth.setY(Float.parseFloat(YField.getText()));  
+	        	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getSmooth().setY(Float.parseFloat(YField.getText()));  
 	        }
 		});	
 		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Boolean> arg0,Boolean arg1, Boolean arg2) {
-	        	unloadCNCSmooth.setZ(Float.parseFloat(ZField.getText()));  
+	        	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getSmooth().setZ(Float.parseFloat(ZField.getText()));  
 	        }
-		});	
-		
+		});			
 	}
 
+	private void refresh() {
+		XField.setText("");
+		YField.setText("");
+		ZField.setText("");
+	}
 	@FXML
 	public void resetBtAction(ActionEvent event) {
 		

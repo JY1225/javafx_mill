@@ -27,6 +27,8 @@ public class PickConfigMenuViewController extends Controller{
 	FXMLLoader fxmlLoader;
 	private Parent placeParent;
 	private GridPane gridPane;
+	private PlaceViewController clampViewController;
+	
 	public void init(GridPane gridPane) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
@@ -52,15 +54,17 @@ public class PickConfigMenuViewController extends Controller{
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				placeParent = fxmlLoader.load();
-				PlaceViewController clampViewController = fxmlLoader.getController();
+				clampViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				clampViewController.init();
 				gridPane.add(placeParent, 1, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
+			clampViewController.init();
 			setDisVisible(2, 1, gridPane, placeParent);		
+		}
 	}
 	@FXML
 	public void openPutV(MouseEvent event) {

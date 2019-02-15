@@ -17,7 +17,7 @@ import javafx.application.Platform;
 
 public class PickFromCNCStep extends AbstractStep{
 
-	@SuppressWarnings({ "static-access", "unused" })
+	@SuppressWarnings({ "unused" })
 	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
@@ -25,7 +25,7 @@ public class PickFromCNCStep extends AbstractStep{
 			//75
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceGripperSet(program.getUnloadCNC().getGripperHead().getName(), 
-					program.getLoadCNC().getGripper(), program.getUnloadCNC().getGripper(), serviceType,
+					program.getUnloadCNC().getGripper(), program.getUnloadCNC().getGripper(), serviceType,
 					program.getUnloadCNC().getGripperHead().isGripperInner());
 			boolean freeAfterService = false;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;

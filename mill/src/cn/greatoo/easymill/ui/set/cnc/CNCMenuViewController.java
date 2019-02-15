@@ -43,6 +43,11 @@ public class CNCMenuViewController extends Controller {
 	private Parent CNCPutParent;
 	private Parent CNCPickParent;
 	private Parent CNCFinishedWPParent;
+	private CNCPutViewController cNCPutViewController;
+	private CNCPickViewController cNCPickViewController;
+	private CNCFinishedWPViewController cNCFinishedWPViewController;
+	private CNCDeviceViewController cNCDeviceViewController;
+	
 	public void init(GridPane gridPane) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
@@ -74,15 +79,17 @@ public class CNCMenuViewController extends Controller {
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						CNCPutParent = fxmlLoader.load();
-						CNCPutViewController cNCPutViewController = fxmlLoader.getController();
+						cNCPutViewController = fxmlLoader.getController();
 						// 中写的初始化方法
 						cNCPutViewController.init();
 						gridPane.add(CNCPutParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
-					setDisVisible(2, 1, gridPane,CNCPutParent);		
+				} else {
+					cNCPutViewController.init();
+					setDisVisible(2, 1, gridPane,CNCPutParent);	
+				}
 			}
 		});
 		addMenuItem(prosessVBox,pick, 2, PICK_ICON, "下料", true, new EventHandler<ActionEvent>() {
@@ -97,15 +104,17 @@ public class CNCMenuViewController extends Controller {
 						fxmlLoader.setLocation(location);
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						CNCPickParent = fxmlLoader.load();
-						CNCPickViewController cNCPickViewController = fxmlLoader.getController();
+						cNCPickViewController = fxmlLoader.getController();
 						// 中写的初始化方法
 						cNCPickViewController.init();
 						gridPane.add(CNCPickParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
-					setDisVisible(2, 1, gridPane,CNCPickParent);		
+				} else {
+					cNCPickViewController.init();
+					setDisVisible(2, 1, gridPane,CNCPickParent);	
+				}
 			}
 		});
 		addMenuItem(prosessVBox,aftProcess, 3, AFT_ICON, "加工后", true, new EventHandler<ActionEvent>() {
@@ -121,15 +130,17 @@ public class CNCMenuViewController extends Controller {
 						fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 						
 						CNCFinishedWPParent = fxmlLoader.load();
-						CNCFinishedWPViewController cNCFinishedWPViewController = fxmlLoader.getController();
+						cNCFinishedWPViewController = fxmlLoader.getController();
 						// 中写的初始化方法
 						cNCFinishedWPViewController.init();
 						gridPane.add(CNCFinishedWPParent, 1, 2);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				} else
+				} else {
+					cNCFinishedWPViewController.init();
 					setDisVisible(2, 1, gridPane,CNCFinishedWPParent);	
+				}
 			}
 		});	
 	}
@@ -143,15 +154,17 @@ public class CNCMenuViewController extends Controller {
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				CNCDeviceParent = fxmlLoader.load();
-				CNCDeviceViewController cNCDeviceViewController = fxmlLoader.getController();
+				cNCDeviceViewController = fxmlLoader.getController();
 				// 中写的初始化方法
 				cNCDeviceViewController.init();
 				gridPane.add(CNCDeviceParent, 1, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else
-			setDisVisible(2, 1, gridPane,CNCDeviceParent);		
+		} else {
+			cNCDeviceViewController.init();
+			setDisVisible(2, 1, gridPane,CNCDeviceParent);	
+		}
 	}
 
 	@FXML

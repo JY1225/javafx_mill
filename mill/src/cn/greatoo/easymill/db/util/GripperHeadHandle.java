@@ -24,7 +24,6 @@ public class GripperHeadHandle {
 		return gripperHead;
 	}
 
-	@SuppressWarnings("static-access")
 	public static int saveGripperHead(GripperHead gripperHead) throws SQLException {
 		try {
 		if (gripperHead.getId() <= 0) {
