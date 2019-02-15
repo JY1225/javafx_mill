@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.entity.Coordinates;
@@ -32,7 +33,7 @@ public class CoordinateViewController extends Controller {
 	@FXML
 	private Button addBt;
 	@FXML
-	private ComboBox comboBox;
+	private ComboBox<String> comboBox;
 	@FXML
 	private TextField nameText;
 	@FXML
@@ -56,12 +57,8 @@ public class CoordinateViewController extends Controller {
 
 	private boolean editMode;
 	List<Button> bts;
-	UserFrame userFrame =new UserFrame();
+	private UserFrame userFrame =new UserFrame("", 0, 0, new Coordinates());
 	private UserFrame selectedUserFrame;
-//	public static UserFrame stackerFrame =new UserFrame();
-//	public static UserFrame cncFrame;
-	UserFrame cncrFrame =new UserFrame();
-	@SuppressWarnings("unchecked")
 	
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -70,8 +67,10 @@ public class CoordinateViewController extends Controller {
 		
 		editMode = false;
 		contentGridPane.setVisible(false);
-		comboBox.getItems().add("CNC MACHINE");
-		comboBox.getItems().add("STACKER");
+		Set<UserFrame> set = UserFrameHander.getAllUserFrames();
+		for(UserFrame uf:set) {
+			comboBox.getItems().add(uf.getName());
+		}
 		
 		if(comboBox.getValue() != null) {
 			editBt.setDisable(false);
@@ -83,7 +82,6 @@ public class CoordinateViewController extends Controller {
 	public void editBtAction(ActionEvent event) {
 		if (editMode) {		
 			reset();
-			this.userFrame = null;
 			isDisSelect(bts, editBt);			
 			contentGridPane.setVisible(false);
 			addBt.setDisable(false);
@@ -104,7 +102,6 @@ public class CoordinateViewController extends Controller {
 			contentGridPane.setVisible(true);
 			addBt.setDisable(true);
 			comboBox.setDisable(true);
-			//saveBt.setDisable(false);
 			editMode = true;
 		}
 	}
@@ -116,7 +113,6 @@ public class CoordinateViewController extends Controller {
 			contentGridPane.setVisible(true);
 			editBt.setDisable(true);
 			comboBox.setDisable(true);
-			//saveBt.setDisable(true);
 			editMode = true;
 		} else {
 			isDisSelect(bts, addBt);
@@ -149,11 +145,12 @@ public class CoordinateViewController extends Controller {
 		location.setW(Float.parseFloat(WText.getText()));
 		location.setP(Float.parseFloat(PText.getText()));
 		location.setR(Float.parseFloat(RText.getText()));
+		location.setId(userFrame.getLocation().getId());
 		validate();
 		selectedUserFrame =new UserFrame(name, Nr, safeDistance, location); 
 		selectedUserFrame.setId(userFrame.getId());	
 			try {
-				if (userFrame!=null) {
+				if (userFrame!=null && userFrame.getId() > 0) {
 					UserFrameHander.updateuserframe(selectedUserFrame);
 				}
 				else {
@@ -161,29 +158,7 @@ public class CoordinateViewController extends Controller {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				}				
-//			if(name.equals("STACKER")) {
-//			stackerFrame =new UserFrame(name, Nr, safeDistance, location); 
-//			stackerFrame.setId(userFrame.getId());
-////			stackerFrame.setName(name);
-////			stackerFrame.setNumber(Integer.parseInt(NrText.getText()));
-////			stackerFrame.setzSafeDistance(Float.parseFloat(ZSafeText.getText()));			
-////			stackerFrame.setLocation(location);
-//			try {
-//				UserFrameHander.updateuserframe(stackerFrame);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//				}	
-//			}
-//			
-//			else {
-//			cncrFrame = new UserFrame(name, Nr, safeDistance, location);
-//			try {
-//				UserFrameHander.updateuserframe(cncrFrame);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			 	}
-//			}	
+			}				
 	}
 	@Override
 	public void setMessege(String mess) {

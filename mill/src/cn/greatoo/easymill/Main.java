@@ -1,18 +1,10 @@
 package cn.greatoo.easymill;
 
-import java.sql.SQLException;
-import java.util.Properties;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cn.greatoo.easymill.db.util.ClampingHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.db.util.Gripperhandler;
-import cn.greatoo.easymill.db.util.Programhandler;
-import cn.greatoo.easymill.db.util.Stackerhandler;
-import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.util.CommonUtil;
 import cn.greatoo.easymill.util.ExceptionUtil;
 import javafx.application.Application;
