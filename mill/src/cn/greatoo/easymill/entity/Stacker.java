@@ -67,7 +67,7 @@ public class Stacker {
 			float horizontalPadding, float verticalPaddingTop, float verticalPaddingBottom,
 			float horizontalHoleDistance, float verticalHoleDistance, float interferenceDistance,
 			float overflowPercentage, float horizontalR, float tiltedR, float maxOverflow, float maxUnderflow,
-			float minOverlap) {
+			float minOverlap,float studHeight_Stacker) {
 		this.horizontalPadding = horizontalPadding;
 		this.verticalPaddingBottom = verticalPaddingBottom;
 		this.verticalPaddingTop = verticalPaddingTop;
@@ -84,6 +84,7 @@ public class Stacker {
 		this.minOverlap = minOverlap;
 		this.tiltedR = tiltedR;
 		this.horizontalR = horizontalR;
+		this.studHeight_Stacker = studHeight_Stacker;
 
 	}
 

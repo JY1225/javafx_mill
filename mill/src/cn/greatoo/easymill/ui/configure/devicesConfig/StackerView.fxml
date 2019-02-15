@@ -16,8 +16,8 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="74.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="115.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="275.0" minWidth="4.0" prefWidth="61.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="54.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="124.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="94.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="94.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="62.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="107.0" />
         </columnConstraints>
@@ -51,85 +51,7 @@
                </font>
             </Label>
             <TextField fx:id="hField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="288.0" spacing="20.0" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="12">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="125.0">
-                     <children>
-                        <Label prefHeight="37.0" prefWidth="30.0" text="X">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="tXField" prefHeight="33.0" prefWidth="70.0" styleClass="form-full-textfield" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="136.0">
-                     <children>
-                        <Label prefHeight="37.0" prefWidth="30.0" text="Y">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="tYField" prefHeight="33.0" prefWidth="70.0" styleClass="form-full-textfield" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="126.0">
-                     <children>
-                        <Label prefHeight="37.0" prefWidth="30.0" text="Z">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="tZField" prefHeight="33.0" prefWidth="70.0" styleClass="form-full-textfield" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="288.0" spacing="20.0" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="13">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="125.0">
-                     <children>
-                        <Label prefHeight="37.0" prefWidth="30.0" text="X">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="fXField" prefHeight="33.0" prefWidth="70.0" styleClass="form-full-textfield" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="136.0">
-                     <children>
-                        <Label prefHeight="37.0" prefWidth="30.0" text="Y">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="fYField" prefHeight="33.0" prefWidth="70.0" styleClass="form-full-textfield" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="126.0">
-                     <children>
-                        <Label prefHeight="37.0" prefWidth="30.0" text="Z">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="fZField" prefHeight="33.0" prefWidth="70.0" styleClass="form-full-textfield" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="117.0" prefWidth="146.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="14">
-               <children>
-                  <Button fx:id="saveBt" mnemonicParsing="false" onAction="#saveBtAction" prefHeight="35.0" prefWidth="85.0" styleClass="form-button" text="保存" textFill="WHITE">
-                     <graphic>
-                        <SVGPath content="M 5.40625 0 L 5.40625 7.25 L 0 7.25 L 7.1875 14.40625 L 14.3125 7.25 L 9 7.25 L 9 0 L 5.40625 0 z M 7.1875 14.40625 L 0 14.40625 L 0 18 L 14.3125 18 L 14.3125 14.40625 L 7.1875 14.40625 z" fill="WHITE" />
-                     </graphic>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-               </children>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -148,7 +70,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="vField" prefHeight="35.0" styleClass="form-full-textfield"  GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <TextField fx:id="vField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="5" GridPane.rowIndex="3" />
             <Label prefHeight="38.0" prefWidth="134.0" text="孔" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="15.0" />
@@ -160,24 +82,24 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="studField" prefHeight="35.0" styleClass="form-full-textfield"  GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <TextField fx:id="studField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="5" GridPane.rowIndex="4" />
             <Label prefHeight="38.0" prefWidth="134.0" text="水平间距" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
             <TextField fx:id="hDistanceField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <TextField fx:id="vDistanceField" prefHeight="35.0"  GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <TextField fx:id="topField" prefHeight="35.0"  GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <TextField fx:id="safeField" prefHeight="35.0"  GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <TextField fx:id="r0Field" prefHeight="35.0"  GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <TextField fx:id="vDistanceField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <TextField fx:id="topField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <TextField fx:id="safeField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <TextField fx:id="r0Field" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
             <TextField fx:id="overMaxField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-            <TextField fx:id="studHight_StakckerField" prefHeight="35.0"  GridPane.columnIndex="2" GridPane.rowIndex="11" />
-            <TextField fx:id="paddingField" prefHeight="35.0"  GridPane.columnIndex="5" GridPane.rowIndex="6" />
+            <TextField fx:id="studHight_StakckerField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <TextField fx:id="paddingField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="6" />
             <TextField fx:id="buttomField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
-            <TextField fx:id="overPersentField" prefHeight="35.0"  GridPane.columnIndex="5" GridPane.rowIndex="8" />
-            <TextField fx:id="r45Field" prefHeight="35.0"  GridPane.columnIndex="5" GridPane.rowIndex="9" />
-            <TextField fx:id="maxUnderField" prefHeight="35.0"  GridPane.columnIndex="5" GridPane.rowIndex="10" />
+            <TextField fx:id="overPersentField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+            <TextField fx:id="r45Field" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+            <TextField fx:id="maxUnderField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="10" />
             <TextField fx:id="overMinField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="11" />
             <Label text="竖直间距" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
@@ -214,16 +136,6 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label text="Smooth to" GridPane.columnIndex="1" GridPane.rowIndex="12">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <Label text="Smooth from" GridPane.columnIndex="1" GridPane.rowIndex="13">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
             <Label text="底部填充" GridPane.columnIndex="4" GridPane.rowIndex="7">
                <font>
                   <Font size="15.0" />
@@ -249,6 +161,14 @@
                   <Font size="15.0" />
                </font>
             </Label>
+            <Button fx:id="saveBt" mnemonicParsing="false" onAction="#saveBtAction" prefHeight="35.0" prefWidth="98.0" styleClass="form-button" text="保存" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="13">
+               <graphic>
+                  <SVGPath content="M 5.40625 0 L 5.40625 7.25 L 0 7.25 L 7.1875 14.40625 L 14.3125 7.25 L 9 7.25 L 9 0 L 5.40625 0 z M 7.1875 14.40625 L 0 14.40625 L 0 18 L 14.3125 18 L 14.3125 14.40625 L 7.1875 14.40625 z" fill="WHITE" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </GridPane>
    </children>

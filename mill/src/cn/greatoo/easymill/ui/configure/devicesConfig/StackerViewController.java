@@ -26,18 +26,18 @@ public class StackerViewController {
 	private TextField nameField;
 	@FXML
 	private TextField hField;
-	@FXML
-	private TextField tXField;
-	@FXML
-	private TextField tYField;
-	@FXML
-	private TextField tZField;
-	@FXML
-	private TextField fXField;
-	@FXML
-	private TextField fYField;
-	@FXML
-	private TextField fZField;
+//	@FXML
+//	private TextField tXField;
+//	@FXML
+//	private TextField tYField;
+//	@FXML
+//	private TextField tZField;
+//	@FXML
+//	private TextField fXField;
+//	@FXML
+//	private TextField fYField;
+//	@FXML
+//	private TextField fZField;
 	@FXML
 	private Button saveBt;
 	@FXML
@@ -80,7 +80,9 @@ public class StackerViewController {
 	@SuppressWarnings("unchecked")
 	public void init() {
 		coordinateCombox.getItems().add("STACKER");
-		if (DBHandler.getInstance().getStatckerBuffer().get(0) != null) {
+		coordinateCombox.getSelectionModel().select(0);
+		nameField.setText("Mill");
+		if (DBHandler.getInstance().getStatckerBuffer().size()>0 && DBHandler.getInstance().getStatckerBuffer().get(0)!= null) {
 			stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
 			hField.setText(String.valueOf(stacker.getHorizontalHoleAmount()));
 			vField.setText(String.valueOf(stacker.getVerticalHoleAmount()));
@@ -99,16 +101,16 @@ public class StackerViewController {
 			maxUnderField.setText(String.valueOf(stacker.getMaxUnderflow()));
 			studHight_StakckerField.setText(String.valueOf(stacker.getStudHeight_Stacker()));
 			overMinField.setText(String.valueOf(stacker.getMinOverlap()));
-			if (stacker.getSmoothto() != null) {
-				tXField.setText(String.valueOf(stacker.getSmoothto().getX()));
-				tYField.setText(String.valueOf(stacker.getSmoothto().getY()));
-				tZField.setText(String.valueOf(stacker.getSmoothto().getZ()));
-			}
-			if (stacker.getSmoothfrom() != null) {
-				fXField.setText(String.valueOf(stacker.getSmoothfrom().getX()));
-				fYField.setText(String.valueOf(stacker.getSmoothfrom().getY()));
-				fZField.setText(String.valueOf(stacker.getSmoothfrom().getZ()));
-			}
+//			if (DBHandler.getInstance().getSmoothBuffer().size()>0) {
+//				 Smooth Smoothto =DBHandler.getInstance().getSmoothBuffer().get(0);	
+//				 Smooth Smoothfrom =DBHandler.getInstance().getSmoothBuffer().get(1);	
+//					tXField.setText(String.valueOf(Smoothto.getX()));
+//					tYField.setText(String.valueOf(Smoothto.getY()));
+//					tZField.setText(String.valueOf(Smoothto.getZ()));
+//					fXField.setText(String.valueOf(Smoothfrom.getX()));
+//					fYField.setText(String.valueOf(Smoothfrom.getY()));
+//					fZField.setText(String.valueOf(Smoothfrom.getZ()));
+//			}
 		}
 	}
 
@@ -132,20 +134,23 @@ public class StackerViewController {
 		stacker.setStudHeight_Stacker(Float.parseFloat(studHight_StakckerField.getText()));
 		stacker.setMinOverlap(Float.parseFloat(overMinField.getText()));
 		
-		
-		
-		if (stacker.getSmoothto() != null) {
-			Smooth smoothto = new Smooth(Float.parseFloat(tXField.getText()), Float.parseFloat(tYField.getText()), Float.parseFloat(tZField.getText()));
-			smoothto.setId(stacker.getSmoothto().getId());
-			stacker.setSmoothto(smoothto);
-		}
-		if (stacker.getSmoothfrom() != null) {
-			Smooth smoothfrom = new Smooth(Float.parseFloat(fXField.getText()), Float.parseFloat(fYField.getText()), Float.parseFloat(fZField.getText()));
-			smoothfrom.setId(stacker.getSmoothfrom().getId());
-			stacker.setSmoothfrom(smoothfrom);
-		}
+//		if (!tXField.getText().equals("") && !tYField.getText().equals("") && !tZField.getText().equals("")) {
+//			Smooth smoothto = new Smooth(Float.parseFloat(tXField.getText()), Float.parseFloat(tYField.getText()), Float.parseFloat(tZField.getText()));
+//			//smoothto.setId(stacker.getSmoothto().getId());
+//			stacker.setSmoothto(smoothto);
+//		}
+//		if (!fXField.getText().equals("") && !fYField.getText().equals("") && !fZField.getText().equals("")) {
+//			Smooth smoothfrom = new Smooth(Float.parseFloat(fXField.getText()), Float.parseFloat(fYField.getText()), Float.parseFloat(fZField.getText()));
+//			//smoothfrom.setId(stacker.getSmoothfrom().getId());
+//			stacker.setSmoothfrom(smoothfrom);
+//		}
 		//validate();
-		DBHandler.getInstance().getStatckerBuffer().set(0, stacker);
+//		if (DBHandler.getInstance().getStatckerBuffer().size()>0)
+//		{
+//			DBHandler.getInstance().getStatckerBuffer().set(0, stacker);
+//		}
+		
+		
 		try {
 			Stackerhandler.SaveStacker(stacker);
 		} catch (SQLException e) {
@@ -159,12 +164,12 @@ public class StackerViewController {
 
 	public void validate() {
 		if (!nameField.getText().equals("") && !hField.getText().equals("") && (Integer.valueOf(hField.getText()) > 0)
-				&& !tXField.getText().equals("") && (Float.parseFloat(tXField.getText()) > 0)
-				&& !tYField.getText().equals("") && (Float.parseFloat(tYField.getText()) > 0)
-				&& !tZField.getText().equals("") && (Float.parseFloat(tZField.getText()) > 0)
-				&& !fXField.getText().equals("") && (Float.parseFloat(fXField.getText()) > 0)
-				&& !fYField.getText().equals("") && (Float.parseFloat(fYField.getText()) > 0)
-				&& !fZField.getText().equals("") && (Float.parseFloat(fZField.getText()) > 0)
+//				&& !tXField.getText().equals("") && (Float.parseFloat(tXField.getText()) > 0)
+//				&& !tYField.getText().equals("") && (Float.parseFloat(tYField.getText()) > 0)
+//				&& !tZField.getText().equals("") && (Float.parseFloat(tZField.getText()) > 0)
+//				&& !fXField.getText().equals("") && (Float.parseFloat(fXField.getText()) > 0)
+//				&& !fYField.getText().equals("") && (Float.parseFloat(fYField.getText()) > 0)
+//				&& !fZField.getText().equals("") && (Float.parseFloat(fZField.getText()) > 0)
 				&& !vField.getText().equals("") && (Integer.parseInt(vField.getText()) > 0)
 				&& !holdField.getText().equals("") && (Float.parseFloat(holdField.getText()) > 0)
 				&& !studField.getText().equals("") && (Float.parseFloat(studField.getText()) > 0)
@@ -185,10 +190,11 @@ public class StackerViewController {
 		// && (stacker.getOrientation() > 0)&& (stacker.getLayers() > 0)&&
 		// (stacker.getAmount() > 0) && (stacker.getStudHeight_Workpiece()> 0)
 		) {
-			saveBt.setDisable(false);
+			//saveBt.setDisable(false);
 		} else {
-			// saveBt.setDisable(true);
+			 //saveBt.setDisable(true);
 			JOptionPane.showMessageDialog(null, "数据不全，请填写完整数据后保存", "Database Error", JOptionPane.WARNING_MESSAGE);
+			
 		}
 	}
 

@@ -52,9 +52,18 @@ public class DBHandler {
 	private List<Gripper> griperBuffer = new ArrayList<>();
 	private List<Stacker> statckerBuffer = new ArrayList<>();
 	private List<Clamping> clampBuffer = new ArrayList<>();
+	private List<Smooth> smoothBuffer = new ArrayList<>();
 	
 	public String getProgramName() {
 		return programName;
+	}
+
+	public List<Smooth> getSmoothBuffer() {
+		return smoothBuffer;
+	}
+
+	public void setSmoothBuffer(List<Smooth> smoothBuffer) {
+		this.smoothBuffer = smoothBuffer;
 	}
 
 	public void setProgramName(String programName) {
@@ -85,7 +94,7 @@ public class DBHandler {
 		this.griperBuffer = griperBuffer;
 	}
 
-	public List<Stacker> getStatckerBuffer() {
+	public List<Stacker> getStatckerBuffer() {		
 		return statckerBuffer;
 	}
 

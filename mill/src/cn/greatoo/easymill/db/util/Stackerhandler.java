@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,8 +27,8 @@ public class Stackerhandler {
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO STACKER (HORIZONTALHOLEAMOUNT, VERTICALHOLEAMOUNT, "
 				+ "HOLEDIAMETER, STUDDIAMETER, HORIZONTALPADDING, "
 				+ "VERTICALPADDINGTOP, VERTICALPADDINGBOTTOM, HORIZONTALHOLEDISTANCE, INTERFERENCEDISTANCE, OVERFLOWPERCENTAGE,"
-				+ " HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAX_UNDERFLOW, VERTICALHOLEDISTANCE"
-				+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				+ " HORIZONTAL_R, TILTED_R, MAX_OVERFLOW, MIN_OVERLAP, MAX_UNDERFLOW, VERTICALHOLEDISTANCE,STUDHEIGHT_STACKER"
+				+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
 		stmt.setFloat(3, stacker.getHoleDiameter());
@@ -35,39 +36,49 @@ public class Stackerhandler {
 		stmt.setFloat(5, stacker.getHorizontalPadding());
 		stmt.setFloat(6, stacker.getVerticalPaddingTop());
 		stmt.setFloat(7, stacker.getVerticalPaddingBottom());
+		
 		stmt.setFloat(8, stacker.getHorizontalHoleDistance());
         stmt.setFloat(9, stacker.getInterferenceDistance());
 		stmt.setFloat(10, stacker.getOverflowPercentage());
 		stmt.setFloat(11, stacker.getHorizontalR());
 		stmt.setFloat(12, stacker.getTiltedR());
+		
 		stmt.setFloat(13, stacker.getMaxOverflow());
 		stmt.setFloat(14, stacker.getMinOverlap());
 		stmt.setFloat(15, stacker.getMaxUnderflow());
-		stmt.setFloat(16, stacker.getVerticalHoleDistance());	
+		stmt.setFloat(16, stacker.getVerticalHoleDistance());
+		stmt.setFloat(17, stacker.getStudHeight_Stacker());
+		
 		stmt.executeUpdate();
 		ResultSet resultSet = stmt.getGeneratedKeys();
 		if (resultSet.next()) {
 			stacker.setId(resultSet.getInt(1));
-		}
+			}
 		}
 		else {
 			updateStacker(stacker);			
 		}
-		if (stacker.getSmoothto() != null) {
-			SmoothHandler.saveSmooth(stacker.getSmoothto());
-		}
-		if (stacker.getSmoothfrom() != null) {
-			SmoothHandler.saveSmooth(stacker.getSmoothfrom());
-		}
+//		if(stacker.getSmoothto() != null && stacker.getSmoothfrom() != null) {
+//			SmoothHandler.saveSmooth(stacker.getSmoothto());	
+//			SmoothHandler.saveSmooth(stacker.getSmoothfrom());
+//		}
+//		if (stacker.getSmoothto() != null) {
+//			
+//			SmoothHandler.saveSmooth(stacker.getSmoothto());
+//			
+//			
+//		}
+//		if (stacker.getSmoothfrom() != null) {
+//			SmoothHandler.saveSmooth(stacker.getSmoothfrom());
+//		}
 
 	}
-	
 	
 	public static void updateStacker(Stacker stacker) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement("UPDATE STACKER SET HORIZONTALHOLEAMOUNT = ?, VERTICALHOLEAMOUNT = ?, HOLEDIAMETER = ?, " +
 				"STUDDIAMETER = ?, HORIZONTALPADDING = ?, VERTICALPADDINGTOP = ?, VERTICALPADDINGBOTTOM = ?, HORIZONTALHOLEDISTANCE = ?, VERTICALHOLEDISTANCE = ?,"
 				+ " INTERFERENCEDISTANCE = ?, " +
-				" OVERFLOWPERCENTAGE = ?, HORIZONTAL_R = ?, TILTED_R = ?, MAX_OVERFLOW = ?, MIN_OVERLAP = ?, MAX_UNDERFLOW = ?"
+				" OVERFLOWPERCENTAGE = ?, HORIZONTAL_R = ?, TILTED_R = ?, MAX_OVERFLOW = ?, MIN_OVERLAP = ?, MAX_UNDERFLOW = ?, STUDHEIGHT_STACKER = ?"
 				+ "WHERE ID = ?");
 		stmt.setInt(1, stacker.getHorizontalHoleAmount());
 		stmt.setInt(2, stacker.getVerticalHoleAmount());
@@ -84,17 +95,10 @@ public class Stackerhandler {
 		stmt.setFloat(13, stacker.getTiltedR());
 		stmt.setFloat(14, stacker.getMaxOverflow());
 		stmt.setFloat(15, stacker.getMinOverlap());
-		stmt.setFloat(16, stacker.getMaxUnderflow());				
-		stmt.setInt(17, stacker.getId());
-		stmt.executeUpdate();
-
-		if(stacker.getSmoothto() != null) {
-			SmoothHandler.saveSmooth(stacker.getSmoothto());
-		}
-		if(stacker.getSmoothfrom() != null) {
-			SmoothHandler.saveSmooth(stacker.getSmoothfrom());
-		}
-
+		stmt.setFloat(16, stacker.getMaxUnderflow());	
+		stmt.setFloat(17, stacker.getStudHeight_Stacker());
+		stmt.setInt(18, stacker.getId());
+		stmt.executeUpdate();			
 	}
 	
 	private Stacker getStacker(final int id, final String name) throws SQLException {
@@ -118,12 +122,12 @@ public class Stackerhandler {
 			float tiltedR = results.getFloat("TILTED_R");
 			float maxOverflow = results.getFloat("MAX_OVERFLOW");
 			float maxUnderflow = results.getFloat("MAX_UNDERFLOW");
-			float minOverlap = results.getFloat("MIN_OVERLAP");			
-
+			float minOverlap = results.getFloat("MIN_OVERLAP");
+			float studHeight_Stacker = results.getFloat("studHeight_Stacker");	
 			
 			stacker = new Stacker(horizontalHoleAmount, verticalHoleAmount, holeDiameter, studDiameter, horizontalPadding, verticalPaddingTop, 
 					verticalPaddingBottom, horizontalHoleDistance, verticalHoleDistance, interferenceDistance, overflowPercentage, horizontalR,
-					tiltedR, maxOverflow, maxUnderflow, minOverlap);
+					tiltedR, maxOverflow, maxUnderflow, minOverlap,studHeight_Stacker);
 			stacker.setId(id);
 		}
 		return stacker;
@@ -149,14 +153,17 @@ public class Stackerhandler {
 			float tiltedR = results.getFloat("TILTED_R");
 			float maxOverflow = results.getFloat("MAX_OVERFLOW");
 			float maxUnderflow = results.getFloat("MAX_UNDERFLOW");
-			float minOverlap = results.getFloat("MIN_OVERLAP");			
+			float minOverlap = results.getFloat("MIN_OVERLAP");	
+			float studHeight_Stacker = results.getFloat("studHeight_Stacker");		
 
 			
 			stacker = new Stacker(horizontalHoleAmount, verticalHoleAmount, holeDiameter, studDiameter, horizontalPadding, verticalPaddingTop, 
 					verticalPaddingBottom, horizontalHoleDistance, verticalHoleDistance, interferenceDistance, overflowPercentage, horizontalR,
-					tiltedR, maxOverflow, maxUnderflow, minOverlap);
+					tiltedR, maxOverflow, maxUnderflow, minOverlap,	studHeight_Stacker);
 			stacker.setId(results.getInt("ID"));
-			DBHandler.getInstance().getStatckerBuffer().add(stacker);
+			List<Smooth> smoothBuffer1 = new ArrayList<>();
+			DBHandler.getInstance().getSmoothBuffer().addAll(smoothBuffer1);
+			DBHandler.getInstance().getStatckerBuffer().add(stacker);			
 		}
 		return stacker;
 	}
