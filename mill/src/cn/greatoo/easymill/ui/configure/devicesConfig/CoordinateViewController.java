@@ -108,6 +108,7 @@ public class CoordinateViewController extends Controller {
 	
 	@FXML
 	public void addBtAction(ActionEvent event) {	
+		userFrame =new UserFrame("", 0, 0, new Coordinates());
 		if (!editMode) {	
 			isClicked(bts, addBt);			
 			contentGridPane.setVisible(true);
