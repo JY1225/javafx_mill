@@ -40,28 +40,6 @@ public class UserFrameHander {
 		conn.setAutoCommit(true);
 	}
 	
-//	public static void updateUserFrame(final UserFrame userFrame) throws SQLException {
-//		conn.setAutoCommit(false);
-//		try{
-//			PreparedStatement stmt = conn.prepareStatement("UPDATE USERFRAME SET NAME = ?, NUMBER = ?, ZSAFEDISTANCE = ? WHERE ID = ?");
-//			String name =userFrame.getName();
-//			stmt.setString(1,name);
-//			int number = userFrame.getNumber();
-//			stmt.setInt(2, number);
-//			float zSafeDistance =userFrame.getzSafeDistance();
-//			stmt.setFloat(3, zSafeDistance);
-//			int locationId = userFrame.getLocation().getId();
-//			stmt.setInt(4, locationId);
-//			stmt.executeUpdate();
-//			CoordinatesHandler.saveCoordinates(userFrame.getLocation());
-//		conn.commit();
-//		conn.setAutoCommit(true);
-//		}catch (SQLException ex) {
-//			LOGGER.log(Level.ERROR, "{}", ex);
-//		}
-//	
-//	}
-	
 	public static void updateuserframe(final UserFrame userFrame) throws SQLException {
 		conn.setAutoCommit(false);
 		PreparedStatement stmt = conn.prepareStatement("UPDATE USERFRAME SET NAME = ?, NUMBER = ?, ZSAFEDISTANCE = ? WHERE ID = ?");
@@ -75,14 +53,20 @@ public class UserFrameHander {
 		conn.setAutoCommit(true);
 	}
 	
-    public static Set<UserFrame> getAllUserFrames() throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM USERFRAME");
+    public static Set<UserFrame> getAllUserFrames(){
+        PreparedStatement stmt;
+        Set<UserFrame> userFrames = null;
+		try {
+			stmt = conn.prepareStatement("SELECT * FROM USERFRAME");		
         ResultSet results = stmt.executeQuery();
-        Set<UserFrame> userFrames = new HashSet<UserFrame>();
+        userFrames = new HashSet<UserFrame>();
         while (results.next()) {
             int num = results.getInt("NUMBER");
             userFrames.add(getUserFrameByName(num));
         }
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
         return userFrames;
     } 
     
