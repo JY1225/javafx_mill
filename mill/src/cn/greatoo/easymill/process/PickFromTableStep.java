@@ -4,6 +4,7 @@ import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
+import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
@@ -20,16 +21,15 @@ import javafx.application.Platform;
  */
 public class PickFromTableStep extends AbstractStep{
 
-	@SuppressWarnings("static-access")
 	public void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {		
 		try {	
 			WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
 			Clamping clamping =DBHandler.getInstance().getClampBuffer().get(0);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;			
-			//75
+			//75 A爪必选 B爪可选
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceGripperSet(program.getUnloadstacker().getGripperHead().getName(), program.getUnloadstacker().getGripper(),
-					program.getUnloadCNC().getGripper(), serviceType, program.getUnloadstacker().getGripperHead().isGripperInner());
+					program.getUnloadstacker().getGripper(), serviceType, program.getUnloadstacker().getGripperHead().isGripperInner());
 			boolean freeAfterService = false;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;
 			if(teached) {
@@ -48,8 +48,7 @@ public class PickFromTableStep extends AbstractStep{
 			workPiecePositions.initStackingPositions(program.getUnloadstacker().getWorkPiece());
 			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);//(75.0, 105.0, 0.0, 0.0, 0.0, 90.0)			
 			Coordinates position = new Coordinates(originalPosition);			
-			if (getUnloadStackerRelativeTeachedOffset() == null) {///?????
-				Coordinates c = getUnloadStackerRelativeTeachedOffset();
+			if (getUnloadStackerRelativeTeachedOffset() == null) {
 				initSafeTeachedOffset(1,program,clamping,originalPosition);
 			}
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadStackerRelativeTeachedOffset());
@@ -67,8 +66,6 @@ public class PickFromTableStep extends AbstractStep{
 			}else {
 				zSafePlane = wh + sh;							
 			}
-
-//			System.out.println(position.getX()+","+position.getY()+","+position.getZ()+","+position.getW()+","+position.getP()+","+position.getR());
 
 			float clampHeight = sh;
 

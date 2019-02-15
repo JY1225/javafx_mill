@@ -25,7 +25,7 @@ public class PickFromCNCStep extends AbstractStep{
 			//75
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceGripperSet(program.getUnloadCNC().getGripperHead().getName(), 
-					program.getLoadCNC().getGripper(), program.getUnloadCNC().getGripper(), serviceType,
+					program.getUnloadCNC().getGripper(), program.getUnloadCNC().getGripper(), serviceType,
 					program.getUnloadCNC().getGripperHead().isGripperInner());
 			boolean freeAfterService = false;
 			int serviceHandlingPPMode = RobotConstants.SERVICE_HANDLING_PP_MODE_ORDER_12;

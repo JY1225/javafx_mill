@@ -171,10 +171,7 @@ public class Programhandler {
 				program.setId(keys.getInt(1));
 			}
 			// DBHandler.getInstance().setProgramName(program.getName());
-			Collection<Program> items = DBHandler.getInstance().getProgramBuffer().values();
 			DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);
-			items = DBHandler.getInstance().getProgramBuffer().values();
-			System.out.println("");
 		} else {
 			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());
 			Gripperhandler.getGripperIdByName(program.getUnloadstacker().getGripper().getName(),
