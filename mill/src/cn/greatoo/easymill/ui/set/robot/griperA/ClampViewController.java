@@ -41,7 +41,6 @@ public class ClampViewController extends Controller {
 		if (comboBox.getItems().size() == 0) {
 			comboBox.getItems().add("A");
 			comboBox.getItems().add("B");
-			comboBox.getItems().add("C");
 		}
 
 		ifsGrippers = new IconFlowSelector(false);
