@@ -101,6 +101,9 @@ public class CNCFinishedWPViewController implements TextInputControlListener {
 
 	@FXML
 	public void calculateBtAction(ActionEvent event) {
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece().calculateWeight();
+		fullnumWT.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece().setWeight(Float.parseFloat(fullnumWT.getText()));
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
 				.setWeight(Float.parseFloat(fullnumWT.getText()));
 	}
