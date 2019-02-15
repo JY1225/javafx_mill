@@ -176,88 +176,50 @@ public class Programhandler {
 			items = DBHandler.getInstance().getProgramBuffer().values();
 			System.out.println("");
 		} else {
-			if (program.getUnloadstacker().getGripperHead().getId() > 0) {
-				GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());
-			}
-			if (program.getUnloadstacker().getGripper().getId() > 0) {
-				Gripperhandler.getGripperIdByName(program.getUnloadstacker().getGripper().getName(),
-						program.getUnloadstacker().getGripper());
-			}
-			if (program.getUnloadstacker().getSmooth().getId() > 0) {
-				SmoothHandler.saveSmooth(program.getUnloadstacker().getSmooth());
-			}
-			if (program.getUnloadstacker().getWorkPiece().getId() > 0) {
-				Workpiecehandler.saveWorkPiece(program.getUnloadstacker().getWorkPiece());
-			}
-			if (program.getUnloadstacker().getOffset().getId() > 0) {
-				CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
-			}
-			if (program.getUnloadstacker().getId() > 0) {
-				Stephandler.saveProgramStep(program.getUnloadstacker());
-			}
+			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());
+			Gripperhandler.getGripperIdByName(program.getUnloadstacker().getGripper().getName(),
+					program.getUnloadstacker().getGripper());
+			SmoothHandler.saveSmooth(program.getUnloadstacker().getSmooth());
+			Workpiecehandler.saveWorkPiece(program.getUnloadstacker().getWorkPiece());
+			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
+			Stephandler.saveProgramStep(program.getUnloadstacker());
+
 			// loadCNC
-			if (program.getLoadCNC().getGripperHead().getId() > 0) {
-				GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());
-			}
-			if (program.getLoadCNC().getGripper().getId() > 0) {
-				Gripperhandler.getGripperIdByName(program.getLoadCNC().getGripper().getName(),
-						program.getLoadCNC().getGripper());
-			}
-			if (program.getLoadCNC().getSmooth().getId() > 0) {
-				SmoothHandler.saveSmooth(program.getLoadCNC().getSmooth());
-			}
-			if (program.getLoadCNC().getWorkPiece().getId() > 0) {
-				Workpiecehandler.saveWorkPiece(program.getLoadCNC().getWorkPiece());
-			}
-			if (program.getLoadCNC().getOffset().getId() > 0) {
-				CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
-			}
-			if (program.getLoadCNC().getId() > 0) {
-				Stephandler.saveProgramStep(program.getLoadCNC());
-			}
+			program.getLoadCNC().setGripperHead(program.getUnloadstacker().getGripperHead());
+			GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());
+
+			program.getLoadCNC().setGripper(program.getUnloadstacker().getGripper());
+			Gripperhandler.getGripperIdByName(program.getLoadCNC().getGripper().getName(),
+					program.getLoadCNC().getGripper());
+			SmoothHandler.saveSmooth(program.getLoadCNC().getSmooth());
+			program.getLoadCNC().setWorkPiece(program.getUnloadstacker().getWorkPiece());
+			Workpiecehandler.saveWorkPiece(program.getLoadCNC().getWorkPiece());
+			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
+			Stephandler.saveProgramStep(program.getLoadCNC());
+
 			// unloadCNC
-			if (program.getUnloadCNC().getGripperHead().getId() > 0) {
-				GripperHeadHandle.saveGripperHead(program.getUnloadCNC().getGripperHead());
-			}
-			if (program.getUnloadCNC().getGripper().getId() > 0) {
-				Gripperhandler.getGripperIdByName(program.getUnloadCNC().getGripper().getName(),
-						program.getUnloadCNC().getGripper());
-			}
-			if (program.getUnloadCNC().getSmooth().getId() > 0) {
-				SmoothHandler.saveSmooth(program.getUnloadCNC().getSmooth());
-			}
-			if (program.getUnloadCNC().getWorkPiece().getId() > 0) {
-				Workpiecehandler.saveWorkPiece(program.getUnloadCNC().getWorkPiece());
-			}
-			if (program.getUnloadCNC().getOffset().getId() > 0) {
-				CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
-			}
-			if (program.getUnloadCNC().getId() > 0) {
-				Stephandler.saveProgramStep(program.getUnloadCNC());
-			}
+			GripperHeadHandle.saveGripperHead(program.getUnloadCNC().getGripperHead());
+			Gripperhandler.getGripperIdByName(program.getUnloadCNC().getGripper().getName(),
+					program.getUnloadCNC().getGripper());
+			SmoothHandler.saveSmooth(program.getUnloadCNC().getSmooth());
+			Workpiecehandler.saveWorkPiece(program.getUnloadCNC().getWorkPiece());
+			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
+			Stephandler.saveProgramStep(program.getUnloadCNC());
+
 			// loadstacker
-			if (program.getLoadstacker().getGripperHead().getId() > 0) {
-				GripperHeadHandle.saveGripperHead(program.getLoadstacker().getGripperHead());
-			}
-			if (program.getLoadstacker().getGripper().getId() > 0) {
-				Gripperhandler.getGripperIdByName(program.getLoadstacker().getGripper().getName(),
-						program.getLoadstacker().getGripper());
-			}
-			if (program.getLoadstacker().getSmooth().getId() > 0) {
-				SmoothHandler.saveSmooth(program.getLoadstacker().getSmooth());
-			}
-			if (program.getLoadstacker().getWorkPiece().getId() > 0) {
-				Workpiecehandler.saveWorkPiece(program.getLoadstacker().getWorkPiece());
-			}
-			if (program.getLoadstacker().getOffset().getId() > 0) {
-				CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
-			}
-			if (program.getLoadstacker().getId() > 0) {
-				Stephandler.saveProgramStep(program.getLoadstacker());
-			}
-			if (program.getRobotSetting().getId() > 0) {
-				RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
-			}
+			program.getLoadstacker().setGripperHead(program.getUnloadCNC().getGripperHead());
+			GripperHeadHandle.saveGripperHead(program.getLoadstacker().getGripperHead());
+			program.getLoadstacker().setGripper(program.getUnloadCNC().getGripper());
+			Gripperhandler.getGripperIdByName(program.getLoadstacker().getGripper().getName(),
+					program.getLoadstacker().getGripper());
+			SmoothHandler.saveSmooth(program.getLoadstacker().getSmooth());
+			program.getLoadstacker().setWorkPiece(program.getUnloadCNC().getWorkPiece());
+			Workpiecehandler.saveWorkPiece(program.getLoadstacker().getWorkPiece());
+			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
+			Stephandler.saveProgramStep(program.getLoadstacker());
+
+			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
+
 			PreparedStatement stmt = conn.prepareStatement(
 					"UPDATE PROGRAM SET ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ? WHERE ID = ?");
 			stmt.setFloat(1, program.getOrientation());
@@ -335,7 +297,7 @@ public class Programhandler {
 		}
 
 	}
-	
+
 	public static void updateLastOpenProgram(Program program) {
 		try {
 			PreparedStatement stmt = conn.prepareStatement("UPDATE PROGRAM SET LASTOPENED = ? WHERE name = ?");

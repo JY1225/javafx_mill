@@ -17,7 +17,7 @@ import javafx.application.Platform;
 
 public class PickFromCNCStep extends AbstractStep{
 
-	@SuppressWarnings({ "static-access", "unused" })
+	@SuppressWarnings({ "unused" })
 	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		try {
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;

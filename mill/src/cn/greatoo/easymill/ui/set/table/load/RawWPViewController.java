@@ -342,7 +342,7 @@ public class RawWPViewController extends Controller {
 	public void recalcWeight() {
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().calculateWeight();
     	fulltxtWei.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()));
-    	
+    	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().setWeight(Float.parseFloat(fulltxtWei.getText()));
     }
 	
 }
