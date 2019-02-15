@@ -128,7 +128,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <Label alignment="TOP_RIGHT" styleClass="process-name" text="MA-E-DIGO" StackPane.alignment="TOP_RIGHT">
+                        <Label fx:id="newProsessLable" alignment="TOP_RIGHT" styleClass="process-name" text="MA-E-DIGO" StackPane.alignment="TOP_RIGHT">
                            <padding>
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                            </padding>

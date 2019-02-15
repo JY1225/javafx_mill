@@ -112,9 +112,12 @@ public class AutoViewController extends Controller{
 	private Button deviceProcess3;
 	@FXML
 	private Label messegeText;
+	@FXML
+	private Label newProsessLable;
 	private RotateTransition rtContinuous,rotateTransition;
 	List<Button> bts;
 	public void init(List<Button> bts) {
+		newProsessLable.setText(DBHandler.getInstance().getProgramName());
 		this.bts = bts;
 		stopBt.setDisable(true);
 		rtContinuous = new RotateTransition(Duration.millis(2000), circleBackContinuous);

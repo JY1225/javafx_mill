@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.teach.griperA.TeachGriperAMenuViewController;
 import cn.greatoo.easymill.ui.teach.griperB.TeachGriperBMenuViewController;
@@ -17,6 +18,7 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -64,6 +66,8 @@ public class TeachMainViewController extends Controller {
 	private Button deviceProcess1;
 	@FXML
 	private Button deviceProcess3;
+	@FXML
+	private Label newProsessLable;
 	private Parent teachMainContentParent;
 	private Parent teachGriperAMenuParent;
 	private Parent teachGriperBMenuParent;
@@ -71,7 +75,8 @@ public class TeachMainViewController extends Controller {
 	private Button auto;
 	List<Button> buttons;
 	public void init(List<Button> bts, Button auto) {
-		this.auto = auto;		
+		newProsessLable.setText(DBHandler.getInstance().getProgramName());
+		this.auto = auto;			
 		// 给流程按钮set css
 		buttons = new ArrayList<>();
 		buttons.add(deviceProcess1);
