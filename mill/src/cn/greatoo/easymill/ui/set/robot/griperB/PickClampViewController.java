@@ -8,6 +8,7 @@ import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -127,5 +128,11 @@ public class PickClampViewController extends Controller {
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getGripper()
 				.setName(gripper.getName());
 		System.out.println(gripper.getName());
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

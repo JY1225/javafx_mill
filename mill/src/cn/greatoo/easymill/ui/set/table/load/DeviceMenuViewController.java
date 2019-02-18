@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.ui.main.Controller;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -208,6 +209,12 @@ public class DeviceMenuViewController extends Controller {
 
 	@Override
 	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -7,6 +7,7 @@ import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection.Type;
 import cn.greatoo.easymill.ui.main.Controller;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -66,6 +67,12 @@ public class GeneralConfigViewController extends Controller {
 	}
 	@Override
 	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
 		// TODO Auto-generated method stub
 		
 	}

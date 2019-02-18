@@ -16,6 +16,7 @@ import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -189,5 +190,11 @@ public class CNCConfigViewController extends Controller {
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

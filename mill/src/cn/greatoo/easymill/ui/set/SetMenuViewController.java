@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -186,5 +187,10 @@ public class SetMenuViewController extends Controller {
 	
 	public static NotificationBox getnotificationBox() {
 		return notificationBox;
+	}
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

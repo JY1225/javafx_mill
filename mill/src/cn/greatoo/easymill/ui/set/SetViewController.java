@@ -15,6 +15,7 @@ import cn.greatoo.easymill.ui.set.robot.griperA.ClampMenuViewController;
 import cn.greatoo.easymill.ui.set.robot.griperB.PickClampMenuViewController;
 import cn.greatoo.easymill.ui.set.table.load.DeviceMenuViewController;
 import cn.greatoo.easymill.ui.set.table.unload.PickConfigMenuViewController;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -302,6 +303,12 @@ public class SetViewController extends Controller {
 	}
 	@Override
 	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
 		// TODO Auto-generated method stub
 		
 	}

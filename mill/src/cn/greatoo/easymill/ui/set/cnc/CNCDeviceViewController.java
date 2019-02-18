@@ -7,6 +7,7 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -84,5 +85,10 @@ public class CNCDeviceViewController  extends Controller {
 		ifsClampings.setSelected(clamping.getName());		
 		DBHandler.getInstance().getClampBuffer().get(0).setName(clamping.getName());
 		System.out.println(clamping.getName());
+	}
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

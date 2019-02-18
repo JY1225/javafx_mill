@@ -12,6 +12,7 @@ import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
@@ -135,6 +136,11 @@ public class TeachMainContentViewController extends Controller{
 				animate(false);
 			}
 		}
+	}
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

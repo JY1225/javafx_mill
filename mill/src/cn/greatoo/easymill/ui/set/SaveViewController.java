@@ -14,6 +14,7 @@ import cn.greatoo.easymill.process.DuplicateProcessFlowNameException;
 import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -95,5 +96,11 @@ public class SaveViewController extends Controller {
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

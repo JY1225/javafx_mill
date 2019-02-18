@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import cn.greatoo.easymill.util.NumericTextField?>
 <AnchorPane prefHeight="374.0" prefWidth="543.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.cnc.CNCPutViewController">
    <children>
       <GridPane fx:id="gridPane" layoutX="90.0" layoutY="91.0" prefHeight="142.0" prefWidth="354.0" vgap="10.0" AnchorPane.bottomAnchor="141.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="91.0">
@@ -34,12 +34,12 @@
                               <String fx:value="form-label-name" />
                            </styleClass>
                         </Label>
-                        <TextField fx:id="XField" prefHeight="30.0" prefWidth="57.0">
+                        <NumericTextField fx:id="XField" prefHeight="30.0" prefWidth="57.0">
                            <styleClass>
                               <String fx:value="form-full-textfield" />
                               <String fx:value="form-full-textfield-name" />
                            </styleClass>
-                        </TextField>
+                        </NumericTextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="80.0" spacing="5.0">
@@ -53,12 +53,12 @@
                               <String fx:value="form-label-name" />
                            </styleClass>
                         </Label>
-                        <TextField fx:id="YField" prefHeight="30.0" prefWidth="57.0">
+                        <NumericTextField fx:id="YField" prefHeight="30.0" prefWidth="57.0">
                            <styleClass>
                               <String fx:value="form-full-textfield" />
                               <String fx:value="form-full-textfield-name" />
                            </styleClass>
-                        </TextField>
+                        </NumericTextField>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="80.0" spacing="5.0">
@@ -72,12 +72,12 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="ZField" prefHeight="30.0" prefWidth="57.0">
+                        <NumericTextField fx:id="ZField" prefHeight="30.0" prefWidth="57.0">
                            <styleClass>
                               <String fx:value="form-full-textfield" />
                               <String fx:value="form-full-textfield-name" />
                            </styleClass>
-                        </TextField>
+                        </NumericTextField>
                      </children>
                   </HBox>
                   <Button fx:id="resetBt" mnemonicParsing="false" onAction="#resetBtAction" prefHeight="44.0" prefWidth="62.0" styleClass="form-button" text="重置" textFill="#f7f7f7" />

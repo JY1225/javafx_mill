@@ -16,7 +16,7 @@ import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.UserFrame;
 import cn.greatoo.easymill.ui.main.Controller;
-
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.ComboBox;
@@ -257,6 +257,11 @@ public class CoordinateViewController extends Controller {
 	@FXML
 	public void RTextChanged(MouseEvent event) {
 		validate();
+	}
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

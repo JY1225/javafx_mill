@@ -9,6 +9,7 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.teach.griperA.TeachGriperAMenuViewController;
 import cn.greatoo.easymill.ui.teach.griperB.TeachGriperBMenuViewController;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
@@ -224,6 +225,12 @@ public class TeachMainViewController extends Controller {
 	
 	@Override
 	public void setMessege(String messege) {		
+		
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
 		
 	}
 }

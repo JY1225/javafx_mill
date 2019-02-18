@@ -13,6 +13,7 @@ import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -361,5 +362,11 @@ public class AutoViewController extends Controller{
 				setFinishedAmount(Integer.valueOf(messege.split(";")[1]));
 			}
 		}
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 }

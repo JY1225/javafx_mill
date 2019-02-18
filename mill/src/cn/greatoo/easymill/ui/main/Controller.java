@@ -8,6 +8,7 @@ import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogView;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -18,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -25,7 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 
-public abstract class Controller {
+public abstract class Controller implements TextInputControlListener{
 	private static String arrowRightPath = "M 1.6875 0 L 0 1.65625 L 3.375 5 L 0.0625 8.3125 L 1.71875 10 L 6.65625 5.0625 L 6.5625 4.96875 L 6.625 4.90625 L 1.6875 0 z ";
 	protected SVGPath imagePath;
 	protected SVGPath svgPauseLeft;
@@ -52,6 +54,10 @@ public abstract class Controller {
 	static final String NEW_ICON = "M 2.5 0 L 2.5 20 L 17.5 20 L 17.5 6.25 L 11.25 0 L 2.5 0 z M 5 2.5 L 10 2.5 L 10 7.5 L 15 7.5 L 15 17.5 L 5 17.5 L 5 2.5 z";
 	 
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
+
+	public void setTextFieldListener(final TextInputControlListener listener) {
+		this.setTextFieldListener(listener);
+	}
 
 	// 按钮被选中，背景变颜色
 		public void isClicked(List<Button> bts,Button button) {
@@ -430,6 +436,24 @@ public abstract class Controller {
 		
 		public static String getMessege() {
 			return mes;
+			
+		}
+		
+		@Override
+		public void textFieldFocussed(TextInputControl textInputControl) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void textFieldLostFocus(TextInputControl textInputControl) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void closeKeyboard() {
+			// TODO Auto-generated method stub
 			
 		}
 }

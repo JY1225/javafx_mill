@@ -6,7 +6,6 @@ import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Gripperhandler;
-import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.robot.AbstractRobot;
@@ -27,7 +26,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,7 +38,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
-public class RobotGripperView extends Controller implements TextInputControlListener{
+public class RobotGripperView extends Controller {
 	private IconFlowSelector ifsGrippers;
 	private AbstractRobot robot;
 	private Gripper selectedGripper;
@@ -104,11 +102,11 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		btnCreateNew = newBt;
 		this.ifsGrippers = ifsClamping;
 		build();
-		setTextFieldListener(this);
+		//setTextFieldListener(this);
 		
 	
 	}
-	private void setTextFieldListener(final TextInputControlListener listener) {
+	public void setTextFieldListener(final TextInputControlListener listener) {
 		fulltxtName.setFocusListener(listener);
 		numtxtHeight.setFocusListener(listener);
 	}
@@ -419,19 +417,6 @@ public class RobotGripperView extends Controller implements TextInputControlList
 		reset();
 	}
 	
-	@Override
-	public void closeKeyboard() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void textFieldFocussed(TextInputControl textInputControl) {
-		
-	}
-	@Override
-	public void textFieldLostFocus(TextInputControl textInputControl) {
-			
-	}
 	@Override
 	public void setMessege(String mess) {
 		// TODO Auto-generated method stub

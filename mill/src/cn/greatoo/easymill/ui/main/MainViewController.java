@@ -20,6 +20,7 @@ import cn.greatoo.easymill.ui.set.SaveViewController;
 import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -298,6 +299,12 @@ public class MainViewController extends Controller {
 
 	@Override
 	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
 		// TODO Auto-generated method stub
 		
 	}

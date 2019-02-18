@@ -11,6 +11,7 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.ui.main.Controller;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -186,6 +187,12 @@ private class DeleteButton extends TableCell<Program, Program> {
 
 @Override
 public void setMessege(String mess) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void setTextFieldListener(TextInputControlListener listener) {
 	// TODO Auto-generated method stub
 	
 }

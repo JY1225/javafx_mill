@@ -8,6 +8,7 @@ import java.util.List;
 import cn.greatoo.easymill.ui.configure.devicesConfig.DevicesConfigMenuViewController;
 import cn.greatoo.easymill.ui.configure.robot.RobotMenuViewController;
 import cn.greatoo.easymill.ui.main.Controller;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -90,6 +91,11 @@ public class ConfigureMenuViewController extends Controller{
 
 	@Override
 	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setTextFieldListener(TextInputControlListener listener) {
 		// TODO Auto-generated method stub
 		
 	}
