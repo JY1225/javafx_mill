@@ -88,8 +88,10 @@ public class SetViewController extends Controller {
 	private Parent PickClampMenuParent;
 	private Parent pickConfigMenuParent;
 	private FXMLLoader fxmlLoader;
-
-	public void init() {
+	private Button auto;
+	
+	public void init(Button auto) {
+		this.auto = auto;
 		// 默认选择通用按钮
 		openSetMenuView();
 		newProsessLable.setText(DBHandler.getInstance().getProgramName());
@@ -151,13 +153,13 @@ public class SetViewController extends Controller {
 				setParent = fxmlLoader.load();
 				setMenuViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				setMenuViewController.init(gridPane,this);
+				setMenuViewController.init(gridPane,this,auto);
 				gridPane.add(setParent, 0, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			setMenuViewController.init(gridPane,this);
+			setMenuViewController.init(gridPane,this,auto);
 			setDisVisible(2, 0, gridPane, setParent);
 		}
 	}

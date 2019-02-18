@@ -184,7 +184,6 @@ public class Programhandler {
 			// loadCNC
 			program.getLoadCNC().setGripperHead(program.getUnloadstacker().getGripperHead());
 			GripperHeadHandle.saveGripperHead(program.getLoadCNC().getGripperHead());
-
 			program.getLoadCNC().setGripper(program.getUnloadstacker().getGripper());
 			Gripperhandler.getGripperIdByName(program.getLoadCNC().getGripper().getName(),
 					program.getLoadCNC().getGripper());

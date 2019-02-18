@@ -163,13 +163,13 @@ public class MainViewController extends Controller {
 				setParent = fxmlLoader.load();
 				setViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				setViewController.init();
+				setViewController.init(auto);
 				gridPane.add(setParent, 0, 1, 2, 1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			setViewController.init();
+			setViewController.init(auto);
 			setDisVisible(1, gridPane, setParent);
 		}
 	}

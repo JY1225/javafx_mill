@@ -62,7 +62,7 @@ public class WorkPiecePositions {
 						+ (amountOfStudsBottom - 1) * stacker.getVerticalHoleDistance() + stacker.getStudDiameter() / 2;
 				float x = (float) xBottomLeft + dimensions.getLength() / 2;
 				float y = (float) yBottomLeft + dimensions.getWidth() / 2;
-				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, program.getOrientation());
+				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, DBHandler.getInstance().getStatckerBuffer().get(0).getHorizontalR());
 				coordinatesList.add(stPos);
 			}
 		}
@@ -88,7 +88,7 @@ public class WorkPiecePositions {
 				double extraY = (dimensions.getLength()/Math.sqrt(2) + dimensions.getWidth()/Math.sqrt(2))/2;
 				float x = (float) (xBottom + extraX);
 				float y = (float) (yBottom + extraY);
-				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, program.getOrientation());
+				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, DBHandler.getInstance().getStatckerBuffer().get(0).getTiltedR());
 				coordinatesList.add(stPos);
 			}
 		}

@@ -54,20 +54,10 @@ public class OpenViewController extends Controller {
 	
 	private ObservableList<Program> Programs;
 	private SetViewController setViewController;
-	@FXML
-	public void load(MouseEvent event) {
-		Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
-		fulltxtName.setText(table.getSelectionModel().selectedItemProperty().getValue().getName());
-		String name = fulltxtName.getText();
-		DBHandler.getInstance().setProgramName(name);
-		DBHandler.getInstance().getProgramBuffer().get(name).setTimeLastOpen(lastOpenTime);
-		Program program = DBHandler.getInstance().getProgramBuffer().get(name);
-		Programhandler.updateLastOpenProgram(program);
-		setViewController.setActiveProgramName(fulltxtName.getText());
-		setViewController.openSetMenuView();
-	}
-
-	public void init(SetViewController setViewController) {
+	private Button auto;
+	
+	public void init(SetViewController setViewController, Button auto) {
+		this.auto = auto;
 		this.setViewController = setViewController;
 		Programs = FXCollections.observableArrayList();
 		Collection<Program> items = DBHandler.getInstance().getProgramBuffer().values();
@@ -135,6 +125,26 @@ public class OpenViewController extends Controller {
 		setPrograms(Programs);
 	}
 	
+	@FXML
+	public void load(MouseEvent event) {		
+		Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
+		fulltxtName.setText(table.getSelectionModel().selectedItemProperty().getValue().getName());
+		String name = fulltxtName.getText();
+		DBHandler.getInstance().setProgramName(name);
+		DBHandler.getInstance().getProgramBuffer().get(name).setTimeLastOpen(lastOpenTime);
+		Program program = DBHandler.getInstance().getProgramBuffer().get(name);
+		Programhandler.updateLastOpenProgram(program);
+		setViewController.setActiveProgramName(fulltxtName.getText());
+		setViewController.openSetMenuView();
+		if(program != null) {
+			if(program.isHasTeach()) {
+				auto.setDisable(false);
+			}else {
+				auto.setDisable(true);
+			}
+		}
+	}
+
 	public void setPrograms(final ObservableList<Program> Programs) {
 		table.setItems(Programs);
 	}
