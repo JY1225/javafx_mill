@@ -17,6 +17,7 @@ import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.TextInputControlListener;
+import cn.greatoo.easymill.util.ThreadManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,20 +36,19 @@ public class CNCConfigViewController extends Controller {
 	@FXML
 	private GridPane gridPane;
 	@FXML
-	private ComboBox comboBox;
+	private ComboBox<String> comboBox;
 	@FXML
 	private Button saveBt;
 	@FXML
 	private Button generalBt;
 	@FXML
 	private Button MCodeBt;
-	List<Button> bts;
-	FXMLLoader fxmlLoader;
+	private List<Button> bts;
+	private FXMLLoader fxmlLoader;
 	private Parent generalParent;
 	private Parent mCodeParent;
 	private static CNCMachine cnc;
-
-	@SuppressWarnings("unchecked")
+	
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(generalBt);
@@ -62,58 +62,62 @@ public class CNCConfigViewController extends Controller {
 		comboBox.getSelectionModel().select(0);
 	}
 
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings({ "static-access" })
 	@FXML
 	public void saveBtAction(ActionEvent event) {
+		ThreadManager.submit(new Thread() {
+			@Override
+			public void run() {
+				if (askConfirmation(MainViewController.parentStackPane, "保存CNC配置信息", "请注意，更改只有在重启后生效！")) {
+					MCodeAdapter mCodeAdapter = null;
+					SocketConnection socketConnection = null;
+					if (mCodeConfigViewController != null) {
+						List<String> robotServiceInputNames = mCodeConfigViewController.getRobotServiceInputNames();
+						List<String> robotServiceOutputNames = mCodeConfigViewController.getRobotServiceOutputNames();
 
-		// askConfirmation(MainViewController.parentStackPane, "保存CNC配置信息",
-		// "请注意，更改只有在重启后生效！");
-		MCodeAdapter mCodeAdapter = null;
-		SocketConnection socketConnection = null;
-		if (mCodeConfigViewController != null) {
-			List<String> robotServiceInputNames = mCodeConfigViewController.getRobotServiceInputNames();
-			List<String> robotServiceOutputNames = mCodeConfigViewController.getRobotServiceOutputNames();
+						List<String> mCodeNames = mCodeConfigViewController.getMCodeNames();
 
-			List<String> mCodeNames = mCodeConfigViewController.getMCodeNames();
+						List<Set<Integer>> robotServiceInputs = mCodeConfigViewController.getMCodeRobotServiceInputs();
+						List<Set<Integer>> robotServiceOutputs = mCodeConfigViewController.getMCodeRobotServiceOutputs();
 
-			List<Set<Integer>> robotServiceInputs = mCodeConfigViewController.getMCodeRobotServiceInputs();
-			List<Set<Integer>> robotServiceOutputs = mCodeConfigViewController.getMCodeRobotServiceOutputs();
-
-			List<GenericMCode> MCode = new ArrayList<>();
-			for (int i = 0; i < robotServiceInputs.size(); i++) {
-				GenericMCode genericMCode = new GenericMCode(i, mCodeNames.get(i), robotServiceInputs.get(i),
-						robotServiceOutputs.get(i));
-				MCode.add(genericMCode);
+						List<GenericMCode> MCode = new ArrayList<>();
+						for (int i = 0; i < robotServiceInputs.size(); i++) {
+							GenericMCode genericMCode = new GenericMCode(i, mCodeNames.get(i), robotServiceInputs.get(i),
+									robotServiceOutputs.get(i));
+							MCode.add(genericMCode);
+						}
+						mCodeAdapter = new MCodeAdapter(MCode, robotServiceInputNames, robotServiceOutputNames);
+					}
+					if(generalConfigViewController != null) {
+						socketConnection = generalConfigViewController.getSocketConnection();
+					}
+					// 更新
+					if (cnc != null && cnc.getId() > 0) {
+						if(mCodeAdapter != null) {
+							mCodeAdapter.setId(cnc.getMCodeAdapter().getId());
+							cnc.setMCodeAdapter(mCodeAdapter);
+							CNCMachine.getInstance(null, null, null).setMCodeAdapter(mCodeAdapter);
+						}
+						if(socketConnection != null) {
+							cnc.setSocketConnection(socketConnection);
+							CNCMachine.getInstance(null, null, null).setSocketConnection(socketConnection);
+						}
+						cnc.setWayOfOperating(EWayOfOperating.getWayOfOperatingById(2));// 目前都是MCode模式			
+						CNCMachine.getInstance(null, null, null).setWayOfOperating(EWayOfOperating.getWayOfOperatingById(2));
+					} else {
+						// 添加
+						cnc = CNCMachine.getInstance(socketConnection, mCodeAdapter, EWayOfOperating.getWayOfOperatingById(2));
+					}
+					comboBox.getItems().set(0, cnc.getSocketConnection().getName());
+					comboBox.getSelectionModel().select(0);
+					try {
+						CNCHandler.saveCNC(cnc);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 			}
-			mCodeAdapter = new MCodeAdapter(MCode, robotServiceInputNames, robotServiceOutputNames);
-		}
-		if(generalConfigViewController != null) {
-			socketConnection = generalConfigViewController.getSocketConnection();
-		}
-		// 更新
-		if (cnc != null && cnc.getId() > 0) {
-			if(mCodeAdapter != null) {
-				mCodeAdapter.setId(cnc.getMCodeAdapter().getId());
-				cnc.setMCodeAdapter(mCodeAdapter);
-				CNCMachine.getInstance(null, null, null).setMCodeAdapter(mCodeAdapter);
-			}
-			if(socketConnection != null) {
-				cnc.setSocketConnection(socketConnection);
-				CNCMachine.getInstance(null, null, null).setSocketConnection(socketConnection);
-			}
-			cnc.setWayOfOperating(EWayOfOperating.getWayOfOperatingById(2));// 目前都是MCode模式			
-			CNCMachine.getInstance(null, null, null).setWayOfOperating(EWayOfOperating.getWayOfOperatingById(2));
-		} else {
-			// 添加
-			cnc = CNCMachine.getInstance(socketConnection, mCodeAdapter, EWayOfOperating.getWayOfOperatingById(2));
-		}
-		comboBox.getItems().set(0, cnc.getSocketConnection().getName());
-		comboBox.getSelectionModel().select(0);
-		try {
-			CNCHandler.saveCNC(cnc);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		});		
 	}
 
 	@FXML

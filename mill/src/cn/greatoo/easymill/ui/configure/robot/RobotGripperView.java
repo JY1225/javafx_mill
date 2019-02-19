@@ -102,7 +102,7 @@ public class RobotGripperView extends Controller {
 		btnCreateNew = newBt;
 		this.ifsGrippers = ifsClamping;
 		build();
-		//setTextFieldListener(this);
+		setTextFieldListener(this);
 		
 	
 	}
