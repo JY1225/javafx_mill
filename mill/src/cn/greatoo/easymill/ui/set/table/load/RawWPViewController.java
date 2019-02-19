@@ -59,8 +59,9 @@ public class RawWPViewController extends Controller{
 	List<Button> mBts;
 	private String programName;
 	List<Button> calc;
+
 	public void init() {
-		setTextFieldListener(this);
+		setTextFieldListener(this);		
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
 		bts.add(tiltedBt);
