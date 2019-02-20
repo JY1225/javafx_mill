@@ -23,6 +23,11 @@ public class WorkPiecePositions {
 	public WorkPiecePositions(Program program) {
 		this.program = program;
 	}
+	
+	public int getWorkPieceAmount() {
+		return getMaxHorizontalAmount(program.getUnloadstacker().getWorkPiece(), program.getOrientation()) * getMaxVerticalAmount(program.getUnloadstacker().getWorkPiece(), program.getOrientation());		
+	}
+	
 	public  void initStackingPositions(final WorkPiece dimensions) {
 		coordinatesList.clear();
 		//横向可以放的工件数

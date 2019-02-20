@@ -7,6 +7,7 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
+import cn.greatoo.easymill.process.WorkPiecePositions;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.NumericTextField;
 import cn.greatoo.easymill.util.TextInputControlListener;
@@ -55,11 +56,12 @@ public class RawWPViewController extends Controller{
 	private NumericTextField fulltxtWei;
 	@FXML
 	private Button calculateBt;
-	List<Button> bts;
-	List<Button> mBts;
+	private List<Button> bts;
+	private List<Button> mBts;
 	private String programName;
-	List<Button> calc;
-
+	private List<Button> calc;
+	private Program program;
+	
 	public void init() {
 		setTextFieldListener(this);		
 		bts = new ArrayList<Button>();
@@ -79,7 +81,7 @@ public class RawWPViewController extends Controller{
 		calc.add(calculateBt);
 
 		programName = DBHandler.getInstance().getProgramName();
-		Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
+		program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		if (programName != null) {
 			fulltxtL.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getLength()));
 			fulltxtW.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getWidth()));
@@ -260,52 +262,16 @@ public class RawWPViewController extends Controller{
 		fulltxtC.setText("");
 		fulltxtS.setText("");
 	}
+
+	@FXML
+	public void MaxBtAction(MouseEvent event) {		
+		WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
+		int amount = workPiecePositions.getWorkPieceAmount();
+		fulltxtS.setText(amount+"");
+		program.setAmount(amount);
+	}
+
 	
-	@FXML
-	public void LChanged(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void TBtAction(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void WChanged(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void HChanged(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void SChanged(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void MaxBtAction(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void CChanged(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void BHChanged(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void WeiChanged(MouseEvent event) {
-
-	}
-
 	@FXML
 	public void calculateBtAction(MouseEvent event) {
 		recalcWeight();
