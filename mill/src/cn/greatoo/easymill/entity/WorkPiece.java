@@ -1,5 +1,9 @@
 package cn.greatoo.easymill.entity;
 
+import cn.greatoo.easymill.ui.shape.IDrawableObject;
+import cn.greatoo.easymill.ui.shape.RectanglePieceRepresentation;
+import cn.greatoo.easymill.ui.shape.RoundPieceRepresentation;
+
 public class WorkPiece {
 
 	public enum Type {
@@ -86,7 +90,7 @@ public class WorkPiece {
 	private float diameter;
 	private Material material;
 	private float weight;
-
+	private IDrawableObject representation;
 	
 	public WorkPiece(final Type type, float length, float width, float height, float diameter,
 			final Material material, final float weight) {
@@ -101,7 +105,7 @@ public class WorkPiece {
 	}
 	
 	public WorkPiece() {
-	
+		setShape();
 	}
 	
 	public int getId() {
@@ -127,8 +131,10 @@ public class WorkPiece {
 	private void setShape() {
 		if (diameter > 0) {
 			this.shape = WorkPieceShape.CYLINDRICAL;
+			this.representation = new RoundPieceRepresentation(this);
 		} else{
-			this.shape = WorkPieceShape.CUBIC;			
+			this.shape = WorkPieceShape.CUBIC;
+			this.representation = new RectanglePieceRepresentation(this);
 		}
 	}
 	
@@ -140,10 +146,18 @@ public class WorkPiece {
 	 */
 	public void transformPiece(WorkPieceShape shape) {
 		if (this.shape == null || !this.shape.equals(shape)) {
+			if (shape.equals(WorkPieceShape.CUBIC)) {
+				this.representation = new RectanglePieceRepresentation(this);
+			} else {
+				this.representation = new RoundPieceRepresentation(this);
+			}
 			this.shape = shape;
 		}
 	}
 	
+	public IDrawableObject getRepresentation() {
+		return this.representation;
+	}
 	
 	public Material getMaterial() {
 		return material;

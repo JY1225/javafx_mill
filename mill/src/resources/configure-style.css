@@ -225,7 +225,7 @@ form-button:pressed, .form-button.selected {
  }
 
 .stacker-text {
-	-fx-font-size: 18px;
+	-fx-font-size: 10px;
 	-fx-text-alignment: center;
 	-fx-font-family: "Open Sans Semibold";
 	-fx-font-smoothing-type: lcd;
@@ -685,7 +685,7 @@ form-button:pressed, .form-button.selected {
 	-fx-fill: white;
 	-fx-text-alignment: center;
 	-fx-font-family: "Open Sans Semibold";
-	-fx-font-size: 20px;
+	-fx-font-size: 10px;
 }
 
 .amount-text.placeholder {

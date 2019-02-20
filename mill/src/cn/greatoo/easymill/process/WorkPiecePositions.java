@@ -15,7 +15,7 @@ import cn.greatoo.easymill.entity.WorkPiece;
 
 public class WorkPiecePositions {
 
-	private static List<Coordinates> coordinatesList = new ArrayList<>();
+	public static List<Coordinates> coordinatesList = new ArrayList<>();
 	private boolean isCornerLength = false;
 	private boolean isCornerWidth = false;
 	private Stacker stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
@@ -24,10 +24,11 @@ public class WorkPiecePositions {
 		this.program = program;
 	}
 	public  void initStackingPositions(final WorkPiece dimensions) {
+		coordinatesList.clear();
 		//横向可以放的工件数
-		int amountHorizontal = getMaxHorizontalAmount(dimensions, program.getOrientation());//7
+		int amountHorizontal = getMaxHorizontalAmount(dimensions, program.getOrientation());//9
 		//纵向可以放的工件数
-		int amountVertical = getMaxVerticalAmount(dimensions, program.getOrientation());// 2
+		int amountVertical = getMaxVerticalAmount(dimensions, program.getOrientation());// 3
 		int orientation = (int) program.getOrientation();
 		switch (orientation) {
 		case 0:
