@@ -70,7 +70,7 @@ public class DeviceMenuViewController extends Controller {
 	private LayoutViewController layoutViewController;
 	private RawWPViewController rawWPViewController;
 	
-	public void init(GridPane setProsessPane) {
+	public void init(GridPane setProsessPane, Button auto) {
 		this.setProsessPane = setProsessPane;
 		bts = new ArrayList<Button>();
 //		bts.add(device);
@@ -80,7 +80,7 @@ public class DeviceMenuViewController extends Controller {
 
 		// 默认选择工件按钮
 		isClicked(bts, workPiece);
-		openRawWPView();
+		openRawWPView(auto);
 
 //		addMenuItem(prosessVBox,device, 0, FROM_ICON, "设备", true, new EventHandler<ActionEvent>() {
 //			@Override
@@ -109,7 +109,7 @@ public class DeviceMenuViewController extends Controller {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, workPiece);
-				openRawWPView();
+				openRawWPView(auto);
 			}
 		});
 		
@@ -166,7 +166,7 @@ public class DeviceMenuViewController extends Controller {
 		});
 	}
 
-	private void openRawWPView() {
+	private void openRawWPView(Button auto) {
 		if (!setProsessPane.getChildren().contains(rawWPParent)) {
 			try {
 				URL location = getClass()
@@ -177,13 +177,13 @@ public class DeviceMenuViewController extends Controller {
 				rawWPParent = fxmlLoader.load();
 				rawWPViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				rawWPViewController.init();
+				rawWPViewController.init(auto);
 				setProsessPane.add(rawWPParent, 1, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			rawWPViewController.init();
+			rawWPViewController.init(auto);
 			setDisVisible(2, 1, setProsessPane,rawWPParent);
 		}
 	}

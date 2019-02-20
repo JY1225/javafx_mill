@@ -13,9 +13,7 @@ import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.process.DuplicateProcessFlowNameException;
 import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.TextInputControlListener;
-import cn.greatoo.easymill.util.ThreadManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -31,23 +29,15 @@ public class SaveViewController extends Controller {
 	private TextField fulltxtName;
 
 	private static Logger logger = LogManager.getLogger(SaveViewController.class.getName());
-	private static NotificationBox notificationBox;
 
 	public void init(GeneralViewController generalViewController) {
+		buildAlarmHBox(saveGridPane,0, 0, 3, 1);
 		fulltxtName.setText(generalViewController.getFulltxtName().getText());
-
 	}
 
 	@FXML
-	public void save(MouseEvent event) throws DuplicateProcessFlowNameException {
-		ThreadManager.submit(new Thread() {
-			@Override
-			public void run() {
-				if (askConfirmation(MainViewController.parentStackPane, "保存", "确认保存？")) {
-					saveProgram();
-				}
-			}
-		});
+	public void save(MouseEvent event) throws DuplicateProcessFlowNameException {		
+		saveProgram();											
 	}
 
 	private void saveProgram() {
@@ -73,23 +63,11 @@ public class SaveViewController extends Controller {
 			}
 			Programhandler.saveProgram(program);
 			Programhandler.getProgram();
+			showNotification("保存成功", NotificationBox.Type.OK);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			showNotification("保存失败", NotificationBox.Type.WARNING);
 		}
 
-	}
-
-	public static void showNotification(final String notification, NotificationBox.Type type) {
-		notificationBox = SetMenuViewController.getnotificationBox();
-		notificationBox.showNotification(notification, type);
-		notificationBox.setVisible(true);
-		notificationBox.setManaged(true);
-	}
-
-	public void hideNotification() {
-		notificationBox = SetMenuViewController.getnotificationBox();
-		notificationBox.setVisible(false);
-		notificationBox.setManaged(false);
 	}
 
 	@Override

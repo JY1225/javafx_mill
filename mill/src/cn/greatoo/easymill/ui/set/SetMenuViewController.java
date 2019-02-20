@@ -92,8 +92,6 @@ public class SetMenuViewController extends Controller {
 						// 中写的初始化方法
 						saveViewController.init(generalViewController);
 						gridPane.add(saveParent, 1, 2);
-						notificationBox = new NotificationBox();
-						gridPane.getChildren().add(notificationBox);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

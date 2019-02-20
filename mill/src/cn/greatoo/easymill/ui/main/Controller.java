@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.process.StatusChangedEvent;
+import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogView;
@@ -22,16 +23,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 
-public abstract class Controller implements TextInputControlListener{
+public abstract class Controller extends Pane implements TextInputControlListener{
 	private static String arrowRightPath = "M 1.6875 0 L 0 1.65625 L 3.375 5 L 0.0625 8.3125 L 1.71875 10 L 6.65625 5.0625 L 6.5625 4.96875 L 6.625 4.90625 L 1.6875 0 z ";
 	protected SVGPath imagePath;
 	protected SVGPath svgPauseLeft;
-
+	private static NotificationBox notificationBox = new NotificationBox();
 	private static final int BUTTON_WIDTH = 209;
 	private static final int BUTTON_HEIGHT = 43;
 
@@ -54,7 +56,24 @@ public abstract class Controller implements TextInputControlListener{
 	static final String NEW_ICON = "M 2.5 0 L 2.5 20 L 17.5 20 L 17.5 6.25 L 11.25 0 L 2.5 0 z M 5 2.5 L 10 2.5 L 10 7.5 L 15 7.5 L 15 17.5 L 5 17.5 L 5 2.5 z";
 	 
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
-
+	
+	protected void buildAlarmHBox(GridPane grid, int x, int y, int col, int row) {
+		grid.getChildren().remove(notificationBox);
+		grid.add(notificationBox, x, y, col, row);
+		hideNotification();
+	}
+	
+	public void showNotification(final String notification, NotificationBox.Type type) {
+		notificationBox.showNotification(notification, type);
+		notificationBox.setVisible(true);
+		notificationBox.setManaged(true);
+	}
+	
+	public void hideNotification() {
+		notificationBox.setVisible(false);
+		notificationBox.setManaged(false);
+	}
+	
 	public void setTextFieldListener(final TextInputControlListener listener) {
 		this.setTextFieldListener(listener);
 	}

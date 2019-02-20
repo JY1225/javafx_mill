@@ -7,10 +7,9 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
-import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.process.WorkPiecePositions;
 import cn.greatoo.easymill.ui.set.table.load.StudPosition.StudType;
-
+import cn.greatoo.easymill.ui.shape.IDrawableObject;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -29,7 +28,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
-import cn.greatoo.easymill.ui.shape.IDrawableObject;
+import cn.greatoo.easymill.util.SizeManager;
 
 /**
  * 布局页面Controller
@@ -65,17 +64,12 @@ public class LayoutViewController {
 
 	private static final String CSS_CLASS_STACKER_TEXT = "stacker-text";
 	private static final String CSS_CLASS_STACKPLATE = "stackplate";
-	private static final String CSS_CLASS_GRIDPLATE = "gridplate";
 	private static final String CSS_CLASS_LINE = "line";
 	private static final String CSS_CLASS_HOLE = "hole";
 	private static final String CSS_CLASS_NORMALSTUD = "normal-stud";
 	private static final String CSS_CLASS_CORNERSHAPE = "corner-shape";
 	private static final String CSS_CLASS_AMOUNT = "amount-text";
-	private static final String CSS_CLASS_WORKPIECE  = "workpiece";
-	private static final String CSS_CLASS_FINISHED = "finished";
-	private static final String CSS_CLASS_WORKPIECE_MARK = "workpiece-mark";
-	private static final String CSS_CLASS_FINISHED_MARK = "workpiece-finished-mark";
-	StudPosition[][] studPositions;
+	private StudPosition[][] studPositions;
 
 	public void init(GridPane setProsessPane) {
 		this.programName = DBHandler.getInstance().getProgramName();
@@ -87,8 +81,8 @@ public class LayoutViewController {
 		studs = new ArrayList<Circle>();
 		horizontalLabels = new ArrayList<Text>();
 		verticalLabels = new ArrayList<Text>();
-		length = 550;//stack.getHorizontalPadding() + (stack.getHorizontalHoleAmount() - 1) * stack.getHorizontalHoleDistance() + stack.getHorizontalPadding();
-		width = 280;//stack.getVerticalPaddingBottom() + (stack.getVerticalHoleAmount() - 1) * stack.getVerticalHoleDistance() + stack.getVerticalPaddingTop();
+		length = stack.getHorizontalPadding() + (stack.getHorizontalHoleAmount() - 1) * stack.getHorizontalHoleDistance() + stack.getHorizontalPadding();
+		width = stack.getVerticalPaddingBottom() + (stack.getVerticalHoleAmount() - 1) * stack.getVerticalHoleDistance() + stack.getVerticalPaddingTop();
 		build(setProsessPane);
 
 	}
@@ -130,7 +124,7 @@ public class LayoutViewController {
 					configureStuds();
 					configureWorkPieces();
 				}
-				//updateScale();
+				updateScale();
 			}
 		});
 	}
@@ -180,7 +174,7 @@ public class LayoutViewController {
                     }
                     index2++;
                 }
-                Circle hole = new Circle(pos.getCenterPosition().getX(), width - pos.getCenterPosition().getY(), stack.getHoleDiameter() / 4);
+                Circle hole = new Circle(pos.getCenterPosition().getX(), width - pos.getCenterPosition().getY(), stack.getHoleDiameter() / 2);
                 holes.add(hole);
                 hole.getStyleClass().add(CSS_CLASS_HOLE);
                 layoutPane.getChildren().add(hole);
@@ -194,7 +188,7 @@ public class LayoutViewController {
 			for (StudPosition pos : horizontalPositions) {
 				if (pos.getStudType() == StudType.NORMAL) {
 					Circle circle = new Circle(pos.getCenterPosition().getX(), width - pos.getCenterPosition().getY(),
-							2 / 2);
+							stack.getHoleDiameter() / 2);
 					circle.getStyleClass().add(CSS_CLASS_NORMALSTUD);
 					studs.add(circle);
 					layoutPane.getChildren().add(circle);
@@ -209,13 +203,13 @@ public class LayoutViewController {
 					layoutPane.getChildren().add(corner);
 					// add first stud
 					Circle circle = new Circle(pos.getCenterPosition().getX(), width - pos.getCenterPosition().getY(),
-							2 / 2);
+							stack.getHoleDiameter() / 2);
 					circle.getStyleClass().add(CSS_CLASS_NORMALSTUD);
 					studs.add(circle);
 					layoutPane.getChildren().add(circle);
 					// add second stud
 					Circle circle2 = new Circle(pos.getCenterPosition().getX() + 2,
-							width - pos.getCenterPosition().getY(), 2 / 2);
+							width - pos.getCenterPosition().getY(), stack.getHoleDiameter() / 2);
 					circle2.getStyleClass().add(CSS_CLASS_NORMALSTUD);
 					studs.add(circle2);
 					layoutPane.getChildren().add(circle2);
@@ -230,13 +224,13 @@ public class LayoutViewController {
 					layoutPane.getChildren().add(corner);
 					// add first stud
 					Circle circle = new Circle(pos.getCenterPosition().getX(), width - pos.getCenterPosition().getY(),
-							2 / 2);
+							stack.getHoleDiameter() / 2);
 					circle.getStyleClass().add(CSS_CLASS_NORMALSTUD);
 					studs.add(circle);
 					layoutPane.getChildren().add(circle);
 					// add second stud
 					Circle circle2 = new Circle(pos.getCenterPosition().getX() - 2,
-							width - pos.getCenterPosition().getY(), 2 / 2);
+							width - pos.getCenterPosition().getY(), stack.getHoleDiameter() / 2);
 					circle2.getStyleClass().add(CSS_CLASS_NORMALSTUD);
 					studs.add(circle2);
 					layoutPane.getChildren().add(circle2);
@@ -260,13 +254,13 @@ public class LayoutViewController {
 					layoutPane.getChildren().add(corner);
 					// add first stud
 					Circle circle = new Circle(pos.getCenterPosition().getX(), width - pos.getCenterPosition().getY(),
-							2 / 2);
+							stack.getHoleDiameter() / 2);
 					circle.getStyleClass().add(CSS_CLASS_NORMALSTUD);
 					studs.add(circle);
 					layoutPane.getChildren().add(circle);
 					// add second stud
 					Circle circle2 = new Circle(pos.getCenterPosition().getX() + 2,
-							width - pos.getCenterPosition().getY(), 2 / 2);
+							width - pos.getCenterPosition().getY(), stack.getHoleDiameter() / 2);
 					circle2.getStyleClass().add(CSS_CLASS_NORMALSTUD);
 					studs.add(circle2);
 					layoutPane.getChildren().add(circle2);
@@ -284,7 +278,7 @@ public class LayoutViewController {
 				//Calculate coordinates using the origin from the stacker
 				float x = j * stack.getHorizontalHoleDistance() + stack.getHorizontalPadding();
 				float y = i * stack.getVerticalHoleDistance() + stack.getVerticalPaddingBottom();
-				studPositions[i][j] = new StudPosition(j, i, x/1.8f, y/1.8f, StudType.NONE);
+				studPositions[i][j] = new StudPosition(j, i, x, y, StudType.NONE);
 			}
 		}
 	}
@@ -301,24 +295,23 @@ public class LayoutViewController {
                     markerPane.getChildren().add(marker);
                 }
                 //LayoutX - the origin of the piece (left bottom corner)
-                markerPane.setLayoutX(stackingPositions.get(i).getX()/1.8 - workPieceRepre.getXCorrection());
+                markerPane.setLayoutX(stackingPositions.get(i).getX() - workPieceRepre.getXCorrection());
                 //LayoutY - the origin of the piece (left bottom corner)
-                markerPane.setLayoutY(width - stackingPositions.get(i).getY()/1.8 - workPieceRepre.getYCorrection());
+                markerPane.setLayoutY(width - stackingPositions.get(i).getY() - workPieceRepre.getYCorrection());
                 
                 markerPane.setRotate(program.getOrientation()*-1);
                 
                 layoutPane.getChildren().add(markerPane);
                 Text txtAmount = new Text(i+1 + "");
                 txtAmount.getStyleClass().add(CSS_CLASS_AMOUNT);
-                txtAmount.setX(stackingPositions.get(i).getX()/1.8 - txtAmount.getBoundsInParent().getWidth()/2);
-                txtAmount.setY(width - stackingPositions.get(i).getY()/1.8 + txtAmount.getBoundsInParent().getHeight()/2);
+                txtAmount.setX(stackingPositions.get(i).getX() - txtAmount.getBoundsInParent().getWidth()/2);
+                txtAmount.setY(width - stackingPositions.get(i).getY() + txtAmount.getBoundsInParent().getHeight()/2);
                 layoutPane.getChildren().add(txtAmount);        
         }
     }
 
     private Rectangle createMarker(Program stackingPosition, IDrawableObject workPiece) {
         Rectangle marker = null;
-        // if (!basicStackPlate.hasGridPlate()) {
         if (stackingPosition.getOrientation() == 0) {
             marker = workPiece.createMarker(false);
             if (stack.getHorizontalR() < 0) {
@@ -336,30 +329,13 @@ public class LayoutViewController {
         } else {
             float deltaR = stack.getTiltedR() - stack.getHorizontalR();
             if (deltaR > 0) {
-//                if (isRightGrid(stackingPosition.getOrientation())) {
-//                    marker = workPiece.createMarker(true);
-//                    if (stack.getTiltedR() > 0 && stackingPosition.getOrientation() < 90) {
-//                        marker.setTranslateY(workPiece.getYTranslationMarker());
-//                    } else {
-//                        marker.setTranslateY(5);
-//                    }
-//                } else {
                     marker = workPiece.createMarker(false);
                     if (stack.getTiltedR() > 0 && stackingPosition.getOrientation() < 90) {
                         marker.setTranslateX(5);
                     } else {
                         marker.setTranslateX(workPiece.getXTranslationMarker());
                     }
-//               }
             } else {
-//                if (isRightGrid(stackingPosition.getOrientation())) {
-//                    marker = workPiece.createMarker(false);
-//                    if (stack.getTiltedR() > 0 && stackingPosition.getOrientation() < 90) {
-//                        marker.setTranslateX(5);
-//                    } else {
-//                        marker.setTranslateX(workPiece.getXTranslationMarker());
-//                    }
-//                } else {
                     marker = workPiece.createMarker(true);
                     if (stack.getTiltedR() > 0 && stackingPosition.getOrientation() < 90) {
                         marker.setTranslateY(5);
@@ -367,39 +343,25 @@ public class LayoutViewController {
                         marker.setTranslateY(workPiece.getYTranslationMarker());
                     }
                 }
-//            }
         }
         return marker;
     }
-    
-//    public Shape createShape(WorkPiece workPiece) {
-//		Rectangle drawnWP =  new Rectangle(0,0, workPiece.getLength(), 
-//				workPiece.getWidth());
-//		//no rounded corners
-//		drawnWP.setArcHeight(0);
-//		drawnWP.setArcWidth(0);
-//		drawnWP.getStyleClass().add(CSS_CLASS_WORKPIECE);
-//		if (workPiece.getType().equals(WorkPiece.Type.FINISHED)) {
-//			drawnWP.getStyleClass().add(CSS_CLASS_FINISHED);
-//		}
-//		return drawnWP;
-//	}
 
 	private void updateScale() {
 		if (layoutPane != null) {
-			double scaleVal = Math.min((40 - 2 * EXTRA_PADDING) / (layoutPane.getBoundsInLocal().getHeight()),
-					(230 - 2 * EXTRA_PADDING) / (layoutPane.getBoundsInLocal().getWidth()));
-			scaleVal = Math.min(scaleVal, 1.0);
-			scale.setX(scaleVal);
-			scale.setY(scaleVal);
-			if (scaleVal != 1) {
-				updateTranslate();
-			}
-		}
+            double scaleVal = Math.min((SizeManager.HEIGHT_BOTTOM  - 2*EXTRA_PADDING ) / (layoutPane.getBoundsInLocal().getHeight()), 
+                    (SizeManager.WIDTH - SizeManager.WIDTH_BOTTOM_LEFT - 2*EXTRA_PADDING) / (layoutPane.getBoundsInLocal().getWidth()));
+            scaleVal = Math.min(scaleVal, 1.0);
+            scale.setX(scaleVal);
+            scale.setY(scaleVal);
+            if (scaleVal != 1) {
+                updateTranslate();
+            }
+        }
 	}
 
 	private void updateTranslate() {
-		translate.setX((500 - layoutPane.getBoundsInParent().getWidth()) / 2);
-		translate.setY((15 - layoutPane.getBoundsInParent().getHeight()) / 2);
-	}
+        translate.setX(((SizeManager.WIDTH - SizeManager.WIDTH_BOTTOM_LEFT) - layoutPane.getBoundsInParent().getWidth()) / 2);
+        translate.setY((SizeManager.HEIGHT_BOTTOM - layoutPane.getBoundsInParent().getHeight()) / 2);
+    }
 }

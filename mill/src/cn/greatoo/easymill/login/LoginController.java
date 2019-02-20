@@ -30,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import cn.greatoo.easymill.util.SizeManager;
 
 public class LoginController implements Initializable {
 
@@ -90,12 +91,13 @@ public class LoginController implements Initializable {
             fxmlLoader.setLocation(location);
             fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
             Parent parent = fxmlLoader.load();
-            
-            //Parent parent = FXMLLoader.load(getClass().getResource("/cn/greatoo/easymill/ui/menu/MainView.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setResizable(false);
             stage.setTitle("RoboSoft");
-            stage.setScene(new Scene(parent,800,600));
+            int width = 800;
+            int heigth = 600;
+            stage.setScene(new Scene(parent,width,heigth));
+            SizeManager.setApplicationSizes(width, heigth);
             MainViewController mainViewController = fxmlLoader.getController();   //获取Controller的实例对?
             //中写的初始化方法
             mainViewController.Init();

@@ -49,7 +49,7 @@ public class CNCMenuViewController extends Controller {
 	private CNCFinishedWPViewController cNCFinishedWPViewController;
 	private CNCDeviceViewController cNCDeviceViewController;
 	
-	public void init(GridPane gridPane) {
+	public void init(GridPane gridPane, Button auto) {
 		this.gridPane = gridPane;
 		bts = new ArrayList<Button>();
 		bts.add(device);

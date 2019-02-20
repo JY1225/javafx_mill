@@ -20,8 +20,8 @@ public class RectanglePieceRepresentation implements IDrawableObject {
 	
 	@Override
 	public Shape createShape() {
-		Rectangle drawnWP =  new Rectangle(0,0, workPiece.getLength()/1.8, 
-				workPiece.getWidth()/1.8);
+		Rectangle drawnWP =  new Rectangle(0,0, workPiece.getLength(), 
+				workPiece.getWidth());
 		//no rounded corners
 		drawnWP.setArcHeight(0);
 		drawnWP.setArcWidth(0);
@@ -39,21 +39,21 @@ public class RectanglePieceRepresentation implements IDrawableObject {
 
 	@Override
 	public float getXCorrection() {
-		return workPiece.getLength()/1.8f / 2;
+		return workPiece.getLength() / 2;
 	}
 
 	@Override
 	public float getYCorrection() {
-		return workPiece.getWidth() /1.8f / 2;
+		return workPiece.getWidth() / 2;
 	}
 
 	@Override
 	public Rectangle createMarker(boolean length) {
 		Rectangle marker = null;
 		if (length) {
-			marker = new Rectangle (0,0, workPiece.getLength()/1.8f,5);
+			marker = new Rectangle (0,0, workPiece.getLength(),5);
 		} else {
-			marker = new Rectangle (0,0,5, workPiece.getWidth()/1.8f);
+			marker = new Rectangle (0,0,5, workPiece.getWidth());
 		}
 		marker.getStyleClass().add(CSS_CLASS_WORKPIECE_MARK);
 		if (workPiece.getType().equals(WorkPiece.Type.FINISHED)) {
@@ -63,11 +63,11 @@ public class RectanglePieceRepresentation implements IDrawableObject {
 	}
 	
 	public float getXTranslationMarker() {
-		return workPiece.getLength()/1.8f - 10;
+		return workPiece.getLength() - 10;
 	}
 	
 	public float getYTranslationMarker() {
-		return workPiece.getWidth()/1.8f - 10;
+		return workPiece.getWidth() - 10;
 	}
 
 }

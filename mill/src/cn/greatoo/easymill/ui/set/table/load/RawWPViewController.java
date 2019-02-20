@@ -8,6 +8,7 @@ import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.entity.WorkPiece.Material;
 import cn.greatoo.easymill.process.WorkPiecePositions;
+import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.NumericTextField;
 import cn.greatoo.easymill.util.TextInputControlListener;
@@ -62,7 +63,8 @@ public class RawWPViewController extends Controller{
 	private List<Button> calc;
 	private Program program;
 	
-	public void init() {
+	public void init(Button auto) {
+		buildAlarmHBox(generalGridPane,0, 0, 2, 1);
 		setTextFieldListener(this);		
 		bts = new ArrayList<Button>();
 		bts.add(HBt);
@@ -126,63 +128,99 @@ public class RawWPViewController extends Controller{
 				.setType(WorkPiece.Type.RAW);
 		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
 				.setShape(WorkPiece.WorkPieceShape.CUBIC);
-		fulltxtL.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
-					.setLength(Float.parseFloat(fulltxtL.getText()));								
-			}
-		});
+		fulltxtL.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	if(newValue < Float.parseFloat(fulltxtW.getText())) {
+        			showNotification("长度应该大于宽度", NotificationBox.Type.WARNING);
+        		}else {
+        			hideNotification();
+        		}
+            	if(newValue != program.getUnloadstacker().getWorkPiece().getLength()) {
+            		if(newValue >= Float.parseFloat(fulltxtW.getText())) {            			
+            			auto.setDisable(true);
+            			DBHandler.getInstance().getProgramBuffer().get(programName).setHasTeach(false);
+        				DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+        					.setLength(newValue);
+            		}
+            	}
 
-		fulltxtW.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
-							.setWidth(Float.parseFloat(fulltxtW.getText()));
-			}
-		});
+            }
+        });
 
-		fulltxtH.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
-							.setHeight(Float.parseFloat(fulltxtH.getText()));
-			}
-		});
+		fulltxtW.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	if(newValue > Float.parseFloat(fulltxtL.getText())) {
+        			showNotification("长度应该大于宽度", NotificationBox.Type.WARNING);
+        		}else {
+        			hideNotification();
+        		}
+            	if(newValue != program.getUnloadstacker().getWorkPiece().getWidth()) {
+            		if(newValue <= Float.parseFloat(fulltxtL.getText())) {            			
+            			auto.setDisable(true); 
+            			DBHandler.getInstance().getProgramBuffer().get(programName).setHasTeach(false);
+            			DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+						.setWidth(newValue);
+            		}
+            	}
 
-		fulltxtWei.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
-							.setWeight(Float.parseFloat(fulltxtWei.getText()));
-			}
-		});
+            }
+        });
+
+		fulltxtH.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setHeight(newValue);
+            }
+        });
+
+
+		fulltxtWei.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+				.setWeight(newValue);
+            }
+        });
 
 		// 螺柱高度
-		fulltxtBH.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					DBHandler.getInstance().getProgramBuffer().get(programName)
-							.setStudHeight_Workpiece(Float.parseFloat(fulltxtBH.getText()));				
-			}
-		});
+		fulltxtBH.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	DBHandler.getInstance().getProgramBuffer().get(programName)
+				.setStudHeight_Workpiece(newValue);	
+            }
+        });
+		
 		// 图层
-		fulltxtC.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					DBHandler.getInstance().getProgramBuffer().get(programName)
-							.setLayers((int) Float.parseFloat(fulltxtC.getText()));				
-			}
-		});
+		fulltxtC.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	DBHandler.getInstance().getProgramBuffer().get(programName)
+				.setLayers((int) Float.parseFloat(fulltxtC.getText()));		
+            }
+        });
+		
 		// 数量
-		fulltxtS.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {				
+		fulltxtS.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
+				int amount = workPiecePositions.getWorkPieceAmount();
+				if((int) Float.parseFloat(fulltxtS.getText()) > amount) {
+					fulltxtS.setText(amount+"");
+					program.setAmount(amount);
+				}
 				DBHandler.getInstance().getProgramBuffer().get(programName)
-							.setAmount((int) Float.parseFloat(fulltxtS.getText()));
-				
-			}
-		});
+							.setAmount((int) Float.parseFloat(fulltxtS.getText()));	
+            }
+        });
+		
+		if(Float.parseFloat(fulltxtL.getText()) < Float.parseFloat(fulltxtW.getText())) {
+			showNotification("长度应该大于宽度", NotificationBox.Type.WARNING);
+		}
 	}
 
 	public void setTextFieldListener(final TextInputControlListener listener) {
@@ -200,19 +238,36 @@ public class RawWPViewController extends Controller{
 	public void HBtAction(MouseEvent event) {
 		isClicked(bts, HBt);
 		DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(0);
-
+		WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
+		int amount = workPiecePositions.getWorkPieceAmount();
+		if(program.getAmount() > amount) {
+			fulltxtS.setText(amount+"");
+			program.setAmount(amount);
+		}
 	}
 
 	@FXML
 	public void tiltedAction(MouseEvent event) {
 		isClicked(bts, tiltedBt);
 		DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(45);
+		WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
+		int amount = workPiecePositions.getWorkPieceAmount();
+		if(program.getAmount() > amount) {
+			fulltxtS.setText(amount+"");
+			program.setAmount(amount);
+		}
 	}
 
 	@FXML
 	public void VBtAction(MouseEvent event) {
 		isClicked(bts, VBt);
 		DBHandler.getInstance().getProgramBuffer().get(programName).setOrientation(90);
+		WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
+		int amount = workPiecePositions.getWorkPieceAmount();
+		if(program.getAmount() > amount) {
+			fulltxtS.setText(amount+"");
+			program.setAmount(amount);
+		}
 
 	}
 

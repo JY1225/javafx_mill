@@ -192,13 +192,13 @@ public class SetViewController extends Controller {
 				CNCMenuParent = fxmlLoader.load();
 				cNCMenuViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				cNCMenuViewController.init(gridPane);
+				cNCMenuViewController.init(gridPane,auto);
 				gridPane.add(CNCMenuParent, 0, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			cNCMenuViewController.init(gridPane);
+			cNCMenuViewController.init(gridPane,auto);
 			setDisVisible(2, 0, gridPane, CNCMenuParent);
 		}
 	}
@@ -216,13 +216,13 @@ public class SetViewController extends Controller {
 				deviceMenuParent = fxmlLoader.load();
 				deviceMenuViewController = fxmlLoader.getController();
 				// 中写的初始化方法
-				deviceMenuViewController.init(gridPane);
+				deviceMenuViewController.init(gridPane,auto);
 				gridPane.add(deviceMenuParent, 0, 2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			deviceMenuViewController.init(gridPane);
+			deviceMenuViewController.init(gridPane,auto);
 			setDisVisible(2, 0, gridPane, deviceMenuParent);
 		}
 	}

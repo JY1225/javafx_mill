@@ -225,7 +225,7 @@ form-button:pressed, .form-button.selected {
  }
 
 .stacker-text {
-	-fx-font-size: 10px;
+	-fx-font-size: 18px;
 	-fx-text-alignment: center;
 	-fx-font-family: "Open Sans Semibold";
 	-fx-font-smoothing-type: lcd;
@@ -685,7 +685,7 @@ form-button:pressed, .form-button.selected {
 	-fx-fill: white;
 	-fx-text-alignment: center;
 	-fx-font-family: "Open Sans Semibold";
-	-fx-font-size: 10px;
+	-fx-font-size: 20px;
 }
 
 .amount-text.placeholder {
@@ -867,4 +867,28 @@ form-button:pressed, .form-button.selected {
 
 .dialog-btn:disabled Text {
 	-fx-opacity: 0.5;
+}
+.warning-icon {
+	-fx-fill: #333435;
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+.warning-bg-icon {
+	-fx-fill: #ecd037;
+}
+
+.error-bg-icon {
+	-fx-fill: #eb3333;
+}
+
+.info-bg-icon {
+	-fx-fill: #1084d6;
+}
+
+.info-icon {
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+.icon-ok {
+	-fx-fill: #1eda09;
 }

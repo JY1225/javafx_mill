@@ -10,7 +10,7 @@ public final class SizeManager {
 	public static int HEIGHT_TOP=0;
 	public static int HEIGHT_BOTTOM=0;
 	
-	public static int WIDTH_BOTTOM_LEFT=210;
+	public static int WIDTH_BOTTOM_LEFT=200;
 	
 	public static int ADMIN_MENU_WIDTH=50;
 	public static int ADMIN_SUBMENU_WIDTH=150;
