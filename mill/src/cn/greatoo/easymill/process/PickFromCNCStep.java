@@ -66,9 +66,11 @@ public class PickFromCNCStep extends AbstractStep{
 			//-------------------------------------------------				
 			checkProcessExecutorStatus(robot,cncMachine);
 			cncMachine.prepareForPick(false, 0, 1);
+			view.statusChanged("MCODE2");
+			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.startService();	
-			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PICK_FROM_CNC));
+			
 			if (teached) {
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));
 				checkProcessExecutorStatus(robot,cncMachine);

@@ -83,6 +83,7 @@ public class StatusChangeThread implements Runnable {
 							|| (!activeMCodes.containsAll(previousActiveMCodes))) {
 
 						cncMachine.statusChanged();
+						
 					}
 					this.previousStatus = new HashMap<Integer, Integer>(cncMachine.getStatusMap());
 					this.previousActiveMCodes = new HashSet<Integer>(activeMCodes);

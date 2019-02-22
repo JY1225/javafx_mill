@@ -1,7 +1,7 @@
 package cn.greatoo.easymill.process;
 /**
  * 0启动程序 1从table下料  2给机床上料   3机床加工   4从机床下料   5给table上料
- * 6成功上料 8请把机器人示教至正确位置  9位置示教正确，可继续执行
+ * 6成功示教 8请把机器人示教至正确位置  9位置示教正确，可继续执行
  * 10加工完成
  */
 public class StatusChangedEvent {

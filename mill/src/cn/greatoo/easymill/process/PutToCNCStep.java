@@ -65,11 +65,11 @@ public class PutToCNCStep extends AbstractStep{
 					clampHeight, approachType, zSafePlane);	
 			//------------------------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
-			robot.startService();
+			cncMachine.prepareForPut(false, 0,0);
+			view.statusChanged("MCODE1");
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.PUT_TO_CNC));
 			checkProcessExecutorStatus(robot,cncMachine);
-			cncMachine.prepareForPut(false, 0,0);
-			
+			robot.startService();
 			if(teached) {
 				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.EXECUTE_TEACHED));
 				checkProcessExecutorStatus(robot,cncMachine);

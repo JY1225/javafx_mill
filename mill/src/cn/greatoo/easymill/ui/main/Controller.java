@@ -57,9 +57,9 @@ public abstract class Controller extends Pane implements TextInputControlListene
 	 
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
 	
-	protected void buildAlarmHBox(GridPane grid, int x, int y, int col, int row) {
+	protected void buildAlarmHBox(GridPane grid, int columnIndex, int rowIndex, int colspan, int rowspan) {
 		grid.getChildren().remove(notificationBox);
-		grid.add(notificationBox, x, y, col, row);
+		grid.add(notificationBox, columnIndex, rowIndex, colspan, rowspan);
 		hideNotification();
 	}
 	

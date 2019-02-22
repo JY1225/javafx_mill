@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 public class TeachMainContentViewController extends Controller{
 	private RotateTransition rotateTransition;
@@ -35,9 +36,12 @@ public class TeachMainContentViewController extends Controller{
 	@FXML
 	private Button stopBt;
 	private List<Button> bts;
-	private Button auto;
-	public void init(List<Button> bts, Button auto, RotateTransition rotateTransition) {	
+	private Button auto,M1,M2;
+	
+	public void init(List<Button> bts, Button auto, RotateTransition rotateTransition, Button m1, Button m2) {	
 		this.bts = bts;
+		this.M1 = m1;
+		this.M2 = m2;
 		stopBt.setDisable(true);
 		this.auto = auto;
 		this.rotateTransition = rotateTransition;
@@ -129,11 +133,22 @@ public class TeachMainContentViewController extends Controller{
     }
 	public void setMessege(String messege) {
 		if(messegeText != null) {
+			if(!messege.contains("MCODE")) {
 			messegeText.setText(messege);
 			if(messege.contains("机床加工中")) {
 				animate(true);
 			}else if(messege.contains("从机床下料")) {
 				animate(false);
+			}else if(messege.contains("成功示教")) {
+				M2.setTextFill(Color.BLACK);
+			}
+			}else {
+				if(messege.contains("MCODE1")) {
+					M1.setTextFill(Color.RED);
+				}else if(messege.contains("MCODE2")){
+					M2.setTextFill(Color.RED);
+					M1.setTextFill(Color.BLACK);
+				}
 			}
 		}
 	}

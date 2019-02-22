@@ -1,5 +1,12 @@
 package cn.greatoo.easymill.ui.auto;
 
+import java.awt.Paint;
+import java.awt.PaintContext;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.ColorModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +33,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -350,16 +359,27 @@ public class AutoViewController extends Controller{
 	    }
 	public void setMessege(String messege) {
 		if(messegeText != null) {
+			if(!messege.contains("MCODE")) {
 			if(!messege.contains("FINISHED_WORKPIECE_ACOUNT")) {
 				messegeText.setText(messege);
 				messegeText.setTextFill(Color.WHITE);
 				if(messege.contains("机床加工中")) {
 					animate(true);
 				}else if(messege.contains("从机床下料")) {
-					animate(false);
+					animate(false);					
 				}
 			}else {
 				setFinishedAmount(Integer.valueOf(messege.split(";")[1]));
+				M2.setTextFill(Color.BLACK);
+			}
+						
+			}else {
+				if(messege.contains("MCODE1")) {
+					M1.setTextFill(Color.RED);
+				}else if(messege.contains("MCODE2")){
+					M2.setTextFill(Color.RED);
+					M1.setTextFill(Color.BLACK);
+				}
 			}
 		}
 	}

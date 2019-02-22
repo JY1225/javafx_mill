@@ -210,13 +210,13 @@ public class TeachMainViewController extends Controller {
 				teachMainContentParent = fxmlLoader.load();
 				teachMainContentViewController = fxmlLoader.getController(); 
 				// 中写的初始化方法
-				teachMainContentViewController.init(bts,auto,rotateTransition);
+				teachMainContentViewController.init(bts,auto,rotateTransition,M1,M2);
 				gridPane.add(teachMainContentParent, 0, 2,2,1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			teachMainContentViewController.init(bts,auto,rotateTransition);
+			teachMainContentViewController.init(bts,auto,rotateTransition,M1,M2);
 			setDisVisible(2,gridPane, teachMainContentParent);
 		}
 	}
