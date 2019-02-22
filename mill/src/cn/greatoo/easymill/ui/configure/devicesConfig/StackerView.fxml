@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import cn.greatoo.easymill.util.NumericTextField?>
 <AnchorPane prefHeight="561.0" prefWidth="607.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.configure.devicesConfig.StackerViewController">
    <children>
       <GridPane fx:id="contentGridPane" prefHeight="561.0" prefWidth="607.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -50,7 +50,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="hField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <NumericTextField fx:id="hField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <HBox alignment="TOP_CENTER" prefHeight="117.0" prefWidth="146.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="14">
                <opaqueInsets>
                   <Insets />
@@ -70,37 +70,37 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="vField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <NumericTextField fx:id="vField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="5" GridPane.rowIndex="3" />
             <Label prefHeight="38.0" prefWidth="134.0" text="孔" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="holdField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <NumericTextField fx:id="holdField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Label prefHeight="38.0" prefWidth="134.0" text="螺柱" GridPane.columnIndex="4" GridPane.rowIndex="4">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="studField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <NumericTextField fx:id="studField" prefHeight="35.0" styleClass="form-full-textfield" GridPane.columnIndex="5" GridPane.rowIndex="4" />
             <Label prefHeight="38.0" prefWidth="134.0" text="水平间距" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="hDistanceField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <TextField fx:id="vDistanceField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-            <TextField fx:id="topField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <TextField fx:id="safeField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <TextField fx:id="r0Field" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-            <TextField fx:id="overMaxField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-            <TextField fx:id="studHight_StakckerField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-            <TextField fx:id="paddingField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="6" />
-            <TextField fx:id="buttomField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
-            <TextField fx:id="overPersentField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="8" />
-            <TextField fx:id="r45Field" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="9" />
-            <TextField fx:id="maxUnderField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="10" />
-            <TextField fx:id="overMinField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="11" />
+            <NumericTextField fx:id="hDistanceField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <NumericTextField fx:id="vDistanceField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <NumericTextField fx:id="topField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <NumericTextField fx:id="safeField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <NumericTextField fx:id="r0Field" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <NumericTextField fx:id="overMaxField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+            <NumericTextField fx:id="studHight_StakckerField" prefHeight="35.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <NumericTextField fx:id="paddingField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+            <NumericTextField fx:id="buttomField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+            <NumericTextField fx:id="overPersentField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+            <NumericTextField fx:id="r45Field" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+            <NumericTextField fx:id="maxUnderField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+            <NumericTextField fx:id="overMinField" prefHeight="35.0" GridPane.columnIndex="5" GridPane.rowIndex="11" />
             <Label text="竖直间距" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <font>
                   <Font size="15.0" />

@@ -6,12 +6,10 @@ import javax.swing.JOptionPane;
 
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Stackerhandler;
-import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Stacker;
-import cn.greatoo.easymill.entity.WorkPiece;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.ui.main.MainViewController;
+import cn.greatoo.easymill.util.NumericTextField;
+import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,13 +17,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class StackerViewController {
+public class StackerViewController extends Controller{
 	@FXML
 	private GridPane contentGridPane;
 	@FXML
 	private TextField nameField;
 	@FXML
-	private TextField hField;
+	private NumericTextField hField;
 //	@FXML
 //	private TextField tXField;
 //	@FXML
@@ -41,44 +39,44 @@ public class StackerViewController {
 	@FXML
 	private Button saveBt;
 	@FXML
-	private ComboBox coordinateCombox;
+	private ComboBox<String> coordinateCombox;
 	@FXML
-	private TextField vField;
+	private NumericTextField vField;
 	@FXML
-	private TextField holdField;
+	private NumericTextField holdField;
 	@FXML
-	private TextField studField;
+	private NumericTextField studField;
 	@FXML
-	private TextField hDistanceField;
+	private NumericTextField hDistanceField;
 	@FXML
-	private TextField vDistanceField;
+	private NumericTextField vDistanceField;
 	@FXML
-	private TextField topField;
+	private NumericTextField topField;
 	@FXML
-	private TextField safeField;
+	private NumericTextField safeField;
 	@FXML
-	private TextField r0Field;
+	private NumericTextField r0Field;
 	@FXML
-	private TextField overMaxField;
+	private NumericTextField overMaxField;
 	@FXML
-	private TextField studHight_StakckerField;
+	private NumericTextField studHight_StakckerField;
 	@FXML
-	private TextField paddingField;
+	private NumericTextField paddingField;
 	@FXML
-	private TextField buttomField;
+	private NumericTextField buttomField;
 	@FXML
-	private TextField overPersentField;
+	private NumericTextField overPersentField;
 	@FXML
-	private TextField r45Field;
+	private NumericTextField r45Field;
 	@FXML
-	private TextField maxUnderField;
+	private NumericTextField maxUnderField;
 	@FXML
-	private TextField overMinField;
+	private NumericTextField overMinField;
 
 	private static Stacker stacker = new Stacker();
 
-	@SuppressWarnings("unchecked")
 	public void init() {
+		setTextFieldListener(this);
 		coordinateCombox.getItems().add("STACKER");
 		coordinateCombox.getSelectionModel().select(0);
 		nameField.setText("Mill");
@@ -116,8 +114,8 @@ public class StackerViewController {
 
 	@FXML
 	public void saveBtAction(ActionEvent event) {
-		stacker.setHorizontalHoleAmount(Integer.valueOf(hField.getText()));
-		stacker.setVerticalHoleAmount(Integer.valueOf(vField.getText()));
+		stacker.setHorizontalHoleAmount((int) Float.parseFloat(hField.getText()));
+		stacker.setVerticalHoleAmount((int) Float.parseFloat(vField.getText()));
 		stacker.setHoleDiameter(Float.parseFloat(holdField.getText()));
 		stacker.setStudDiameter(Float.parseFloat(studField.getText()));
 		stacker.setHorizontalHoleDistance(Float.parseFloat(hDistanceField.getText()));
@@ -196,6 +194,30 @@ public class StackerViewController {
 			JOptionPane.showMessageDialog(null, "数据不全，请填写完整数据后保存", "Database Error", JOptionPane.WARNING_MESSAGE);
 			
 		}
+	}
+	public void setTextFieldListener(final TextInputControlListener listener) {
+		hField.setFocusListener(listener);
+		vField.setFocusListener(listener);
+		holdField.setFocusListener(listener);
+		studField.setFocusListener(listener);
+		hDistanceField.setFocusListener(listener);
+		vDistanceField.setFocusListener(listener);
+		paddingField.setFocusListener(listener);
+		topField.setFocusListener(listener);
+		buttomField.setFocusListener(listener);
+		safeField.setFocusListener(listener);
+		overPersentField.setFocusListener(listener);
+		r0Field.setFocusListener(listener);
+		r45Field.setFocusListener(listener);
+		overMaxField.setFocusListener(listener);
+		maxUnderField.setFocusListener(listener);
+		studHight_StakckerField.setFocusListener(listener);
+		overMinField.setFocusListener(listener);		
+	}
+	@Override
+	public void setMessege(String mess) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
