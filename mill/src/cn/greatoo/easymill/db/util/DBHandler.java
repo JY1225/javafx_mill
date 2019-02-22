@@ -3,7 +3,6 @@ package cn.greatoo.easymill.db.util;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,20 +26,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import cn.greatoo.easymill.entity.Clamping;
-import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Program;
-import cn.greatoo.easymill.entity.RobotSetting;
 import cn.greatoo.easymill.entity.Smooth;
 import cn.greatoo.easymill.entity.Stacker;
-import cn.greatoo.easymill.entity.Step;
 import cn.greatoo.easymill.entity.UserFrame;
-import cn.greatoo.easymill.entity.WorkPiece;
-import cn.greatoo.easymill.external.communication.socket.SocketConnection;
 
 public class DBHandler {
-
-
     private final static Logger LOGGER = LogManager.getLogger(DBHandler.class.getName());
     private static DBHandler handler = null;
     private static final String DB_URL = "jdbc:derby:database;create=true";
@@ -52,8 +44,17 @@ public class DBHandler {
 	private List<Gripper> griperBuffer = new ArrayList<>();
 	private List<Stacker> statckerBuffer = new ArrayList<>();
 	private List<Clamping> clampBuffer = new ArrayList<>();
-	private List<Smooth> smoothBuffer = new ArrayList<>();
-	
+	private List<Smooth> smoothBuffer = new ArrayList<>();	
+	private Program OProgram;
+
+	public Program getOProgram() {
+		return OProgram;
+	}
+
+	public void setOProgram(Program oProgram) {
+		OProgram = oProgram;
+	}
+
 	public String getProgramName() {
 		return programName;
 	}

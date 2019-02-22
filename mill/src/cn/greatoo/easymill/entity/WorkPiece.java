@@ -4,8 +4,7 @@ import cn.greatoo.easymill.ui.shape.IDrawableObject;
 import cn.greatoo.easymill.ui.shape.RectanglePieceRepresentation;
 import cn.greatoo.easymill.ui.shape.RoundPieceRepresentation;
 
-public class WorkPiece {
-
+public class WorkPiece{
 	public enum Type {
 		RAW(1), HALF_FINISHED(2), FINISHED(3);
 		

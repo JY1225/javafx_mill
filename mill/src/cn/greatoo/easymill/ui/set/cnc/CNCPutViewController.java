@@ -29,15 +29,15 @@ public class CNCPutViewController extends Controller {
 	private Button beBt;
 	@FXML
 	private Button aftBt;
-	List<Button> bts;
-
+	private List<Button> bts;
+	private String programName;
 	public void init() {
 		setTextFieldListener(this);
 		bts = new ArrayList<Button>();
 		bts.add(beBt);
 		bts.add(aftBt);
 		refresh();
-		String programName = DBHandler.getInstance().getProgramName();
+		programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
 			XField.setText(String.valueOf(
 					DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getX()));
@@ -53,27 +53,29 @@ public class CNCPutViewController extends Controller {
 				isClicked(bts, aftBt);
 			}
 		}
-		XField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
-						.setX(Float.parseFloat(XField.getText()));
-			}
-		});
-		YField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
-						.setY(Float.parseFloat(YField.getText()));
-			}
-		});
-		ZField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
-						.setZ(Float.parseFloat(ZField.getText()));
-			}
-		});
+		XField.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
+				.setX(newValue);
+            }
+        });
+		
+		YField.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
+				.setY(newValue);
+            }
+        });
+		
+		ZField.setOnChange(new ChangeListener<Float>() {
+            @Override
+            public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
+            	DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth()
+				.setZ(newValue);
+            }
+        });		
 
 	}
 
@@ -86,7 +88,12 @@ public class CNCPutViewController extends Controller {
 
 	@FXML
 	public void resetBtAction(ActionEvent event) {
-
+		XField.setText(String.valueOf(DBHandler.getInstance().getOProgram().getLoadCNC().getSmooth().getX()));
+		YField.setText(String.valueOf(DBHandler.getInstance().getOProgram().getLoadCNC().getSmooth().getY()));
+		ZField.setText(String.valueOf(DBHandler.getInstance().getOProgram().getLoadCNC().getSmooth().getZ()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().setX(DBHandler.getInstance().getOProgram().getLoadCNC().getSmooth().getX());
+		DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().setY(DBHandler.getInstance().getOProgram().getLoadCNC().getSmooth().getY());
+		DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().setZ(DBHandler.getInstance().getOProgram().getLoadCNC().getSmooth().getZ());
 	}
 
 	@FXML

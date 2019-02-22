@@ -3,7 +3,6 @@ package cn.greatoo.easymill.entity;
 import java.sql.Timestamp;
 import java.util.List;
 public class Program {			
-
 	private int id;	
 	private String name;
 	private Timestamp timeCreate;

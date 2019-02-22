@@ -1,7 +1,14 @@
 package cn.greatoo.easymill.entity;
 
-public class Gripper {
+import java.io.Serializable;
+
+public class Gripper{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6313896030333391085L;
+
 	public enum Type {
 		TWOPOINT, VACUUM
 	}

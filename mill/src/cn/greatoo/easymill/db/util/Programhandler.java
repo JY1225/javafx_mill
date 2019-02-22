@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -24,38 +23,57 @@ import cn.greatoo.easymill.entity.WorkPiece;
 public class Programhandler {
 	private final static Logger LOGGER = LogManager.getLogger(Programhandler.class.getName());
 	private static Connection conn = DBHandler.getInstance().getConnection();
-
+	
 	public static Program getProgram() {
 		Program program = null;
+		Program oprogram = null;
 		try {
 			PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM PROGRAM Order By PROGRAM.LASTOPENED ASC");
 			ResultSet results = stmt2.executeQuery();
 			while (results.next()) {
 				program = new Program();
+				oprogram = new Program();
 				program.setId(results.getInt("ID"));
+				oprogram.setId(results.getInt("ID"));
 				program.setName(results.getString("NAME"));
+				oprogram.setName(results.getString("NAME"));
 				program.setTimeCreate(results.getTimestamp("CREATION"));
+				oprogram.setTimeCreate(results.getTimestamp("CREATION"));
 				program.setTimeLastOpen(results.getTimestamp("LASTOPENED"));
+				oprogram.setTimeLastOpen(results.getTimestamp("LASTOPENED"));
 				Step unloadstacker = Stephandler.getProgramStepsById(results.getInt("ID"),
 						results.getInt("unloadstacker"));
 				program.setUnloadstacker(unloadstacker);
+				oprogram.setUnloadstacker(Stephandler.getProgramStepsById(results.getInt("ID"),
+						results.getInt("unloadstacker")));
 				Step loadCNC = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadCNC"));
 				program.setLoadCNC(loadCNC);
+				oprogram.setLoadCNC(Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadCNC")));
 				Step unloadCNC = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("unloadCNC"));
 				program.setUnloadCNC(unloadCNC);
+				oprogram.setUnloadCNC(Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("unloadCNC")));
 				Step loadstacker = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadstacker"));
 				program.setLoadstacker(loadstacker);
+				oprogram.setLoadstacker(Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadstacker")));
 				RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ID"),
 						results.getInt("ROBOTSETTING"));
 				program.setRobotSetting(robotSetting);
+				oprogram.setRobotSetting(RobotSettinghandler.getRobotSettingById(results.getInt("ID"),
+						results.getInt("ROBOTSETTING")));
 				program.setHasTeach(results.getBoolean("isHasTeach"));
+				oprogram.setHasTeach(results.getBoolean("isHasTeach"));
 				program.setOrientation(results.getFloat("ORIENTATION"));
+				oprogram.setOrientation(results.getFloat("ORIENTATION"));
 				program.setAmount(results.getInt("AMOUNT"));
+				oprogram.setAmount(results.getInt("AMOUNT"));
 				program.setLayers(results.getInt("LAYERS"));
+				oprogram.setLayers(results.getInt("LAYERS"));
 				program.setStudHeight_Workpiece(results.getFloat("STUDHEIGHT_WORKPIECE"));
+				oprogram.setStudHeight_Workpiece(results.getFloat("STUDHEIGHT_WORKPIECE"));
 				if (program != null) {
 					DBHandler.getInstance().setProgramName(program.getName());
-					DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);
+					DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);					
+					DBHandler.getInstance().setOProgram(oprogram);
 				}
 			}
 
@@ -72,10 +90,18 @@ public class Programhandler {
 			RobotSetting robotSetting = new RobotSetting();
 			program = new Program(null, unloadStacker, loadCNC, unloadCNC, loadstacker, creatTime, lastOpenTime,
 					robotSetting, false, 90, 1, 1, 16);
-
+			oprogram = new Program(null, new Step(new GripperHead(), new Gripper(), new WorkPiece(), 1, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), new WorkPiece(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), new WorkPiece(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), new WorkPiece(), 1, new Smooth(),
+					new Coordinates()), 
+					new Timestamp(System.currentTimeMillis()), 
+					new Timestamp(System.currentTimeMillis()),
+					new RobotSetting(), false, 90, 1, 1, 16);
 			DBHandler.getInstance().getProgramBuffer().put(null, program);
 			if (DBHandler.getInstance().getProgramBuffer().size() == 0) {
 				DBHandler.getInstance().setProgramName(null);
+				DBHandler.getInstance().setOProgram(oprogram);
 			}
 
 		} catch (SQLException ex) {

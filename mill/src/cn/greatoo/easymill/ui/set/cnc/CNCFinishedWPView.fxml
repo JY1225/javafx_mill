@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import cn.greatoo.easymill.util.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
@@ -10,23 +11,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import cn.greatoo.easymill.util.NumericTextField?>
 
-<AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.cnc.CNCFinishedWPViewController">
+<AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.cnc.CNCFinishedWPViewController">
    <children>
-      <GridPane fx:id="generalGridPane" hgap="15.0" layoutX="53.0" layoutY="26.0" prefHeight="462.0" prefWidth="486.0" vgap="5.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="26.0">
+      <GridPane fx:id="generalGridPane" hgap="15.0" layoutX="53.0" layoutY="26.0" prefHeight="517.0" prefWidth="582.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="273.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="335.0" minWidth="0.0" prefWidth="294.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="295.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="335.0" minWidth="0.0" prefWidth="287.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="168.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="168.0" minHeight="7.0" prefHeight="74.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="359.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="168.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="168.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="168.0" minHeight="7.0" prefHeight="75.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="359.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="69.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="354.0" minHeight="10.0" prefHeight="126.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="1">
+            <HBox alignment="CENTER_RIGHT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="2">
                <children>
                   <Label alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="144.0" text="长度" textAlignment="RIGHT" textFill="WHITE">
                      <styleClass>
@@ -54,8 +56,7 @@
                   </NumericTextField>
                </children>
             </HBox>
-            <HBox prefHeight="75.0" prefWidth="268.0" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="2">
+            <HBox alignment="CENTER_RIGHT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="3">
                <children>
                   <Label alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="144.0" text="宽度" textAlignment="RIGHT" textFill="WHITE">
                      <font>
@@ -83,7 +84,7 @@
                   </NumericTextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="3">
+            <HBox alignment="CENTER_RIGHT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="4">
                <children>
                   <Label alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="144.0" text="高度" textAlignment="RIGHT" textFill="WHITE">
                      <font>
@@ -111,12 +112,12 @@
                   </NumericTextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <Button fx:id="hResetBt" mnemonicParsing="false" onAction="#hResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="4">
+            <HBox alignment="CENTER_RIGHT" prefHeight="144.0" prefWidth="582.0" spacing="40.0" GridPane.rowIndex="5">
                <children>
                   <Label alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="144.0" text="重量" textAlignment="RIGHT" textFill="WHITE">
                      <font>
@@ -141,14 +142,14 @@
                   </NumericTextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <HBox alignment="CENTER_LEFT" prefHeight="144.0" prefWidth="582.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
                   <Button fx:id="calculateBt" mnemonicParsing="false" onAction="#calculateBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="计算" textFill="#f7f7f7" />
                   <Button fx:id="resetBt" mnemonicParsing="false" onAction="#resetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" />
                </children>
             </HBox>
-            <Button fx:id="wResetBt" mnemonicParsing="false" onAction="#wResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="LResetBt" mnemonicParsing="false" onAction="#LResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="wResetBt" mnemonicParsing="false" onAction="#wResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="LResetBt" mnemonicParsing="false" onAction="#LResetBtAction" prefHeight="40.0" prefWidth="70.0" styleClass="form-button" text="重置" textFill="#f7f7f7" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

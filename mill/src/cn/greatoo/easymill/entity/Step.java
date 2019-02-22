@@ -2,7 +2,7 @@ package cn.greatoo.easymill.entity;
 
 import cn.greatoo.easymill.entity.Clamping.ClampingType;
 
-public class Step implements Cloneable {
+public class Step{
 
 	private int id;
 	private Gripper gripper;
