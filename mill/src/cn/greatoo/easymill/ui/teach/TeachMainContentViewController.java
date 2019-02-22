@@ -42,6 +42,8 @@ public class TeachMainContentViewController extends Controller{
 		this.bts = bts;
 		this.M1 = m1;
 		this.M2 = m2;
+		M1.setTextFill(Color.BLACK);
+		M2.setTextFill(Color.BLACK);
 		stopBt.setDisable(true);
 		this.auto = auto;
 		this.rotateTransition = rotateTransition;

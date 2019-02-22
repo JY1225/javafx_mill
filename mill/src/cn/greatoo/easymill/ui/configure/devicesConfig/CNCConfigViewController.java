@@ -49,7 +49,7 @@ public class CNCConfigViewController extends Controller {
 	private Parent mCodeParent;
 	private static CNCMachine cnc;
 	
-	public void init() {
+	public void init() {		
 		bts = new ArrayList<Button>();
 		bts.add(generalBt);
 		bts.add(MCodeBt);
@@ -68,7 +68,7 @@ public class CNCConfigViewController extends Controller {
 		ThreadManager.submit(new Thread() {
 			@Override
 			public void run() {
-				if (askConfirmation(MainViewController.parentStackPane, "保存CNC配置信息", "请注意，更改只有在重启后生效！")) {
+				if (askConfirmation(MainViewController.parentStackPane, "保存CNC配置信息", "保存成功即可生效！")) {
 					MCodeAdapter mCodeAdapter = null;
 					SocketConnection socketConnection = null;
 					if (mCodeConfigViewController != null) {
