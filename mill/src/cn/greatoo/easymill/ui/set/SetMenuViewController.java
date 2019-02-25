@@ -19,13 +19,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
-
+/**
+ * 设置默认菜单页（通用、保存、打开程序、新程序）
+ * @author JY
+ *
+ */
 public class SetMenuViewController extends Controller {
 	private final static Logger LOGGER = LogManager.getLogger(SetViewController.class.getName());
 	protected SVGPath imagePath;

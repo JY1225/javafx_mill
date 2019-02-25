@@ -45,8 +45,8 @@
                                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Button fx:id="M1" mnemonicParsing="false" onMouseClicked="#openM1" text="M1" GridPane.columnIndex="5" GridPane.halignment="LEFT" />
-                                    <Button fx:id="M2" mnemonicParsing="false" onMouseClicked="#openM2" prefHeight="7.0" prefWidth="34.0" text="M2" GridPane.columnIndex="5" GridPane.halignment="RIGHT" />
+                                    <Button fx:id="M1" mnemonicParsing="false" text="M1" GridPane.columnIndex="5" GridPane.halignment="LEFT" />
+                                    <Button fx:id="M2" mnemonicParsing="false" prefHeight="7.0" prefWidth="34.0" text="M2" GridPane.columnIndex="5" GridPane.halignment="RIGHT" />
                                     <Button fx:id="deviceProcess2" mnemonicParsing="false" onMouseClicked="#openDeviceProcess2" styleClass="device-button" text="" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                     <Button fx:id="deviceProcess1" mnemonicParsing="false" onMouseClicked="#openDeviceProcess1" styleClass="device-button" text="" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                     <Button fx:id="deviceProcess3" mnemonicParsing="false" onMouseClicked="#openDeviceProcess3" styleClass="device-button" text="" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
@@ -59,7 +59,7 @@
                               </GridPane>
                            </content>
                         </ScrollPane>
-                        <Label fx:id="newProsessLable" alignment="TOP_RIGHT" onMouseClicked="#openNewProsessLable" styleClass="process-name" text="MA-E-DIGO" StackPane.alignment="TOP_RIGHT">
+                        <Label fx:id="newProsessLable" alignment="TOP_RIGHT" styleClass="process-name" text="MA-E" StackPane.alignment="TOP_RIGHT">
                            <padding>
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                            </padding>

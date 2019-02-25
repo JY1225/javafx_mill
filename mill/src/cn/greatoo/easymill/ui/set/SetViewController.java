@@ -167,20 +167,6 @@ public class SetViewController extends Controller {
 		}
 	}
 
-	@FXML
-	public void openM1(MouseEvent event) {
-
-	}
-
-	@FXML
-	public void openM2(MouseEvent event) {
-
-	}
-	@FXML
-	public void openNewProsessLable(MouseEvent event) {
-	
-	}
-
 	CNCMenuViewController cNCMenuViewController;
 	@FXML
 	public void openDeviceProcess2(MouseEvent event) {
