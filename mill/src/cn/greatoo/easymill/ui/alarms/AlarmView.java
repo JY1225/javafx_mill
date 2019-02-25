@@ -18,10 +18,10 @@ public class AlarmView extends StackPane {
 	private static final int WIDTH = BUTTON_HEIGHT * 4;
 
 	private static final String CSS_CLASS_POPUP_BUTTON = "pop-up-btn";
-	private static final String CSS_CLASS_POPUP = "popup";
+	//private static final String CSS_CLASS_POPUP = "popup";
 
-	public static String cncConn = "连接异常  CNC1";
-	public static String roboConn = "连接异常  ROBO1";
+	public static String cncConn = "连接异常  CNC";
+	public static String roboConn = "连接异常  ROBOT";
 	
 	public AlarmView() {
 		this.setVisible(false);
@@ -59,17 +59,17 @@ public class AlarmView extends StackPane {
 
 	public void isCNCConn(boolean conn) {
 		if(conn) {
-			cncConn = "连接正常  CNC1";
+			cncConn = "连接正常  CNC";
 		}else {
-			cncConn = "连接异常  CNC1";
+			cncConn = "连接异常  CNC";
 		}
 		cncConnBt.setGraphic(new Text(cncConn));
 	}
 	public void isRoboConn(boolean conn) {
 		if(conn) {
-			roboConn = "连接正常  ROBO1";
+			roboConn = "连接正常  ROBOT";
 		}else {
-			roboConn = "连接异常  ROBO1";
+			roboConn = "连接异常  ROBOT";
 		}	
 		roboConnBt.setGraphic(new Text(roboConn));
 	}
