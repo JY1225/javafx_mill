@@ -92,6 +92,8 @@ public class SetViewController extends Controller {
 	private Button auto;
 	
 	public void init(Button auto) {
+		M1.setDisable(true);
+		M2.setDisable(true);
 		this.auto = auto;
 		// 默认选择通用按钮
 		openSetMenuView();
