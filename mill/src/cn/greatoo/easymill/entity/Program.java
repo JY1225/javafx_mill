@@ -7,12 +7,15 @@ public class Program {
 	private String name;
 	private Timestamp timeCreate;
 	private Timestamp timeLastOpen;
-	private cn.greatoo.easymill.entity.Step unloadstacker;
-	private cn.greatoo.easymill.entity.Step loadCNC;
-	private cn.greatoo.easymill.entity.Step unloadCNC;
-	private cn.greatoo.easymill.entity.Step loadstacker;
+	private WorkPiece rawWorkPiece;
+	private WorkPiece finishedWorkPiece;
+	private Step unloadstacker;
+	private Step loadCNC;
+	private Step unloadCNC;
+	private Step loadstacker;
 	private List<Step> Steps;
 	private RobotSetting robotSetting;
+	private CNCSetting cncSetting;
 	private boolean isHasTeach;
 	
 	private float orientation;
@@ -20,10 +23,9 @@ public class Program {
 	private int amount;
 	private float studHeight_Workpiece;
 	
-	public Program(String name,cn.greatoo.easymill.entity.Step unloadstacker,cn.greatoo.easymill.entity.Step loadCNC,
-			cn.greatoo.easymill.entity.Step unloadCNC,cn.greatoo.easymill.entity.Step loadstacker,
-			Timestamp timeCreate, Timestamp timeLastOpen,RobotSetting robotSetting,boolean isHasTeach,
-			float orientation, int layers,int amount,float studHeight_Workpiece) {
+	public Program(String name,Step unloadstacker,Step loadCNC,Step unloadCNC,Step loadstacker,Timestamp timeCreate, Timestamp timeLastOpen,
+			RobotSetting robotSetting,CNCSetting cncSetting,boolean isHasTeach,float orientation, int layers,int amount,float studHeight_Workpiece
+			,WorkPiece rawWorkPiece,WorkPiece finishedWorkPiece) {
 		this.name = name;
 		this.unloadstacker = unloadstacker;
 		this.loadCNC = loadCNC;
@@ -32,11 +34,14 @@ public class Program {
 		this.timeCreate = timeCreate;
 		this.timeLastOpen = timeLastOpen;
 		this.robotSetting = robotSetting;
+		this.cncSetting = cncSetting;
 		this.isHasTeach = isHasTeach;
 		this.orientation = orientation;
 		this.layers = layers;
 		this.amount = amount;
 		this.studHeight_Workpiece = studHeight_Workpiece;
+		this.rawWorkPiece = rawWorkPiece;
+		this.finishedWorkPiece = finishedWorkPiece;
 	}	
 
 	public Program() {
@@ -59,35 +64,35 @@ public class Program {
 		this.name = name;
 	}
 
-	public cn.greatoo.easymill.entity.Step getUnloadstacker() {
+	public Step getUnloadstacker() {
 		return unloadstacker;
 	}
 
-	public void setUnloadstacker(cn.greatoo.easymill.entity.Step unloadstacker) {
+	public void setUnloadstacker(Step unloadstacker) {
 		this.unloadstacker = unloadstacker;
 	}
 
-	public cn.greatoo.easymill.entity.Step getLoadCNC() {
+	public Step getLoadCNC() {
 		return loadCNC;
 	}
 
-	public void setLoadCNC(cn.greatoo.easymill.entity.Step loadCNC) {
+	public void setLoadCNC(Step loadCNC) {
 		this.loadCNC = loadCNC;
 	}
 
-	public cn.greatoo.easymill.entity.Step getUnloadCNC() {
+	public Step getUnloadCNC() {
 		return unloadCNC;
 	}
 
-	public void setUnloadCNC(cn.greatoo.easymill.entity.Step unloadCNC) {
+	public void setUnloadCNC(Step unloadCNC) {
 		this.unloadCNC = unloadCNC;
 	}
 
-	public cn.greatoo.easymill.entity.Step getLoadstacker() {
+	public Step getLoadstacker() {
 		return loadstacker;
 	}
 
-	public void setLoadstacker(cn.greatoo.easymill.entity.Step loadstacker) {
+	public void setLoadstacker(Step loadstacker) {
 		this.loadstacker = loadstacker;
 	}
 
@@ -107,6 +112,22 @@ public class Program {
 		this.timeLastOpen = timeLastOpen;
 	}
 	
+	public WorkPiece getRawWorkPiece() {
+		return rawWorkPiece;
+	}
+
+	public void setRawWorkPiece(WorkPiece rawWorkPiece) {
+		this.rawWorkPiece = rawWorkPiece;
+	}
+
+	public WorkPiece getFinishedWorkPiece() {
+		return finishedWorkPiece;
+	}
+
+	public void setFinishedWorkPiece(WorkPiece finishedWorkPiece) {
+		this.finishedWorkPiece = finishedWorkPiece;
+	}
+
 	public List<Step> getProgramSteps() {
 		return Steps;
 	}
@@ -116,6 +137,14 @@ public class Program {
 
 	public void setRobotSetting(RobotSetting robotSetting) {
 		this.robotSetting = robotSetting;
+	}
+
+	public CNCSetting getCncSetting() {
+		return cncSetting;
+	}
+
+	public void setCncSetting(CNCSetting cncSetting) {
+		this.cncSetting = cncSetting;
 	}
 
 	public boolean isHasTeach() {

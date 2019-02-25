@@ -24,7 +24,7 @@ public abstract class AbstractStep {
 		float extraOffsetZ = 0;
 		switch (step) {
 		case 1:
-			workPiece = program.getUnloadstacker().getWorkPiece();
+			workPiece = program.getRawWorkPiece();
 			float sh = program.getStudHeight_Workpiece();
 			if (originalPosition.getZ() + workPiece.getHeight() < 0 + sh) {
 				extraOffsetZ = (0 + sh) - (originalPosition.getZ() + workPiece.getHeight());
@@ -33,7 +33,6 @@ public abstract class AbstractStep {
 					originalPosition, new Coordinates(extraOffsetX, extraOffsetY, extraOffsetZ, 0, 0, 0)));
 			break;
 		case 2:
-			workPiece = program.getUnloadstacker().getWorkPiece();
 			if (originalPosition.getZ() < DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition().getZ()
 					+ DBHandler.getInstance().getClampBuffer().get(0).getHeight()) {
 				extraOffsetZ = (clampping.getRelativePosition().getZ() + clampping.getHeight())
@@ -43,7 +42,7 @@ public abstract class AbstractStep {
 					originalPosition, new Coordinates(extraOffsetX, extraOffsetY, extraOffsetZ, 0, 0, 0)));
 			break;
 		case 3:	
-			workPiece = program.getUnloadstacker().getWorkPiece();
+			workPiece = program.getRawWorkPiece();
 			if (originalPosition.getZ() + workPiece.getHeight() < clampping.getRelativePosition().getZ() 
 					+ clampping.getHeight()) {
 				extraOffsetZ = (clampping.getRelativePosition().getZ() 
@@ -53,7 +52,6 @@ public abstract class AbstractStep {
 					originalPosition, new Coordinates(extraOffsetX, extraOffsetY, extraOffsetZ, 0, 0, 0)));
 			break;
 		case 4:
-			workPiece = program.getUnloadstacker().getWorkPiece();
 			if (originalPosition.getZ() < 0
 					+ program.getStudHeight_Workpiece()) {
 				extraOffsetZ = (0 + program.getStudHeight_Workpiece())

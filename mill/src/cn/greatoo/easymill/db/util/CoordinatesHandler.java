@@ -54,7 +54,7 @@ public class CoordinatesHandler {
     }
 
      
-    public static Coordinates getCoordinatesById(final int processFlowId, final int coordinatesId) throws SQLException {
+    public static Coordinates getCoordinatesById(final int coordinatesId) throws SQLException {
         Coordinates coordinates = null;
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM COORDINATES WHERE ID = ?");
         stmt.setInt(1, coordinatesId);

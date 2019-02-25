@@ -32,20 +32,20 @@ public class PickFromCNCStep extends AbstractStep{
 			if(teached) {
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
-			float weight2 = program.getUnloadCNC().getWorkPiece().getWeight();
+			float weight2 = program.getFinishedWorkPiece().getWeight();
 			int approachType = 1;
 			float payLoad1 = 0;
-			float payLoad2 = program.getUnloadCNC().getWorkPiece().getWeight() * 10;
+			float payLoad2 = program.getFinishedWorkPiece().getWeight() * 10;
 			//76
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,
-					program.getUnloadCNC().getWorkPiece(), approachType, payLoad1, payLoad2);
+					program.getFinishedWorkPiece(), approachType, payLoad1, payLoad2);
 			
 			//-----------------------------------------------------
 			int workArea = 3;
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = workPiecePositions.getPutLocation(clamping);
+			Coordinates originalPosition = workPiecePositions.getPutLocation(program.getCncSetting());
 			Coordinates position = new Coordinates(originalPosition);
 			if (getUnloadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移
@@ -55,13 +55,13 @@ public class PickFromCNCStep extends AbstractStep{
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getUnloadCNCRelativeTeachedOffset());
 			//(90.94, 109.42, 2.45, 0.0, 0.0, 90.0)
 			position.offset(absoluteOffset);			
-			float zSafePlane = clamping.getHeight() + program.getUnloadCNC().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
+			float zSafePlane = clamping.getHeight() + program.getFinishedWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
 			float clampHeight = clamping.getHeight()  + clamping.getRelativePosition().getZ();
 
 			//77
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getUnloadCNC().getSmooth(),
-					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 
+					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getFinishedWorkPiece(), 
 					clampHeight, approachType, zSafePlane);
 			//-------------------------------------------------				
 			checkProcessExecutorStatus(robot,cncMachine);

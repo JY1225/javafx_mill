@@ -36,15 +36,15 @@ public class PutToCNCStep extends AbstractStep{
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
 			int approachType = 1;
-			float payLoad1 = program.getUnloadstacker().getWorkPiece().getWeight() * 10;
+			float payLoad1 = program.getRawWorkPiece().getWeight() * 10;
 			float payLoad2 = 0;
 			//76
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, 
-					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
+					program.getRawWorkPiece(), approachType, payLoad1, payLoad2);
 			//-----------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = workPiecePositions.getPutLocation(Clampping);
+			Coordinates originalPosition = workPiecePositions.getPutLocation(program.getCncSetting());
 			Coordinates position = new Coordinates(originalPosition);
 			if (getLoadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移
@@ -56,12 +56,12 @@ public class PutToCNCStep extends AbstractStep{
 			position.offset(absoluteOffset);
 			int workArea = DBHandler.getInstance().getUserFrameBuffer().get(3).getNumber();	
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
-			float zSafePlane = clamping.getHeight() + program.getUnloadstacker().getWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
+			float zSafePlane = clamping.getHeight() + program.getRawWorkPiece().getHeight() + clamping.getRelativePosition().getZ();
 			float clampHeight = clamping.getHeight()  + clamping.getRelativePosition().getZ();
 			//77
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getLoadCNC().getSmooth(),
-					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getUnloadstacker().getWorkPiece(),
+					DBHandler.getInstance().getUserFrameBuffer().get(3).getzSafeDistance(), program.getRawWorkPiece(),
 					clampHeight, approachType, zSafePlane);	
 			//------------------------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);

@@ -4,13 +4,11 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
+import cn.greatoo.easymill.db.util.ClampingHandler;
+import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Gripper;
-import cn.greatoo.easymill.entity.Clamping.ClampingType;
-import cn.greatoo.easymill.entity.Gripper.Type;
 import cn.greatoo.easymill.entity.Smooth;
-import cn.greatoo.easymill.ui.configure.robot.RobotGriperViewController;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.FullTextField;
 import cn.greatoo.easymill.util.IconFlowSelector;
@@ -36,9 +34,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import cn.greatoo.easymill.db.util.ClampingHandler;
-import cn.greatoo.easymill.db.util.DBHandler;
-import cn.greatoo.easymill.db.util.Gripperhandler;
 
 public class ClampView extends Controller implements TextInputControlListener{
 	private boolean editMode;
@@ -378,8 +373,7 @@ public class ClampView extends Controller implements TextInputControlListener{
 			@Override
 			public void handle(final ActionEvent arg0) {
 				Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
-				 Clamping.Type type = Clamping.Type.CENTRUM;
-					ClampingType clampingType =ClampingType.LENGTH;
+				Clamping.Type type = Clamping.Type.CENTRUM;
 				String clampingName = fullTxtName.getText();
 
 				float defaultHeight = Float.parseFloat(numtxtHeight.getText());
@@ -391,7 +385,7 @@ public class ClampView extends Controller implements TextInputControlListener{
 				Smooth smoothFromPoint = new Smooth(Float.parseFloat(numtxtSmoothFromX.getText()),Float.parseFloat(numtxtSmoothFromY.getText()),Float.parseFloat(numtxtSmoothFromZ.getText()));
 				smoothFromPoint.setId(clamping.getSmoothFromPoint().getId());
 				String imageURL = imagePath;
-				clamping = new Clamping(type, clampingType, clampingName, defaultHeight,relativePosition, smoothToPoint, smoothFromPoint, imagePath);
+				clamping = new Clamping(type, clampingName, defaultHeight,relativePosition, smoothToPoint, smoothFromPoint, imagePath);
 				try {
 					clamping.setId(selectedClamping.getId());
 					saveData(clamping);

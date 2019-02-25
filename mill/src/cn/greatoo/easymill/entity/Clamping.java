@@ -3,34 +3,7 @@ package cn.greatoo.easymill.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Clamping implements Cloneable {
-	
-	public enum ClampingType {
-		LENGTH(1), WIDTH(2);
-		
-		private int id;
-		
-		private ClampingType(int id) {
-			this.id = id;
-		}
-		
-		public int getId() {
-			return this.id;
-		}
-		
-		public int getIdTypeId() {
-			return this.id;
-		}
-		public static ClampingType getTypeById(int id) throws IllegalStateException {
-			for (ClampingType clampingType: ClampingType.values()) {
-				if (clampingType.getId() == id) {
-					return clampingType;
-				}
-			}
-			throw new IllegalStateException("Unknown workpiece type: [" + id + "].");
-		}
-
-	}
+public class Clamping{
 	
 	public static enum Type {
 		CENTRUM {
@@ -76,14 +49,12 @@ public class Clamping implements Cloneable {
 	private float defaultHeight;
 	private String imageURL;
 	private Type type;	
-	private ClampingType clampingType;
 
 	private Set<Integer> prcIdUsingClamping;
 	private Set<Clamping> relatedClampings;
 	private int nbOfPossibleWPToStore = 1;
 	
-	@SuppressWarnings("static-access")
-	public Clamping(final Type type, ClampingType clampingType, final String name, final float defaultHeight, final Coordinates relativePosition, final Smooth smoothToPoint,
+	public Clamping(final Type type, final String name, final float defaultHeight, final Coordinates relativePosition, final Smooth smoothToPoint,
 			final Smooth smoothFromPoint, final String imageURL) {
 		this.name = name;
 		this.height = defaultHeight;
@@ -95,12 +66,11 @@ public class Clamping implements Cloneable {
 		this.prcIdUsingClamping = new HashSet<Integer>();
 		this.relatedClampings = new HashSet<Clamping>();
 		this.type = type;
-		this.clampingType = clampingType;
 	}
 
-	public Clamping(final Type type, ClampingType clampingType,final String name, String  processName, final float defaultHeight, 
+	public Clamping(final Type type,final String name, String  processName, final float defaultHeight, 
 			final Coordinates relativePosition, final Smooth smoothPoint, final String imageURL) {
-		this(type, clampingType, name, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
+		this(type, name, defaultHeight, relativePosition, smoothPoint, smoothPoint, imageURL);
 	}
 	
 	public Clamping() {
@@ -121,14 +91,6 @@ public class Clamping implements Cloneable {
 
 	public void setType(final Type type) {
 		this.type = type;
-	}
-
-	public ClampingType getClampingType() {
-		return clampingType;
-	}
-
-	public void setClampingType(ClampingType clampingType) {
-		this.clampingType = clampingType;
 	}
 
 	public void addRelatedClamping(final Clamping clamping) {
@@ -238,35 +200,6 @@ public class Clamping implements Cloneable {
 			return true;
 		}
 		return (prcIdUsingClamping.size() >= nbOfPossibleWPToStore);
-	}
-	
-	@Override
-	public Clamping clone() throws CloneNotSupportedException {
-		Clamping clonedClamping = new Clamping(this.type, this.clampingType,this.name, this.defaultHeight, this.relativePosition, this.smoothToPoint, this.smoothFromPoint, this.imageURL);
-		clonedClamping.setId(this.id);
-		return clonedClamping;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof Clamping)) {
-			throw new IllegalArgumentException("Cannot compare " + obj.getClass() + " with " + this.getClass());
-		}
-		Clamping clamping = (Clamping) obj;
-		if (clamping.getId() == this.getId() && clamping.getName().equals(this.getName())) {
-			return true;
-		}
- 		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.getId() * this.getName().hashCode() * getRelatedClampings().hashCode();
-	}
-	
-	@Override
-	public String toString() {
-		return "Clamping " + getName();
 	}
 
 }

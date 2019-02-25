@@ -33,12 +33,12 @@ public class PutToTableStep extends AbstractStep{
 
 			//float weight2 = -program.getUnloadCNC().getWorkPiece().getWeight();
 			int approachType = 1;
-			float payLoad1 = program.getUnloadCNC().getWorkPiece().getWeight() * 10;
+			float payLoad1 = program.getFinishedWorkPiece().getWeight() * 10;
 			float payLoad2 = 0;
 			//76
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode,
-					program.getUnloadCNC().getWorkPiece(), approachType,  payLoad1, payLoad2);
+					program.getFinishedWorkPiece(), approachType,  payLoad1, payLoad2);
 			//-----------------------------------
 			int workArea = 1;
 			float zSafePlane = 0;
@@ -51,7 +51,7 @@ public class PutToTableStep extends AbstractStep{
 			}			
 			Coordinates absoluteOffset = TeachedCoordinatesCalculator.calculateAbsoluteOffset(position, getLoadStackerRelativeTeachedOffset());			
 			position.offset(absoluteOffset);		
-			float wh = program.getUnloadCNC().getWorkPiece().getHeight();
+			float wh = program.getFinishedWorkPiece().getHeight();
 			float sh = program.getStudHeight_Workpiece();
 			if(wh >= sh) {
 				zSafePlane = 2*wh;	
@@ -62,7 +62,7 @@ public class PutToTableStep extends AbstractStep{
 			//77
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getLoadstacker().getSmooth(), 
-					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getUnloadCNC().getWorkPiece(), 
+					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getFinishedWorkPiece(), 
 					clampHeight,
 					approachType, zSafePlane);
 			//--------------------------------------------------

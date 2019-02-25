@@ -85,11 +85,11 @@ public class RawWPViewController extends Controller{
 		programName = DBHandler.getInstance().getProgramName();
 		program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		if (programName != null) {
-			fulltxtL.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getLength()));
-			fulltxtW.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getWidth()));
-			fulltxtH.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getHeight()));
-			fulltxtWei.setText(String.valueOf(program.getUnloadstacker().getWorkPiece().getWeight()));
-			Material material = program.getUnloadstacker().getWorkPiece().getMaterial();
+			fulltxtL.setText(String.valueOf(program.getRawWorkPiece().getLength()));
+			fulltxtW.setText(String.valueOf(program.getRawWorkPiece().getWidth()));
+			fulltxtH.setText(String.valueOf(program.getRawWorkPiece().getHeight()));
+			fulltxtWei.setText(String.valueOf(program.getRawWorkPiece().getWeight()));
+			Material material = program.getRawWorkPiece().getMaterial();
 			switch (material) {
 			case AL:
 				isClicked(mBts, AlBt);
@@ -124,9 +124,9 @@ public class RawWPViewController extends Controller{
 				break;
 			}
 		}
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setType(WorkPiece.Type.RAW);
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setShape(WorkPiece.WorkPieceShape.CUBIC);
 		fulltxtL.setOnChange(new ChangeListener<Float>() {
             @Override
@@ -136,11 +136,11 @@ public class RawWPViewController extends Controller{
         		}else {
         			hideNotification();
         		}
-            	if(newValue != program.getUnloadstacker().getWorkPiece().getLength()) {
+            	if(newValue != program.getRawWorkPiece().getLength()) {
             		if(newValue >= Float.parseFloat(fulltxtW.getText())) {            			
             			auto.setDisable(true);
             			DBHandler.getInstance().getProgramBuffer().get(programName).setHasTeach(false);
-        				DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+        				DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
         					.setLength(newValue);
             		}
             	}
@@ -156,11 +156,11 @@ public class RawWPViewController extends Controller{
         		}else {
         			hideNotification();
         		}
-            	if(newValue != program.getUnloadstacker().getWorkPiece().getWidth()) {
+            	if(newValue != program.getRawWorkPiece().getWidth()) {
             		if(newValue <= Float.parseFloat(fulltxtL.getText())) {            			
             			auto.setDisable(true); 
             			DBHandler.getInstance().getProgramBuffer().get(programName).setHasTeach(false);
-            			DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+            			DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 						.setWidth(newValue);
             		}
             	}
@@ -171,7 +171,7 @@ public class RawWPViewController extends Controller{
 		fulltxtH.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
-            	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+            	DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setHeight(newValue);
             }
         });
@@ -180,7 +180,7 @@ public class RawWPViewController extends Controller{
 		fulltxtWei.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
-            	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+            	DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setWeight(newValue);
             }
         });
@@ -274,7 +274,7 @@ public class RawWPViewController extends Controller{
 	@FXML
 	public void AlBtAction(MouseEvent event) {
 		isClicked(mBts, AlBt);
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setMaterial(WorkPiece.Material.AL);
 		calculateBt.setDisable(false);	
 		recalcWeight();
@@ -283,7 +283,7 @@ public class RawWPViewController extends Controller{
 	@FXML
 	public void CuBtAction(MouseEvent event) {
 		isClicked(mBts, CuBt);
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setMaterial(WorkPiece.Material.CU);
 		calculateBt.setDisable(false);	
 		recalcWeight();
@@ -292,7 +292,7 @@ public class RawWPViewController extends Controller{
 	@FXML
 	public void FeBtAction(MouseEvent event) {
 		isClicked(mBts, FeBt);
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setMaterial(WorkPiece.Material.FE);
 		calculateBt.setDisable(false);	
 		recalcWeight();
@@ -301,7 +301,7 @@ public class RawWPViewController extends Controller{
 	@FXML
 	public void OBtAction(MouseEvent event) {
 		isClicked(mBts, OBt);
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece()
 				.setMaterial(WorkPiece.Material.OTHER);
 		calculateBt.setDisable(true);	
 	}
@@ -340,9 +340,9 @@ public class RawWPViewController extends Controller{
 	}
 	
 	public void recalcWeight() {
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().calculateWeight();
-    	fulltxtWei.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()));
-    	DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().setWeight(Float.parseFloat(fulltxtWei.getText()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().calculateWeight();
+    	fulltxtWei.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()));
+    	DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().setWeight(Float.parseFloat(fulltxtWei.getText()));
     }
 	
 }

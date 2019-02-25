@@ -52,7 +52,7 @@ public class Workpiecehandler {
 	        }
 	    }
 	  
-	    public static WorkPiece getWorkPieceById(final int processFlowId, final int workPieceId) throws SQLException {
+	    public static WorkPiece getWorkPieceById(final int workPieceId) throws SQLException {
 	        WorkPiece workPiece = null;
 	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM WORKPIECE WHERE ID = ?");
 	        stmt.setInt(1, workPieceId);

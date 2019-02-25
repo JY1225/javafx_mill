@@ -20,14 +20,13 @@ public class Stephandler {
 	public static void saveProgramStep(Step step) throws SQLException {
 		if(step.getId() <= 0) {
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO STEP(GRIPPERHEAD,GRIPPER, WORKPIECE, USERFRAME,SMOOTH,OFFSET) VALUES (?,?,?, ?,?,?)",
+					"INSERT INTO STEP(GRIPPERHEAD,GRIPPER, USERFRAME,SMOOTH,OFFSET) VALUES (?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, step.getGripperHead().getId());
 			stmt.setInt(2, step.getGripper().getId());
-			stmt.setInt(3, step.getWorkPiece().getId());
-			stmt.setInt(4, step.getUserFrame());
-			stmt.setInt(5, step.getSmooth().getId());			
-			stmt.setInt(6, step.getOffset().getId());
+			stmt.setInt(3, step.getUserFrame());
+			stmt.setInt(4, step.getSmooth().getId());			
+			stmt.setInt(5, step.getOffset().getId());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {
@@ -35,19 +34,18 @@ public class Stephandler {
 			}
 
 		}else {
-			PreparedStatement stmt = conn.prepareStatement("UPDATE STEP SET GRIPPERHEAD = ?, GRIPPER = ?, WORKPIECE = ?, USERFRAME = ?, SMOOTH = ?, OFFSET = ? WHERE ID = ?");
+			PreparedStatement stmt = conn.prepareStatement("UPDATE STEP SET GRIPPERHEAD = ?, GRIPPER = ?, USERFRAME = ?, SMOOTH = ?, OFFSET = ? WHERE ID = ?");
 			stmt.setInt(1, step.getGripperHead().getId());
 			stmt.setInt(2, step.getGripper().getId());
-			stmt.setInt(3, step.getWorkPiece().getId());
-			stmt.setInt(4, step.getUserFrame());
-			stmt.setInt(5, step.getSmooth().getId());			
-			stmt.setInt(6, step.getOffset().getId());
-            stmt.setInt(7, step.getId());
+			stmt.setInt(3, step.getUserFrame());
+			stmt.setInt(4, step.getSmooth().getId());			
+			stmt.setInt(5, step.getOffset().getId());
+            stmt.setInt(6, step.getId());
             stmt.executeUpdate();
 		}
 	}
 		
-	public static Step getProgramStepsById(final int programId, final int stepId) throws SQLException {
+	public static Step getProgramStepsById(final int stepId) throws SQLException {
 		Step step =null;
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM STEP WHERE ID = ?");
         stmt.setInt(1, stepId);
@@ -58,21 +56,17 @@ public class Stephandler {
                          
         	int GripperId = results.getInt("GRIPPER");
         	Gripper gripper =Gripperhandler.getGripperById(GripperId);  
-        	
-            int WorkpiceId = results.getInt("WORKPIECE"); 
-            WorkPiece workpice =Workpiecehandler.getWorkPieceById(programId, WorkpiceId);
             
             int UserFrameId = results.getInt("USERFRAME");
-            //UserFrame userFrame =userFrameHander.getUserFrameById(UserFrameId);
             
             int SmoothId = results.getInt("SMOOTH");         
-            Smooth smooth = SmoothHandler.getSmoothById(programId,SmoothId);
+            Smooth smooth = SmoothHandler.getSmoothById(SmoothId);
                   
             
             int OffSetId = results.getInt("OFFSET");
-            Coordinates offSet = CoordinatesHandler.getCoordinatesById(programId,OffSetId);
+            Coordinates offSet = CoordinatesHandler.getCoordinatesById(OffSetId);
             
-            step = new Step(gripperHead,gripper, workpice, UserFrameId, smooth, offSet);
+            step = new Step(gripperHead,gripper, UserFrameId, smooth, offSet);
             step.setId(stepId);
         }
         return step;          

@@ -43,7 +43,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 		this.programName = DBHandler.getInstance().getProgramName();
 		this.program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		this.workPiecePositions = new WorkPiecePositions(program);
-		workPiecePositions.initStackingPositions(program.getUnloadstacker().getWorkPiece());
+		workPiecePositions.initStackingPositions(program.getRawWorkPiece());
 		this.robot = robot;
 		this.cncMachine = cncMachine;
 		this.teached = teached;

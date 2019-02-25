@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import cn.greatoo.easymill.entity.CNCSetting;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.GripperHead;
@@ -41,25 +42,23 @@ public class Programhandler {
 				oprogram.setTimeCreate(results.getTimestamp("CREATION"));
 				program.setTimeLastOpen(results.getTimestamp("LASTOPENED"));
 				oprogram.setTimeLastOpen(results.getTimestamp("LASTOPENED"));
-				Step unloadstacker = Stephandler.getProgramStepsById(results.getInt("ID"),
-						results.getInt("unloadstacker"));
+				Step unloadstacker = Stephandler.getProgramStepsById(results.getInt("unloadstacker"));
 				program.setUnloadstacker(unloadstacker);
-				oprogram.setUnloadstacker(Stephandler.getProgramStepsById(results.getInt("ID"),
-						results.getInt("unloadstacker")));
-				Step loadCNC = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadCNC"));
+				oprogram.setUnloadstacker(Stephandler.getProgramStepsById(results.getInt("unloadstacker")));
+				Step loadCNC = Stephandler.getProgramStepsById(results.getInt("loadCNC"));
 				program.setLoadCNC(loadCNC);
-				oprogram.setLoadCNC(Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadCNC")));
-				Step unloadCNC = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("unloadCNC"));
+				oprogram.setLoadCNC(Stephandler.getProgramStepsById(results.getInt("loadCNC")));
+				Step unloadCNC = Stephandler.getProgramStepsById(results.getInt("unloadCNC"));
 				program.setUnloadCNC(unloadCNC);
-				oprogram.setUnloadCNC(Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("unloadCNC")));
-				Step loadstacker = Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadstacker"));
+				oprogram.setUnloadCNC(Stephandler.getProgramStepsById(results.getInt("unloadCNC")));
+				Step loadstacker = Stephandler.getProgramStepsById(results.getInt("loadstacker"));
 				program.setLoadstacker(loadstacker);
-				oprogram.setLoadstacker(Stephandler.getProgramStepsById(results.getInt("ID"), results.getInt("loadstacker")));
-				RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ID"),
-						results.getInt("ROBOTSETTING"));
+				oprogram.setLoadstacker(Stephandler.getProgramStepsById(results.getInt("loadstacker")));
+				RobotSetting robotSetting = RobotSettinghandler.getRobotSettingById(results.getInt("ROBOTSETTING"));
 				program.setRobotSetting(robotSetting);
-				oprogram.setRobotSetting(RobotSettinghandler.getRobotSettingById(results.getInt("ID"),
-						results.getInt("ROBOTSETTING")));
+				oprogram.setRobotSetting(RobotSettinghandler.getRobotSettingById(results.getInt("ROBOTSETTING")));
+				program.setCncSetting(CNCSettingHandler.getCNCSettingById(results.getInt("CNCSETTING")));
+				oprogram.setCncSetting(CNCSettingHandler.getCNCSettingById(results.getInt("CNCSETTING")));
 				program.setHasTeach(results.getBoolean("isHasTeach"));
 				oprogram.setHasTeach(results.getBoolean("isHasTeach"));
 				program.setOrientation(results.getFloat("ORIENTATION"));
@@ -70,34 +69,32 @@ public class Programhandler {
 				oprogram.setLayers(results.getInt("LAYERS"));
 				program.setStudHeight_Workpiece(results.getFloat("STUDHEIGHT_WORKPIECE"));
 				oprogram.setStudHeight_Workpiece(results.getFloat("STUDHEIGHT_WORKPIECE"));
+				program.setRawWorkPiece(Workpiecehandler.getWorkPieceById(results.getInt("rawWorkPiece")));
+				oprogram.setRawWorkPiece(Workpiecehandler.getWorkPieceById(results.getInt("rawWorkPiece")));
+				program.setFinishedWorkPiece(Workpiecehandler.getWorkPieceById(results.getInt("finishedWorkPiece")));
+				oprogram.setFinishedWorkPiece(Workpiecehandler.getWorkPieceById(results.getInt("finishedWorkPiece")));
 				if (program != null) {
 					DBHandler.getInstance().setProgramName(program.getName());
 					DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);					
 					DBHandler.getInstance().setOProgram(oprogram);
 				}
 			}
-
-			Timestamp creatTime = new Timestamp(System.currentTimeMillis());
-			Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
-			Step unloadStacker = new Step(new GripperHead(), new Gripper(), new WorkPiece(), 1, new Smooth(),
-					new Coordinates());
-			Step loadCNC = new Step(new GripperHead(), new Gripper(), new WorkPiece(), 3, new Smooth(),
-					new Coordinates());
-			Step unloadCNC = new Step(new GripperHead(), new Gripper(), new WorkPiece(), 3, new Smooth(),
-					new Coordinates());
-			Step loadstacker = new Step(new GripperHead(), new Gripper(), new WorkPiece(), 1, new Smooth(),
-					new Coordinates());
-			RobotSetting robotSetting = new RobotSetting();
-			program = new Program(null, unloadStacker, loadCNC, unloadCNC, loadstacker, creatTime, lastOpenTime,
-					robotSetting, false, 90, 1, 1, 16);
-			oprogram = new Program(null, new Step(new GripperHead(), new Gripper(), new WorkPiece(), 1, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), new WorkPiece(), 3, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), new WorkPiece(), 3, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), new WorkPiece(), 1, new Smooth(),
+			program = new Program(null, new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
 					new Coordinates()), 
 					new Timestamp(System.currentTimeMillis()), 
 					new Timestamp(System.currentTimeMillis()),
-					new RobotSetting(), false, 90, 1, 1, 16);
+					new RobotSetting(),new CNCSetting(), false, 90, 1, 1, 16, new WorkPiece(), new WorkPiece());
+			oprogram = new Program(null, new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
+					new Coordinates()), 
+					new Timestamp(System.currentTimeMillis()), 
+					new Timestamp(System.currentTimeMillis()),
+					new RobotSetting(),new CNCSetting(), false, 90, 1, 1, 16, new WorkPiece(), new WorkPiece());
 			DBHandler.getInstance().getProgramBuffer().put(null, program);
 			if (DBHandler.getInstance().getProgramBuffer().size() == 0) {
 				DBHandler.getInstance().setProgramName(null);
@@ -120,8 +117,6 @@ public class Programhandler {
 					program.getUnloadstacker().getGripper());
 			program.getUnloadstacker().getSmooth().setId(0);
 			SmoothHandler.saveSmooth(program.getUnloadstacker().getSmooth());
-			program.getUnloadstacker().getWorkPiece().setId(0);
-			Workpiecehandler.saveWorkPiece(program.getUnloadstacker().getWorkPiece());
 			program.getUnloadstacker().getOffset().setId(0);
 			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
 			program.getUnloadstacker().setId(0);
@@ -135,8 +130,6 @@ public class Programhandler {
 					program.getLoadCNC().getGripper());
 			program.getLoadCNC().getSmooth().setId(0);
 			SmoothHandler.saveSmooth(program.getLoadCNC().getSmooth());
-			program.getLoadCNC().setWorkPiece(program.getUnloadstacker().getWorkPiece());
-			Workpiecehandler.saveWorkPiece(program.getLoadCNC().getWorkPiece());
 			program.getLoadCNC().getOffset().setId(0);
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			program.getLoadCNC().setId(0);
@@ -150,8 +143,6 @@ public class Programhandler {
 					program.getUnloadCNC().getGripper());
 			program.getUnloadCNC().getSmooth().setId(0);
 			SmoothHandler.saveSmooth(program.getUnloadCNC().getSmooth());
-			program.getUnloadCNC().getWorkPiece().setId(0);
-			Workpiecehandler.saveWorkPiece(program.getUnloadCNC().getWorkPiece());
 			program.getUnloadCNC().getOffset().setId(0);
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
 			program.getUnloadCNC().setId(0);
@@ -165,45 +156,47 @@ public class Programhandler {
 					program.getLoadstacker().getGripper());
 			program.getLoadstacker().getSmooth().setId(0);
 			SmoothHandler.saveSmooth(program.getLoadstacker().getSmooth());
-			program.getLoadstacker().setWorkPiece(program.getUnloadCNC().getWorkPiece());
-			Workpiecehandler.saveWorkPiece(program.getLoadstacker().getWorkPiece());
 			program.getLoadstacker().getOffset().setId(0);
 			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
 			program.getLoadstacker().setId(0);
 			Stephandler.saveProgramStep(program.getLoadstacker());
 
+			Workpiecehandler.saveWorkPiece(program.getRawWorkPiece());
+			Workpiecehandler.saveWorkPiece(program.getFinishedWorkPiece());
 			program.getRobotSetting().setId(0);
 			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
-
+			program.getCncSetting().setId(0);
+			CNCSettingHandler.saveCNCSetting(program.getCncSetting());
+			
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,ISHASTEACH,ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,CNCSETTING,ISHASTEACH,ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, program.getName());
-			stmt.setTimestamp(2, program.getTimeCreate());
-			stmt.setTimestamp(3, program.getTimeLastOpen());
-			stmt.setInt(4, program.getUnloadstacker().getId());
-			stmt.setInt(5, program.getLoadCNC().getId());
-			stmt.setInt(6, program.getUnloadCNC().getId());
-			stmt.setInt(7, program.getLoadstacker().getId());
-			stmt.setInt(8, program.getRobotSetting().getId());
-			stmt.setBoolean(9, program.isHasTeach());
-			stmt.setFloat(10, program.getOrientation());
-			stmt.setFloat(11, program.getLayers());
-			stmt.setFloat(12, program.getAmount());
-			stmt.setFloat(13, program.getStudHeight_Workpiece());
+			int index = 0;
+			stmt.setString(index++, program.getName());
+			stmt.setTimestamp(index++, program.getTimeCreate());
+			stmt.setTimestamp(index++, program.getTimeLastOpen());
+			stmt.setInt(index++, program.getUnloadstacker().getId());
+			stmt.setInt(index++, program.getLoadCNC().getId());
+			stmt.setInt(index++, program.getUnloadCNC().getId());
+			stmt.setInt(index++, program.getLoadstacker().getId());
+			stmt.setInt(index++, program.getRobotSetting().getId());
+			stmt.setInt(index++, program.getCncSetting().getId());
+			stmt.setBoolean(index++, program.isHasTeach());
+			stmt.setFloat(index++, program.getOrientation());
+			stmt.setFloat(index++, program.getLayers());
+			stmt.setFloat(index++, program.getAmount());
+			stmt.setFloat(index++, program.getStudHeight_Workpiece());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {
 				program.setId(keys.getInt(1));
 			}
-			// DBHandler.getInstance().setProgramName(program.getName());
 			DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);
 		} else {
 			GripperHeadHandle.saveGripperHead(program.getUnloadstacker().getGripperHead());
 			Gripperhandler.getGripperIdByName(program.getUnloadstacker().getGripper().getName(),
 					program.getUnloadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadstacker().getSmooth());
-			Workpiecehandler.saveWorkPiece(program.getUnloadstacker().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadstacker().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadstacker());
 
@@ -214,8 +207,6 @@ public class Programhandler {
 			Gripperhandler.getGripperIdByName(program.getLoadCNC().getGripper().getName(),
 					program.getLoadCNC().getGripper());
 			SmoothHandler.saveSmooth(program.getLoadCNC().getSmooth());
-			program.getLoadCNC().setWorkPiece(program.getUnloadstacker().getWorkPiece());
-			Workpiecehandler.saveWorkPiece(program.getLoadCNC().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getLoadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getLoadCNC());
 
@@ -224,7 +215,6 @@ public class Programhandler {
 			Gripperhandler.getGripperIdByName(program.getUnloadCNC().getGripper().getName(),
 					program.getUnloadCNC().getGripper());
 			SmoothHandler.saveSmooth(program.getUnloadCNC().getSmooth());
-			Workpiecehandler.saveWorkPiece(program.getUnloadCNC().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getUnloadCNC().getOffset());
 			Stephandler.saveProgramStep(program.getUnloadCNC());
 
@@ -235,13 +225,14 @@ public class Programhandler {
 			Gripperhandler.getGripperIdByName(program.getLoadstacker().getGripper().getName(),
 					program.getLoadstacker().getGripper());
 			SmoothHandler.saveSmooth(program.getLoadstacker().getSmooth());
-			program.getLoadstacker().setWorkPiece(program.getUnloadCNC().getWorkPiece());
-			Workpiecehandler.saveWorkPiece(program.getLoadstacker().getWorkPiece());
 			CoordinatesHandler.saveCoordinates(program.getLoadstacker().getOffset());
 			Stephandler.saveProgramStep(program.getLoadstacker());
 
+			Workpiecehandler.saveWorkPiece(program.getRawWorkPiece());
+			Workpiecehandler.saveWorkPiece(program.getFinishedWorkPiece());
 			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
-
+			CNCSettingHandler.saveCNCSetting(program.getCncSetting());
+			
 			PreparedStatement stmt = conn.prepareStatement(
 					"UPDATE PROGRAM SET ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ? WHERE ID = ?");
 			stmt.setFloat(1, program.getOrientation());
@@ -276,11 +267,9 @@ public class Programhandler {
 			stmt.setInt(4, p.getLoadstacker().getGripperHead().getId());
 			stmt.executeUpdate();
 
-			stmt = conn.prepareStatement("DELETE FROM WORKPIECE WHERE ID IN(?,?,?,?)");
-			stmt.setInt(1, p.getUnloadstacker().getWorkPiece().getId());
-			stmt.setInt(2, p.getLoadCNC().getWorkPiece().getId());
-			stmt.setInt(3, p.getUnloadCNC().getWorkPiece().getId());
-			stmt.setInt(4, p.getLoadstacker().getWorkPiece().getId());
+			stmt = conn.prepareStatement("DELETE FROM WORKPIECE WHERE ID IN(?,?)");
+			stmt.setInt(1, p.getRawWorkPiece().getId());
+			stmt.setInt(2, p.getFinishedWorkPiece().getId());
 			stmt.executeUpdate();
 
 			stmt = conn.prepareStatement("DELETE FROM COORDINATES WHERE ID IN(?,?,?,?)");

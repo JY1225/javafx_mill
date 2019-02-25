@@ -6,12 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 import cn.greatoo.easymill.entity.Clamping;
-import cn.greatoo.easymill.entity.Clamping.ClampingType;
 import cn.greatoo.easymill.entity.Clamping.Type;
 import cn.greatoo.easymill.entity.Coordinates;
-import cn.greatoo.easymill.entity.Gripper;
 import cn.greatoo.easymill.entity.Smooth;
 
 public class ClampingHandler {
@@ -46,7 +43,7 @@ public class ClampingHandler {
 		} else {
 			throw new IllegalStateException("Unknown clamping type: " + clamping.getType());
 		}
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO CLAMPING (NAME, RELATIVEPOSITION, SMOOTHTOPOINT, SMOOTHFROMPOINT, HEIGHT, DEFAULTHEIGHT, IMAGEURL,CLAMPINGTYPE,TYPE) " +
+		PreparedStatement stmt = conn.prepareStatement("INSERT INTO CLAMPING (NAME, RELATIVEPOSITION, SMOOTHTOPOINT, SMOOTHFROMPOINT, HEIGHT, DEFAULTHEIGHT, IMAGEURL,TYPE) " +
 				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, clamping.getName());
 		stmt.setInt(2, clamping.getRelativePosition().getId());
@@ -55,8 +52,7 @@ public class ClampingHandler {
 		stmt.setFloat(5, clamping.getHeight());
 		stmt.setFloat(6, clamping.getDefaultHeight());
 		stmt.setString(7, clamping.getImageUrl());
-		stmt.setInt(8, clamping.getClampingType().getId());
-		stmt.setInt(9, typeInt);
+		stmt.setInt(8, typeInt);
 		try {
 			stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
@@ -86,7 +82,7 @@ public class ClampingHandler {
 		SmoothHandler.saveSmooth(smoothFrom);
 		
 		PreparedStatement stmt = conn.prepareStatement("UPDATE CLAMPING " +
-				"SET NAME = ?, TYPE = ?, HEIGHT = ?, IMAGEURL = ?, DEFAULTHEIGHT = ?, CLAMPINGTYPE = ? WHERE ID = ?");
+				"SET NAME = ?, TYPE = ?, HEIGHT = ?, IMAGEURL = ?, DEFAULTHEIGHT = ? WHERE ID = ?");
 		stmt.setString(1, clamping.getName());
 		int typeInt = 0;
 		Clamping.Type type = clamping.getType();
@@ -109,8 +105,7 @@ public class ClampingHandler {
 		stmt.setFloat(3, clamping.getHeight());
 		stmt.setString(4, clamping.getImageUrl());
 		stmt.setFloat(5, clamping.getDefaultHeight());
-		stmt.setFloat(6, clamping.getClampingType().getId());
-		stmt.setInt(7, clamping.getId());
+		stmt.setInt(6, clamping.getId());
 		stmt.executeUpdate();
 		
 		conn.commit();
@@ -126,13 +121,12 @@ public class ClampingHandler {
 			//(NAME, TYPE, RELATIVEPOSITION,CLAMPINFTYPE " +
 			//"SMOOTHTOPOINT, SMOOTHFROMPOINT, IMAGEURL, HEIGHT, DEFAULTHEIGHT)
 			int type = results.getInt("TYPE");
-			int clampingType = results.getInt("CLAMPINGTYPE");
 			int relativePositionId = results.getInt("RELATIVEPOSITION");
-			Coordinates relativePosition = CoordinatesHandler.getCoordinatesById(0, relativePositionId);
+			Coordinates relativePosition = CoordinatesHandler.getCoordinatesById(relativePositionId);
 			int smoothToId = results.getInt("SMOOTHTOPOINT");
-			Smooth smoothTo = SmoothHandler.getSmoothById(0, smoothToId);
+			Smooth smoothTo = SmoothHandler.getSmoothById(smoothToId);
 			int smoothFromId = results.getInt("SMOOTHFROMPOINT");
-			Smooth smoothFrom = SmoothHandler.getSmoothById(0, smoothFromId);
+			Smooth smoothFrom = SmoothHandler.getSmoothById(smoothFromId);
 			float height = results.getFloat("HEIGHT");
 			float defaultHeight = results.getFloat("DEFAULTHEIGHT");
 			String imageUrl = results.getString("IMAGEURL");
@@ -140,22 +134,22 @@ public class ClampingHandler {
 
 			switch(type) {
 				case CLAMPING_TYPE_CENTRUM:
-					clamping = new Clamping(Clamping.Type.CENTRUM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.CENTRUM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_XP:
-					clamping = new Clamping(Clamping.Type.FIXED_XP, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_XP, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_NONE:
-					clamping = new Clamping(Clamping.Type.NONE, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.NONE, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_XM:
-					clamping = new Clamping(Clamping.Type.FIXED_XM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_XM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_YP:
-					clamping = new Clamping(Clamping.Type.FIXED_YP, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_YP, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_YM:
-					clamping = new Clamping(Clamping.Type.FIXED_YM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_YM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				default:
 					throw new IllegalStateException("Unknown clamping type: [" + type + "].");
@@ -172,36 +166,35 @@ public class ClampingHandler {
 		Clamping clamping = null;
         if (results.next()) {
             int id = results.getInt("ID");
-			int type = results.getInt("TYPE");
-			int clampingType = results.getInt("CLAMPINGTYPE");
+			int type = results.getInt("TYPE");			
 			int relativePositionId = results.getInt("RELATIVEPOSITION");
-			Coordinates relativePosition = CoordinatesHandler.getCoordinatesById(0, relativePositionId);
+			Coordinates relativePosition = CoordinatesHandler.getCoordinatesById(relativePositionId);
 			int smoothToId = results.getInt("SMOOTHTOPOINT");
-			Smooth smoothTo = SmoothHandler.getSmoothById(0, smoothToId);
+			Smooth smoothTo = SmoothHandler.getSmoothById(smoothToId);
 			int smoothFromId = results.getInt("SMOOTHFROMPOINT");
-			Smooth smoothFrom = SmoothHandler.getSmoothById(0, smoothFromId);
+			Smooth smoothFrom = SmoothHandler.getSmoothById(smoothFromId);
 			float height = results.getFloat("HEIGHT");
 			float defaultHeight = results.getFloat("DEFAULTHEIGHT");
 			String imageUrl = results.getString("IMAGEURL");
 			String name = results.getString("NAME");
 			switch(type) {
 				case CLAMPING_TYPE_CENTRUM:
-					clamping = new Clamping(Clamping.Type.CENTRUM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.CENTRUM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_XP:
-					clamping = new Clamping(Clamping.Type.FIXED_XP, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_XP, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_NONE:
-					clamping = new Clamping(Clamping.Type.NONE, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.NONE, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_XM:
-					clamping = new Clamping(Clamping.Type.FIXED_XM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_XM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_YP:
-					clamping = new Clamping(Clamping.Type.FIXED_YP, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_YP, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_YM:
-					clamping = new Clamping(Clamping.Type.FIXED_YM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_YM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				default:
 					throw new IllegalStateException("Unknown clamping type: [" + type + "].");
@@ -218,35 +211,34 @@ public class ClampingHandler {
         while (results.next()) {
             int id = results.getInt("ID");
 			int type = results.getInt("TYPE");
-			int clampingType = results.getInt("CLAMPINGTYPE");
 			int relativePositionId = results.getInt("RELATIVEPOSITION");
-			Coordinates relativePosition = CoordinatesHandler.getCoordinatesById(0, relativePositionId);
+			Coordinates relativePosition = CoordinatesHandler.getCoordinatesById(relativePositionId);
 			int smoothToId = results.getInt("SMOOTHTOPOINT");
-			Smooth smoothTo = SmoothHandler.getSmoothById(0, smoothToId);
+			Smooth smoothTo = SmoothHandler.getSmoothById(smoothToId);
 			int smoothFromId = results.getInt("SMOOTHFROMPOINT");
-			Smooth smoothFrom = SmoothHandler.getSmoothById(0, smoothFromId);
+			Smooth smoothFrom = SmoothHandler.getSmoothById(smoothFromId);
 			float height = results.getFloat("HEIGHT");
 			float defaultHeight = results.getFloat("DEFAULTHEIGHT");
 			String imageUrl = results.getString("IMAGEURL");
 			String name = results.getString("NAME");
 			switch(type) {
 				case CLAMPING_TYPE_CENTRUM:
-					clamping = new Clamping(Clamping.Type.CENTRUM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.CENTRUM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_XP:
-					clamping = new Clamping(Clamping.Type.FIXED_XP, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_XP, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_NONE:
-					clamping = new Clamping(Clamping.Type.NONE, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.NONE, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_XM:
-					clamping = new Clamping(Clamping.Type.FIXED_XM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_XM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_YP:
-					clamping = new Clamping(Clamping.Type.FIXED_YP, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_YP, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				case CLAMPING_TYPE_FIXED_YM:
-					clamping = new Clamping(Clamping.Type.FIXED_YM, ClampingType.getTypeById(clampingType), name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
+					clamping = new Clamping(Clamping.Type.FIXED_YM, name, defaultHeight, relativePosition, smoothTo,smoothFrom, imageUrl);
 					break;
 				default:
 					throw new IllegalStateException("Unknown clamping type: [" + type + "].");

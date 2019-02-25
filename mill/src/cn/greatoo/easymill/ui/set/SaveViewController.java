@@ -58,9 +58,6 @@ public class SaveViewController extends Controller {
 		}
 
 		try {
-			if (DBHandler.getInstance().getClampBuffer().get(0).getId() > 0) {
-				ClampingHandler.updateClamping(DBHandler.getInstance().getClampBuffer().get(0));
-			}
 			Programhandler.saveProgram(program);
 			Programhandler.getProgram();
 			showNotification("保存成功", NotificationBox.Type.OK);

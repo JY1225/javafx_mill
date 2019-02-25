@@ -7,15 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.jar.Attributes.Name;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.UserFrame;
-import cn.greatoo.easymill.db.util.CoordinatesHandler;
 
 public class UserFrameHander {
 	
@@ -80,7 +77,7 @@ public class UserFrameHander {
         ResultSet results = stmt.executeQuery();
         while (results.next()) {
             int locationId = results.getInt("LOCATION");
-            Coordinates location = CoordinatesHandler.getCoordinatesById(0, locationId);
+            Coordinates location = CoordinatesHandler.getCoordinatesById(locationId);
             userFrame = new UserFrame(results.getString("NAME"), results.getInt("NUMBER"), results.getFloat("ZSAFEDISTANCE"), location);
             userFrame.setId(results.getInt("ID"));
         }
@@ -99,7 +96,7 @@ public class UserFrameHander {
             float ZSAFEDISTANCE = results.getFloat("ZSAFEDISTANCE");
             int locationId = results.getInt("LOCATION");
             String name = results.getString("NAME");
-            Coordinates location = CoordinatesHandler.getCoordinatesById(0, locationId);
+            Coordinates location = CoordinatesHandler.getCoordinatesById(locationId);
             uf = new UserFrame(name, number, ZSAFEDISTANCE, location);
             uf.setId(id);
         }

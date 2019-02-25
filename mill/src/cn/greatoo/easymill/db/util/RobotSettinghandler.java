@@ -54,7 +54,7 @@ public class RobotSettinghandler {
 		}
 	}
 
-	public static RobotSetting getRobotSettingById(final int programId, final int robotSettingId) throws SQLException {
+	public static RobotSetting getRobotSettingById(final int robotSettingId) throws SQLException {
 		RobotSetting robotSetting = null;
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ROBOTSETTING WHERE ID = ?");
 		stmt.setInt(1, robotSettingId);

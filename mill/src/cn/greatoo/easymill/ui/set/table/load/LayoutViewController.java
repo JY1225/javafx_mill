@@ -76,7 +76,7 @@ public class LayoutViewController {
 		this.programName = DBHandler.getInstance().getProgramName();
 		this.program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		workPiecePositions = new WorkPiecePositions(program);
-		workPiecePositions.initStackingPositions(program.getUnloadstacker().getWorkPiece());
+		workPiecePositions.initStackingPositions(program.getRawWorkPiece());
 		stack = DBHandler.getInstance().getStatckerBuffer().get(0);
 		holes = new ArrayList<Circle>();
 		studs = new ArrayList<Circle>();
@@ -287,7 +287,7 @@ public class LayoutViewController {
     private synchronized void configureWorkPieces() {
         List<Coordinates> stackingPositions = workPiecePositions.coordinatesList;
         for (int i = 0;i < program.getAmount();i++) {
-                IDrawableObject workPieceRepre = program.getUnloadstacker().getWorkPiece().getRepresentation();
+                IDrawableObject workPieceRepre = program.getRawWorkPiece().getRepresentation();
                 Shape workPiece = workPieceRepre.createShape();
                 Pane markerPane = new Pane();
                 markerPane.getChildren().add(workPiece);

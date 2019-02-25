@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.CNCSetting;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
@@ -25,7 +26,7 @@ public class WorkPiecePositions {
 	}
 	
 	public int getWorkPieceAmount() {
-		return getMaxHorizontalAmount(program.getUnloadstacker().getWorkPiece(), program.getOrientation()) * getMaxVerticalAmount(program.getUnloadstacker().getWorkPiece(), program.getOrientation());		
+		return getMaxHorizontalAmount(program.getRawWorkPiece(), program.getOrientation()) * getMaxVerticalAmount(program.getRawWorkPiece(), program.getOrientation());		
 	}
 	
 	public void initStackingPositions(final WorkPiece dimensions) {
@@ -170,9 +171,9 @@ public class WorkPiecePositions {
         return coordinates;
     }
 	
-	public  Coordinates getPutLocation(Clamping clamp) {		
+	public  Coordinates getPutLocation(CNCSetting cncSetting) {		
 		Coordinates c = new Coordinates(DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition());
-		if (clamp.getClampingType() == Clamping.ClampingType.LENGTH) {
+		if (cncSetting.getClampingType() == CNCSetting.ClampingType.LENGTH) {
 			if (program.getOrientation() == 90) {
 				c.setR(c.getR() + 90);
 			} else {

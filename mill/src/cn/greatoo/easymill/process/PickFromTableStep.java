@@ -37,11 +37,11 @@ public class PickFromTableStep extends AbstractStep{
 			
 			int approachType = 1;
 			float payLoad1 = 0;
-			float payLoad2 = program.getUnloadstacker().getWorkPiece().getWeight() * 10;
+			float payLoad2 = program.getRawWorkPiece().getWeight() * 10;
 			//76
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServiceHandlingSet(robot.getSpeed(), freeAfterService, serviceHandlingPPMode, 
-					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
+					program.getRawWorkPiece(), approachType, payLoad1, payLoad2);
 			//----------------------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
 			Coordinates originalPosition = workPiecePositions.getPickLocation(wIndex);//(75.0, 105.0, 0.0, 0.0, 0.0, 90.0)			
@@ -57,7 +57,7 @@ public class PickFromTableStep extends AbstractStep{
 			int workArea = 1;
 			approachType = 1;
 			float zSafePlane = 0;
-			float wh = program.getUnloadstacker().getWorkPiece().getHeight();
+			float wh = program.getRawWorkPiece().getHeight();
 			float sh = program.getStudHeight_Workpiece();
 			if(wh >= sh) {
 				zSafePlane = 2*wh;	
@@ -70,7 +70,7 @@ public class PickFromTableStep extends AbstractStep{
 			//77
 			checkProcessExecutorStatus(robot,cncMachine);
 			robot.writeServicePointSet(workArea, position, program.getUnloadstacker().getSmooth(), 
-					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getUnloadstacker().getWorkPiece(), 
+					DBHandler.getInstance().getUserFrameBuffer().get(1).getzSafeDistance(), program.getRawWorkPiece(), 
 					clampHeight,
 					approachType, zSafePlane);
 			checkProcessExecutorStatus(robot,cncMachine);

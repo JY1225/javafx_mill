@@ -42,33 +42,29 @@ public class CNCFinishedWPViewController extends Controller{
 		buildAlarmHBox(generalGridPane,0, 0, 2, 1);
 		programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
-			fullnumL.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC()
-				.getWorkPiece().getLength()));
-			fullnumW.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC()
-				.getWorkPiece().getWidth()));
-			fullnumH.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC()
-				.getWorkPiece().getHeight()));
-			fullnumWT.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC()
-				.getWorkPiece().getWeight()));
+			fullnumL.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece().getLength()));
+			fullnumW.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece().getWidth()));
+			fullnumH.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece().getHeight()));
+			fullnumWT.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece().getWeight()));
 		}
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
 				.setType(WorkPiece.Type.FINISHED);
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
 				.setShape(WorkPiece.WorkPieceShape.CUBIC);
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
-		.setMaterial(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getMaterial());
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
+		.setMaterial(DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getMaterial());
 		
 		fullnumL.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
-            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-            			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-            			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()
-            			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()) {
+            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+            			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+            			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()
+            			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()) {
             		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
             	}else {
             		hideNotification();
-            		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
+            		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
             		.setLength(newValue);
             	}
             }
@@ -77,14 +73,14 @@ public class CNCFinishedWPViewController extends Controller{
 		fullnumW.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
-            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-            			||Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-            			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()
-            			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()) {
+            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+            			||Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+            			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()
+            			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()) {
             		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
             	}else {
             		hideNotification();
-            		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
+            		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
 					.setWidth(newValue);
             	}
             }
@@ -93,14 +89,14 @@ public class CNCFinishedWPViewController extends Controller{
 		fullnumH.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
-            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()
-            			||Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-            			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-            			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()) {
+            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()
+            			||Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+            			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+            			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()) {
             		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
             	}else {
             		hideNotification();
-            		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
+            		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
 					.setHeight(newValue);
             	}
             }
@@ -109,14 +105,14 @@ public class CNCFinishedWPViewController extends Controller{
 		fullnumWT.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {
-            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()
-            			||Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-            			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-            			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()) {
+            	if(newValue > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()
+            			||Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+            			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+            			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()) {
             		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
             	}else {
             		hideNotification();
-            		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
+            		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
 					.setWeight(newValue);
             	}
             }
@@ -133,79 +129,79 @@ public class CNCFinishedWPViewController extends Controller{
 
 	@FXML
 	public void calculateBtAction(ActionEvent event) {
-		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-    			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()
+		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+    			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()
     	) {
     		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
     	}else {
     		hideNotification();    		
     	}
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece().calculateWeight();
-		fullnumWT.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece().getWeight()));
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece().setWeight(Float.parseFloat(fullnumWT.getText()));
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece().calculateWeight();
+		fullnumWT.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece().getWeight()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece().setWeight(Float.parseFloat(fullnumWT.getText()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
 			.setWeight(Float.parseFloat(fullnumWT.getText()));
 	}
 
 	@FXML
 	public void LResetBtAction(ActionEvent event) {
-		if(Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()
-    			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()
+		if(Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()
+    			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()
     	) {
     		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
     	}else {
     		hideNotification();    		
     	}
-		fullnumL.setText(String.valueOf(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getLength()));
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
-		.setLength(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getLength());
+		fullnumL.setText(String.valueOf(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getLength()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
+		.setLength(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getLength());
 	}
 		
 	@FXML
 	public void wResetBtAction(ActionEvent event) {
-		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()
-    			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()
+		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()
+    			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()
     	) {
     		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
     	}else {
     		hideNotification();    		
     	}
-		fullnumW.setText(String.valueOf(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getWidth()));
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
-		.setWidth(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getWidth());
+		fullnumW.setText(String.valueOf(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getWidth()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
+		.setWidth(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getWidth());
 	}
 	
 	@FXML
 	public void hResetBtAction(ActionEvent event) {
-		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-    			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-    			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWeight()
+		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+    			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+    			||Float.valueOf(fullnumWT.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWeight()
     	) {
     		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
     	}else {
     		hideNotification();    		
     	}
-		fullnumH.setText(String.valueOf(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getHeight()));
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
-		.setHeight(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getHeight());
+		fullnumH.setText(String.valueOf(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getHeight()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
+		.setHeight(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getHeight());
 	}
 	
 	@FXML
 	public void resetBtAction(ActionEvent event) {
-		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getLength()
-    			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getWidth()
-    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getWorkPiece().getHeight()
+		if(Float.valueOf(fullnumL.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getLength()
+    			||Float.valueOf(fullnumW.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getWidth()
+    			||Float.valueOf(fullnumH.getText()) > DBHandler.getInstance().getProgramBuffer().get(programName).getRawWorkPiece().getHeight()
     	) {
     		showNotification("已加工工件不得大于待加工工件", NotificationBox.Type.WARNING);
     	}else {
     		hideNotification();    		
     	}
-		fullnumWT.setText(String.valueOf(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getWeight()));
-		DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadCNC().getWorkPiece()
-		.setWeight(DBHandler.getInstance().getOProgram().getUnloadCNC().getWorkPiece().getWeight());
+		fullnumWT.setText(String.valueOf(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getWeight()));
+		DBHandler.getInstance().getProgramBuffer().get(programName).getFinishedWorkPiece()
+		.setWeight(DBHandler.getInstance().getOProgram().getFinishedWorkPiece().getWeight());
 	}
 	
 	

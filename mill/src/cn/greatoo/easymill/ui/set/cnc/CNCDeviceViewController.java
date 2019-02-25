@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.entity.CNCSetting;
 import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
@@ -25,6 +26,7 @@ public class CNCDeviceViewController  extends Controller {
 	private IconFlowSelector ifsClampings;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
 	private List<Button> bts;
+	private String programName;	
 	
 	public void init() {
 		bts = new ArrayList<Button>();
@@ -34,27 +36,26 @@ public class CNCDeviceViewController  extends Controller {
 		ifsClampings = new IconFlowSelector(false);
         ifsClampings.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
         gridPane.add(ifsClampings, 0, 2, 2, 1);
-                      
-        List<Clamping> list = DBHandler.getInstance().getClampBuffer();        
-        for(Clamping c:list) {
-        	if(c.getClampingType().equals(Clamping.ClampingType.LENGTH)) {
-        		isClicked(bts, LBt);
-			}else {
-				isClicked(bts, wBt);
-			}
-		}  
+        programName = DBHandler.getInstance().getProgramName();      
+
+        if(DBHandler.getInstance().getProgramBuffer().get(programName).getCncSetting().getClampingType().equals(CNCSetting.ClampingType.LENGTH)) {
+        	isClicked(bts, LBt);
+		}else {
+			isClicked(bts, wBt);
+		}
+ 
         refresh();
 	}
 	@FXML
 	public void LBtAction(ActionEvent event) {
 		isClicked(bts, LBt);
-		DBHandler.getInstance().getClampBuffer().get(0).setClampingType(Clamping.ClampingType.LENGTH);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getCncSetting().setClampingType(CNCSetting.ClampingType.LENGTH);
 	}
 	
 	@FXML
 	public void wBtAction(ActionEvent event) {
 		isClicked(bts, wBt);
-		DBHandler.getInstance().getClampBuffer().get(0).setClampingType(Clamping.ClampingType.WIDTH);
+		DBHandler.getInstance().getProgramBuffer().get(programName).getCncSetting().setClampingType(CNCSetting.ClampingType.WIDTH);
 	}
 	@Override
 	public void setMessege(String mess) {
