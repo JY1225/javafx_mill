@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import java.sql.SQLException;
 
@@ -17,7 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class StackerViewController extends Controller{
+public class DevicesStackerViewController extends Controller{
 	@FXML
 	private GridPane contentGridPane;
 	@FXML

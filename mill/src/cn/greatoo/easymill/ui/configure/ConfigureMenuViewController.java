@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.greatoo.easymill.ui.configure.devicesConfig.DevicesConfigMenuViewController;
+import cn.greatoo.easymill.ui.configure.devices.DevicesMenuViewController;
 import cn.greatoo.easymill.ui.configure.robot.RobotMenuViewController;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.TextInputControlListener;
@@ -67,24 +67,24 @@ public class ConfigureMenuViewController extends Controller{
 			setDisVisible(0, 1, gridPane, robotParent);
 		}
 	}
-	DevicesConfigMenuViewController devicesConfigMenuViewController;
+	DevicesMenuViewController devicesMenuViewController;
 	private void openConfigView() {
 		isClicked(bts,configBt);
 		if (!gridPane.getChildren().contains(configParent)) {
 			try {
-				URL location = getClass().getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/DevicesConfigMenuView.fxml");
+				URL location = getClass().getResource("/cn/greatoo/easymill/ui/configure/devices/DevicesMenuView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				configParent = fxmlLoader.load();
-				devicesConfigMenuViewController = fxmlLoader.getController(); 
-				devicesConfigMenuViewController.init(gridPane);
+				devicesMenuViewController = fxmlLoader.getController(); 
+				devicesMenuViewController.init(gridPane);
 				gridPane.add(configParent, 1, 0);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			devicesConfigMenuViewController.init(gridPane);
+			devicesMenuViewController.init(gridPane);
 			setDisVisible(0, 1, gridPane, configParent);
 		}
 	}

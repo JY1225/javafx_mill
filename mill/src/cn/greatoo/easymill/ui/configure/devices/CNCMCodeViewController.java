@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class MCodeConfigViewController {
+public class CNCMCodeViewController {
 	@FXML
 	private GridPane mCodeGridPane;
 	@FXML

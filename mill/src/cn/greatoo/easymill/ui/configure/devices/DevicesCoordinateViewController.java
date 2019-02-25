@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import javafx.fxml.FXML;
 
@@ -23,7 +23,7 @@ import javafx.scene.control.ComboBox;
 
 import javafx.scene.layout.GridPane;
 
-public class CoordinateViewController extends Controller {
+public class DevicesCoordinateViewController extends Controller {
 	@FXML
 	private GridPane gridPane;
 	@FXML

@@ -1,11 +1,10 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
 import cn.greatoo.easymill.external.communication.socket.SocketConnection;
-import cn.greatoo.easymill.external.communication.socket.SocketConnection.Type;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.event.ActionEvent;
@@ -14,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class GeneralConfigViewController extends Controller {
+public class CNCGeneralViewController extends Controller {
 	@FXML
 	private GridPane generalGridPane;
 	@FXML

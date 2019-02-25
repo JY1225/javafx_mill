@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import cn.greatoo.easymill.util.*?>
 
-<AnchorPane prefHeight="506.0" prefWidth="603.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.configure.devicesConfig.MCodeConfigViewController">
+<AnchorPane prefHeight="506.0" prefWidth="603.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.configure.devices.CNCMCodeViewController">
    <children>
       <GridPane fx:id="mCodeGridPane" layoutX="154.0" layoutY="107.0" prefHeight="548.0" prefWidth="603.0" style="-fx-background-color: #636468;" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>

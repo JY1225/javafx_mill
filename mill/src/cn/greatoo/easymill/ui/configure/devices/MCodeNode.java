@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import java.util.HashSet;
 import java.util.Set;

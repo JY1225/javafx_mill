@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class DevicesConfigMenuViewController extends Controller {
+public class DevicesMenuViewController extends Controller {
 	@FXML
 	private StackPane stackPane;
 	@FXML
@@ -53,7 +53,7 @@ public class DevicesConfigMenuViewController extends Controller {
 		}else if(cncBt.getStyleClass().contains("selected")) {
 			openCNCConfigView();
 		}else if(cncGriperBt.getStyleClass().contains("selected")) {
-			openGriperView();
+			openClampView();
 		}
 		int i = 0;
 		addMenuItem(prosessVBox, coordinateBt, i, "用户坐标", true, new EventHandler<ActionEvent>() {
@@ -82,7 +82,7 @@ public class DevicesConfigMenuViewController extends Controller {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, cncGriperBt);
-				openGriperView();
+				openClampView();
 			}
 		});
 	}
@@ -91,12 +91,12 @@ public class DevicesConfigMenuViewController extends Controller {
 		if (!gridPane.getChildren().contains(coordinateParent)) {
 			try {
 				URL location = getClass()
-						.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/CoordinateView.fxml");
+						.getResource("/cn/greatoo/easymill/ui/configure/devices/DevicesCoordinateView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				coordinateParent = fxmlLoader.load();
-				CoordinateViewController coordinateViewController = fxmlLoader.getController(); 
+				DevicesCoordinateViewController coordinateViewController = fxmlLoader.getController(); 
 				coordinateViewController.init();
 				gridPane.add(coordinateParent, 2, 0);
 			} catch (IOException e) {
@@ -110,12 +110,12 @@ public class DevicesConfigMenuViewController extends Controller {
 		if (!gridPane.getChildren().contains(stackerParent)) {
 			try {
 				URL location = getClass()
-						.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/StackerView.fxml");
+						.getResource("/cn/greatoo/easymill/ui/configure/devices/DevicesStackerView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				stackerParent = fxmlLoader.load();
-				StackerViewController stackerViewController = fxmlLoader.getController(); 
+				DevicesStackerViewController stackerViewController = fxmlLoader.getController(); 
 				stackerViewController.init();
 				gridPane.add(stackerParent, 2, 0);
 			} catch (IOException e) {
@@ -129,12 +129,12 @@ public class DevicesConfigMenuViewController extends Controller {
 		if (!gridPane.getChildren().contains(CNCConfigParent)) {
 			try {
 				URL location = getClass()
-						.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/CNCConfigView.fxml");
+						.getResource("/cn/greatoo/easymill/ui/configure/devices/DevicesCNCView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				CNCConfigParent = fxmlLoader.load();
-				CNCConfigViewController cNCConfigViewController = fxmlLoader.getController(); 
+				DevicesCNCViewController cNCConfigViewController = fxmlLoader.getController(); 
 				cNCConfigViewController.init();
 				gridPane.add(CNCConfigParent, 2, 0);
 			} catch (IOException e) {
@@ -143,16 +143,16 @@ public class DevicesConfigMenuViewController extends Controller {
 		} else
 			setDisVisible(0, 2, gridPane, CNCConfigParent);
 	}
-	protected void openGriperView() {
+	protected void openClampView() {
 		if (!gridPane.getChildren().contains(GriperParent)) {
 			try {
 				URL location = getClass()
-						.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/ConfigGriperView.fxml");
+						.getResource("/cn/greatoo/easymill/ui/configure/devices/DevicesClampView.fxml");
 				fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(location);
 				fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 				GriperParent = fxmlLoader.load();
-				ConfigGriperViewController configGriperViewController = fxmlLoader.getController(); 
+				DevicesClampViewController configGriperViewController = fxmlLoader.getController(); 
 				configGriperViewController.init();
 				gridPane.add(GriperParent, 2, 0);
 			} catch (IOException e) {

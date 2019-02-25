@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -40,7 +40,7 @@ import cn.greatoo.easymill.db.util.ClampingHandler;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Gripperhandler;
 
-public class CNCClampingsView extends Controller implements TextInputControlListener{
+public class ClampView extends Controller implements TextInputControlListener{
 	private boolean editMode;
 	private Clamping selectedClamping;
 	private IconFlowSelector ifsClampings;

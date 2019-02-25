@@ -1,10 +1,7 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import cn.greatoo.easymill.db.util.ClampingHandler;
-import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.IconFlowSelector;
 import cn.greatoo.easymill.util.TextInputControlListener;
@@ -13,7 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
-public class ConfigGriperViewController  extends Controller{
+public class DevicesClampViewController  extends Controller{
 	@FXML
 	private GridPane gridPane;
 	@FXML
@@ -23,32 +20,32 @@ public class ConfigGriperViewController  extends Controller{
 
 	private IconFlowSelector ifsClamping;
 	private static final double ICONFLOWSELECTOR_WIDTH = 530;
-	CNCClampingsView robotGripperView;
+	ClampView cNCClampingsView;
 	private ArrayList<Button> bts;
 
 	public void init() {
 		bts = new ArrayList<Button>();
 		bts.add(editBt);
 		bts.add(newBt);
-		// 夹爪图
+		// 卡盘图
 		ifsClamping = new IconFlowSelector(false);
 		ifsClamping.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
 		gridPane.add(ifsClamping, 0, 0, 2, 1);
 		// 编辑，新增
-		robotGripperView = new CNCClampingsView();
-		robotGripperView.init(gridPane, editBt, newBt, ifsClamping);
+		cNCClampingsView = new ClampView();
+		cNCClampingsView.init(gridPane, editBt, newBt, ifsClamping);
 		       
 	}
 
 	@FXML
 	public void editBtAction(ActionEvent event) {
-		robotGripperView.clickedEdit();
+		cNCClampingsView.clickedEdit();
 	}
 		
 	
 	@FXML
 	public void newBtAction(ActionEvent event) {
-		robotGripperView.clickedNew();
+		cNCClampingsView.clickedNew();
 	}
 
 	@Override

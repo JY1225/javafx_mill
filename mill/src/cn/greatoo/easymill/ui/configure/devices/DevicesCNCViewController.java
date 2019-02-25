@@ -1,4 +1,4 @@
-package cn.greatoo.easymill.ui.configure.devicesConfig;
+package cn.greatoo.easymill.ui.configure.devices;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +31,7 @@ import javafx.scene.layout.GridPane;
  * 数控机床通用，M代码菜单
  *
  */
-public class CNCConfigViewController extends Controller {
+public class DevicesCNCViewController extends Controller {
 
 	@FXML
 	private GridPane gridPane;
@@ -138,7 +138,7 @@ public class CNCConfigViewController extends Controller {
 		}
 	}
 
-	GeneralConfigViewController generalConfigViewController;
+	CNCGeneralViewController generalConfigViewController;
 
 	private void openGeneralview(CNCMachine cnc) {
 		if (comboBox.getValue() == null) {
@@ -148,7 +148,7 @@ public class CNCConfigViewController extends Controller {
 			if (!gridPane.getChildren().contains(generalParent)) {
 				try {
 					URL location = getClass()
-							.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/GeneralConfigView.fxml");
+							.getResource("/cn/greatoo/easymill/ui/configure/devices/CNCGeneralView.fxml");
 					fxmlLoader = new FXMLLoader();
 					fxmlLoader.setLocation(location);
 					fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
@@ -164,7 +164,7 @@ public class CNCConfigViewController extends Controller {
 		}
 	}
 
-	MCodeConfigViewController mCodeConfigViewController;
+	CNCMCodeViewController mCodeConfigViewController;
 
 	private void openMCodeView(CNCMachine cnc) {
 		if (comboBox.getValue() == null) {
@@ -174,7 +174,7 @@ public class CNCConfigViewController extends Controller {
 			if (!gridPane.getChildren().contains(mCodeParent)) {
 				try {
 					URL location = getClass()
-							.getResource("/cn/greatoo/easymill/ui/configure/devicesConfig/MCodeConfigView.fxml");
+							.getResource("/cn/greatoo/easymill/ui/configure/devices/CNCMCodeView.fxml");
 					fxmlLoader = new FXMLLoader();
 					fxmlLoader.setLocation(location);
 					fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
