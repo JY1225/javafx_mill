@@ -16,7 +16,7 @@ import javafx.application.Platform;
 
 public class PutToTableStep extends AbstractStep{
 
-	public void putToTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {
+	public void putToTable(Program program, FanucRobot robot, CNCMachine cncMachine, WorkPiecePositions workPiecePositions, boolean teached, int wIndex, Controller view) {
 		try {
 
 			int serviceType = 13;	
@@ -31,7 +31,7 @@ public class PutToTableStep extends AbstractStep{
 				serviceHandlingPPMode = serviceHandlingPPMode | RobotConstants.SERVICE_HANDLING_PP_MODE_TEACH;
 			}
 
-			float weight2 = -program.getUnloadCNC().getWorkPiece().getWeight();
+			//float weight2 = -program.getUnloadCNC().getWorkPiece().getWeight();
 			int approachType = 1;
 			float payLoad1 = program.getUnloadCNC().getWorkPiece().getWeight() * 10;
 			float payLoad2 = 0;
@@ -44,7 +44,7 @@ public class PutToTableStep extends AbstractStep{
 			float zSafePlane = 0;
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);;
+			Coordinates originalPosition = workPiecePositions.getPickLocation(wIndex);;
 			Coordinates position = new Coordinates(originalPosition);
 			if (getLoadStackerRelativeTeachedOffset() == null) {
 				initSafeTeachedOffset(4,program,clamping,originalPosition);

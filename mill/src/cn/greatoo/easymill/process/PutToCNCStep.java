@@ -21,7 +21,7 @@ import javafx.application.Platform;
  */
 public class PutToCNCStep extends AbstractStep{
 
-	public void putToCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
+	public void putToCNC(Program program, FanucRobot robot, CNCMachine cncMachine, WorkPiecePositions workPiecePositions, boolean teached, Controller view) {
 		try {
 			Clamping Clampping =DBHandler.getInstance().getClampBuffer().get(0);
 			//===put工件到机床=========================================================================================================			
@@ -44,7 +44,7 @@ public class PutToCNCStep extends AbstractStep{
 					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//-----------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = new WorkPiecePositions(program).getPutLocation(Clampping);
+			Coordinates originalPosition = workPiecePositions.getPutLocation(Clampping);
 			Coordinates position = new Coordinates(originalPosition);
 			if (getLoadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移

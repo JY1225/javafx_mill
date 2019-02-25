@@ -42,6 +42,8 @@ public class TeachMainContentViewController extends Controller{
 		this.bts = bts;
 		this.M1 = m1;
 		this.M2 = m2;
+		M1.setDisable(true);
+		M2.setDisable(true);
 		M1.setTextFill(Color.BLACK);
 		M2.setTextFill(Color.BLACK);
 		stopBt.setDisable(true);
@@ -119,6 +121,9 @@ public class TeachMainContentViewController extends Controller{
 				bts.get(i).setDisable(false);
 			}
 		}
+		M1.setTextFill(Color.BLACK);
+		M2.setTextFill(Color.BLACK);
+		animate(false);
 		FanucRobot.getInstance(null,0,null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();
 	}
@@ -141,14 +146,14 @@ public class TeachMainContentViewController extends Controller{
 				animate(true);
 			}else if(messege.contains("从机床下料")) {
 				animate(false);
-			}else if(messege.contains("成功示教")) {
+			}else if(messege.contains("成功示教")) {				
 				M2.setTextFill(Color.BLACK);
 			}
 			}else {
 				if(messege.contains("MCODE1")) {
 					M1.setTextFill(Color.RED);
 				}else if(messege.contains("MCODE2")){
-					M2.setTextFill(Color.RED);
+					M2.setTextFill(Color.RED);	
 					M1.setTextFill(Color.BLACK);
 				}
 			}

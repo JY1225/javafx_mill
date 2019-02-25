@@ -18,7 +18,7 @@ import javafx.application.Platform;
 public class PickFromCNCStep extends AbstractStep{
 
 	@SuppressWarnings({ "unused" })
-	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
+	public void pickFromCNC(Program program, FanucRobot robot, CNCMachine cncMachine, WorkPiecePositions workPiecePositions, boolean teached, Controller view) {
 		try {
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;
 			boolean gripInner = false;
@@ -45,7 +45,7 @@ public class PickFromCNCStep extends AbstractStep{
 			int workArea = 3;
 			Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = new WorkPiecePositions(program).getPutLocation(clamping);
+			Coordinates originalPosition = workPiecePositions.getPutLocation(clamping);
 			Coordinates position = new Coordinates(originalPosition);
 			if (getUnloadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移

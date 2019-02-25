@@ -118,6 +118,8 @@ public class AutoViewController extends Controller{
 	private RotateTransition rtContinuous,rotateTransition;
 	List<Button> bts;
 	public void init(List<Button> bts) {
+		M1.setDisable(true);
+		M2.setDisable(true);
 		M1.setTextFill(Color.BLACK);
 		M2.setTextFill(Color.BLACK);
 		newProsessLable.setText(DBHandler.getInstance().getProgramName());
@@ -219,6 +221,9 @@ public class AutoViewController extends Controller{
 		for(int i = 0;i < bts.size(); i++) {
 			bts.get(i).setDisable(false);
 		}
+		M1.setTextFill(Color.BLACK);
+		M2.setTextFill(Color.BLACK);
+		animate(false);
 		startBt.setDisable(false);
 		stopBt.setDisable(true);
 		messegeText.setText("当前程序未激活！");
@@ -362,7 +367,7 @@ public class AutoViewController extends Controller{
 					animate(false);					
 				}
 			}else {
-				setFinishedAmount(Integer.valueOf(messege.split(";")[1]));
+				setFinishedAmount(Integer.valueOf(messege.split(";")[1]));				
 				M2.setTextFill(Color.BLACK);
 			}
 						
@@ -370,7 +375,7 @@ public class AutoViewController extends Controller{
 				if(messege.contains("MCODE1")) {
 					M1.setTextFill(Color.RED);
 				}else if(messege.contains("MCODE2")){
-					M2.setTextFill(Color.RED);
+					M2.setTextFill(Color.RED);	
 					M1.setTextFill(Color.BLACK);
 				}
 			}

@@ -21,9 +21,8 @@ import javafx.application.Platform;
  */
 public class PickFromTableStep extends AbstractStep{
 
-	public void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, boolean teached, int wIndex, Controller view) {		
+	public void pickFromTable(Program program, FanucRobot robot, CNCMachine cncMachine, WorkPiecePositions workPiecePositions, boolean teached, int wIndex, Controller view) {		
 		try {	
-			WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
 			Clamping clamping =DBHandler.getInstance().getClampBuffer().get(0);
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PICK;//12;			
 			//75 A爪必选 B爪可选
@@ -45,8 +44,7 @@ public class PickFromTableStep extends AbstractStep{
 					program.getUnloadstacker().getWorkPiece(), approachType, payLoad1, payLoad2);
 			//----------------------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
-			workPiecePositions.initStackingPositions(program.getUnloadstacker().getWorkPiece());
-			Coordinates originalPosition = WorkPiecePositions.getPickLocation(wIndex);//(75.0, 105.0, 0.0, 0.0, 0.0, 90.0)			
+			Coordinates originalPosition = workPiecePositions.getPickLocation(wIndex);//(75.0, 105.0, 0.0, 0.0, 0.0, 90.0)			
 			Coordinates position = new Coordinates(originalPosition);			
 			if (getUnloadStackerRelativeTeachedOffset() == null) {
 				initSafeTeachedOffset(1,program,clamping,originalPosition);

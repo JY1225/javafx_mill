@@ -70,11 +70,12 @@ public class LayoutViewController {
 	private static final String CSS_CLASS_CORNERSHAPE = "corner-shape";
 	private static final String CSS_CLASS_AMOUNT = "amount-text";
 	private StudPosition[][] studPositions;
-
+	private WorkPiecePositions workPiecePositions;
+	
 	public void init(GridPane setProsessPane) {
 		this.programName = DBHandler.getInstance().getProgramName();
 		this.program = DBHandler.getInstance().getProgramBuffer().get(programName);
-		WorkPiecePositions workPiecePositions = new WorkPiecePositions(program);
+		workPiecePositions = new WorkPiecePositions(program);
 		workPiecePositions.initStackingPositions(program.getUnloadstacker().getWorkPiece());
 		stack = DBHandler.getInstance().getStatckerBuffer().get(0);
 		holes = new ArrayList<Circle>();
@@ -83,11 +84,11 @@ public class LayoutViewController {
 		verticalLabels = new ArrayList<Text>();
 		length = stack.getHorizontalPadding() + (stack.getHorizontalHoleAmount() - 1) * stack.getHorizontalHoleDistance() + stack.getHorizontalPadding();
 		width = stack.getVerticalPaddingBottom() + (stack.getVerticalHoleAmount() - 1) * stack.getVerticalHoleDistance() + stack.getVerticalPaddingTop();
-		build(setProsessPane);
+		build();
 
 	}
 
-	public void build(GridPane setProsessPane) {
+	public void build() {
 		Platform.runLater(new Thread() {
 			@Override
 			public void run() {
@@ -120,7 +121,7 @@ public class LayoutViewController {
 				gpContents.setAlignment(Pos.CENTER);
 				initStuds();
 				
-				if (WorkPiecePositions.coordinatesList.size() > 0) {                
+				if (workPiecePositions.coordinatesList.size() > 0) {                
 					configureStuds();
 					configureWorkPieces();
 				}
@@ -284,7 +285,7 @@ public class LayoutViewController {
 	}
 	
     private synchronized void configureWorkPieces() {
-        List<Coordinates> stackingPositions = WorkPiecePositions.coordinatesList;
+        List<Coordinates> stackingPositions = workPiecePositions.coordinatesList;
         for (int i = 0;i < program.getAmount();i++) {
                 IDrawableObject workPieceRepre = program.getUnloadstacker().getWorkPiece().getRepresentation();
                 Shape workPiece = workPieceRepre.createShape();
