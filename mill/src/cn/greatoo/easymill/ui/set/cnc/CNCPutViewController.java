@@ -38,21 +38,20 @@ public class CNCPutViewController extends Controller {
 		bts.add(aftBt);
 		refresh();
 		programName = DBHandler.getInstance().getProgramName();
-		if (programName != null) {
-			XField.setText(String.valueOf(
-					DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getX()));
-			YField.setText(String.valueOf(
-					DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getY()));
-			ZField.setText(String.valueOf(
-					DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getZ()));
+		XField.setText(String.valueOf(
+				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getX()));
+		YField.setText(String.valueOf(
+				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getY()));
+		ZField.setText(String.valueOf(
+				DBHandler.getInstance().getProgramBuffer().get(programName).getLoadCNC().getSmooth().getZ()));
 
-			if (DBHandler.getInstance().getProgramBuffer().get(programName).getRobotSetting()
-					.isReleaseBeforeMachine()) {
-				isClicked(bts, beBt);
-			} else {
-				isClicked(bts, aftBt);
-			}
+		if (DBHandler.getInstance().getProgramBuffer().get(programName).getRobotSetting()
+				.isReleaseBeforeMachine()) {
+			isClicked(bts, beBt);
+		} else {
+			isClicked(bts, aftBt);
 		}
+
 		XField.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {

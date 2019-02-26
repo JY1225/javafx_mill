@@ -37,13 +37,14 @@ public class CNCDeviceViewController  extends Controller {
         ifsClampings.setPrefWidth(ICONFLOWSELECTOR_WIDTH);
         gridPane.add(ifsClampings, 0, 2, 2, 1);
         programName = DBHandler.getInstance().getProgramName();      
-
-        if(DBHandler.getInstance().getProgramBuffer().get(programName).getCncSetting().getClampingType().equals(CNCSetting.ClampingType.LENGTH)) {
-        	isClicked(bts, LBt);
-		}else {
-			isClicked(bts, wBt);
-		}
- 
+        
+        if(DBHandler.getInstance().getProgramBuffer().get(programName).getCncSetting().getClampingType() != null) {
+        	if(DBHandler.getInstance().getProgramBuffer().get(programName).getCncSetting().getClampingType().equals(CNCSetting.ClampingType.LENGTH)) {
+        		isClicked(bts, LBt);
+        	}else {
+        		isClicked(bts, wBt);
+        	}
+        }
         refresh();
 	}
 	@FXML

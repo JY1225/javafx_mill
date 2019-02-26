@@ -79,22 +79,24 @@ public class Programhandler {
 					DBHandler.getInstance().setOProgram(oprogram);
 				}
 			}
-			program = new Program(null, new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
+			program = new Program(null, new Step(new GripperHead("A",false), new Gripper(), 1, new Smooth(5.0f,0f,5.0f),
+					new Coordinates()), new Step(new GripperHead("A",false), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead("B",false), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead("B",false), new Gripper(), 1, new Smooth(5.0f,0f,5.0f),
 					new Coordinates()), 
 					new Timestamp(System.currentTimeMillis()), 
 					new Timestamp(System.currentTimeMillis()),
-					new RobotSetting(),new CNCSetting(), false, 90, 1, 1, 16, new WorkPiece(), new WorkPiece());
-			oprogram = new Program(null, new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), 3, new Smooth(),
-					new Coordinates()), new Step(new GripperHead(), new Gripper(), 1, new Smooth(),
+					new RobotSetting(false),new CNCSetting(CNCSetting.ClampingType.LENGTH), false, 0, 1, 1, 16, new WorkPiece(WorkPiece.Type.RAW,0,0,0,0,WorkPiece.Material.OTHER,0), 
+					new WorkPiece(WorkPiece.Type.FINISHED,0,0,0,0,WorkPiece.Material.OTHER,0));
+			oprogram = new Program(null, new Step(new GripperHead("A",false), new Gripper(), 1, new Smooth(5.0f,0f,5.0f),
+					new Coordinates()), new Step(new GripperHead("A",false), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead("B",false), new Gripper(), 3, new Smooth(),
+					new Coordinates()), new Step(new GripperHead("B",false), new Gripper(), 1, new Smooth(5.0f,0f,5.0f),
 					new Coordinates()), 
 					new Timestamp(System.currentTimeMillis()), 
 					new Timestamp(System.currentTimeMillis()),
-					new RobotSetting(),new CNCSetting(), false, 90, 1, 1, 16, new WorkPiece(), new WorkPiece());
+					new RobotSetting(false),new CNCSetting(CNCSetting.ClampingType.LENGTH), false, 0, 1, 1, 16, new WorkPiece(WorkPiece.Type.RAW,0,0,0,0,WorkPiece.Material.OTHER,0), 
+					new WorkPiece(WorkPiece.Type.FINISHED,0,0,0,0,WorkPiece.Material.OTHER,0));
 			DBHandler.getInstance().getProgramBuffer().put(null, program);
 			if (DBHandler.getInstance().getProgramBuffer().size() == 0) {
 				DBHandler.getInstance().setProgramName(null);
@@ -161,7 +163,9 @@ public class Programhandler {
 			program.getLoadstacker().setId(0);
 			Stephandler.saveProgramStep(program.getLoadstacker());
 
+			program.getRawWorkPiece().setId(0);
 			Workpiecehandler.saveWorkPiece(program.getRawWorkPiece());
+			program.getFinishedWorkPiece().setId(0);
 			Workpiecehandler.saveWorkPiece(program.getFinishedWorkPiece());
 			program.getRobotSetting().setId(0);
 			RobotSettinghandler.saveRobotSetting(program.getRobotSetting());
@@ -169,9 +173,10 @@ public class Programhandler {
 			CNCSettingHandler.saveCNCSetting(program.getCncSetting());
 			
 			PreparedStatement stmt = conn.prepareStatement(
-					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,CNCSETTING,ISHASTEACH,ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,CNCSETTING"
+					+ ",ISHASTEACH,ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE, rawWorkPiece, finishedWorkPiece) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
-			int index = 0;
+			int index = 1;
 			stmt.setString(index++, program.getName());
 			stmt.setTimestamp(index++, program.getTimeCreate());
 			stmt.setTimestamp(index++, program.getTimeLastOpen());
@@ -186,6 +191,8 @@ public class Programhandler {
 			stmt.setFloat(index++, program.getLayers());
 			stmt.setFloat(index++, program.getAmount());
 			stmt.setFloat(index++, program.getStudHeight_Workpiece());
+			stmt.setInt(index++, program.getRawWorkPiece().getId());
+			stmt.setInt(index++, program.getFinishedWorkPiece().getId());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {

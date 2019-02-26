@@ -58,14 +58,14 @@ public class ClampViewController extends Controller {
 
 		comboBox.getSelectionModel().select(DBHandler.getInstance().getProgramBuffer()
 				.get(DBHandler.getInstance().getProgramName()).getUnloadstacker().getGripperHead().getName());
-		if (DBHandler.getInstance().getProgramName() != null) {
-			if (DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName())
+
+		if (DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName())
 					.getUnloadstacker().getGripperHead().isGripperInner()) {
-				isClicked(bts, inBt);
-			} else {
-				isClicked(bts, outBt);
-			}
+			isClicked(bts, inBt);
+		} else {
+			isClicked(bts, outBt);
 		}
+		
 		refresh();
 	}
 

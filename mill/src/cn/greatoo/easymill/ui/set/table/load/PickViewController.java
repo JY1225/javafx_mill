@@ -27,11 +27,9 @@ public class PickViewController  extends Controller {
 		setTextFieldListener(this);
 		refresh();
 		programName = DBHandler.getInstance().getProgramName();	
-		if (programName != null) {
-			XField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getX()));
-			YField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getY()));
-			ZField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getZ()));
-		}
+		XField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getX()));
+		YField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getY()));
+		ZField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getUnloadstacker().getSmooth().getZ()));
 		
 		XField.setOnChange(new ChangeListener<Float>() {
             @Override

@@ -27,11 +27,11 @@ public class PlaceViewController extends Controller{
 		setTextFieldListener(this);
 		refresh();
 		programName = DBHandler.getInstance().getProgramName();
-		if (programName != null) {
-			XField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadstacker().getSmooth().getX()));
-			YField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadstacker().getSmooth().getY()));
-			ZField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadstacker().getSmooth().getZ()));
-		}
+
+		XField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadstacker().getSmooth().getX()));
+		YField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadstacker().getSmooth().getY()));
+		ZField.setText(String.valueOf(DBHandler.getInstance().getProgramBuffer().get(programName).getLoadstacker().getSmooth().getZ()));
+		
 		XField.setOnChange(new ChangeListener<Float>() {
             @Override
             public void changed(final ObservableValue<? extends Float> observable, final Float oldValue, final Float newValue) {

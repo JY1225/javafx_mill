@@ -59,13 +59,13 @@ public class PickClampViewController extends Controller {
 		Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		String name = program.getUnloadCNC().getGripperHead().getName();
 		comboBox.getSelectionModel().select(name);
-		if (DBHandler.getInstance().getProgramName() != null) {
-			if (program.getUnloadCNC().getGripperHead().isGripperInner()) {
-				isClicked(bts, inBt);
-			} else {
-				isClicked(bts, outBt);
-			}
+
+		if (program.getUnloadCNC().getGripperHead().isGripperInner()) {
+			isClicked(bts, inBt);
+		} else {
+			isClicked(bts, outBt);
 		}
+		
 		refresh();
 	}
 

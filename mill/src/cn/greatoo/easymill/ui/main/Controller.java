@@ -33,7 +33,8 @@ public abstract class Controller extends Pane implements TextInputControlListene
 	private static String arrowRightPath = "M 1.6875 0 L 0 1.65625 L 3.375 5 L 0.0625 8.3125 L 1.71875 10 L 6.65625 5.0625 L 6.5625 4.96875 L 6.625 4.90625 L 1.6875 0 z ";
 	protected SVGPath imagePath;
 	protected SVGPath svgPauseLeft;
-	private static NotificationBox notificationBox = new NotificationBox();
+
+	public static NotificationBox notificationBox = new NotificationBox();
 	private static final int BUTTON_WIDTH = 209;
 	private static final int BUTTON_HEIGHT = 43;
 
@@ -58,7 +59,7 @@ public abstract class Controller extends Pane implements TextInputControlListene
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
 	
 	protected void buildAlarmHBox(GridPane grid, int columnIndex, int rowIndex, int colspan, int rowspan) {
-		grid.getChildren().remove(notificationBox);
+		grid.getChildren().remove(notificationBox);		
 		grid.add(notificationBox, columnIndex, rowIndex, colspan, rowspan);
 		hideNotification();
 	}
@@ -160,7 +161,8 @@ public abstract class Controller extends Pane implements TextInputControlListene
 			Platform.runLater(new Thread() {
 				@Override
 				public void run() {
-					DBHandler.getInstance().setProgramName(null);
+					DBHandler.getInstance().setProgramName(null);					
+					DBHandler.getInstance().setOProgram(DBHandler.getInstance().getProgramBuffer().get(null));
 				}
 			});
 		}

@@ -23,6 +23,7 @@ public class NotificationBox extends HBox {
 	
 	private Pane iconPane;
 	private Text lblAlarmMessage;
+
 	private SVGPath alarmBgPath, alarmPath, alarmOKPath;
 		
 	private static final int ICON_WIDTH = 20;
@@ -105,6 +106,13 @@ public class NotificationBox extends HBox {
 		} else if (type == Type.WARNING) {
 			iconPane.getChildren().addAll(alarmBgPath, alarmPath);
 		}
+	}
+	public Text getLblAlarmMessage() {
+		return lblAlarmMessage;
+	}
+
+	public void setLblAlarmMessage(Text lblAlarmMessage) {
+		this.lblAlarmMessage = lblAlarmMessage;
 	}
 	
 }
