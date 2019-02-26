@@ -12,6 +12,7 @@ import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.TextInputControlListener;
+import cn.greatoo.easymill.util.ThreadManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -132,9 +133,8 @@ public class SetMenuViewController extends Controller {
 		});
 		addMenuItem(prosessVBox,new_pro, 3, NEW_ICON, "新程序", true, new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(final ActionEvent event) {
-				isClicked(bts, new_pro);
-				newProcess(MainViewController.parentStackPane);
+			public void handle(final ActionEvent event) {			
+				newProcess(MainViewController.parentStackPane);				
 			}
 		});
 	}
