@@ -12,7 +12,6 @@ import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.process.DuplicateProcessFlowNameException;
 import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
-import cn.greatoo.easymill.ui.set.table.load.RawWPViewController;
 import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
