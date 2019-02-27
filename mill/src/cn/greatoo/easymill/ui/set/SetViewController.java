@@ -144,7 +144,7 @@ public class SetViewController extends Controller {
 			regions.get(i).setMinWidth(WIDTH);
 		}				
 	}
-	SetMenuViewController setMenuViewController;
+	SetMenuViewController setMenuViewController;	
 	public void openSetMenuView() {
 		if (!gridPane.getChildren().contains(setParent)) {
 			try {
@@ -288,6 +288,14 @@ public class SetViewController extends Controller {
 	
 	public void setActiveProgramName(String programName) {
 		newProsessLable.setText(programName);
+	}
+	
+	public SetMenuViewController getSetMenuViewController() {
+		return setMenuViewController;
+	}
+
+	public void setSetMenuViewController(SetMenuViewController setMenuViewController) {
+		this.setMenuViewController = setMenuViewController;
 	}
 	@Override
 	public void setMessege(String mess) {

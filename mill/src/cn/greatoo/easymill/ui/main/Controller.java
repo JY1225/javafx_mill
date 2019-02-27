@@ -9,6 +9,10 @@ import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogPresenter;
 import cn.greatoo.easymill.ui.general.dialog.ConfirmationDialogView;
+import cn.greatoo.easymill.ui.set.GeneralViewController;
+import cn.greatoo.easymill.ui.set.SaveViewController;
+import cn.greatoo.easymill.ui.set.SetMenuViewController;
+import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.util.TextInputControlListener;
 import cn.greatoo.easymill.util.ThreadManager;
 import javafx.application.Platform;
@@ -124,13 +128,13 @@ public abstract class Controller extends Pane implements TextInputControlListene
 		//private ProcessFlow activeProcessFlow;
 		
 		@SuppressWarnings("unused")
-		public void newProcess(StackPane stackPane) {		
+		public void newProcess(StackPane stackPane, GeneralViewController generalViewController, SaveViewController saveViewController) {		
 			if(false/*activeProcessFlow.hasChangesSinceLastSave()*/) {
 				ThreadManager.submit(new Thread() {
 					@Override
 					public void run() {
 						if (askConfirmation(stackPane,"未保存数据", "当前程序包含未保存数据，如果继续，未保存的数据将会丢失。")) {
-							createNewProcess();
+							createNewProcess(generalViewController,saveViewController);
 						}
 					}
 				});
@@ -139,7 +143,7 @@ public abstract class Controller extends Pane implements TextInputControlListene
 					@Override
 					public void run() {
 						if (askConfirmation(stackPane,"新程序", "是否要创建新程序")) {
-							createNewProcess();
+							createNewProcess(generalViewController,saveViewController);
 						}
 					}
 				});
@@ -157,12 +161,16 @@ public abstract class Controller extends Pane implements TextInputControlListene
 			return isConfirm;
 			
 		}
-		public void createNewProcess() {
+		public void createNewProcess(GeneralViewController generalViewController, SaveViewController saveViewController) {
 			Platform.runLater(new Thread() {
 				@Override
 				public void run() {
 					DBHandler.getInstance().setProgramName(null);					
 					DBHandler.getInstance().setOProgram(DBHandler.getInstance().getProgramBuffer().get(null));
+					generalViewController.getFulltxtName().setText("");
+					if(saveViewController != null) {
+						saveViewController.getFulltxtName().setText("");
+					}
 				}
 			});
 		}

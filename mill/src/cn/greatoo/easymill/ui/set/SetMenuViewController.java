@@ -31,7 +31,6 @@ import javafx.scene.shape.SVGPath;
  *
  */
 public class SetMenuViewController extends Controller {
-	private final static Logger LOGGER = LogManager.getLogger(SetViewController.class.getName());
 	protected SVGPath imagePath;
 	protected SVGPath svgPauseLeft;
 	private static final String SAVE_ICON = "M 10 0 C 4.4775 -5.7824116e-019 0 4.4787497 0 10 C 0 15.52375 4.4775 20 10 20 C 15.5225 20 20 15.52375 20 10 C 20 4.4787497 15.5225 0 10 0 z M 8.75 5 L 11.25 5 L 11.25 10.03125 L 14.96875 10.03125 L 10 15 L 5 10.03125 L 8.75 10.03125 L 8.75 5 z ";
@@ -134,13 +133,14 @@ public class SetMenuViewController extends Controller {
 		addMenuItem(prosessVBox,new_pro, 3, NEW_ICON, "新程序", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {			
-				newProcess(MainViewController.parentStackPane);				
+				newProcess(MainViewController.parentStackPane,generalViewController,saveViewController);
+				
 			}
 		});
 	}
 	
 	GeneralViewController generalViewController;
-	private void openGeneralView() {
+	protected void openGeneralView() {
 		if (!gridPane.getChildren().contains(generalParent)) {
 			try {
 				URL location = getClass().getResource("/cn/greatoo/easymill/ui/set/GeneralView.fxml");

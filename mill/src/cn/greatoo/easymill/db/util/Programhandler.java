@@ -241,12 +241,13 @@ public class Programhandler {
 			CNCSettingHandler.saveCNCSetting(program.getCncSetting());
 			
 			PreparedStatement stmt = conn.prepareStatement(
-					"UPDATE PROGRAM SET ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ? WHERE ID = ?");
+					"UPDATE PROGRAM SET ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ?, ISHASTEACH = ? WHERE ID = ?");
 			stmt.setFloat(1, program.getOrientation());
 			stmt.setFloat(2, program.getLayers());
 			stmt.setFloat(3, program.getAmount());
 			stmt.setFloat(4, program.getStudHeight_Workpiece());
-			stmt.setInt(5, program.getId());
+			stmt.setBoolean(5, program.isHasTeach());
+			stmt.setInt(6, program.getId());
 			stmt.executeUpdate();
 		}
 	}
