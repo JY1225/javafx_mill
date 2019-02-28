@@ -44,11 +44,10 @@ public class RobotPopUpView extends StackPane{
 	
 	private static final String CSS_CLASS_POPUP_BUTTON = "pop-up-btn";
 	private static final String CSS_CLASS_POPUP_BUTTON_BOTTOM = "pop-up-btn-bottom";
-	private static final String CSS_CLASS_POPUP = "popup";
+
 	private int speed = 10;
 	public RobotPopUpView() {
 		this.setVisible(false);
-		this.getStyleClass().add(CSS_CLASS_POPUP);
 		build();
 		this.setTranslateX(60);
 		this.setTranslateY(43);

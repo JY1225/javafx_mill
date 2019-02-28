@@ -10,6 +10,7 @@ import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
+import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.TextInputControlListener;
@@ -19,10 +20,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 public class TeachMainContentViewController extends Controller{
 	private RotateTransition rotateTransition;
+	@FXML
+	private GridPane contentGrid;
 	@FXML
 	private Button btnStart;
 	@FXML
@@ -39,6 +43,7 @@ public class TeachMainContentViewController extends Controller{
 	private Button auto,M1,M2;
 	
 	public void init(List<Button> bts, Button auto, RotateTransition rotateTransition, Button m1, Button m2) {	
+		buildAlarmHBox(contentGrid, 0, 0, 2, 1);
 		this.bts = bts;
 		this.M1 = m1;
 		this.M2 = m2;
@@ -59,6 +64,7 @@ public class TeachMainContentViewController extends Controller{
 
 	@FXML
 	public void btnStartAllAction(ActionEvent event) {
+		hideNotification();
 		FanucRobot robot = FanucRobot.getInstance(null,0,null);
 		CNCMachine cncMachine = CNCMachine.getInstance(null, null, null);
 		if((robot != null && robot.isConnected()) && (cncMachine != null && cncMachine.isConnected())) {
@@ -72,7 +78,8 @@ public class TeachMainContentViewController extends Controller{
 			TeachAndAutoThread teachSocketThread = new TeachAndAutoThread(robot,cncMachine,true,this);
 			ThreadManager.submit(teachSocketThread);
 		}else {
-			showNotificationOverlay(MainViewController.parentStackPane, "示教错误", "请注意，设备连接错误！");
+			showNotification("请注意，设备连接错误！", NotificationBox.Type.WARNING);
+			//showNotificationOverlay(MainViewController.parentStackPane, "示教错误", "请注意，设备连接错误！");
 		}
 	}
 	

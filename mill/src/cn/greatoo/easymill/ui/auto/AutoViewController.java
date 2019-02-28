@@ -11,6 +11,7 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
+import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.TextInputControlListener;
@@ -76,6 +77,8 @@ public class AutoViewController extends Controller{
 	@FXML
 	private GridPane gridPane;
 	@FXML
+	private GridPane contenGrid;
+	@FXML
 	private Button M1;
 	@FXML
 	private Button M2;
@@ -118,6 +121,7 @@ public class AutoViewController extends Controller{
 	private RotateTransition rtContinuous,rotateTransition;
 	List<Button> bts;
 	public void init(List<Button> bts) {
+		buildAlarmHBox(contenGrid, 0, 0, 1, 1);
 		M1.setDisable(true);
 		M2.setDisable(true);
 		M1.setTextFill(Color.BLACK);
@@ -131,7 +135,7 @@ public class AutoViewController extends Controller{
 		rtContinuous.setCycleCount(Transition.INDEFINITE);
 		StackPane.setAlignment(lblFinishedAmount, Pos.TOP_RIGHT);
 		StackPane.setAlignment(lblTotalAmount, Pos.CENTER);
-		StackPane.setMargin(lblTotalAmount, new Insets(95, 0, 0, 30));
+		StackPane.setMargin(lblTotalAmount, new Insets(85, 0, 0, 0));
 		String programName = DBHandler.getInstance().getProgramName();
 		if(programName != null) {
 			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
@@ -199,7 +203,8 @@ public class AutoViewController extends Controller{
 
 	//开始
 	@FXML
-	public void startAction(ActionEvent event) {	
+	public void startAction(ActionEvent event) {
+		hideNotification();
 		FanucRobot robot = FanucRobot.getInstance(null,0,null);
 		CNCMachine cncMachine = CNCMachine.getInstance(null, null, null);
 		if((robot != null && robot.isConnected()) && (cncMachine != null && cncMachine.isConnected()))  {
@@ -212,7 +217,8 @@ public class AutoViewController extends Controller{
 			ThreadManager.submit(teachSocketThread);
 			enableContinuousAnimation(true);
 		}else {
-			showNotificationOverlay(MainViewController.parentStackPane, "开始信息", "请注意，设备连接错误！");
+			showNotification("请注意，设备连接错误！", NotificationBox.Type.WARNING);
+			//showNotificationOverlay(MainViewController.parentStackPane, "开始信息", "请注意，设备连接错误！");
 		}
 	}
 	

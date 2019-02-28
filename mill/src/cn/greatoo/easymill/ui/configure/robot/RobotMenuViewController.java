@@ -46,8 +46,8 @@ public class RobotMenuViewController extends Controller{
 			openGriperView();
 		}
 		
-
-		addMenuItem(prosessVBox,generalBt, 0, "通用", true, new EventHandler<ActionEvent>() {
+		int index = 1;
+		addMenuItem(prosessVBox,generalBt, index++, "通用", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				// 默认选择通用按钮
@@ -55,7 +55,7 @@ public class RobotMenuViewController extends Controller{
 				openGeneralView();
 			}
 		});
-		addMenuItem(prosessVBox,griperBt, 1, "夹具", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,griperBt, index++, "夹具", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, griperBt);

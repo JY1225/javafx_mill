@@ -60,15 +60,15 @@ public class CNCMenuViewController extends Controller {
 		// 默认选择通用按钮
 		isClicked(bts, device);
 		openCNCDeviceView();
-
-		addMenuItem(prosessVBox,device, 0, DEVICE_ICON, "设备", true, new EventHandler<ActionEvent>() {
+		int index = 1;
+		addMenuItem(prosessVBox,device, index++, DEVICE_ICON, "设备", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, device);
 				openCNCDeviceView();
 			}
 		});
-		addMenuItem(prosessVBox,put, 1, PUT_ICON, "上料", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,put, index++, PUT_ICON, "上料", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, put);
@@ -93,7 +93,7 @@ public class CNCMenuViewController extends Controller {
 				}
 			}
 		});
-		addMenuItem(prosessVBox,pick, 2, PICK_ICON, "下料", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,pick, index++, PICK_ICON, "下料", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, pick);
@@ -118,7 +118,7 @@ public class CNCMenuViewController extends Controller {
 				}
 			}
 		});
-		addMenuItem(prosessVBox,aftProcess, 3, AFT_ICON, "加工后", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,aftProcess, index++, AFT_ICON, "加工后", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, aftProcess);

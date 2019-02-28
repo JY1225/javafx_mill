@@ -70,15 +70,15 @@ public class SetMenuViewController extends Controller {
 		// 默认选择通用按钮
 		isClicked(bts, configuer);
 		openGeneralView();
-
-		addMenuItem(prosessVBox,configuer, 0, CONFIGURE_ICON, "通用", true, new EventHandler<ActionEvent>() {
+		int index = 1;
+		addMenuItem(prosessVBox,configuer, index++, CONFIGURE_ICON, "通用", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, configuer);
 				openGeneralView();
 			}
 		});
-		addMenuItem(prosessVBox,save, 1, SAVE_ICON, "保存", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,save, index++, SAVE_ICON, "保存", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, save);
@@ -105,7 +105,7 @@ public class SetMenuViewController extends Controller {
 
 			}
 		});
-		addMenuItem(prosessVBox,open, 2, OPEN_ICON, "打开程序", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,open, index++, OPEN_ICON, "打开程序", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, open);
@@ -130,7 +130,7 @@ public class SetMenuViewController extends Controller {
 				}
 			}
 		});
-		addMenuItem(prosessVBox,new_pro, 3, NEW_ICON, "新程序", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,new_pro, index++, NEW_ICON, "新程序", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {			
 				newProcess(MainViewController.parentStackPane,generalViewController,saveViewController);

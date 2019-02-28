@@ -3,8 +3,8 @@ package cn.greatoo.easymill.robot;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import cn.greatoo.easymill.util.RobotConstants;
+import cn.greatoo.easymill.util.Translator;
 
 public class RobotAlarm {
 
@@ -49,7 +49,7 @@ public class RobotAlarm {
     public static final int SCAN_ERROR                                      =   62;
 
     private static final int DEFAULT_PRIORITY = 5;
-
+    		
     private int id;
 
     public RobotAlarm(final int id) {
@@ -57,11 +57,11 @@ public class RobotAlarm {
     }
 
     public String getMessage() {
-        return "Robot alarm id: " + id;
+    	return "Robot alarm id: " + id;
     }
 
     public String getLocalizedMessage() {
-        return "RobotAlarm." + id;
+        return Translator.getTranslation("RobotAlarm." + id);
     }
 
     public int getPriority() {

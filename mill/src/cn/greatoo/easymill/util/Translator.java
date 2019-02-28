@@ -1,5 +1,6 @@
 package cn.greatoo.easymill.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -37,16 +38,21 @@ public final class Translator {
 	    locale = new Locale("fr");
 	    messages = ResourceBundle.getBundle("messages", locale);
 	}
-	//TODO - stop remove here
 	
-	//TODO - uncomment in case we want to use the language files outside the program
-//	public static void setLanguage(final String language, final ClassLoader loader) {
-//		locale = new Locale(language);
-//		messages = ResourceBundle.getBundle("messages", locale, loader);
-//	}
-	
+	public static void setLanguageCN() {
+		locale = new Locale("cn");
+		messages = ResourceBundle.getBundle("messages", locale);
+	}
+
+	//获取翻译值
 	public static String getTranslation(final String key) {
-		return messages.getString(key);
+		String k = "";
+		try {
+			k = new String(messages.getString(key).getBytes("ISO-8859-1"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return k;
 	}
 	
 	public static Locale getLocale() {

@@ -58,6 +58,12 @@ public abstract class Controller extends Pane implements TextInputControlListene
 	protected static final String CSS_CLASS_FORM_BUTTON = "form-button";
 	protected static final String CSS_CLASS_SAVE_BUTTON = "save-btn";
 	protected static final String CSS_CLASS_DELETE_BUTTON = "delete-btn";
+	
+	private static final String CSS_CLASS_LEFT_MENU = "left-menu";
+	private static final String CSS_CLASS_LEFT_MENU_TOP = "left-menu-top";
+	private static final String CSS_CLASS_LEFT_MENU_BOTH = "left-menu-both";
+	private static final String CSS_CLASS_LEFT_MENU_BOTTOM = "left-menu-bottom";
+	private static final String CSS_CLASS_MENU_ITEM_SELECTED = "menu-item-selected";
 	static final String NEW_ICON = "M 2.5 0 L 2.5 20 L 17.5 20 L 17.5 6.25 L 11.25 0 L 2.5 0 z M 5 2.5 L 10 2.5 L 10 7.5 L 15 7.5 L 15 17.5 L 5 17.5 L 5 2.5 z";
 	 
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
@@ -303,6 +309,19 @@ public abstract class Controller extends Pane implements TextInputControlListene
 			button.setGraphic(hbox);
 			button.setOnAction(clickedEventHandler);
 			button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BUTTON);
+			if (index == 0) {
+				button.getStyleClass().add(CSS_CLASS_LEFT_MENU_TOP);
+				button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BOTH);
+			}
+			if (index == 1) {
+				prosessVBox.getChildren().get(0).getStyleClass().remove(CSS_CLASS_LEFT_MENU_BOTH);
+			}
+			if (index == prosessVBox.getChildren().size()) {
+				if (index > 0) {
+					prosessVBox.getChildren().get(index - 1).getStyleClass().remove(CSS_CLASS_LEFT_MENU_BOTTOM);
+				}
+				button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BOTTOM);
+			}
 		}
 		
 		protected void addMenuItem(VBox prosessVBox,Button button, final int index, final String text,
@@ -338,6 +357,19 @@ public abstract class Controller extends Pane implements TextInputControlListene
 			button.setGraphic(hbox);
 			button.setOnAction(clickedEventHandler);
 			button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BUTTON);
+			if (index == 0) {
+				button.getStyleClass().add(CSS_CLASS_LEFT_MENU_TOP);
+				button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BOTH);
+			}
+			if (index == 1) {
+				prosessVBox.getChildren().get(0).getStyleClass().remove(CSS_CLASS_LEFT_MENU_BOTH);
+			}
+			if (index == prosessVBox.getChildren().size()) {
+				if (index > 0) {
+					prosessVBox.getChildren().get(index - 1).getStyleClass().remove(CSS_CLASS_LEFT_MENU_BOTTOM);
+				}
+				button.getStyleClass().add(CSS_CLASS_LEFT_MENU_BOTTOM);
+			}
 		}
 		
 		

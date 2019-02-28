@@ -96,9 +96,10 @@ public class LoginController implements Initializable {
             stage.setTitle("RoboSoft");
             int width = 800;
             int heigth = 600;
-            stage.setScene(new Scene(parent,width,heigth));
+            Scene scene =  new Scene(parent,width,heigth);
+            stage.setScene(scene);
             SizeManager.setApplicationSizes(width, heigth);
-            MainViewController mainViewController = fxmlLoader.getController();   //获取Controller的实例对?
+            MainViewController mainViewController = fxmlLoader.getController();
             //中写的初始化方法
             mainViewController.Init();
             stage.show();

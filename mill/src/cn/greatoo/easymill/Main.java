@@ -1,5 +1,7 @@
 package cn.greatoo.easymill;
 
+import java.util.Locale;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +16,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import cn.greatoo.easymill.util.PropertyManager;
+import cn.greatoo.easymill.util.PropertyManager.Setting;
+import cn.greatoo.easymill.util.Translator;
 
 
 /** 
@@ -26,7 +31,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		try {	            
+		try {
+			PropertyManager.readPropertyFile();
 			Parent root = FXMLLoader.load(getClass().getResource("/cn/greatoo/easymill/login/login.fxml"));
 
 			Scene scene = new Scene(root);
@@ -46,6 +52,20 @@ public class Main extends Application {
 				ExceptionUtil.init();
 				DBHandler.getInstance();
 				
+				Locale.setDefault(new Locale(PropertyManager.getValue(Setting.LANGUAGE)));
+                if (PropertyManager.hasSettingValue(Setting.LANGUAGE, "cn")) {
+                    Translator.setLanguageCN();
+                } else if (PropertyManager.hasSettingValue(Setting.LANGUAGE, "de")) {
+                    Translator.setLanguageDE();
+                } else if (PropertyManager.hasSettingValue(Setting.LANGUAGE, "se")) {
+                    Translator.setLanguageSE();
+                } else if (PropertyManager.hasSettingValue(Setting.LANGUAGE, "fr")) {
+                    Translator.setLanguageFR();
+                } else if (PropertyManager.hasSettingValue(Setting.LANGUAGE, "en")) {
+                    Translator.setLanguageEN();
+                }  else {
+                    Translator.setLanguageNL();
+                }
 			}).start();
 			
 		} catch (Exception e) {

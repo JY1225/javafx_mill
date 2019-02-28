@@ -38,14 +38,14 @@ public class TeachGriperAMenuViewController extends Controller{
 		bts.add(put);
 		this.gridPane = gridPane;
 		openPickView();
-		
-		addMenuItem(prosessVBox,pick, 0, PICK_ICON, "夹取", true, new EventHandler<ActionEvent>() {
+		int index = 1;
+		addMenuItem(prosessVBox,pick, index++, PICK_ICON, "夹取", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				openPickView();	
 			}
 		});
-		addMenuItem(prosessVBox,put, 1, PUT_ICON, "放置", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,put, index++, PUT_ICON, "放置", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				openPutView();	

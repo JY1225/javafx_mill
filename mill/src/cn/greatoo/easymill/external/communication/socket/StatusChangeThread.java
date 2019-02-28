@@ -6,15 +6,18 @@ import java.util.Map;
 import java.util.Set;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.cnc.CNCMachineAlarm;
 import cn.greatoo.easymill.db.util.CNCHandler;
 import cn.greatoo.easymill.db.util.RobotHandler;
 import cn.greatoo.easymill.robot.FanucRobot;
+import cn.greatoo.easymill.robot.RobotAlarm;
 import cn.greatoo.easymill.ui.alarms.AlarmListenThread;
+import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
-import cn.greatoo.easymill.util.ThreadManager;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import cn.greatoo.easymill.util.Translator;
 
 public class StatusChangeThread implements Runnable {
 
@@ -27,7 +30,8 @@ public class StatusChangeThread implements Runnable {
 	private boolean isRunning = true;
 	private Map<Integer, Integer> previousStatus;
 	private Set<Integer> previousActiveMCodes;
-
+	private static final String NOT_CONNECTED_TO = "AlarmsPopUpPresenter.notConnectedTo";
+	
 	public StatusChangeThread(final Button AlarmButton, final int duration, ButtonStyleChangingThread changingThread) {
 		this.alarmListenThread = new AlarmListenThread(AlarmButton, duration, changingThread);
 		this.previousStatus = new HashMap<Integer, Integer>();
@@ -45,6 +49,23 @@ public class StatusChangeThread implements Runnable {
 				conn();
 				if (robot != null && robot.isConnected()) {
 					robot.updateStatusRestAndAlarms();
+					Set<RobotAlarm> robotAlarm = robot.getAlarms();
+					StringBuilder alarmStrings = new StringBuilder();
+					if (!robot.isConnected()) {
+		                alarmStrings.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + ".");
+		            } else {
+		            	for(RobotAlarm r: robotAlarm) {
+		            		alarmStrings.append(r.getLocalizedMessage());
+		            	}
+		            }
+					if(TeachAndAutoThread.getView() != null && alarmStrings.length() > 0) {
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								TeachAndAutoThread.getView().showNotification(alarmStrings.toString(), NotificationBox.Type.WARNING);
+							}
+						});
+					}
 					int statu = robot.getStatus();
 					if (statu != rpreviousStatus) {
 						rpreviousStatus = statu;
@@ -69,8 +90,24 @@ public class StatusChangeThread implements Runnable {
 				if (cncMachine != null && cncMachine.isConnected()) {
 					// 更新状态和MCode
 					cncMachine.updateStatusAndAlarms();
+					Set<CNCMachineAlarm> cncAlarm = cncMachine.getAlarms();
+					StringBuilder alarmStrings = new StringBuilder();
+					if (!cncMachine.isConnected()) {
+		                alarmStrings.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + ".");
+		            } else {
+		            	for(CNCMachineAlarm c: cncAlarm) {
+		            		alarmStrings.append(c.getLocalizedMessage());
+		            	}
+		            }
+					if(TeachAndAutoThread.getView() != null && alarmStrings.length() > 0) {
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								TeachAndAutoThread.getView().showNotification(alarmStrings.toString(), NotificationBox.Type.WARNING);
+							}
+						});
+					}
 					boolean statusChanged = false;
-					// cncMachine.statusChanged();
 					for (int statusRegister : previousStatus.keySet()) {
 						if (cncMachine.getStatus(statusRegister) != previousStatus.get(statusRegister)) {
 							statusChanged = true;

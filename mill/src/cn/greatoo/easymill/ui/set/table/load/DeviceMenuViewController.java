@@ -81,7 +81,7 @@ public class DeviceMenuViewController extends Controller {
 		// 默认选择工件按钮
 		isClicked(bts, workPiece);
 		openRawWPView(auto);
-
+		int index = 1;
 //		addMenuItem(prosessVBox,device, 0, FROM_ICON, "设备", true, new EventHandler<ActionEvent>() {
 //			@Override
 //			public void handle(final ActionEvent event) {
@@ -105,7 +105,7 @@ public class DeviceMenuViewController extends Controller {
 //					setDisVisible(2, 1, setProsessPane,deviceParent);
 //			}
 //		});
-		addMenuItem(prosessVBox,workPiece, 1, WORKPIECE_ICON, "工件", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,workPiece, index++, WORKPIECE_ICON, "工件", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, workPiece);
@@ -113,7 +113,7 @@ public class DeviceMenuViewController extends Controller {
 			}
 		});
 		
-		addMenuItem(prosessVBox,pick, 2, PICK_ICON, "夹取", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,pick, index++, PICK_ICON, "夹取", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {				
 				isClicked(bts, pick);
@@ -138,7 +138,7 @@ public class DeviceMenuViewController extends Controller {
 				}
 			}
 		});
-		addMenuItem(prosessVBox,layout, 3, LAYOUT_ICON, "布局", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,layout, index++, LAYOUT_ICON, "布局", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, layout);

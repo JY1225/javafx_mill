@@ -55,8 +55,8 @@ public class DevicesMenuViewController extends Controller {
 		}else if(cncGriperBt.getStyleClass().contains("selected")) {
 			openClampView();
 		}
-		int i = 0;
-		addMenuItem(prosessVBox, coordinateBt, i, "用户坐标", true, new EventHandler<ActionEvent>() {
+		int i = 1;
+		addMenuItem(prosessVBox, coordinateBt, i++, "用户坐标", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				// 默认选择通用按钮

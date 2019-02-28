@@ -49,15 +49,15 @@ public class ClampMenuViewController extends Controller {
 		// 默认选择夹具按钮
 		isClicked(bts, clampBt);
 		openClampView();
-
-		addMenuItem(prosessVBox,clampBt, 0, ICON_GRIP, "选择夹具", true, new EventHandler<ActionEvent>() {
+		int index = 1;
+		addMenuItem(prosessVBox,clampBt, index++, ICON_GRIP, "选择夹具", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
 				isClicked(bts, clampBt);
 				openClampView();
 			}
 		});
-		addMenuItem(prosessVBox,interveneBt, 1, ICON_INTERVENTION, "干预", true, new EventHandler<ActionEvent>() {
+		addMenuItem(prosessVBox,interveneBt, index++, ICON_INTERVENTION, "干预", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent arg0) {
 				isClicked(bts, interveneBt);				

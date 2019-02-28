@@ -37,8 +37,8 @@ public class PickConfigMenuViewController extends Controller{
 		isClicked(bts, put);
 		
 		openGeneralView();
-
-		addMenuItem(prosessVBox,put, 0, PUT_ICON, "放置", true, new EventHandler<ActionEvent>() {
+		int index = 1;
+		addMenuItem(prosessVBox,put, index++, PUT_ICON, "放置", true, new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent event) {
 				isClicked(bts, put);
