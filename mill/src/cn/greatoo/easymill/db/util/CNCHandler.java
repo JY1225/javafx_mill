@@ -51,6 +51,7 @@ public class CNCHandler {
 				cncMillingMachine = CNCMachine.getInstance(socketConnection, getMCodeAdapter(results.getInt("ID")),
 						wayOfOperating);
 				cncMillingMachine.setId(results.getInt("ID"));
+				cncMillingMachine.setName(results2.getString("NAME"));
 
 			}
 		} catch (SQLException ex) {

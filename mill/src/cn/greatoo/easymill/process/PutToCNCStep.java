@@ -7,13 +7,11 @@ import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
-import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.RobotConstants;
 import cn.greatoo.easymill.util.TeachedCoordinatesCalculator;
-import javafx.application.Platform;
 /**
  * 
  * ===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
@@ -21,8 +19,8 @@ import javafx.application.Platform;
  */
 public class PutToCNCStep extends AbstractStep{
 
-	public void putToCNC(Program program, FanucRobot robot, CNCMachine cncMachine, WorkPiecePositions workPiecePositions, boolean teached, Controller view) {
-		try {
+	public void putToCNC(Program program, FanucRobot robot, CNCMachine cncMachine, WorkPiecePositions workPiecePositions, boolean teached, Controller view) 
+			throws AbstractCommunicationException, InterruptedException, DeviceActionException, RobotActionException {
 			Clamping Clampping =DBHandler.getInstance().getClampBuffer().get(0);
 			//===put工件到机床=========================================================================================================			
 			int serviceType = RobotConstants.SERVICE_GRIPPER_SERVICE_TYPE_PUT;//13;	
@@ -96,13 +94,6 @@ public class PutToCNCStep extends AbstractStep{
 			checkProcessExecutorStatus(robot,cncMachine);
 			cncMachine.pickFinished(0,false);			
 			view.statusChanged(new StatusChangedEvent(StatusChangedEvent.CNC_PROCESSING));			
-		}catch (InterruptedException | AbstractCommunicationException | RobotActionException | DeviceActionException e) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					TeachAndAutoThread.getView().setMessege("程序未启动！");
-				}
-			});
-		}
+		
 	}
 }

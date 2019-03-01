@@ -1,6 +1,7 @@
 package cn.greatoo.easymill.external.communication.socket;
 
 import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.cnc.DeviceActionException;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
@@ -14,6 +15,7 @@ import cn.greatoo.easymill.process.PutToTableStep;
 import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.process.WorkPiecePositions;
 import cn.greatoo.easymill.robot.FanucRobot;
+import cn.greatoo.easymill.robot.RobotActionException;
 import cn.greatoo.easymill.ui.main.Controller;
 import javafx.application.Platform;
 
@@ -56,20 +58,6 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 		finishStep = new FinishStep();
 		robot.setRunning(true);
 		cncMachine.setRunning(true);
-		try {
-			cncMachine.indicateOperatorRequested(false);
-			cncMachine.indicateOperatorRequested(false);
-			robot.restartProgram();
-		} catch (SocketResponseTimedOutException e) {
-			e.printStackTrace();
-		} catch (SocketDisconnectedException e) {
-			e.printStackTrace();
-		} catch (SocketWrongResponseException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
 		initOffset();
 	}
 
@@ -117,12 +105,12 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 					view.statusChanged("FINISHED_WORKPIECE_ACOUNT;"+String.valueOf(wIndex));
 				}				
 				
-			} catch (InterruptedException e) {
+			} catch (InterruptedException | AbstractCommunicationException | DeviceActionException | RobotActionException e) {
 				wSize = 0;
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						TeachAndAutoThread.getView().setMessege("程序未启动！");
+						TeachAndAutoThread.getView().setMessege("加工流程已停止！");
 					}
 				});
 			}

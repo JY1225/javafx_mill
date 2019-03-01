@@ -26,6 +26,8 @@ public class StatusChangeThread implements Runnable {
 	private double previousXRest, previousYRest, previousZRest;
 	private int rpreviousStatus;
 	private boolean alive;
+	private boolean rwasConnected;
+	private boolean cwasConnected;
 	private AlarmListenThread alarmListenThread;
 	private boolean isRunning = true;
 	private Map<Integer, Integer> previousStatus;
@@ -37,6 +39,8 @@ public class StatusChangeThread implements Runnable {
 		this.previousStatus = new HashMap<Integer, Integer>();
 		this.previousActiveMCodes = new HashSet<Integer>();
 		this.alive = true;
+		this.rwasConnected = false;
+		this.cwasConnected = false;
 		connCNC();
 		connRobo();
 	}
@@ -47,9 +51,16 @@ public class StatusChangeThread implements Runnable {
 			try {
 				alarmListenThread.run();
 				conn();
-				if (robot != null) {
-					StringBuilder alarmStrings = new StringBuilder();
+				StringBuilder alarmStrings = new StringBuilder();
+				if (robot != null) {					
 					if (robot.isConnected()) {
+						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + ".")) {
+							TeachAndAutoThread.getView().hideNotification();
+						}
+						if (!rwasConnected) {
+							robot.restartProgram();
+							rwasConnected = true;
+						}
 						robot.updateStatusRestAndAlarms();
 						Set<RobotAlarm> robotAlarm = robot.getAlarms();
 						for (RobotAlarm r : robotAlarm) {
@@ -75,23 +86,24 @@ public class StatusChangeThread implements Runnable {
 							}
 						}
 					} else {
+						if (rwasConnected) {
+							rwasConnected = false;
+						}
 						alarmStrings.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + ".");
-					}
-					if (TeachAndAutoThread.getView() != null && alarmStrings.length() > 0) {
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								TeachAndAutoThread.getView().showNotification(alarmStrings.toString(),
-										NotificationBox.Type.WARNING);
-								System.out.println("================robot");
-							}
-						});
-					}
+					}					
 				}
 
 				if (cncMachine != null) {
-					StringBuilder alarmStrings = new StringBuilder();
 					if (cncMachine.isConnected()) {
+						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + ".")) {
+							TeachAndAutoThread.getView().hideNotification();
+						}
+						
+						if (!cwasConnected) {
+							cncMachine.indicateOperatorRequested(false);
+							cncMachine.indicateOperatorRequested(false);
+							cwasConnected = true;
+						}
 						// 更新状态和MCode
 						cncMachine.updateStatusAndAlarms();
 						Set<CNCMachineAlarm> cncAlarm = cncMachine.getAlarms();
@@ -117,25 +129,27 @@ public class StatusChangeThread implements Runnable {
 						this.previousStatus = new HashMap<Integer, Integer>(cncMachine.getStatusMap());
 						this.previousActiveMCodes = new HashSet<Integer>(activeMCodes);
 					} else {
+						if (cwasConnected) {
+							cwasConnected = false;
+						}
 						alarmStrings
 								.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + ".");
-					}
-					if (TeachAndAutoThread.getView() != null && alarmStrings.length() > 0) {
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								TeachAndAutoThread.getView().showNotification(alarmStrings.toString(),
-										NotificationBox.Type.WARNING);
-								System.out.println("================cnc");
-							}
-						});
-					}
+					}					
+				}
+				if (TeachAndAutoThread.getView() != null && alarmStrings.length() > 0) {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							TeachAndAutoThread.getView().showNotification(alarmStrings.toString(),
+									NotificationBox.Type.WARNING);								
+						}
+					});
 				}
 				Thread.sleep(250);
 
 			} catch (InterruptedException | SocketResponseTimedOutException | SocketDisconnectedException
 					| SocketWrongResponseException e) {
-				interrupted();
+				//interrupted();
 			}
 		}
 	}
@@ -162,30 +176,11 @@ public class StatusChangeThread implements Runnable {
 	}
 
 	protected void connCNC() {
-		try {
-			cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine();
-			if (cncMachine != null && cncMachine.isConnected()) {
-				cncMachine.indicateOperatorRequested(false);
-				cncMachine.indicateOperatorRequested(false);
-			}
-
-		} catch (SocketResponseTimedOutException | SocketDisconnectedException | SocketWrongResponseException
-				| InterruptedException e) {
-
-		}
+		cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine();
 	}
 
 	protected void connRobo() {
-		try {
-			robot = (FanucRobot) RobotHandler.getRobot();
-			if (robot != null && robot.isConnected()) {
-				robot.restartProgram();
-			}
-
-		} catch (SocketDisconnectedException | SocketResponseTimedOutException | SocketWrongResponseException
-				| InterruptedException e) {
-
-		}
+		robot = (FanucRobot) RobotHandler.getRobot();
 	}
 
 	public void interrupted() {
