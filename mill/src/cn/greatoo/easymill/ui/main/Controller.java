@@ -178,7 +178,7 @@ public abstract class Controller extends Pane implements TextInputControlListene
 					if(saveViewController != null) {
 						saveViewController.getFulltxtName().setText("");
 					}
-					
+					TeachAndAutoThread.isFinishTeach = false;
 				}
 			});
 		}
