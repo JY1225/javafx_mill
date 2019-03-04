@@ -141,9 +141,14 @@ public class AutoViewController extends Controller{
 			Program program = DBHandler.getInstance().getProgramBuffer().get(programName);
 			setTotalAmount(program.getAmount());
 		}
-		setFinishedAmount(0);
+		if(TeachAndAutoThread.isFinishTeach) {
+			//setPercentage(0);
+			setFinishedAmount(1);			
+		}else {
+			setFinishedAmount(0);
+			//setPercentage(0);
+		}
 		
-		setPercentage(0);
 		enableContinuousAnimation(false);
 
 		// 给流程按钮set css

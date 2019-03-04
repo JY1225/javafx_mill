@@ -38,10 +38,11 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 	private PrepareStep prepareStep;
 	private FinishStep finishStep;
 	private WorkPiecePositions workPiecePositions;
-
+	private int wSize;
+	private static int wIndex;
+	
 	@SuppressWarnings("static-access")
-	public TeachAndAutoThread(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
-		isFinishTeach = false;
+	public TeachAndAutoThread(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {		
 		this.programName = DBHandler.getInstance().getProgramName();
 		this.program = DBHandler.getInstance().getProgramBuffer().get(programName);
 		this.workPiecePositions = new WorkPiecePositions(program);
@@ -59,16 +60,21 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 		robot.setRunning(true);
 		cncMachine.setRunning(true);
 		initOffset();
+		wSize = program.getAmount();
 	}
 
 	@Override
-	public void run() {		
-		int wSize = program.getAmount();
-		int wIndex = 0;
+	public void run() {				
+		if(teached) {
+			wIndex = 0;
+		}else {
+			if(!isFinishTeach) {
+				wIndex = 0;
+			}
+		}
+		view.statusChanged(new StatusChangedEvent(StatusChangedEvent.STARTED));
 		while (wIndex < wSize) {
 			try {
-				view.statusChanged(new StatusChangedEvent(StatusChangedEvent.STARTED));
-
 				// 机器人回到原点，打开机床的门
 				checkProcessExecutorStatus(robot, cncMachine);
 				prepareStep.prepareStep(program, robot, teached, cncMachine);
@@ -100,7 +106,8 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 					finishStep.finish(robot, cncMachine, teached, view);
 					program.setHasTeach(true);
 					isFinishTeach = true;
-					wSize = 0;
+					wIndex = 1;
+					break;
 				}else {
 					view.statusChanged("FINISHED_WORKPIECE_ACOUNT;"+String.valueOf(wIndex));
 				}				
@@ -112,7 +119,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 					public void run() {
 						TeachAndAutoThread.getView().setMessege("加工流程已停止！");
 					}
-				});
+				});				
 			}
 		}		
 	}

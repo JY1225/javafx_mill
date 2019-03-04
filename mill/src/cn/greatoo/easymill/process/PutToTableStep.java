@@ -43,8 +43,7 @@ public class PutToTableStep extends AbstractStep {
 		float zSafePlane = 0;
 		Clamping clamping = DBHandler.getInstance().getClampBuffer().get(0);
 		checkProcessExecutorStatus(robot, cncMachine);
-		Coordinates originalPosition = workPiecePositions.getPickLocation(wIndex);
-		;
+		Coordinates originalPosition = workPiecePositions.getPickLocation(wIndex);		
 		Coordinates position = new Coordinates(originalPosition);
 		if (getLoadStackerRelativeTeachedOffset() == null) {
 			initSafeTeachedOffset(4, program, clamping, originalPosition);

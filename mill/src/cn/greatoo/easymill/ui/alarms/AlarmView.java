@@ -1,6 +1,11 @@
 package cn.greatoo.easymill.ui.alarms;
 
+import cn.greatoo.easymill.cnc.CNCMachine;
+import cn.greatoo.easymill.external.communication.socket.AbstractCommunicationException;
+import cn.greatoo.easymill.robot.FanucRobot;
 import cn.greatoo.easymill.util.UIConstants;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -11,8 +16,7 @@ public class AlarmView extends StackPane {
 	public static AlarmView INSTANCE = null;
 	private VBox vBoxMenuItems1;
 
-	public  Button cncConnBt;
-	public  Button roboConnBt;
+	public  Button roboConnBt, cncConnBt, resetRobot, resetCNC;
 
 	private static final int BUTTON_HEIGHT = UIConstants.BUTTON_HEIGHT + 5;
 	private static final int WIDTH = BUTTON_HEIGHT * 4;
@@ -40,20 +44,58 @@ public class AlarmView extends StackPane {
 
 		this.getChildren().add(hbox);
 
+		resetRobot = new Button();
+		resetRobot.setGraphic(new Text("重置 ROBOT"));
+		resetRobot.setPrefSize(WIDTH * 1.38, BUTTON_HEIGHT);
+		resetRobot.getStyleClass().add(CSS_CLASS_POPUP_BUTTON);	
+		resetRobot.getStyleClass().add("pop-up-first");
+		resetRobot.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(final ActionEvent arg0) {//61
+				try {
+					if(FanucRobot.getInstance(null,0,null) != null && FanucRobot.getInstance(null,0,null).isConnected()) {
+						FanucRobot.getInstance(null,0,null).reset();
+					}
+				} catch (AbstractCommunicationException | InterruptedException e) {
+					
+				}
+			}
+		});
+		
+		resetCNC = new Button();
+		resetCNC.setGraphic(new Text("重置 CNC"));
+		resetCNC.setPrefSize(WIDTH * 1.38, BUTTON_HEIGHT);
+		resetCNC.getStyleClass().add(CSS_CLASS_POPUP_BUTTON);	
+		resetCNC.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(final ActionEvent arg0) {//WW19;01;1024;
+				try {
+					if(CNCMachine.getInstance(null,null,null) != null && CNCMachine.getInstance(null,null,null).isConnected()) {
+						CNCMachine.getInstance(null,null,null).reset();
+					}
+				} catch (AbstractCommunicationException | InterruptedException e) {
+					
+				}
+			}
+		}); 
+		
+		roboConnBt = new Button();
+		roboConnBt.setGraphic(new Text(roboConn));
+		roboConnBt.setPrefSize(WIDTH * 1.38, BUTTON_HEIGHT);
+		roboConnBt.getStyleClass().add(CSS_CLASS_POPUP_BUTTON);	
+		
 		cncConnBt = new Button();
 		cncConnBt.setGraphic(new Text(cncConn));
 		cncConnBt.setPrefSize(WIDTH * 1.38, BUTTON_HEIGHT);
 		cncConnBt.getStyleClass().add(CSS_CLASS_POPUP_BUTTON);
-		cncConnBt.getStyleClass().add("pop-up-first");
-
-		roboConnBt = new Button();
-		roboConnBt.setGraphic(new Text(roboConn));
-		roboConnBt.setPrefSize(WIDTH * 1.38, BUTTON_HEIGHT);
-		roboConnBt.getStyleClass().add(CSS_CLASS_POPUP_BUTTON);		
+				
 		cncConnBt.setDisable(true);
 		roboConnBt.setDisable(true);
-		vBoxMenuItems1.getChildren().add(cncConnBt);
+		
+		vBoxMenuItems1.getChildren().add(resetRobot);
+		vBoxMenuItems1.getChildren().add(resetCNC);
 		vBoxMenuItems1.getChildren().add(roboConnBt);
+		vBoxMenuItems1.getChildren().add(cncConnBt);
 		
 	}
 

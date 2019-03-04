@@ -82,6 +82,7 @@ public abstract class AbstractStep {
 		return unloadStackerRelativeTeachedOffset;
 	}
 
+	@SuppressWarnings("static-access")
 	public void setUnloadStackerRelativeTeachedOffset(Coordinates unloadStackerRelativeTeachedOffset) {
 		this.unloadStackerRelativeTeachedOffset = unloadStackerRelativeTeachedOffset;
 	}
@@ -90,6 +91,7 @@ public abstract class AbstractStep {
 		return loadCNCRelativeTeachedOffset;
 	}
 
+	@SuppressWarnings("static-access")
 	public void setLoadCNCRelativeTeachedOffset(Coordinates loadCNCRelativeTeachedOffset) {
 		this.loadCNCRelativeTeachedOffset = loadCNCRelativeTeachedOffset;
 	}
@@ -98,6 +100,7 @@ public abstract class AbstractStep {
 		return unloadCNCRelativeTeachedOffset;
 	}
 
+	@SuppressWarnings("static-access")
 	public void setUnloadCNCRelativeTeachedOffset(Coordinates unloadCNCRelativeTeachedOffset) {
 		this.unloadCNCRelativeTeachedOffset = unloadCNCRelativeTeachedOffset;
 	}
@@ -106,6 +109,7 @@ public abstract class AbstractStep {
 		return loadStackerRelativeTeachedOffset;
 	}
 
+	@SuppressWarnings("static-access")
 	public void setLoadStackerRelativeTeachedOffset(Coordinates loadStackerRelativeTeachedOffset) {
 		this.loadStackerRelativeTeachedOffset = loadStackerRelativeTeachedOffset;
 	}
