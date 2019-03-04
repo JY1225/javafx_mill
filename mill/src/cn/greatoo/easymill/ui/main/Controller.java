@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
+import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.process.StatusChangedEvent;
 import cn.greatoo.easymill.ui.general.NotificationBox;
 import cn.greatoo.easymill.ui.general.dialog.AbstractDialogView;
@@ -177,6 +178,7 @@ public abstract class Controller extends Pane implements TextInputControlListene
 					if(saveViewController != null) {
 						saveViewController.getFulltxtName().setText("");
 					}
+					
 				}
 			});
 		}

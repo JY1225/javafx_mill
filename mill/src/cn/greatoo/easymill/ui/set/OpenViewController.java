@@ -10,6 +10,7 @@ import java.util.List;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.db.util.Programhandler;
 import cn.greatoo.easymill.entity.Program;
+import cn.greatoo.easymill.external.communication.socket.TeachAndAutoThread;
 import cn.greatoo.easymill.ui.main.Controller;
 import cn.greatoo.easymill.util.TextInputControlListener;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -127,7 +128,8 @@ public class OpenViewController extends Controller {
 	}
 	
 	@FXML
-	public void load(MouseEvent event) {		
+	public void load(MouseEvent event) {
+		TeachAndAutoThread.isFinishTeach = false;
 		Timestamp lastOpenTime = new Timestamp(System.currentTimeMillis());
 		fulltxtName.setText(table.getSelectionModel().selectedItemProperty().getValue().getName());
 		String name = fulltxtName.getText();
