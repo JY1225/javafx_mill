@@ -41,8 +41,8 @@ public class StatusChangeThread implements Runnable {
 		this.alive = true;
 		this.rwasConnected = false;
 		this.cwasConnected = false;
-		connCNC();
-		connRobo();
+		getCNCMillingMachine();
+		getRobot();
 	}
 
 	@Override
@@ -160,12 +160,12 @@ public class StatusChangeThread implements Runnable {
 			boolean isRobotConn = robot.isConnected();
 			alarmListenThread.setIsRobotConn(isRobotConn);
 			if (!isRobotConn) {
-				connRobo();
+				getRobot();
 			}
 			boolean isCNCConn = cncMachine.isConnected();
 			alarmListenThread.setIsCNCConn(isCNCConn);
 			if (!isCNCConn) {
-				connCNC();
+				getCNCMillingMachine();
 			}
 			if (isCNCConn && isRobotConn) {
 				alarmListenThread.setIsRobotConn(isRobotConn);
@@ -175,11 +175,11 @@ public class StatusChangeThread implements Runnable {
 		}
 	}
 
-	protected void connCNC() {
+	protected void getCNCMillingMachine() {
 		cncMachine = (CNCMachine) CNCHandler.getCNCMillingMachine();
 	}
 
-	protected void connRobo() {
+	protected void getRobot() {
 		robot = (FanucRobot) RobotHandler.getRobot();
 	}
 
