@@ -64,7 +64,7 @@ public class StatusChangeThread implements Runnable {
 						robot.updateStatusRestAndAlarms();
 						Set<RobotAlarm> robotAlarm = robot.getAlarms();
 						for (RobotAlarm r : robotAlarm) {
-							alarmStrings.append(r.getLocalizedMessage()+"。 ");
+							alarmStrings.append(r.getLocalizedMessage() + "。 ");
 						}
 						int statu = robot.getStatus();
 						if (statu != rpreviousStatus) {
@@ -108,7 +108,7 @@ public class StatusChangeThread implements Runnable {
 						cncMachine.updateStatusAndAlarms();
 						Set<CNCMachineAlarm> cncAlarm = cncMachine.getAlarms();
 						for (CNCMachineAlarm c : cncAlarm) {
-							alarmStrings.append(c.getLocalizedMessage()+"。 ");
+							alarmStrings.append(c.getLocalizedMessage() + "。 ");
 						}
 						
 						boolean statusChanged = false;
