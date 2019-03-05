@@ -3,6 +3,8 @@ package cn.greatoo.easymill.cnc;
 import java.util.HashSet;
 import java.util.Set;
 
+import cn.greatoo.easymill.util.Translator;
+
 public class CNCMachineAlarm {
 
 	public static final int MACHINE = 0;
@@ -42,7 +44,7 @@ public class CNCMachineAlarm {
 	}
 	
 	public String getLocalizedMessage() {
-		return "CNCMachineAlarm." + id;
+		return Translator.getTranslation("CNCMachineAlarm." + id);
 	}
 	
 	public String getMessage() {

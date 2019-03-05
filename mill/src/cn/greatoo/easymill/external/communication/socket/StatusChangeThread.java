@@ -54,7 +54,7 @@ public class StatusChangeThread implements Runnable {
 				StringBuilder alarmStrings = new StringBuilder();
 				if (robot != null) {					
 					if (robot.isConnected()) {
-						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + ".")) {
+						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + "。")) {
 							TeachAndAutoThread.getView().hideNotification();
 						}
 						if (!rwasConnected) {
@@ -64,7 +64,7 @@ public class StatusChangeThread implements Runnable {
 						robot.updateStatusRestAndAlarms();
 						Set<RobotAlarm> robotAlarm = robot.getAlarms();
 						for (RobotAlarm r : robotAlarm) {
-							alarmStrings.append(r.getLocalizedMessage());
+							alarmStrings.append(r.getLocalizedMessage()+"。 ");
 						}
 						int statu = robot.getStatus();
 						if (statu != rpreviousStatus) {
@@ -89,13 +89,13 @@ public class StatusChangeThread implements Runnable {
 						if (rwasConnected) {
 							rwasConnected = false;
 						}
-						alarmStrings.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + ".");
+						alarmStrings.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + "。");
 					}					
 				}
 
 				if (cncMachine != null) {
 					if (cncMachine.isConnected()) {
-						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + ".")) {
+						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + "。")) {
 							TeachAndAutoThread.getView().hideNotification();
 						}
 						
@@ -108,7 +108,7 @@ public class StatusChangeThread implements Runnable {
 						cncMachine.updateStatusAndAlarms();
 						Set<CNCMachineAlarm> cncAlarm = cncMachine.getAlarms();
 						for (CNCMachineAlarm c : cncAlarm) {
-							alarmStrings.append(c.getLocalizedMessage());
+							alarmStrings.append(c.getLocalizedMessage()+"。 ");
 						}
 						
 						boolean statusChanged = false;
@@ -133,7 +133,7 @@ public class StatusChangeThread implements Runnable {
 							cwasConnected = false;
 						}
 						alarmStrings
-								.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + ".");
+								.append(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + "。");
 					}					
 				}
 				if (TeachAndAutoThread.getView() != null && alarmStrings.length() > 0) {
