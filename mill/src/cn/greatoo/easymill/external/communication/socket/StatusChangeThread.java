@@ -54,7 +54,8 @@ public class StatusChangeThread implements Runnable {
 				StringBuilder alarmStrings = new StringBuilder();
 				if (robot != null) {					
 					if (robot.isConnected()) {
-						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + "。")) {
+						if(TeachAndAutoThread.getView() != null && 
+								TeachAndAutoThread.getView().getNotificationBox().getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + robot.getName() + "。")) {
 							TeachAndAutoThread.getView().hideNotification();
 						}
 						if (!rwasConnected) {
@@ -95,7 +96,8 @@ public class StatusChangeThread implements Runnable {
 
 				if (cncMachine != null) {
 					if (cncMachine.isConnected()) {
-						if(TeachAndAutoThread.getView().notificationBox.getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + "。")) {
+						if(TeachAndAutoThread.getView() != null && 
+								TeachAndAutoThread.getView().getNotificationBox().getLblAlarmMessage().getText().equals(Translator.getTranslation(NOT_CONNECTED_TO) + " " + cncMachine.getName() + "。")) {
 							TeachAndAutoThread.getView().hideNotification();
 						}
 						

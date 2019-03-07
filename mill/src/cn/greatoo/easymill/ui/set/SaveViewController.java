@@ -95,13 +95,18 @@ public class SaveViewController extends Controller {
 
 	private boolean isConfig(Program program) {
 		if (program.getUnloadstacker().getGripper().getName() == null
-				|| program.getUnloadCNC().getGripper().getName() == null || program.getRawWorkPiece().getLength() <= 0
-				|| program.getRawWorkPiece().getWidth() <= 0 || program.getRawWorkPiece().getHeight() <= 0
+				|| program.getUnloadCNC().getGripper().getName() == null 
+				|| program.getRawWorkPiece().getLength() <= 0
+				|| program.getRawWorkPiece().getWidth() <= 0 
+				|| program.getRawWorkPiece().getHeight() <= 0
 				|| program.getRawWorkPiece().getLength() < program.getRawWorkPiece().getWidth()
-				|| program.getRawWorkPiece().getWeight() < 0 || program.getAmount() <= 0 || program.getLayers() < 0
+				|| program.getRawWorkPiece().getWeight() < 0 
+				|| program.getAmount() <= 0 
+				|| program.getLayers() < 0
 				|| program.getStudHeight_Workpiece() < 0
 
-				|| program.getFinishedWorkPiece().getLength() <= 0 || program.getFinishedWorkPiece().getWidth() <= 0
+				|| program.getFinishedWorkPiece().getLength() <= 0 
+				|| program.getFinishedWorkPiece().getWidth() <= 0
 				|| program.getFinishedWorkPiece().getHeight() <= 0
 				|| program.getFinishedWorkPiece().getLength() > program.getRawWorkPiece().getLength()
 				|| program.getFinishedWorkPiece().getWidth() > program.getRawWorkPiece().getWidth()

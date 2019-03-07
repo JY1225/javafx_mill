@@ -39,7 +39,7 @@ public abstract class Controller extends Pane implements TextInputControlListene
 	protected SVGPath imagePath;
 	protected SVGPath svgPauseLeft;
 
-	public static NotificationBox notificationBox = new NotificationBox();
+	public NotificationBox notificationBox;	
 	private static final int BUTTON_WIDTH = 209;
 	private static final int BUTTON_HEIGHT = 43;
 
@@ -69,8 +69,9 @@ public abstract class Controller extends Pane implements TextInputControlListene
 	 
 	private static final String CSS_CLASS_BTN_SELECTED = "selected";
 	
-	protected void buildAlarmHBox(GridPane grid, int columnIndex, int rowIndex, int colspan, int rowspan) {
+	protected void buildAlarmHBox(GridPane grid, int columnIndex, int rowIndex, int colspan, int rowspan) {		
 		grid.getChildren().remove(notificationBox);		
+		notificationBox = new NotificationBox();
 		grid.add(notificationBox, columnIndex, rowIndex, colspan, rowspan);
 		hideNotification();
 	}
@@ -519,4 +520,12 @@ public abstract class Controller extends Pane implements TextInputControlListene
 			// TODO Auto-generated method stub
 			
 		}
+		public NotificationBox getNotificationBox() {
+			return notificationBox;
+		}
+
+		public void setNotificationBox(NotificationBox notificationBox) {
+			this.notificationBox = notificationBox;
+		}
+
 }
