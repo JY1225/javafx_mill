@@ -29,11 +29,11 @@ public class GeneralViewController {
 
 	public void init() {
 		fulltxtName.setText(DBHandler.getInstance().getProgramName());
+		singleCycle.selectedProperty().setValue(DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName()).isSingleCycle());
 		singleCycle.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(final ObservableValue<? extends Boolean> observableValue, final Boolean oldValue, final Boolean newValue) {
-				
-				
+				DBHandler.getInstance().getProgramBuffer().get(DBHandler.getInstance().getProgramName()).setSingleCycle(newValue);			
 			}
 		});
 		

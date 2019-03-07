@@ -86,11 +86,11 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 				// ===put工件到机床===机器人put工件到机床，回到原点，机床关门加工工件，加工完成后打开门
 				checkProcessExecutorStatus(robot, cncMachine);
 				putToCNCStep.putToCNC(program, robot, cncMachine, workPiecePositions, teached, view);
-
+				
 				// ===从机床pick工件出来===机器人抓取工件回到原点
 				checkProcessExecutorStatus(robot, cncMachine);
 				pickFromCNCStep.pickFromCNC(program, robot, cncMachine, workPiecePositions, teached, view);
-
+				
 				// ====把工件put到table===机器人put工件到卡盘，回到原点
 				checkProcessExecutorStatus(robot, cncMachine);
 				putToTableStep.putToTable(program, robot, cncMachine, workPiecePositions, teached, wIndex, view);

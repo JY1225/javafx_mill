@@ -17,6 +17,7 @@ public class Program {
 	private RobotSetting robotSetting;
 	private CNCSetting cncSetting;
 	private boolean isHasTeach;
+	private boolean isSingleCycle;
 	
 	private float orientation;
 	private int layers;
@@ -192,5 +193,13 @@ public class Program {
 
 	public void setStudHeight_Workpiece(float studHeight_Workpiece) {
 		this.studHeight_Workpiece = studHeight_Workpiece;
+	}
+	
+	public void setSingleCycle(boolean isSingleCycle) {
+		this.isSingleCycle = isSingleCycle;
+	}
+	
+	public boolean isSingleCycle() {
+		return this.isSingleCycle;
 	}
 }

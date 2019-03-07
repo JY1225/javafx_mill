@@ -73,6 +73,8 @@ public class Programhandler {
 				oprogram.setRawWorkPiece(Workpiecehandler.getWorkPieceById(results.getInt("rawWorkPiece")));
 				program.setFinishedWorkPiece(Workpiecehandler.getWorkPieceById(results.getInt("finishedWorkPiece")));
 				oprogram.setFinishedWorkPiece(Workpiecehandler.getWorkPieceById(results.getInt("finishedWorkPiece")));
+				program.setSingleCycle(results.getBoolean("SINGLE_CYCLE"));
+				oprogram.setSingleCycle(results.getBoolean("SINGLE_CYCLE"));
 				if (program != null) {
 					DBHandler.getInstance().setProgramName(program.getName());
 					DBHandler.getInstance().getProgramBuffer().put(program.getName(), program);					
@@ -174,7 +176,7 @@ public class Programhandler {
 			
 			PreparedStatement stmt = conn.prepareStatement(
 					"INSERT INTO PROGRAM(NAME, CREATION, LASTOPENED,UNLOADSTACKER,LOADCNC,UNLOADCNC,LOADSTACKER,ROBOTSETTING,CNCSETTING"
-					+ ",ISHASTEACH,ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE, rawWorkPiece, finishedWorkPiece) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+					+ ",ISHASTEACH,ORIENTATION, LAYERS, AMOUNT, STUDHEIGHT_WORKPIECE, rawWorkPiece, finishedWorkPiece, SINGLE_CYCLE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 			int index = 1;
 			stmt.setString(index++, program.getName());
@@ -193,6 +195,7 @@ public class Programhandler {
 			stmt.setFloat(index++, program.getStudHeight_Workpiece());
 			stmt.setInt(index++, program.getRawWorkPiece().getId());
 			stmt.setInt(index++, program.getFinishedWorkPiece().getId());
+			stmt.setBoolean(index++, program.isSingleCycle());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			if ((keys != null) && (keys.next())) {
@@ -241,13 +244,14 @@ public class Programhandler {
 			CNCSettingHandler.saveCNCSetting(program.getCncSetting());
 			
 			PreparedStatement stmt = conn.prepareStatement(
-					"UPDATE PROGRAM SET ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ?, ISHASTEACH = ? WHERE ID = ?");
+					"UPDATE PROGRAM SET ORIENTATION = ?, LAYERS = ?, AMOUNT = ?, STUDHEIGHT_WORKPIECE = ?, ISHASTEACH = ?, SINGLE_CYCLE = ? WHERE ID = ?");
 			stmt.setFloat(1, program.getOrientation());
 			stmt.setFloat(2, program.getLayers());
 			stmt.setFloat(3, program.getAmount());
 			stmt.setFloat(4, program.getStudHeight_Workpiece());
 			stmt.setBoolean(5, program.isHasTeach());
-			stmt.setInt(6, program.getId());
+			stmt.setBoolean(6, program.isSingleCycle());
+			stmt.setInt(7, program.getId());
 			stmt.executeUpdate();
 		}
 	}
@@ -261,6 +265,10 @@ public class Programhandler {
 			stmt.setInt(1, p.getRobotSetting().getId());
 			stmt.executeUpdate();
 
+			stmt = conn.prepareStatement("DELETE FROM CNCSETTING WHERE ID = ?");
+			stmt.setInt(1, p.getCncSetting().getId());
+			stmt.executeUpdate();
+			
 			stmt = conn.prepareStatement("DELETE FROM STEP WHERE ID IN(?,?,?,?)");
 			stmt.setInt(1, p.getUnloadstacker().getId());
 			stmt.setInt(2, p.getLoadCNC().getId());
