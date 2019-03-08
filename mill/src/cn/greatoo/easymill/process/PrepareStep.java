@@ -29,7 +29,7 @@ public class PrepareStep extends AbstractStep {
 			robot.moveToHome(robot.getSpeed());// 71
 		}
 		checkProcessExecutorStatus(robot, cncMachine);
-		cncMachine.indicateOperatorRequested(false);// 58
+		//cncMachine.indicateOperatorRequested(false);// 58
 		cncMachine.prepareForProcess(1);// 18
 	}
 
