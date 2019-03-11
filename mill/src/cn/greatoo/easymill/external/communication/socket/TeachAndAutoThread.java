@@ -40,7 +40,8 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 	private WorkPiecePositions workPiecePositions;
 	private int wSize;
 	private static int wIndex;
-
+	private static final String FINISHED_WORKPIECE_ACOUNT = "FINISHED_WORKPIECE_ACOUNT";
+	
 	@SuppressWarnings("static-access")
 	public TeachAndAutoThread(FanucRobot robot, CNCMachine cncMachine, boolean teached, Controller view) {
 		this.programName = DBHandler.getInstance().getProgramName();
@@ -141,7 +142,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 					wIndex = 1;
 					break;
 				} else {
-					view.statusChanged("FINISHED_WORKPIECE_ACOUNT;" + String.valueOf(wIndex));
+					view.statusChanged(FINISHED_WORKPIECE_ACOUNT+";" + String.valueOf(wIndex));
 				}
 
 			} catch (InterruptedException | AbstractCommunicationException | DeviceActionException
