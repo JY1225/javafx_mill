@@ -33,6 +33,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
+import cn.greatoo.easymill.util.SizeManager;
 
 public class MainViewController extends Controller {
 
@@ -86,6 +87,9 @@ public class MainViewController extends Controller {
 	public static boolean isRobotConn = false;
 
 	public void Init() {
+		gridPane.setPrefSize(SizeManager.WIDTH, SizeManager.HEIGHT);
+		gridPane.setMinSize(SizeManager.WIDTH, SizeManager.HEIGHT);
+		gridPane.setMaxSize(SizeManager.WIDTH, SizeManager.HEIGHT);
 		String programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
 			program = DBHandler.getInstance().getProgramBuffer().get(programName);

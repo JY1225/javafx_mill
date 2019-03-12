@@ -19,6 +19,7 @@ import cn.greatoo.easymill.db.util.Stackerhandler;
 import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.CommonUtil;
+import cn.greatoo.easymill.util.SizeManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,7 +31,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import cn.greatoo.easymill.util.SizeManager;
+import cn.greatoo.easymill.util.PropertyManager;
+import cn.greatoo.easymill.util.PropertyManager.Setting;
 
 public class LoginController implements Initializable {
 
@@ -92,13 +94,27 @@ public class LoginController implements Initializable {
             fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
             Parent parent = fxmlLoader.load();
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setResizable(false);
-            stage.setTitle("RoboSoft");
-            int width = 800;
-            int heigth = 600;
-            Scene scene =  new Scene(parent,width,heigth);
+            stage.setResizable(true);
+            stage.setTitle("RoboSoft");            
+            if (PropertyManager.hasSettingValue(Setting.FULL_SCREEN, "true")) {
+                SizeManager.setApplicationSizes(true);
+              //stage.setMaximized(true);
+            }
+            else {
+                String width_str = PropertyManager.getValue(Setting.SCREEN_WIDTH);
+                String heigth_str = PropertyManager.getValue(Setting.SCREEN_HEIGHT);
+                int width = 800;
+                int heigth = 600;
+                if((width_str != null) && (heigth_str != null)) {
+                    width = Integer.valueOf(width_str);
+                    heigth = Integer.valueOf(heigth_str);
+                }
+
+                SizeManager.setApplicationSizes(width, heigth);
+            }
+            
+            Scene scene =  new Scene(parent,SizeManager.WIDTH, SizeManager.HEIGHT);             
             stage.setScene(scene);
-            SizeManager.setApplicationSizes(width, heigth);
             MainViewController mainViewController = fxmlLoader.getController();
             //中写的初始化方法
             mainViewController.Init();
