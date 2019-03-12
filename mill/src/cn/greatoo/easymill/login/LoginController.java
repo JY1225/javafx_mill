@@ -96,24 +96,9 @@ public class LoginController implements Initializable {
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setResizable(false);
             stage.setTitle("RoboSoft");            
-            if (PropertyManager.hasSettingValue(Setting.FULL_SCREEN, "true")) {
-                SizeManager.setApplicationSizes(true);
-              //stage.setMaximized(true);
-            }
-            else {
-                String width_str = PropertyManager.getValue(Setting.SCREEN_WIDTH);
-                String heigth_str = PropertyManager.getValue(Setting.SCREEN_HEIGHT);
-                int width = 800;
-                int heigth = 600;
-                if((width_str != null) && (heigth_str != null)) {
-                    width = Integer.valueOf(width_str);
-                    heigth = Integer.valueOf(heigth_str);
-                }
-
-                SizeManager.setApplicationSizes(width, heigth);
-            }
-            
-            Scene scene =  new Scene(parent,SizeManager.WIDTH, SizeManager.HEIGHT);             
+            int width = 800;
+            int heigth = 600;                
+            Scene scene =  new Scene(parent,width, heigth);             
             stage.setScene(scene);
             MainViewController mainViewController = fxmlLoader.getController();
             //中写的初始化方法

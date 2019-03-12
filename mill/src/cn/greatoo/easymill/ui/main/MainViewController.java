@@ -87,11 +87,7 @@ public class MainViewController extends Controller {
 	public static boolean isCNCConn = false;
 	public static boolean isRobotConn = false;
 
-	public void Init() {
-//		gridPane.setPrefSize(SizeManager.WIDTH, SizeManager.HEIGHT);
-//		gridPane.setMinSize(SizeManager.WIDTH, SizeManager.HEIGHT);
-//		gridPane.setMaxSize(SizeManager.WIDTH, SizeManager.HEIGHT);
-		
+	public void Init() {		
 		String programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
 			program = DBHandler.getInstance().getProgramBuffer().get(programName);
