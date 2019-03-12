@@ -24,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -87,9 +88,10 @@ public class MainViewController extends Controller {
 	public static boolean isRobotConn = false;
 
 	public void Init() {
-		gridPane.setPrefSize(SizeManager.WIDTH, SizeManager.HEIGHT);
-		gridPane.setMinSize(SizeManager.WIDTH, SizeManager.HEIGHT);
-		gridPane.setMaxSize(SizeManager.WIDTH, SizeManager.HEIGHT);
+//		gridPane.setPrefSize(SizeManager.WIDTH, SizeManager.HEIGHT);
+//		gridPane.setMinSize(SizeManager.WIDTH, SizeManager.HEIGHT);
+//		gridPane.setMaxSize(SizeManager.WIDTH, SizeManager.HEIGHT);
+		
 		String programName = DBHandler.getInstance().getProgramName();
 		if (programName != null) {
 			program = DBHandler.getInstance().getProgramBuffer().get(programName);
@@ -131,7 +133,7 @@ public class MainViewController extends Controller {
 
 		// 默认打开设置界面
 		openSet();
-
+		//setPrefWidthProperty(stackPane);
 		startThrad();
 		if(program != null && !program.isHasTeach()) {
 			auto.setDisable(true);

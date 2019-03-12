@@ -94,7 +94,7 @@ public class LoginController implements Initializable {
             fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
             Parent parent = fxmlLoader.load();
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setResizable(true);
+            stage.setResizable(false);
             stage.setTitle("RoboSoft");            
             if (PropertyManager.hasSettingValue(Setting.FULL_SCREEN, "true")) {
                 SizeManager.setApplicationSizes(true);
