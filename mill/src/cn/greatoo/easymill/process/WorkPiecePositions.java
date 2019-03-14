@@ -8,13 +8,11 @@ import java.util.List;
 
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.CNCSetting;
-import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
 import cn.greatoo.easymill.entity.StackingPosition;
 import cn.greatoo.easymill.entity.WorkPiece;
-import javafx.scene.text.Text;
 
 public class WorkPiecePositions {
 
