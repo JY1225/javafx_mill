@@ -42,7 +42,7 @@ public class PutToCNCStep extends AbstractStep{
 					program.getRawWorkPiece(), approachType, payLoad1, payLoad2);
 			//-----------------------------------------
 			checkProcessExecutorStatus(robot,cncMachine);
-			Coordinates originalPosition = workPiecePositions.getPutLocation(program.getCncSetting());
+			Coordinates originalPosition = workPiecePositions.getCNCLocation(program.getCncSetting());
 			Coordinates position = new Coordinates(originalPosition);
 			if (getLoadCNCRelativeTeachedOffset() == null) {
 				//初始化安全示教偏移

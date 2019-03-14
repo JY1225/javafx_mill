@@ -12,15 +12,20 @@ import cn.greatoo.easymill.entity.Clamping;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
+import cn.greatoo.easymill.entity.StackingPosition;
 import cn.greatoo.easymill.entity.WorkPiece;
+import javafx.scene.text.Text;
 
 public class WorkPiecePositions {
 
-	public List<Coordinates> coordinatesList;
+	public List<StackingPosition> stackingPositionList;
 	private boolean isCornerLength = false;
 	private boolean isCornerWidth = false;
 	private Stacker stacker = DBHandler.getInstance().getStatckerBuffer().get(0);
 	private Program program;
+	private StackingPosition stackingPosition;
+	int amount = 1;
+	
 	public WorkPiecePositions(Program program) {
 		this.program = program;
 	}
@@ -30,7 +35,7 @@ public class WorkPiecePositions {
 	}
 	
 	public void initStackingPositions(final WorkPiece dimensions) {
-		coordinatesList = new ArrayList<>();
+		stackingPositionList = new ArrayList<>();
 		//横向可以放的工件数
 		int amountHorizontal = getMaxHorizontalAmount(dimensions, program.getOrientation());//9
 		//纵向可以放的工件数
@@ -51,7 +56,7 @@ public class WorkPiecePositions {
 		}
 	}
 	//0度
-	private List<Coordinates> initializeRawWorkPiecePositionsHorizontal(final WorkPiece dimensions, int amountHorizontal, int amountVertical){						
+	private void initializeRawWorkPiecePositionsHorizontal(final WorkPiece dimensions, int amountHorizontal, int amountVertical){						
 		//工件长占多少列
 		int amountOfStudsWorkPiece = getNumberOfStudsPerWorkPiece(dimensions.getLength(), true);
 		//工件宽占多少行
@@ -70,10 +75,20 @@ public class WorkPiecePositions {
 				float x = (float) xBottomLeft + dimensions.getLength() / 2;
 				float y = (float) yBottomLeft + dimensions.getWidth() / 2;
 				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, DBHandler.getInstance().getStatckerBuffer().get(0).getHorizontalR());
-				coordinatesList.add(stPos);
+				if(i == 0 && j == 0) {
+					 stackingPosition = new StackingPosition(1, stPos);
+				}else {
+					if(program.getAmount() - amount >= program.getLayers()) {
+						 stackingPosition = new StackingPosition(program.getLayers(), stPos);
+						 amount += program.getLayers();
+               	}else {      
+               		 stackingPosition = new StackingPosition(program.getAmount() - amount, stPos);
+               		 amount += program.getAmount() - amount;
+               	}
+				}
+				stackingPositionList.add(stackingPosition);
 			}
-		}
-		return coordinatesList;	
+		}	
 	}
 	
 	//45度
@@ -96,22 +111,33 @@ public class WorkPiecePositions {
 				float x = (float) (xBottom + extraX);
 				float y = (float) (yBottom + extraY);
 				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, DBHandler.getInstance().getStatckerBuffer().get(0).getTiltedR());
-				coordinatesList.add(stPos);
+				if(i == 0 && j == 0) {
+					 stackingPosition = new StackingPosition(1, stPos);
+				}else {
+					if(program.getAmount() - amount >= program.getLayers()) {
+						 stackingPosition = new StackingPosition(program.getLayers(), stPos);
+						 amount += program.getLayers();
+					}else {      
+               		 	stackingPosition = new StackingPosition(program.getAmount() - amount, stPos);
+               		 	amount += program.getAmount() - amount;
+					}
+				}
+				stackingPositionList.add(stackingPosition);
 			}
 		}
 	}
 	
 	//90度
-	private List<Coordinates> initializeRawWorkPiecePositionsDeg90(final WorkPiece dimensions, int amountHorizontal, int amountVertical) {				
+	private void initializeRawWorkPiecePositionsDeg90(final WorkPiece dimensions, int amountHorizontal, int amountVertical) {				
 		//工件宽占多少列
 		int amountOfStudsWorkPiece = getNumberOfStudsPerWorkPiece(dimensions.getWidth(), true);//4
 		//工件长占多少行
 		int amountOfStudsWorkPieceVertical = getNumberOfStudsPerWorkPiece(dimensions.getLength(), false);//3
-		
+
 		//纵向可以放的工件数
 		for (int i = 0; i < amountVertical; i++) {// 2
 			//横向可以放的工件数
-			for (int j = 0; j < amountHorizontal; j++) {// 7
+			for (int j = 0; j < amountHorizontal; j++) {// 7				
 				int amountOfStudsLeft = j * amountOfStudsWorkPiece;// 0
 				int amountOfStudsBottom = 1 + i * amountOfStudsWorkPieceVertical;// 1
 				// horizontalHoleDistance=35 verticalHoleDistance = 70 studDiameter=15
@@ -122,27 +148,55 @@ public class WorkPiecePositions {
 						+ (amountOfStudsBottom - 1) * stacker.getVerticalHoleDistance() + stacker.getStudDiameter() / 2;
 				float x = (float) xBottomLeft + dimensions.getWidth() / 2;
 				float y = (float) yBottomLeft + dimensions.getLength() / 2;
-				//(112.5, 123.5, 0.0, 0.0, 0.0, 90.0)(252.5, 123.5, 0.0, 0.0, 0.0, 90.0)(392.5, 123.5, 0.0, 0.0, 0.0, 90.0)(532.5, 123.5, 0.0, 0.0, 0.0, 90.0)(672.5, 123.5, 0.0, 0.0, 0.0, 90.0)
+				
 				Coordinates stPos = new Coordinates(x, y, 0, 0, 0, program.getOrientation());
-				coordinatesList.add(stPos);
+				
+				if(i == 0 && j == 0) {
+					 stackingPosition = new StackingPosition(1, stPos);
+				}else {
+					if(program.getAmount() - amount >= program.getLayers()) {
+						 stackingPosition = new StackingPosition(program.getLayers(), stPos);
+						 amount += program.getLayers();
+                	}else {      
+                		 stackingPosition = new StackingPosition(program.getAmount() - amount, stPos);
+                		 amount += program.getAmount() - amount;
+                	}
+				}
+				stackingPositionList.add(stackingPosition);
 			}
 		}
-		return coordinatesList;
 	}
 
 	protected Coordinates getPickLocation(int index) {
 
-		Coordinates c = new Coordinates(coordinatesList.get(index));
-//		if (amount > 0) {
-//			c.setZ((amount - 1) * getWorkPiece().getDimensions().getZSafe());
-//		} 
-		
+		Coordinates c = new Coordinates(stackingPositionList.get(index).getCoordinates());
+		if (stackingPositionList.get(index).getAmount() > 0) {
+			c.setZ((stackingPositionList.get(index).getAmount() - 1) * program.getRawWorkPiece().getHeight());
+			
+		}  
+		stackingPositionList.get(index).setAmount(stackingPositionList.get(index).getAmount() - 1);
 		float x = DBHandler.getInstance().getStatckerBuffer().get(0).getHorizontalPadding();
 		float y = DBHandler.getInstance().getStatckerBuffer().get(0).getVerticalPaddingBottom();
 		c.offset(new Coordinates(-x,-y,0,0,0,0));
 		return c;
 
 	}
+	
+	protected Coordinates getPutLocation(int index) {
+
+		Coordinates c = new Coordinates(stackingPositionList.get(index).getCoordinates());
+		if (stackingPositionList.get(index).getAmount() > 0) {
+			c.setZ(stackingPositionList.get(index).getAmount() * program.getFinishedWorkPiece().getHeight());
+			
+		}  
+		stackingPositionList.get(index).setAmount(stackingPositionList.get(index).getAmount() + 1);
+		float x = DBHandler.getInstance().getStatckerBuffer().get(0).getHorizontalPadding();
+		float y = DBHandler.getInstance().getStatckerBuffer().get(0).getVerticalPaddingBottom();
+		c.offset(new Coordinates(-x,-y,0,0,0,0));
+		return c;
+
+	}
+	
 	protected Coordinates getRelativeTeachedOffset(int index){
 		Coordinates c = getRelativePosition(index);
 		return c;
@@ -171,7 +225,7 @@ public class WorkPiecePositions {
         return coordinates;
     }
 	
-	public  Coordinates getPutLocation(CNCSetting cncSetting) {		
+	public  Coordinates getCNCLocation(CNCSetting cncSetting) {		
 		Coordinates c = new Coordinates(DBHandler.getInstance().getClampBuffer().get(0).getRelativePosition());
 		if (cncSetting.getClampingType() == CNCSetting.ClampingType.LENGTH) {
 			if (program.getOrientation() == 90) {
@@ -444,11 +498,11 @@ public class WorkPiecePositions {
 		}
 		return amountOfStudsWorkPiece;
 	}
-	public List<Coordinates> getCoordinatesList() {
-		return coordinatesList;
+	public List<StackingPosition> getStackingPositionList() {
+		return stackingPositionList;
 	}
 
-	public void setCoordinatesList(List<Coordinates> coordinatesList) {
-		this.coordinatesList = coordinatesList;
+	public void setStackingPositionList(List<StackingPosition> stackingPositionList) {
+		this.stackingPositionList = stackingPositionList;
 	}
 }

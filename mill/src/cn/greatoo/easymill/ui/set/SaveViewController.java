@@ -102,7 +102,7 @@ public class SaveViewController extends Controller {
 				|| program.getRawWorkPiece().getLength() < program.getRawWorkPiece().getWidth()
 				|| program.getRawWorkPiece().getWeight() < 0 
 				|| program.getAmount() <= 0 
-				|| program.getLayers() < 0
+				|| program.getLayers() <= 0
 				|| program.getStudHeight_Workpiece() < 0
 
 				|| program.getFinishedWorkPiece().getLength() <= 0 

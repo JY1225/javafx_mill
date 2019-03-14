@@ -204,7 +204,7 @@ public class RawWPViewController extends Controller {
 			public void changed(final ObservableValue<? extends Float> observable, final Float oldValue,
 					final Float newValue) {
 				notification();
-				if(newValue >= 0) {
+				if(newValue > 0) {
 					DBHandler.getInstance().getProgramBuffer().get(programName)
 						.setLayers((int) Float.parseFloat(fulltxtC.getText()));
 				}
@@ -243,9 +243,9 @@ public class RawWPViewController extends Controller {
 		}else if(Float.parseFloat(fulltxtH.getText()) <= 0) {
 			showNotification("高度应该大于0", NotificationBox.Type.WARNING);
 		}else if(Float.parseFloat(fulltxtBH.getText()) < 0) {
-			showNotification("高度应该大于等于0", NotificationBox.Type.WARNING);
-		}else if(Float.parseFloat(fulltxtC.getText()) < 0) {
-			showNotification("图层应该大于等于0", NotificationBox.Type.WARNING);
+			showNotification("螺柱高度应该大于等于0", NotificationBox.Type.WARNING);
+		}else if(Float.parseFloat(fulltxtC.getText()) <= 0) {
+			showNotification("图层应该大于0", NotificationBox.Type.WARNING);
 		}else if(Float.parseFloat(fulltxtS.getText()) <= 0) {
 			showNotification("数量应该大于0", NotificationBox.Type.WARNING);
 		}else if(Float.parseFloat(fulltxtWei.getText()) <= 0) {

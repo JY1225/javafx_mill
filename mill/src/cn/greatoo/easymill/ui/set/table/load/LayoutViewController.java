@@ -7,6 +7,7 @@ import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.entity.Coordinates;
 import cn.greatoo.easymill.entity.Program;
 import cn.greatoo.easymill.entity.Stacker;
+import cn.greatoo.easymill.entity.StackingPosition;
 import cn.greatoo.easymill.process.WorkPiecePositions;
 import cn.greatoo.easymill.ui.set.table.load.StudPosition.StudType;
 import cn.greatoo.easymill.ui.shape.IDrawableObject;
@@ -121,7 +122,7 @@ public class LayoutViewController {
 				gpContents.setAlignment(Pos.CENTER);
 				initStuds();
 				
-				if (workPiecePositions.coordinatesList.size() > 0) {                
+				if (workPiecePositions.stackingPositionList.size() > 0) {                
 					configureStuds();
 					configureWorkPieces();
 				}
@@ -285,8 +286,9 @@ public class LayoutViewController {
 	}
 	
     private synchronized void configureWorkPieces() {
-        List<Coordinates> stackingPositions = workPiecePositions.coordinatesList;
+        List<StackingPosition> stackingPositions = workPiecePositions.stackingPositionList;
         for (int i = 0;i < program.getAmount();i++) {
+        	if(stackingPositions.get(i).getAmount() > 0) {
                 IDrawableObject workPieceRepre = program.getRawWorkPiece().getRepresentation();
                 Shape workPiece = workPieceRepre.createShape();
                 Pane markerPane = new Pane();
@@ -296,18 +298,19 @@ public class LayoutViewController {
                     markerPane.getChildren().add(marker);
                 }
                 //LayoutX - the origin of the piece (left bottom corner)
-                markerPane.setLayoutX(stackingPositions.get(i).getX() - workPieceRepre.getXCorrection());
+                markerPane.setLayoutX(stackingPositions.get(i).getCoordinates().getX() - workPieceRepre.getXCorrection());
                 //LayoutY - the origin of the piece (left bottom corner)
-                markerPane.setLayoutY(width - stackingPositions.get(i).getY() - workPieceRepre.getYCorrection());
+                markerPane.setLayoutY(width - stackingPositions.get(i).getCoordinates().getY() - workPieceRepre.getYCorrection());
                 
                 markerPane.setRotate(program.getOrientation()*-1);
                 
                 layoutPane.getChildren().add(markerPane);
-                Text txtAmount = new Text(i+1 + "");
+                Text txtAmount = new Text(stackingPositions.get(i).getAmount() + "");
                 txtAmount.getStyleClass().add(CSS_CLASS_AMOUNT);
-                txtAmount.setX(stackingPositions.get(i).getX() - txtAmount.getBoundsInParent().getWidth()/2);
-                txtAmount.setY(width - stackingPositions.get(i).getY() + txtAmount.getBoundsInParent().getHeight()/2);
-                layoutPane.getChildren().add(txtAmount);        
+                txtAmount.setX(stackingPositions.get(i).getCoordinates().getX() - txtAmount.getBoundsInParent().getWidth()/2);
+                txtAmount.setY(width - stackingPositions.get(i).getCoordinates().getY() + txtAmount.getBoundsInParent().getHeight()/2);
+                layoutPane.getChildren().add(txtAmount);  
+        	}
         }
     }
 
