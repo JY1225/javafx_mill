@@ -19,6 +19,7 @@ import cn.greatoo.easymill.db.util.Stackerhandler;
 import cn.greatoo.easymill.db.util.UserFrameHander;
 import cn.greatoo.easymill.ui.main.MainViewController;
 import cn.greatoo.easymill.util.CommonUtil;
+import cn.greatoo.easymill.util.SizeManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,7 +31,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import cn.greatoo.easymill.util.SizeManager;
+import cn.greatoo.easymill.util.PropertyManager;
+import cn.greatoo.easymill.util.PropertyManager.Setting;
 
 public class LoginController implements Initializable {
 
@@ -93,12 +95,11 @@ public class LoginController implements Initializable {
             Parent parent = fxmlLoader.load();
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setResizable(false);
-            stage.setTitle("RoboSoft");
+            stage.setTitle("RoboSoft");            
             int width = 800;
-            int heigth = 600;
-            Scene scene =  new Scene(parent,width,heigth);
+            int heigth = 600;                
+            Scene scene =  new Scene(parent,width, heigth);             
             stage.setScene(scene);
-            SizeManager.setApplicationSizes(width, heigth);
             MainViewController mainViewController = fxmlLoader.getController();
             //中写的初始化方法
             mainViewController.Init();

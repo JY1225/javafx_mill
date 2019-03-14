@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/header-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.main.MainViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@/resources/header-style.css" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.main.MainViewController">
    <children>
       <StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane fx:id="gridPane" prefHeight="600.0" prefWidth="800.0">
+            <GridPane fx:id="gridPane">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="747.0" minWidth="10.0" prefWidth="192.0" />
                   <ColumnConstraints maxWidth="639.0" minWidth="59.0" prefWidth="608.0" />

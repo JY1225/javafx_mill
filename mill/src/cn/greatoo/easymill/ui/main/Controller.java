@@ -30,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
@@ -184,6 +185,12 @@ public abstract class Controller extends Pane implements TextInputControlListene
 			});
 		}
 
+		public void setPrefWidthProperty(Pane pane) {
+			ObservableList<Node> childrens = pane.getChildren();
+			for (Node nd : childrens) {
+				((Region) nd).prefWidthProperty().bind(pane.widthProperty());
+			}
+		}
 		
 		@SuppressWarnings("static-access")
 		public void setDisVisible (final int row, GridPane gridPane,Node parent) {
