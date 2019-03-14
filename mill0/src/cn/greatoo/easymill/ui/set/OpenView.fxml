@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="408.0" prefWidth="595.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.OpenViewController">
+   <children>
+      <GridPane fx:id="saveGridPane" alignment="CENTER" hgap="15.0" layoutX="-1.0" layoutY="3.0" prefHeight="408.0" prefWidth="547.0" vgap="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="97.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="246.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="477.0" minHeight="10.0" prefHeight="328.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox fx:id="totalHBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="350.0" GridPane.columnSpan="2">
+               <children>
+                  <HBox fx:id="hbox" alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="400.0">
+                     <children>
+                        <Label prefHeight="52.0" prefWidth="48.0" text="名称" textFill="#fcfcfc">
+                           <styleClass>
+                              <String fx:value="form-label" />
+                              <String fx:value="form-label-name" />
+                           </styleClass>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="fulltxtName" prefHeight="40.0" prefWidth="250.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="210.0">
+                     <children>
+                        <Button fx:id="btnLoad" mnemonicParsing="false" onMouseClicked="#load" prefHeight="40.0" prefWidth="130.0" text="上料" textAlignment="CENTER" textFill="#f7f7f7">
+                           <graphic>
+                              <SVGPath content="M 10 0 C 4.4775 0 0 4.4762499 0 10 C 0 15.52125 4.4775 20 10 20 C 15.5225 20 20 15.52125 20 10 C 20 4.4762499 15.5225 0 10 0 z M 10 5 L 14.96875 9.96875 L 11.25 9.96875 L 11.25 15 L 8.75 15 L 8.75 9.96875 L 5 9.96875 L 10 5 z ">
+                                 <styleClass>
+                                    <String fx:value="form-button-icon" />
+                                    <String fx:value="save-btn" />
+                                 </styleClass>
+                              </SVGPath>
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="btn-load" />
+                              <String fx:value="form-button" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+            </HBox>
+            <TableView fx:id="table" prefHeight="362.0" prefWidth="560.0" styleClass="table" GridPane.columnSpan="2" GridPane.rowIndex="1">
+              <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="225.0" text="名称" />
+                <TableColumn fx:id="lastOpenedColumn" prefWidth="202.0" text="上次打开" />
+                  <TableColumn fx:id="deleteProcessColumn" minWidth="0.0" prefWidth="150.0" />
+              </columns>
+            </TableView>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" />
+         </padding>
+      </GridPane>
+   </children>
+</AnchorPane>

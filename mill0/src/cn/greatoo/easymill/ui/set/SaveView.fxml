@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import cn.greatoo.easymill.util.*?>
+
+<AnchorPane prefHeight="517.0" prefWidth="582.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.SaveViewController">
+   <children>
+      <GridPane fx:id="saveGridPane" alignment="CENTER" hgap="15.0" prefHeight="517.0" prefWidth="582.0" vgap="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="128.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="317.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="91.0" />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="229.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="213.0" minHeight="10.0" prefHeight="166.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="246.0" minHeight="10.0" prefHeight="246.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="saveBt" mnemonicParsing="false" onMouseClicked="#save" prefHeight="34.0" prefWidth="130.0" styleClass="form-button" text="保存" textAlignment="CENTER" textFill="#f7f7f7" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <graphic>
+                  <SVGPath content="M 5.40625 0 L 5.40625 7.25 L 0 7.25 L 7.1875 14.40625 L 14.3125 7.25 L 9 7.25 L 9 0 L 5.40625 0 z M 7.1875 14.40625 L 0 14.40625 L 0 18 L 14.3125 18 L 14.3125 14.40625 L 7.1875 14.40625 z">
+                     <styleClass>
+                        <String fx:value="form-button-icon" />
+                        <String fx:value="save-btn" />
+                     </styleClass>
+                  </SVGPath>
+               </graphic>
+            </Button>
+            <VBox alignment="BOTTOM_LEFT" prefHeight="169.0" prefWidth="317.0" spacing="7.5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label prefHeight="31.0" prefWidth="48.0" text="名称" textFill="#fcfcfc">
+                     <styleClass>
+                        <String fx:value="form-label" />
+                        <String fx:value="form-label-name" />
+                     </styleClass>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label> 
+                  <TextField fx:id="fulltxtName" prefHeight="30.0" prefWidth="522.0">
+                     <styleClass>
+                        <String fx:value="form-full-textfield" />
+                        <String fx:value="form-full-textfield-name" />
+                     </styleClass>
+                  </TextField>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

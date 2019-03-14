@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="409.0" prefWidth="543.0" style="-fx-background-color: #636468;" stylesheets="@/resources/configure-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.greatoo.easymill.ui.set.cnc.CNCDeviceViewController">
+   <children>
+      <GridPane fx:id="gridPane" layoutX="38.0" layoutY="40.0" prefHeight="308.0" prefWidth="484.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="40.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="84.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.0" minWidth="0.0" prefWidth="400.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="131.0" minHeight="4.0" prefHeight="38.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="240.0" minHeight="10.0" prefHeight="175.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="45.0" prefWidth="79.0" text="夹紧类型" GridPane.rowIndex="3">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Button fx:id="LBt" mnemonicParsing="false" onAction="#LBtAction" prefHeight="49.0" prefWidth="112.0" text="长度" textFill="#f7f7f7">
+                     <graphic>
+                        <SVGPath content="M 6.96875 0 L 6.96875 2 L 18.125 2 L 18.125 0 L 6.96875 0 z M 6.96875 4 L 6.96875 8.375 L 6.96875 16.75 L 18.125 16.75 L 18.125 8.375 L 18.125 4 L 6.96875 4 z M 18.125 8.375 L 21.625 11.875 L 22.875 10.65625 L 21.5 9.28125 L 25.125 9.28125 L 25.125 7.5 L 21.5 7.5 L 22.875 6.125 L 21.625 4.875 L 18.125 8.375 z M 6.96875 8.375 L 3.46875 4.875 L 2.25 6.125 L 3.625 7.5 L -0.03125 7.5 L -0.03125 9.28125 L 3.625 9.28125 L 2.25 10.65625 L 3.46875 11.875 L 6.96875 8.375 z">
+                           <styleClass>
+                              <String fx:value="form-button-icon" />
+                              <String fx:value="btn-clamping" />
+                           </styleClass>
+                        </SVGPath>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="form-button" />
+                        <String fx:value="form-button-bar-left" />
+                     </styleClass></Button>
+                  <Button fx:id="wBt" mnemonicParsing="false" onAction="#wBtAction" prefHeight="52.0" prefWidth="112.0" text="宽度" textFill="#f7f7f7">
+                     <graphic>
+                        <SVGPath content="M 7 0 L 7 5.5625 L 7 11.15625 L 9 11.15625 L 9 0 L 7 0 z M 7 5.5625 L 3.5 2.0625 L 2.28125 3.3125 L 3.65625 4.6875 L 0 4.6875 L 0 6.46875 L 3.65625 6.46875 L 2.28125 7.84375 L 3.5 9.0625 L 7 5.5625 z M 11 0 L 11 11.15625 L 23.75 11.15625 L 23.75 5.5625 L 23.75 0 L 11 0 z M 23.75 5.5625 L 27.25 9.0625 L 28.5 7.84375 L 27.125 6.46875 L 30.75 6.46875 L 30.75 4.6875 L 27.125 4.6875 L 28.5 3.3125 L 27.25 2.0625 L 23.75 5.5625 z">
+                           <styleClass>
+                              <String fx:value="form-button-icon" />
+                              <String fx:value="btn-clamping" />
+                           </styleClass>
+                        </SVGPath>
+                     </graphic>
+                     <styleClass>
+                        <String fx:value="form-button" />
+                        <String fx:value="form-button-bar-right" />
+                     </styleClass></Button>
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
