@@ -237,6 +237,7 @@ public class AutoViewController extends Controller{
 		animate(false);
 		startBt.setDisable(false);
 		stopBt.setDisable(true);
+		setFinishedAmount(0);
 		messegeText.setText("当前程序未激活！");
 		FanucRobot.getInstance(null,0f,null).interruptCurrentAction();
 		CNCMachine.getInstance(null,null,null).interruptCurrentAction();

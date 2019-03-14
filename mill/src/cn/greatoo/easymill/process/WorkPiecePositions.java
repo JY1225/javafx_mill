@@ -165,8 +165,8 @@ public class WorkPiecePositions {
 		}
 	}
 
-	protected Coordinates getPickLocation(int index) {
-
+	protected Coordinates getPickLocation(int index) {		
+		index = (int) Math.ceil(index / (double)program.getLayers());
 		Coordinates c = new Coordinates(stackingPositionList.get(index).getCoordinates());
 		if (stackingPositionList.get(index).getAmount() > 0) {
 			c.setZ((stackingPositionList.get(index).getAmount() - 1) * program.getRawWorkPiece().getHeight());
@@ -181,7 +181,7 @@ public class WorkPiecePositions {
 	}
 	
 	protected Coordinates getPutLocation(int index) {
-
+		index = (int) Math.floor(index / (double)program.getLayers());
 		Coordinates c = new Coordinates(stackingPositionList.get(index).getCoordinates());
 		if (stackingPositionList.get(index).getAmount() > 0) {
 			c.setZ(stackingPositionList.get(index).getAmount() * program.getFinishedWorkPiece().getHeight());

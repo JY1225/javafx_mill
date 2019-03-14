@@ -84,7 +84,7 @@ public class TeachAndAutoThread extends AbstractStep implements Runnable {
 
 		while (wIndex < wSize) {
 			try {
-				if (wIndex == 0 || (isFinishTeach = true && wIndex == 1)) {
+				if (wIndex == 0 || (isFinishTeach && wIndex == 1)) {
 					checkProcessExecutorStatus(robot, cncMachine);
 					pickFromTableStep.pickFromTable(program, robot, cncMachine, workPiecePositions, teached, wIndex,
 							view);
