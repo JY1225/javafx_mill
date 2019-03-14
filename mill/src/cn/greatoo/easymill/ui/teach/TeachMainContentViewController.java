@@ -158,9 +158,9 @@ public class TeachMainContentViewController extends Controller{
 			}
 			}else {
 				if(messege.contains("MCODE1")) {
-					M1.setTextFill(Color.BLUE);
+					M1.setTextFill(Color.RED);
 				}else if(messege.contains("MCODE2")){
-					M2.setTextFill(Color.BLUE);	
+					M2.setTextFill(Color.RED);	
 					M1.setTextFill(Color.BLACK);
 				}
 			}

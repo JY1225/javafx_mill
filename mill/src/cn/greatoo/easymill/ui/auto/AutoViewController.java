@@ -27,8 +27,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -386,9 +384,9 @@ public class AutoViewController extends Controller{
 						
 			}else {
 				if(messege.contains("MCODE1")) {
-					M1.setTextFill(Color.BLUE);					
-				}else if(messege.contains("MCODE2")){					
-					M2.setTextFill(Color.BLUE);	
+					M1.setTextFill(Color.RED);
+				}else if(messege.contains("MCODE2")){
+					M2.setTextFill(Color.RED);	
 					M1.setTextFill(Color.BLACK);
 				}
 			}
