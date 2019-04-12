@@ -9,6 +9,9 @@ import org.apache.logging.log4j.Logger;
 import cn.greatoo.easymill.db.util.DBHandler;
 import cn.greatoo.easymill.util.CommonUtil;
 import cn.greatoo.easymill.util.ExceptionUtil;
+import cn.greatoo.easymill.util.PropertyManager;
+import cn.greatoo.easymill.util.PropertyManager.Setting;
+import cn.greatoo.easymill.util.Translator;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import cn.greatoo.easymill.util.PropertyManager;
-import cn.greatoo.easymill.util.PropertyManager.Setting;
-import cn.greatoo.easymill.util.Translator;
 
 
 /** 
@@ -80,9 +80,7 @@ public class Main extends Application {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-//				Long exitTime = System.currentTimeMillis();
-//				LOGGER.log(Level.INFO, "Library Assistant is closing on {}. Used for {} ms",
-//						CommonUtil.formatDateTimeString(startTime), exitTime);
+
 			}
 		});
 	}

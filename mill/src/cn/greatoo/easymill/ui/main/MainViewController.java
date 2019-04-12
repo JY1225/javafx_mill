@@ -19,6 +19,7 @@ import cn.greatoo.easymill.ui.set.SetViewController;
 import cn.greatoo.easymill.ui.teach.TeachMainViewController;
 import cn.greatoo.easymill.util.ButtonStyleChangingThread;
 import cn.greatoo.easymill.util.TextInputControlListener;
+import cn.greatoo.easymill.util.ThreadManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -138,10 +139,11 @@ public class MainViewController extends Controller {
 	private void startThrad() {
 		// 报警监听
 		changingThread = new ButtonStyleChangingThread(alarm, "", CSS_CLASS_ALARMS_PRESENT, 500);
-		//ThreadManager.submit(changingThread);
-		new Thread(changingThread).start();
+		ThreadManager.submit(changingThread);
+		//new Thread(changingThread).start();
 		robotStatusChangeThread = new StatusChangeThread(alarm, 250, changingThread);
-		new Thread(robotStatusChangeThread).start();
+		ThreadManager.submit(robotStatusChangeThread);
+		//new Thread(robotStatusChangeThread).start();
 	}
 
 	@FXML

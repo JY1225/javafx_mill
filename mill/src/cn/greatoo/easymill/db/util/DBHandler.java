@@ -121,7 +121,7 @@ public class DBHandler {
 
     }
 
-    public static DBHandler getInstance() {
+    public static synchronized DBHandler getInstance() {
         if (handler == null) {
             handler = new DBHandler();
         }
